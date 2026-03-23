@@ -531,11 +531,9 @@
     </style>
 </head>
 <body>
-    <!-- Effets cinématographiques -->
     <div class="cinematic-glow glow-1"></div>
     <div class="cinematic-glow glow-2"></div>
 
-    <!-- Header -->
     <header class="header">
         <div class="burger-menu">
             <button class="burger-btn" id="burgerBtn">
@@ -546,9 +544,7 @@
                     <i class="fas fa-globe"></i>
                     <span class="language-label" id="languageLabel">Français</span>
                 </div>
-                
                 <div class="menu-divider"></div>
-                
                 <a href="recharge.html" class="dropdown-item">
                     <i class="fas fa-redo"></i> Recharger
                 </a>
@@ -567,9 +563,7 @@
                 <a href="parrainage.html" class="dropdown-item">
                     <i class="fas fa-user-friends"></i> Parrainage
                 </a>
-                
                 <div class="menu-divider"></div>
-                
                 <div class="currency-switch">
                     <span>Devise:</span>
                     <label class="switch">
@@ -578,26 +572,21 @@
                     </label>
                     <span class="currency-label" id="currencyLabel">FCFA</span>
                 </div>
-                
                 <div class="menu-divider"></div>
-                
                 <a href="#" class="dropdown-item logout" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                 </a>
             </div>
         </div>
-        
         <div class="site-name">BOOST CENTRAL</div>
     </header>
 
-    <!-- Contenu principal -->
     <div class="main-content">
         <div class="welcome-section">
             <div class="card user-welcome animate-in">
                 <h2 id="welcomeTitle">Bienvenue !</h2>
                 <p id="welcomeMessage">Nous sommes ravis de vous revoir sur Boost Central. Que souhaitez-vous booster aujourd'hui ?</p>
             </div>
-            
             <div class="card balance-card animate-in" style="animation-delay: 0.1s;">
                 <div class="balance-label" id="balanceLabel">Votre solde</div>
                 <div class="balance-amount" id="balanceAmount">0</div>
@@ -605,7 +594,6 @@
             </div>
         </div>
 
-        <!-- Réseaux supportés -->
         <div class="networks-section">
             <h3 id="networksTitle">Réseaux supportés</h3>
             <div class="networks-grid">
@@ -644,10 +632,8 @@
             </div>
         </div>
 
-        <!-- Formulaire de commande -->
         <div class="order-section animate-in" style="animation-delay: 0.6s;">
             <h2 class="section-title"><i class="fas fa-rocket"></i> <span id="orderTitle">Nouvelle commande</span></h2>
-            
             <div class="form-row">
                 <div class="form-group">
                     <label for="network" id="networkLabel">Réseau social</label>
@@ -666,7 +652,6 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
-                
                 <div class="form-group">
                     <label for="category" id="categoryLabel">Catégorie</label>
                     <div class="select-wrapper">
@@ -677,7 +662,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="form-row">
                 <div class="form-group">
                     <label for="service" id="serviceLabel">Service</label>
@@ -688,22 +672,18 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                 </div>
-                
                 <div class="form-group">
                     <label for="quantity" id="quantityLabel">Quantité (minimum: 1000)</label>
                     <input type="number" id="quantity" class="form-input" placeholder="Ex: 1000" min="1000" value="1000">
                 </div>
             </div>
-            
             <div class="form-group">
                 <label for="link" id="linkLabel">Lien du compte / vidéo</label>
                 <input type="text" id="link" class="form-input" placeholder="https://example.com/votre-lien">
             </div>
-            
             <div id="descriptionBox" class="description-box">
                 <p id="defaultDescription">Sélectionnez un réseau, une catégorie et un service pour voir la description ici.</p>
             </div>
-            
             <div class="price-info">
                 <div class="price-unit">
                     <div class="price-label" id="unitPriceLabel">Prix unitaire</div>
@@ -714,13 +694,11 @@
                     <div class="price-value" id="totalPrice">0 FCFA</div>
                 </div>
             </div>
-            
             <button class="boost-btn" id="boostBtn">
                 <i class="fas fa-bolt"></i> <span id="boostBtnText">BOOSTER MAINTENANT</span>
             </button>
         </div>
 
-        <!-- Message d'information -->
         <div class="info-message animate-in" style="animation-delay: 0.7s;">
             <h4 id="infoTitle">SALUT A TOUT NOS UTILISATEURS! 😎</h4>
             <p id="infoMessage1">Boost Central a fait peau neuve afin d'améliorer ses services et corriger les bugs. Pour tout problème que vous rencontrez, veuillez nous contacter immédiatement en cliquant sur le bouton WhatsApp en bas de l'écran.</p>
@@ -730,7 +708,6 @@
         </div>
     </div>
 
-    <!-- Balle flottante WhatsApp -->
     <a href="https://wa.me/237689011185" class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
         <span id="whatsappText">Contactez-nous</span>
@@ -740,19 +717,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-        // ─── CONFIG SUPABASE ──────────────────────────────────────────
+        // ─── SUPABASE ────────────────────────────────────────────────
         const SUPABASE_URL  = 'https://mutdtyifvcrkiouudwhr.supabase.co';
         const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11dGR0eWlmdmNya2lvdXVkd2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODEwODcsImV4cCI6MjA4OTU1NzA4N30.l08pEalpQ50QN4xVuDp5hyan7hwXprHOeCo0nrCA4vU';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-        // ─── DÉCONNEXION ──────────────────────────────────────────────
-        document.getElementById('logoutBtn').addEventListener('click', async function(e) {
-            e.preventDefault();
-            if (confirm(currentLanguage === "fr" ? "Êtes-vous sûr de vouloir vous déconnecter ?" : "Are you sure you want to logout?")) {
-                await supabase.auth.signOut();
-                window.location.href = 'auth.html';
-            }
-        });
 
         // ─── DONNÉES DE TRADUCTION ────────────────────────────────────
         const translations = {
@@ -843,14 +811,14 @@
                 categories: ["TikTok abonnés", "TikTok vue", "TikTok like", "TikTok commentaire", "TikTok partage"],
                 descriptions: {
                     fr: {
-                        "TikTok abonnés": "Gagnez des abonnés réels sur votre compte TikTok. Augmentez votre visibilité et votre crédibilité. Prix: 0.8 FCFA par abonné.",
+                        "TikTok abonnés": "Gagnez des abonnés réels sur votre compte TikTok. Augmentez votre visibilité et votre crédibilité. Prix: 2.1 FCFA par abonné.",
                         "TikTok vue": "Augmentez le nombre de vues sur vos vidéos TikTok pour monter dans les tendances. Prix: 0.8 FCFA par vue.",
                         "TikTok like": "Ajoutez des likes à vos vidéos TikTok pour améliorer leur engagement. Prix: 0.8 FCFA par like.",
                         "TikTok commentaire": "Obtenez des commentaires pertinents sur vos vidéos TikTok. Prix: 0.8 FCFA par commentaire.",
                         "TikTok partage": "Boostez le nombre de partages de vos vidéos TikTok. Prix: 0.8 FCFA par partage."
                     },
                     en: {
-                        "TikTok abonnés": "Gain real followers on your TikTok account. Increase your visibility and credibility. Price: 0.8 FCFA per follower.",
+                        "TikTok abonnés": "Gain real followers on your TikTok account. Increase your visibility and credibility. Price: 2.1 FCFA per follower.",
                         "TikTok vue": "Increase the number of views on your TikTok videos to trend. Price: 0.8 FCFA per view.",
                         "TikTok like": "Add likes to your TikTok videos to improve their engagement. Price: 0.8 FCFA per like.",
                         "TikTok commentaire": "Get relevant comments on your TikTok videos. Price: 0.8 FCFA per comment.",
@@ -953,33 +921,34 @@
             }
         };
 
-        // Variables globales
+        // ─── VARIABLES GLOBALES ───────────────────────────────────────
+        // IMPORTANT : déclarées AVANT tout addEventListener qui les utilise
         let currentLanguage = "fr";
         let currentCurrency = "FCFA";
         let currentUnitPrice = 0;
         let currentNetwork = "";
         let currentCategory = "";
 
-        // Éléments DOM
-        const burgerBtn = document.getElementById('burgerBtn');
-        const dropdownMenu = document.getElementById('dropdownMenu');
+        // ─── ÉLÉMENTS DOM ─────────────────────────────────────────────
+        const burgerBtn      = document.getElementById('burgerBtn');
+        const dropdownMenu   = document.getElementById('dropdownMenu');
         const languageSwitch = document.getElementById('languageSwitch');
-        const languageLabel = document.getElementById('languageLabel');
+        const languageLabel  = document.getElementById('languageLabel');
         const currencySwitch = document.getElementById('currencySwitch');
-        const currencyLabel = document.getElementById('currencyLabel');
-        const balanceAmount = document.getElementById('balanceAmount');
-        const balanceCurrency = document.getElementById('balanceCurrency');
-        const networkSelect = document.getElementById('network');
+        const currencyLabel  = document.getElementById('currencyLabel');
+        const balanceAmount  = document.getElementById('balanceAmount');
+        const balanceCurrency= document.getElementById('balanceCurrency');
+        const networkSelect  = document.getElementById('network');
         const categorySelect = document.getElementById('category');
-        const serviceSelect = document.getElementById('service');
-        const quantityInput = document.getElementById('quantity');
+        const serviceSelect  = document.getElementById('service');
+        const quantityInput  = document.getElementById('quantity');
         const unitPriceElement = document.getElementById('unitPrice');
-        const totalPriceElement = document.getElementById('totalPrice');
+        const totalPriceElement= document.getElementById('totalPrice');
         const descriptionBox = document.getElementById('descriptionBox');
-        const boostBtn = document.getElementById('boostBtn');
-        const whatsappText = document.getElementById('whatsappText');
+        const boostBtn       = document.getElementById('boostBtn');
+        const whatsappText   = document.getElementById('whatsappText');
 
-        // Menu burger
+        // ─── MENU BURGER ──────────────────────────────────────────────
         burgerBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             dropdownMenu.classList.toggle('show');
@@ -991,56 +960,64 @@
             }
         });
 
-        // Changement de langue
+        // ─── LANGUE ───────────────────────────────────────────────────
         languageSwitch.addEventListener('click', function() {
             currentLanguage = currentLanguage === "fr" ? "en" : "fr";
             updateLanguage();
             dropdownMenu.classList.remove('show');
         });
 
-        // Changement de devise
+        // ─── DEVISE ───────────────────────────────────────────────────
         currencySwitch.addEventListener('change', function() {
             if (this.checked) {
                 currentCurrency = "USD";
                 currencyLabel.textContent = "USD";
                 balanceCurrency.textContent = "USD";
                 const balanceFcfa = parseFloat(balanceAmount.textContent.replace(/,/g, ''));
-                const balanceUsd = (balanceFcfa / 600).toFixed(2);
-                balanceAmount.textContent = balanceUsd;
+                balanceAmount.textContent = (balanceFcfa / 600).toFixed(2);
                 updatePrices();
             } else {
                 currentCurrency = "FCFA";
                 currencyLabel.textContent = "FCFA";
                 balanceCurrency.textContent = "FCFA";
                 const balanceUsd = parseFloat(balanceAmount.textContent);
-                const balanceFcfa = (balanceUsd * 600).toFixed(0);
-                balanceAmount.textContent = formatNumber(balanceFcfa);
+                balanceAmount.textContent = formatNumber((balanceUsd * 600).toFixed(0));
                 updatePrices();
             }
         });
 
+        // ─── DÉCONNEXION (après déclaration de currentLanguage) ───────
+        document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+            e.preventDefault();
+            if (confirm(currentLanguage === "fr" ? "Êtes-vous sûr de vouloir vous déconnecter ?" : "Are you sure you want to logout?")) {
+                await supabase.auth.signOut();
+                window.location.href = 'auth.html';
+            }
+        });
+
+        // ─── MISE À JOUR LANGUE ───────────────────────────────────────
         function updateLanguage() {
             const t = translations[currentLanguage];
-            document.getElementById('welcomeTitle').textContent = t.welcomeTitle;
-            document.getElementById('welcomeMessage').textContent = t.welcomeMessage;
-            document.getElementById('balanceLabel').textContent = t.balanceLabel;
-            document.getElementById('networksTitle').textContent = t.networksTitle;
-            document.getElementById('orderTitle').textContent = t.orderTitle;
-            document.getElementById('networkLabel').textContent = t.networkLabel;
-            document.getElementById('categoryLabel').textContent = t.categoryLabel;
-            document.getElementById('serviceLabel').textContent = t.serviceLabel;
-            document.getElementById('quantityLabel').textContent = t.quantityLabel;
-            document.getElementById('linkLabel').textContent = t.linkLabel;
-            document.getElementById('defaultDescription').textContent = t.defaultDescription;
-            document.getElementById('unitPriceLabel').textContent = t.unitPriceLabel;
-            document.getElementById('totalPriceLabel').textContent = t.totalPriceLabel;
-            document.getElementById('boostBtnText').textContent = t.boostBtnText;
-            document.getElementById('infoTitle').textContent = t.infoTitle;
-            document.getElementById('infoMessage1').textContent = t.infoMessage1;
-            document.getElementById('infoMessage2').textContent = t.infoMessage2;
-            document.getElementById('reductionBadge').textContent = t.reductionBadge;
-            document.getElementById('minimumBadge').textContent = t.minimumBadge;
-            document.getElementById('languageLabel').textContent = t.languageLabel;
+            document.getElementById('welcomeTitle').textContent      = t.welcomeTitle;
+            document.getElementById('welcomeMessage').textContent    = t.welcomeMessage;
+            document.getElementById('balanceLabel').textContent      = t.balanceLabel;
+            document.getElementById('networksTitle').textContent     = t.networksTitle;
+            document.getElementById('orderTitle').textContent        = t.orderTitle;
+            document.getElementById('networkLabel').textContent      = t.networkLabel;
+            document.getElementById('categoryLabel').textContent     = t.categoryLabel;
+            document.getElementById('serviceLabel').textContent      = t.serviceLabel;
+            document.getElementById('quantityLabel').textContent     = t.quantityLabel;
+            document.getElementById('linkLabel').textContent         = t.linkLabel;
+            document.getElementById('defaultDescription').textContent= t.defaultDescription;
+            document.getElementById('unitPriceLabel').textContent    = t.unitPriceLabel;
+            document.getElementById('totalPriceLabel').textContent   = t.totalPriceLabel;
+            document.getElementById('boostBtnText').textContent      = t.boostBtnText;
+            document.getElementById('infoTitle').textContent         = t.infoTitle;
+            document.getElementById('infoMessage1').textContent      = t.infoMessage1;
+            document.getElementById('infoMessage2').textContent      = t.infoMessage2;
+            document.getElementById('reductionBadge').textContent    = t.reductionBadge;
+            document.getElementById('minimumBadge').textContent      = t.minimumBadge;
+            document.getElementById('languageLabel').textContent     = t.languageLabel;
             whatsappText.textContent = t.whatsappText;
 
             const menuItems = document.querySelectorAll('.dropdown-item');
@@ -1055,27 +1032,28 @@
             }
 
             if (currentNetwork && currentCategory) {
-                const networkData = servicesData[currentNetwork];
-                if (networkData && networkData.descriptions[currentLanguage] && networkData.descriptions[currentLanguage][currentCategory]) {
-                    descriptionBox.innerHTML = `<p>${networkData.descriptions[currentLanguage][currentCategory]}</p>`;
+                const nd = servicesData[currentNetwork];
+                if (nd && nd.descriptions[currentLanguage] && nd.descriptions[currentLanguage][currentCategory]) {
+                    descriptionBox.innerHTML = `<p>${nd.descriptions[currentLanguage][currentCategory]}</p>`;
                 }
             }
 
-            const networkOptions = networkSelect.options;
-            networkOptions[0].text = currentLanguage === "fr" ? "Sélectionnez un réseau" : "Select a network";
+            networkSelect.options[0].text = currentLanguage === "fr" ? "Sélectionnez un réseau" : "Select a network";
             if (categorySelect.disabled) categorySelect.options[0].text = currentLanguage === "fr" ? "Sélectionnez d'abord un réseau" : "Select a network first";
-            if (serviceSelect.disabled) serviceSelect.options[0].text = currentLanguage === "fr" ? "Sélectionnez d'abord une catégorie" : "Select a category first";
+            if (serviceSelect.disabled)  serviceSelect.options[0].text  = currentLanguage === "fr" ? "Sélectionnez d'abord une catégorie" : "Select a category first";
         }
 
+        // ─── SÉLECTION RÉSEAU ─────────────────────────────────────────
         networkSelect.addEventListener('change', function() {
             const selectedNetwork = this.value;
             currentNetwork = selectedNetwork;
             categorySelect.innerHTML = `<option value="">${currentLanguage === "fr" ? "Sélectionnez une catégorie" : "Select a category"}</option>`;
-            serviceSelect.innerHTML = `<option value="">${currentLanguage === "fr" ? "Sélectionnez d'abord une catégorie" : "Select a category first"}</option>`;
+            serviceSelect.innerHTML  = `<option value="">${currentLanguage === "fr" ? "Sélectionnez d'abord une catégorie" : "Select a category first"}</option>`;
             serviceSelect.disabled = true;
+
             if (selectedNetwork && servicesData[selectedNetwork]) {
                 categorySelect.disabled = false;
-                servicesData[selectedNetwork].categories.forEach(category => {
+                servicesData[selectedNetwork].categories.forEach(function(category) {
                     const option = document.createElement('option');
                     option.value = category;
                     option.textContent = category;
@@ -1092,10 +1070,12 @@
             }
         });
 
+        // ─── SÉLECTION CATÉGORIE ──────────────────────────────────────
         categorySelect.addEventListener('change', function() {
             const selectedCategory = this.value;
             currentCategory = selectedCategory;
             serviceSelect.innerHTML = `<option value="">${currentLanguage === "fr" ? "Sélectionnez un service" : "Select a service"}</option>`;
+
             if (selectedCategory && currentNetwork && servicesData[currentNetwork]) {
                 serviceSelect.disabled = false;
                 const option = document.createElement('option');
@@ -1103,9 +1083,9 @@
                 option.textContent = selectedCategory;
                 serviceSelect.appendChild(option);
                 currentUnitPrice = servicesData[currentNetwork].prices[selectedCategory] || 0;
-                const networkData = servicesData[currentNetwork];
-                if (networkData.descriptions[currentLanguage] && networkData.descriptions[currentLanguage][selectedCategory]) {
-                    descriptionBox.innerHTML = `<p>${networkData.descriptions[currentLanguage][selectedCategory]}</p>`;
+                const nd = servicesData[currentNetwork];
+                if (nd.descriptions[currentLanguage] && nd.descriptions[currentLanguage][selectedCategory]) {
+                    descriptionBox.innerHTML = `<p>${nd.descriptions[currentLanguage][selectedCategory]}</p>`;
                 }
                 updatePrices();
             } else {
@@ -1115,28 +1095,29 @@
             }
         });
 
+        // ─── QUANTITÉ ─────────────────────────────────────────────────
         quantityInput.addEventListener('input', function() {
             if (parseInt(this.value) < 1000) this.value = 1000;
             updatePrices();
         });
 
+        // ─── CALCUL PRIX ──────────────────────────────────────────────
         function updatePrices() {
             const quantity = parseInt(quantityInput.value) || 0;
             if (currentUnitPrice > 0 && quantity >= 1000) {
-                let unitPrice, totalPrice;
                 if (currentCurrency === "FCFA") {
-                    unitPrice = currentUnitPrice;
-                    totalPrice = unitPrice * quantity * 0.99;
-                    unitPriceElement.textContent = `${unitPrice.toFixed(currentUnitPrice % 1 === 0 ? 0 : 1)} FCFA`;
+                    const unitPrice  = currentUnitPrice;
+                    const totalPrice = unitPrice * quantity * 0.99;
+                    unitPriceElement.textContent  = `${unitPrice.toFixed(currentUnitPrice % 1 === 0 ? 0 : 1)} FCFA`;
                     totalPriceElement.textContent = `${formatNumber(totalPrice.toFixed(0))} FCFA`;
                 } else {
-                    unitPrice = currentUnitPrice / 600;
-                    totalPrice = unitPrice * quantity * 0.99;
-                    unitPriceElement.textContent = `$${unitPrice.toFixed(4)}`;
+                    const unitPrice  = currentUnitPrice / 600;
+                    const totalPrice = unitPrice * quantity * 0.99;
+                    unitPriceElement.textContent  = `$${unitPrice.toFixed(4)}`;
                     totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
                 }
             } else {
-                unitPriceElement.textContent = currentCurrency === "FCFA" ? "0 FCFA" : "$0";
+                unitPriceElement.textContent  = currentCurrency === "FCFA" ? "0 FCFA" : "$0";
                 totalPriceElement.textContent = currentCurrency === "FCFA" ? "0 FCFA" : "$0";
             }
         }
@@ -1145,138 +1126,87 @@
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
+        // ─── BOUTON BOOSTER ───────────────────────────────────────────
         boostBtn.addEventListener('click', function() {
             const quantity = parseInt(quantityInput.value);
-            const link = document.getElementById('link').value;
-            const network = networkSelect.value;
+            const link     = document.getElementById('link').value;
+            const network  = networkSelect.value;
             const category = categorySelect.value;
-            const service = serviceSelect.value;
-            
-            if (!network) { alert(currentLanguage === "fr" ? "Veuillez sélectionner un réseau social." : "Please select a social network."); return; }
-            if (!category) { alert(currentLanguage === "fr" ? "Veuillez sélectionner une catégorie." : "Please select a category."); return; }
-            if (!service) { alert(currentLanguage === "fr" ? "Veuillez sélectionner un service." : "Please select a service."); return; }
+            const service  = serviceSelect.value;
+
+            if (!network)   { alert(currentLanguage === "fr" ? "Veuillez sélectionner un réseau social." : "Please select a social network."); return; }
+            if (!category)  { alert(currentLanguage === "fr" ? "Veuillez sélectionner une catégorie." : "Please select a category."); return; }
+            if (!service)   { alert(currentLanguage === "fr" ? "Veuillez sélectionner un service." : "Please select a service."); return; }
             if (quantity < 1000) { alert(currentLanguage === "fr" ? "La quantité minimum est de 1000 unités." : "The minimum quantity is 1000 units."); return; }
-            if (!link) { alert(currentLanguage === "fr" ? "Veuillez entrer le lien du compte/vidéo." : "Please enter the account/video link."); return; }
-            
+            if (!link)      { alert(currentLanguage === "fr" ? "Veuillez entrer le lien du compte/vidéo." : "Please enter the account/video link."); return; }
+
             let totalPrice = currentUnitPrice * quantity * 0.99;
             if (currentCurrency === "USD") totalPrice = totalPrice / 600;
             const priceDisplay = currentCurrency === "FCFA" ? `${formatNumber(totalPrice.toFixed(0))} FCFA` : `$${totalPrice.toFixed(2)}`;
-            
-            const whatsappMessage = currentLanguage === "fr" ?
-                `Bonjour Boost Central! Je souhaite passer une commande:\n\n🔗 Réseau: ${network}\n📋 Service: ${service}\n📊 Quantité: ${formatNumber(quantity)}\n💰 Prix total: ${priceDisplay}\n🔗 Lien: ${link}\n\nJe confirme cette commande.` :
-                `Hello Boost Central! I would like to place an order:\n\n🔗 Network: ${network}\n📋 Service: ${service}\n📊 Quantity: ${formatNumber(quantity)}\n💰 Total price: ${priceDisplay}\n🔗 Link: ${link}\n\nI confirm this order.`;
-            
+
+            const whatsappMessage = currentLanguage === "fr"
+                ? `Bonjour Boost Central! Je souhaite passer une commande:\n\n🔗 Réseau: ${network}\n📋 Service: ${service}\n📊 Quantité: ${formatNumber(quantity)}\n💰 Prix total: ${priceDisplay}\n🔗 Lien: ${link}\n\nJe confirme cette commande.`
+                : `Hello Boost Central! I would like to place an order:\n\n🔗 Network: ${network}\n📋 Service: ${service}\n📊 Quantity: ${formatNumber(quantity)}\n💰 Total price: ${priceDisplay}\n🔗 Link: ${link}\n\nI confirm this order.`;
+
             window.open(`https://wa.me/237689011185?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
-            
-            setTimeout(() => {
+
+            setTimeout(function() {
                 quantityInput.value = 1000;
                 document.getElementById('link').value = "";
                 updatePrices();
             }, 1000);
         });
 
+        // ─── INIT ─────────────────────────────────────────────────────
         updatePrices();
-        
+
         document.addEventListener('DOMContentLoaded', function() {
-            const animatedElements = document.querySelectorAll('.animate-in');
-            animatedElements.forEach((el, index) => {
+            document.querySelectorAll('.animate-in').forEach(function(el, index) {
                 el.style.opacity = '0';
-                setTimeout(() => {
-                    el.style.animation = `slideIn 0.5s ease forwards`;
-                    el.style.animationDelay = `${index * 0.1}s`;
+                setTimeout(function() {
+                    el.style.animation = 'slideIn 0.5s ease forwards';
+                    el.style.animationDelay = (index * 0.1) + 's';
                 }, 100);
             });
         });
     </script>
 
-    <!-- SCRIPT POUR LA MODALE CGU -->
+    <!-- MODALE CGU -->
     <script>
         window.addEventListener('DOMContentLoaded', function() {
             if (localStorage.getItem('bc_conditions_accepted') === 'true') return;
 
             const modal = document.createElement('div');
             modal.id = 'cguModal';
-            modal.style.cssText = `
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background-color: rgba(248, 250, 252, 0.95); backdrop-filter: blur(8px);
-                display: flex; align-items: center; justify-content: center; z-index: 9999;
-                animation: fadeIn 0.5s ease;
-            `;
-            
+            modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(248,250,252,0.95);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:9999;animation:fadeIn 0.5s ease;';
+
             const modalContent = document.createElement('div');
-            modalContent.style.cssText = `
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(230, 240, 255, 0.9));
-                border: 2px solid rgba(0, 102, 255, 0.4); border-radius: 25px; padding: 40px;
-                max-width: 500px; color: #1E293B; text-align: center;
-                backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-                animation: slideIn 0.5s ease;
-            `;
-            
-            modalContent.innerHTML = `
-                <div style="margin-bottom: 25px;">
-                    <div style="font-size: 3rem; color: #0066FF; margin-bottom: 15px;">📄</div>
-                    <h2 style="color: #0066FF; margin-bottom: 15px; font-size: 1.8rem; font-weight: 800;">Conditions d'Utilisation</h2>
-                    <p style="color: #475569; line-height: 1.6; margin-bottom: 10px;">
-                        Avant d'utiliser Boost Central, veuillez prendre connaissance de nos 
-                        <strong style="color: #0066FF;">Conditions Générales d'Utilisation</strong>.
-                    </p>
-                    <p style="color: #64748B; font-size: 0.9rem; line-height: 1.5;">
-                        En utilisant notre plateforme, vous acceptez nos conditions et notre politique de confidentialité.
-                    </p>
-                </div>
-                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <button id="viewCguBtn" style="
-                        background: linear-gradient(90deg, #FF6600, #E65C00);
-                        color: white; border: none; padding: 14px 35px;
-                        border-radius: 15px; font-weight: 700; cursor: pointer;
-                        font-size: 1.1rem; letter-spacing: 0.5px;
-                        box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
-                        transition: all 0.3s ease; flex: 1; min-width: 180px;
-                    " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(255, 102, 0, 0.4)'"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(255, 102, 0, 0.3)'">
-                        <i class="fas fa-file-contract" style="margin-right: 8px;"></i> Lire les CGU
-                    </button>
-                    <button id="closeModalBtn" style="
-                        background: rgba(255, 255, 255, 0.9);
-                        color: #0066FF; border: 2px solid rgba(0, 102, 255, 0.3); padding: 14px 35px;
-                        border-radius: 15px; font-weight: 700; cursor: pointer;
-                        font-size: 1.1rem; letter-spacing: 0.5px;
-                        transition: all 0.3s ease; flex: 1; min-width: 180px;
-                    " onmouseover="this.style.background='rgba(230, 240, 255, 0.95)'; this.style.borderColor='rgba(0, 102, 255, 0.5)'"
-                    onmouseout="this.style.background='rgba(255, 255, 255, 0.9)'; this.style.borderColor='rgba(0, 102, 255, 0.3)'">
-                        <i class="fas fa-times" style="margin-right: 8px;"></i> Fermer
-                    </button>
-                </div>
-            `;
-            
+            modalContent.style.cssText = 'background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(230,240,255,0.9));border:2px solid rgba(0,102,255,0.4);border-radius:25px;padding:40px;max-width:500px;width:90%;color:#1E293B;text-align:center;backdrop-filter:blur(15px);box-shadow:0 15px 35px rgba(0,0,0,0.1);animation:slideIn 0.5s ease;';
+
+            modalContent.innerHTML = '<div style="margin-bottom:25px;"><div style="font-size:3rem;color:#0066FF;margin-bottom:15px;">📄</div><h2 style="color:#0066FF;margin-bottom:15px;font-size:1.8rem;font-weight:800;">Conditions d\'Utilisation</h2><p style="color:#475569;line-height:1.6;margin-bottom:10px;">Avant d\'utiliser Boost Central, veuillez prendre connaissance de nos <strong style="color:#0066FF;">Conditions Générales d\'Utilisation</strong>.</p><p style="color:#64748B;font-size:0.9rem;line-height:1.5;">En utilisant notre plateforme, vous acceptez nos conditions et notre politique de confidentialité.</p></div><div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;"><button id="viewCguBtn" style="background:linear-gradient(90deg,#FF6600,#E65C00);color:white;border:none;padding:14px 35px;border-radius:15px;font-weight:700;cursor:pointer;font-size:1.1rem;letter-spacing:0.5px;box-shadow:0 5px 15px rgba(255,102,0,0.3);transition:all 0.3s ease;flex:1;min-width:180px;" onmouseover="this.style.transform=\'translateY(-3px)\'" onmouseout="this.style.transform=\'translateY(0)\'"><i class="fas fa-file-contract" style="margin-right:8px;"></i> Lire les CGU</button><button id="closeModalBtn" style="background:rgba(255,255,255,0.9);color:#0066FF;border:2px solid rgba(0,102,255,0.3);padding:14px 35px;border-radius:15px;font-weight:700;cursor:pointer;font-size:1.1rem;letter-spacing:0.5px;transition:all 0.3s ease;flex:1;min-width:180px;"><i class="fas fa-times" style="margin-right:8px;"></i> Fermer</button></div>';
+
             modal.appendChild(modalContent);
             document.body.appendChild(modal);
-            
+
             document.getElementById('viewCguBtn').addEventListener('click', function() {
                 window.location.href = 'conditions.html';
             });
-            
+
             document.getElementById('closeModalBtn').addEventListener('click', function() {
                 localStorage.setItem('bc_conditions_accepted', 'true');
-                modal.style.animation = 'fadeOut 0.5s ease';
-                modalContent.style.animation = 'slideOut 0.5s ease';
-                setTimeout(function() { document.body.removeChild(modal); }, 450);
+                modal.style.opacity = '0';
+                modal.style.transition = 'opacity 0.4s ease';
+                setTimeout(function() { if (modal.parentNode) modal.parentNode.removeChild(modal); }, 400);
             });
-            
+
             modal.addEventListener('click', function(event) {
                 if (event.target === modal) document.getElementById('closeModalBtn').click();
             });
         });
-        
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-            @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-            @keyframes slideIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-            @keyframes slideOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(30px); } }
-            #cguModal * { box-sizing: border-box; }
-        `;
-        document.head.appendChild(style);
+
+        var cguStyle = document.createElement('style');
+        cguStyle.textContent = '@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes fadeOut{from{opacity:1}to{opacity:0}}@keyframes slideIn{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}@keyframes slideOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(30px)}}#cguModal *{box-sizing:border-box}';
+        document.head.appendChild(cguStyle);
     </script>
 </body>
 </html>
