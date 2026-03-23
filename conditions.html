@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditions d'Utilisation - Boost Central</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            /* NOUVELLE PALETTE : BLANC CLAIR, BLEU, ORANGE */
+            --primary-blue: #007bff;          /* Bleu principal */
+            --primary-blue-dark: #0056b3;     /* Bleu foncé */
+            --primary-blue-light: #e7f1ff;    /* Bleu très clair */
+            
+            --secondary-orange: #fd7e14;      /* Orange principal */
+            --secondary-orange-dark: #e96a00; /* Orange foncé */
+            --secondary-orange-light: #ffe5d0; /* Orange très clair */
+            
+            --white: #ffffff;                /* Blanc pur */
+            --white-light: #f8f9fa;          /* Blanc clair/gris très clair */
+            --gray: #e9ecef;                 /* Gris clair */
+            --dark: #212529;                 /* Noir pour texte */
+            --dark-bg: #f8f9fa;              /* Fond de page en blanc clair */
+            --card-bg: rgba(255, 255, 255, 0.95); /* Fond des cartes en blanc semi-transparent */
+            --shadow: rgba(0, 123, 255, 0.15); /* Ombre bleue légère */
+            --cinematic-glow: rgba(255, 107, 0, 0.3); /* Lueur orange */
+        }
+
+        body {
+            background-color: var(--dark-bg); /* Maintenant blanc clair */
+            color: var(--dark); /* Texte en noir */
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Effets cinématographiques - maintenant orange */
+        .cinematic-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--cinematic-glow);
+            filter: blur(60px);
+            z-index: -1;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .glow-1 {
+            top: 10%;
+            left: 5%;
+        }
+
+        .glow-2 {
+            bottom: 10%;
+            right: 5%;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--white); /* Blanc pur */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 123, 255, 0.2); /* Bleu clair */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .site-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-orange) 100%); /* Bleu vers Orange */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            padding: 40px 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .conditions-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(0, 123, 255, 0.3); /* Bleu */
+        }
+
+        .conditions-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark); /* Texte noir */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .conditions-header h1 i {
+            color: var(--primary-blue); /* Icônes en bleu */
+        }
+
+        .last-updated {
+            color: #666; /* Gris moyen */
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .warning-box {
+            background: linear-gradient(90deg, var(--secondary-orange-light), rgba(255, 255, 255, 0.9));
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--secondary-orange); /* Orange */
+        }
+
+        .warning-box p {
+            color: #d35400; /* Orange foncé */
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-box i {
+            color: #d35400;
+            font-size: 1.5rem;
+        }
+
+        /* Sections */
+        .section {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Bordure grise claire */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Ombre douce */
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-blue); /* Titres en bleu */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 123, 255, 0.2);
+        }
+
+        .section-title i {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+        }
+
+        .section-content p {
+            margin-bottom: 15px;
+            color: #444; /* Texte gris foncé */
+        }
+
+        .section-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-content li {
+            margin-bottom: 10px;
+            color: #444;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .section-content li:before {
+            content: "•";
+            color: var(--primary-blue); /* Points en bleu */
+            font-weight: bold;
+            position: absolute;
+            left: -10px;
+            font-size: 1.2rem;
+        }
+
+        .highlight {
+            background-color: var(--primary-blue-light); /* Bleu très clair */
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 3px solid var(--primary-blue);
+        }
+
+        .highlight strong {
+            color: var(--primary-blue-dark); /* Bleu foncé */
+        }
+
+        /* Boutons */
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 200px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--secondary-orange), var(--secondary-orange-dark)); /* Orange */
+            color: white;
+            box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(253, 126, 20, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue-light);
+            box-shadow: 0 3px 10px rgba(0, 123, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-blue-light);
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, var(--primary-blue-light), rgba(255, 255, 255, 0.9));
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 40px;
+            text-align: center;
+            border: 1px solid var(--primary-blue-light);
+        }
+
+        .contact-box h3 {
+            color: var(--primary-blue-dark);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .contact-box p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .whatsapp-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-contact:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1); /* Gris clair */
+            color: #666;
+            font-size: 0.9rem;
+            background-color: var(--white);
+        }
+
+        .footer .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-orange) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .main-content {
+                padding: 25px 15px;
+            }
+            
+            .conditions-header h1 {
+                font-size: 2rem;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .conditions-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Effets cinématographiques -->
+    <div class="cinematic-glow glow-1"></div>
+    <div class="cinematic-glow glow-2"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="site-name">BOOST CENTRAL</div>
+    </header>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <div class="conditions-header">
+            <h1><i class="fas fa-file-contract"></i> Conditions d'Utilisation</h1>
+            <p class="last-updated">Dernière mise à jour : 26 octobre 2023</p>
+        </div>
+
+        <div class="warning-box">
+            <p><i class="fas fa-exclamation-triangle"></i> En passant une commande sur BOOST CENTRAL, vous acceptez automatiquement l'ensemble des conditions ci-dessous, que vous les ayez lues ou non.</p>
+        </div>
+
+        <!-- Section Conditions Générales -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-gavel"></i> Conditions Générales</h2>
+            <div class="section-content">
+                <p>Nous nous réservons le droit de modifier ces conditions sans préavis. Il est de votre responsabilité de les consulter avant chaque commande pour rester informé des changements éventuels.</p>
+                
+                <p>L'utilisation de Boost Central doit se faire en conformité avec les règles d'Instagram, Facebook, Twitter, YouTube et tout autre réseau social, telles qu'énoncées dans leurs propres conditions.</p>
+                
+                <div class="highlight">
+                    <p><strong>⚠️ Attention :</strong> Les prix pratiqués par Boost Central peuvent être modifiés à tout moment sans avertissement préalable. En cas de modification tarifaire, la politique de paiement et de remboursement reste inchangée.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Clause de non-responsabilité -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-ban"></i> Clause de non-responsabilité</h2>
+            <div class="section-content">
+                <p>Boost Central décline toute responsabilité concernant les dommages subis par vous ou votre entreprise.</p>
+                
+                <h3 style="color: #fff; margin: 20px 0 10px 0;">Responsabilités</h3>
+                <p>Boost Central n'est en aucun cas responsable des suspensions de comptes ou des suppressions de contenus décidées par Instagram, Twitter, Facebook, YouTube ou tout autre réseau social.</p>
+            </div>
+        </div>
+
+        <!-- Section Prestations -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-concierge-bell"></i> Prestations</h2>
+            <div class="section-content">
+                <p>Boost Central ne sert qu'à promouvoir vos profils sur les réseaux sociaux (Instagram, Twitter, Facebook, etc.) et à améliorer votre visibilité.</p>
+                
+                <ul>
+                    <li>Aucune garantie n'est donnée concernant les délais de livraison. Les estimations fournies sont indicatives et ne donnent pas droit à remboursement si la commande prend plus de temps que prévu.</li>
+                    <li>Nous pouvons, si nécessaire, adapter le type de service pour finaliser une commande.</li>
+                    <li>Les descriptions et délais fournis ne sont pas garantis. Nous vous recommandons de tester d'abord avec une petite commande. Aucune réclamation ne sera acceptée et aucun remboursement ne sera accordé si vous n'êtes pas satisfait.</li>
+                    <li>Nous ne garantissons pas que les abonnés obtenus resteront définitivement ou interagiront avec votre contenu. Nous vous assurons uniquement la livraison du nombre d'abonnés commandé.</li>
+                    <li>Il est interdit de télécharger du contenu inapproprié (nudité, contenus non conformes aux règles des réseaux sociaux).</li>
+                </ul>
+                
+                <div class="highlight">
+                    <p><strong>📝 Important :</strong> Les comptes privés ne donnent pas droit à un remboursement. Assurez-vous que votre compte soit public avant de commander.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Politique de remboursement -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-money-bill-wave"></i> Politique de remboursement</h2>
+            <div class="section-content">
+                <p>Aucun remboursement ne sera effectué vers votre mode de paiement initial. Tout dépôt est définitif et utilisable uniquement pour passer des commandes sur BOOST CENTRAL.</p>
+                
+                <ul>
+                    <li>Après paiement, vous vous engagez à ne pas déposer de litige ou demande de rétrofacturation.</li>
+                    <li>En cas de litige ou rétrofacturation, nous nous réservons le droit de suspendre vos commandes et de bloquer votre compte.</li>
+                    <li>Les commandes passées ne peuvent être annulées ni remboursées, sauf si elles sont impossibles à livrer : dans ce cas, un crédit sera ajouté sur votre compte BOOST CENTRAL.</li>
+                    <li>Les commandes perdues ou effectuées sur un compte privé ne sont pas remboursables. Vérifiez toujours vos informations avant de commander.</li>
+                    <li>Toute tentative de fraude (paiement avec carte bancaire volée ou non autorisée) entraînera la clôture immédiate de votre compte.</li>
+                </ul>
+                
+                <div class="highlight">
+                    <p><strong>🚫 Interdiction :</strong> N'utilisez pas plusieurs serveurs simultanément pour une même page : cela fausse les résultats, et aucun remboursement ne sera effectué dans ce cas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Politique de confidentialité -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i> Politique de confidentialité</h2>
+            <div class="section-content">
+                <p>Nous respectons la confidentialité de vos données et faisons tout pour protéger vos informations personnelles.</p>
+                
+                <ul>
+                    <li>Les données recueillies ne sont utilisées que pour traiter vos commandes. Elles ne seront ni revendues ni partagées.</li>
+                    <li>Vos informations personnelles sont chiffrées et stockées de manière sécurisée.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section Contact -->
+        <div class="contact-box">
+            <h3><i class="fas fa-headset"></i> Besoin d'aide ?</h3>
+            <p>Pour toute question concernant nos conditions d'utilisation</p>
+            <a href="https://wa.me/237689011185" class="whatsapp-contact" target="_blank">
+                <i class="fab fa-whatsapp"></i> Contactez-nous sur WhatsApp
+            </a>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="button-group">
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Retour au Dashboard
+            </a>
+            <button onclick="window.print()" class="btn btn-secondary">
+                <i class="fas fa-print"></i> Imprimer ces conditions
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="logo">BOOST CENTRAL</div>
+        <p>© 2023 Boost Central. Tous droits réservés.</p>
+        <p>Merci de votre confiance</p>
+    </div>
+
+    <script>
+        // Animation d'entrée pour les sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // Mise à jour automatique de la date
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const dateElement = document.querySelector('.last-updated');
+            if(dateElement) {
+                dateElement.textContent = 'Dernière mise à jour : ' + today.toLocaleDateString('fr-FR', options);
+            }
+        });
+    </script>
+</body>
+</html>
