@@ -1,1 +1,1659 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Boost Central</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0066FF;
+            --primary-blue-dark: #0052CC;
+            --primary-blue-light: #E6F0FF;
+            --accent-orange: #FF6600;
+            --accent-orange-dark: #E65C00;
+            --accent-orange-light: #FFE6CC;
+            --white: #FFFFFF;
+            --white-light: #F8FAFC;
+            --light-gray: #F1F5F9;
+            --medium-gray: #E2E8F0;
+            --dark-gray: #475569;
+            --dark: #1E293B;
+            --card-bg: var(--white);
+            --shadow: rgba(0, 102, 255, 0.15);
+            --cinematic-glow: rgba(255, 102, 0, 0.3);
+        }
+
+        body {
+            background-color: var(--white-light);
+            color: var(--dark-gray);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .cinematic-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--cinematic-glow);
+            filter: blur(60px);
+            z-index: -1;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .glow-1 { top: 10%; left: 5%; }
+        .glow-2 { bottom: 10%; right: 5%; }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--white);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--medium-gray);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .site-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-orange) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .burger-menu { position: relative; }
+
+        .burger-btn {
+            background: none;
+            border: none;
+            color: var(--primary-blue);
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: var(--primary-blue-light);
+            transition: all 0.3s;
+        }
+
+        .burger-btn:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background-color: var(--white);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 15px;
+            min-width: 280px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--medium-gray);
+            display: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            animation: fadeInMenu 0.3s ease;
+        }
+
+        @keyframes fadeInMenu {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--primary-blue-light);
+            color: var(--primary-blue);
+        }
+
+        .dropdown-item i {
+            margin-right: 12px;
+            color: var(--primary-blue);
+            width: 20px;
+            text-align: center;
+        }
+
+        .dropdown-item.logout-item i { color: #e74c3c; }
+        .dropdown-item.logout-item:hover {
+            background-color: #fff5f5;
+            color: #e74c3c;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background-color: var(--medium-gray);
+            margin: 10px 0;
+        }
+
+        /* Badge user dans le header */
+        .user-header-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #555;
+            background: var(--primary-blue-light);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,102,255,0.2);
+            max-width: 200px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .user-header-badge i { color: var(--primary-blue); flex-shrink: 0; }
+
+        .currency-switch {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 10px;
+            background-color: var(--light-gray);
+            margin-bottom: 10px;
+        }
+
+        .currency-switch span {
+            margin-right: 10px;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--medium-gray);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--accent-orange); }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        .currency-label {
+            margin-left: 10px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .language-switch {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 10px;
+            background-color: var(--light-gray);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .language-switch:hover { background-color: var(--primary-blue-light); }
+        .language-switch i { margin-right: 10px; color: var(--primary-blue); }
+        .language-label { font-weight: 600; color: var(--dark-gray); }
+
+        .main-content {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .welcome-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-section { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--medium-gray);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 102, 255, 0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .user-welcome h2 { font-size: 1.8rem; margin-bottom: 10px; color: var(--dark); }
+        .user-welcome p { color: var(--dark-gray); font-size: 1.1rem; }
+        .user-welcome .highlight { color: var(--primary-blue); font-weight: 600; }
+
+        .balance-card .balance-label { color: var(--dark-gray); font-size: 1rem; margin-bottom: 10px; }
+        .balance-card .balance-amount { font-size: 2.5rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 5px; }
+        .balance-card .currency { font-size: 1rem; color: var(--dark-gray); }
+
+        /* Bouton recharger dans la carte solde */
+        .recharge-btn-small {
+            margin-top: 15px;
+            padding: 8px 18px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .recharge-btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,102,255,0.3);
+        }
+
+        .networks-section { margin-bottom: 30px; }
+        .networks-section h3 { font-size: 1.5rem; margin-bottom: 20px; color: var(--dark); }
+
+        .networks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .network-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            border: 2px solid var(--medium-gray);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            cursor: pointer;
+        }
+
+        .network-card:hover {
+            background-color: var(--white-light);
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.1);
+        }
+
+        .network-card i { font-size: 2rem; margin-bottom: 10px; }
+        .network-card .network-name { font-size: 0.9rem; font-weight: 600; color: var(--dark); }
+
+        .facebook { color: #1877F2; }
+        .tiktok { color: #000000; }
+        .instagram { color: #E4405F; }
+        .twitter { color: #1DA1F2; }
+        .telegram { color: #26A5E4; }
+        .spotify { color: #1DB954; }
+        .whatsapp { color: #25D366; }
+        .youtube { color: #FF0000; }
+
+        .order-section {
+            background-color: var(--white);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid var(--medium-gray);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title { font-size: 1.8rem; margin-bottom: 25px; color: var(--dark); display: flex; align-items: center; }
+        .section-title i { margin-right: 10px; color: var(--primary-blue); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label { display: block; margin-bottom: 8px; color: var(--dark); font-weight: 600; }
+
+        .select-wrapper { position: relative; }
+
+        .select-wrapper i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-blue);
+            pointer-events: none;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--white);
+            border: 2px solid var(--medium-gray);
+            border-radius: 15px;
+            font-size: 1rem;
+            color: var(--dark);
+            appearance: none;
+            transition: all 0.3s;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px var(--primary-blue-light);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--white);
+            border: 2px solid var(--medium-gray);
+            border-radius: 15px;
+            font-size: 1rem;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px var(--primary-blue-light);
+        }
+
+        .form-input::placeholder { color: var(--dark-gray); opacity: 0.6; }
+
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .price-unit, .price-total { text-align: center; }
+        .price-label { font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 5px; }
+        .price-value { font-size: 1.5rem; font-weight: 800; color: var(--accent-orange); }
+
+        .description-box {
+            background-color: var(--light-gray);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .description-box p { color: var(--dark-gray); line-height: 1.6; }
+
+        .boost-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, var(--accent-orange) 0%, var(--accent-orange-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+            text-transform: uppercase;
+        }
+
+        .boost-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(255, 102, 0, 0.4);
+            background: linear-gradient(90deg, var(--accent-orange-dark) 0%, #D45500 100%);
+        }
+
+        .boost-btn:active { transform: translateY(0); }
+        .boost-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .info-message {
+            background: linear-gradient(90deg, var(--accent-orange-light) 0%, var(--white) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--accent-orange);
+            border: 2px solid var(--accent-orange-light);
+        }
+
+        .info-message h4 { font-size: 1.3rem; margin-bottom: 10px; color: var(--dark); }
+        .info-message p { color: var(--dark-gray); line-height: 1.6; margin-bottom: 10px; }
+
+        .reduction-badge {
+            display: inline-block;
+            background-color: var(--accent-orange);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 800;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .minimum-badge {
+            display: inline-block;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-left: 15px;
+            font-size: 0.9rem;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            z-index: 99;
+            transition: all 0.3s;
+            text-decoration: none;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+            animation: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .whatsapp-float span {
+            position: absolute;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .whatsapp-float:hover span { opacity: 1; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in { animation: slideIn 0.5s ease forwards; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--dark);
+            color: white;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            max-width: 340px;
+        }
+
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.success { border-left: 4px solid #28a745; }
+        .toast.error   { border-left: 4px solid #e74c3c; }
+        .toast.info    { border-left: 4px solid var(--primary-blue); }
+
+        /* Modale Recharge */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 8888; animation: fadeIn 0.3s ease;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 35px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            animation: slideInModal 0.3s ease;
+        }
+
+        @keyframes slideInModal {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-box h3 { color: var(--dark); font-size: 1.5rem; margin-bottom: 15px; }
+        .modal-box p  { color: var(--dark-gray); margin-bottom: 20px; line-height: 1.6; }
+
+        .modal-close {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark-gray);
+            margin-top: -10px;
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 15px 20px; }
+            .main-content { padding: 20px 15px; }
+            .networks-grid { grid-template-columns: repeat(4, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 1.5rem; }
+            .whatsapp-float span { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .networks-grid { grid-template-columns: repeat(3, 1fr); }
+            .user-header-badge { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Effets cinématographiques -->
+    <div class="cinematic-glow glow-1"></div>
+    <div class="cinematic-glow glow-2"></div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="burger-menu">
+            <button class="burger-btn" id="burgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="language-switch" id="languageSwitch">
+                    <i class="fas fa-globe"></i>
+                    <span class="language-label" id="languageLabel">Français</span>
+                </div>
+
+                <div class="menu-divider"></div>
+
+                <a href="#" class="dropdown-item" id="menuRecharge">
+                    <i class="fas fa-redo"></i> Recharger
+                </a>
+                <a href="#" class="dropdown-item" id="menuServices">
+                    <i class="fas fa-concierge-bell"></i> Services
+                </a>
+                <a href="#" class="dropdown-item" id="menuOrders">
+                    <i class="fas fa-shopping-cart"></i> Commandes
+                </a>
+                <a href="#" class="dropdown-item" id="menuAccount">
+                    <i class="fas fa-user-circle"></i> Compte
+                </a>
+                <a href="#" class="dropdown-item" id="menuGroupOrders">
+                    <i class="fas fa-boxes"></i> Commandes groupées
+                </a>
+                <a href="#" class="dropdown-item" id="menuReferral">
+                    <i class="fas fa-user-friends"></i> Parrainage
+                </a>
+
+                <div class="menu-divider"></div>
+
+                <div class="currency-switch">
+                    <span>Devise:</span>
+                    <label class="switch">
+                        <input type="checkbox" id="currencySwitch">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="currency-label" id="currencyLabel">FCFA</span>
+                </div>
+
+                <div class="menu-divider"></div>
+
+                <button class="dropdown-item logout-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+        </div>
+
+        <div class="site-name">BOOST CENTRAL</div>
+
+        <!-- Badge utilisateur -->
+        <div class="user-header-badge" id="userHeaderBadge" style="display:none;">
+            <i class="fas fa-user-circle"></i>
+            <span id="userHeaderEmail">...</span>
+        </div>
+    </header>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <!-- Section bienvenue et solde -->
+        <div class="welcome-section">
+            <div class="card user-welcome animate-in">
+                <h2 id="welcomeTitle">Bienvenue !</h2>
+                <p id="welcomeMessage">Nous sommes ravis de vous revoir sur Boost Central. Que souhaitez-vous booster aujourd'hui ?</p>
+            </div>
+
+            <div class="card balance-card animate-in" style="animation-delay: 0.1s;">
+                <div class="balance-label" id="balanceLabel">Votre solde</div>
+                <div class="balance-amount" id="balanceAmount">0</div>
+                <div class="currency" id="balanceCurrency">FCFA</div>
+                <button class="recharge-btn-small" id="rechargeQuickBtn">
+                    <i class="fas fa-plus-circle"></i> Recharger
+                </button>
+            </div>
+        </div>
+
+        <!-- Réseaux supportés -->
+        <div class="networks-section">
+            <h3 id="networksTitle">Réseaux supportés</h3>
+            <div class="networks-grid">
+                <div class="network-card animate-in" style="animation-delay: 0.2s;" data-network="facebook">
+                    <i class="fab fa-facebook facebook"></i>
+                    <div class="network-name">Facebook</div>
+                </div>
+                <div class="network-card animate-in" style="animation-delay: 0.25s;" data-network="tiktok">
+                    <i class="fab fa-tiktok tiktok"></i>
+                    <div class="network-name">TikTok</div>
+                </div>
+                <div class="network-card animate-in" style="animation-delay: 0.3s;" data-network="instagram">
+                    <i class="fab fa-instagram instagram"></i>
+                    <div class="network-name">Instagram</div>
+                </div>
+                <div class="network-card animate-in" style="animation-delay: 0.35s;" data-network="twitter">
+                    <i class="fab fa-twitter twitter"></i>
+                    <div class="network-name">Twitter (X)</div>
+                </div>
+                <div class="network-card animate-in" style="animation-delay: 0.4s;" data-network="telegram">
+                    <i class="fab fa-telegram telegram"></i>
+                    <div class="network-name">Telegram</div>
+                </div>
+                <div class="network-card animate-in" style="animation-delay: 0.45s;" data-network="spotify">
+                    <i class="fab fa-spotify spotify"></i>
+                    <div class="network-name">Spotify</div>
+                </div>
+                <div class="network-card animate-in" style="animation-delay: 0.5s;" data-network="whatsapp">
+                    <i class="fab fa-whatsapp whatsapp"></i>
+                    <div class="network-name">WhatsApp</div>
+                </div>
+                <div class="network-card animate-in" style="animation-delay: 0.55s;" data-network="youtube">
+                    <i class="fab fa-youtube youtube"></i>
+                    <div class="network-name">YouTube</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire de commande -->
+        <div class="order-section animate-in" style="animation-delay: 0.6s;">
+            <h2 class="section-title"><i class="fas fa-rocket"></i> <span id="orderTitle">Nouvelle commande</span></h2>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="network" id="networkLabel">Réseau social</label>
+                    <div class="select-wrapper">
+                        <select id="network" class="form-select">
+                            <option value="">Sélectionnez un réseau</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="twitter">Twitter (X)</option>
+                            <option value="telegram">Telegram</option>
+                            <option value="spotify">Spotify</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="whatsapp">WhatsApp</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="category" id="categoryLabel">Catégorie</label>
+                    <div class="select-wrapper">
+                        <select id="category" class="form-select" disabled>
+                            <option value="">Sélectionnez d'abord un réseau</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="service" id="serviceLabel">Service</label>
+                    <div class="select-wrapper">
+                        <select id="service" class="form-select" disabled>
+                            <option value="">Sélectionnez d'abord une catégorie</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity" id="quantityLabel">Quantité (minimum: 1000)</label>
+                    <input type="number" id="quantity" class="form-input" placeholder="Ex: 1000" min="1000" value="1000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="link" id="linkLabel">Lien du compte / vidéo</label>
+                <input type="text" id="link" class="form-input" placeholder="https://example.com/votre-lien">
+            </div>
+
+            <div id="descriptionBox" class="description-box">
+                <p id="defaultDescription">Sélectionnez un réseau, une catégorie et un service pour voir la description ici.</p>
+            </div>
+
+            <div class="price-info">
+                <div class="price-unit">
+                    <div class="price-label" id="unitPriceLabel">Prix unitaire</div>
+                    <div class="price-value" id="unitPrice">0 FCFA</div>
+                </div>
+                <div class="price-total">
+                    <div class="price-label" id="totalPriceLabel">Prix total</div>
+                    <div class="price-value" id="totalPrice">0 FCFA</div>
+                </div>
+            </div>
+
+            <button class="boost-btn" id="boostBtn">
+                <i class="fas fa-bolt"></i> <span id="boostBtnText">BOOSTER MAINTENANT</span>
+            </button>
+        </div>
+
+        <!-- Message d'information -->
+        <div class="info-message animate-in" style="animation-delay: 0.7s;">
+            <h4 id="infoTitle">SALUT A TOUT NOS UTILISATEURS! 😎</h4>
+            <p id="infoMessage1">Boost Central a fait peau neuve afin d'améliorer ses services et corriger les bugs. Pour tout problème que vous rencontrez, veuillez nous contacter immédiatement en cliquant sur le bouton WhatsApp en bas de l'écran.</p>
+            <p id="infoMessage2">Nous attendons vos impressions.</p>
+            <div class="reduction-badge" id="reductionBadge">RÉDUCTION 1%</div>
+            <div class="minimum-badge" id="minimumBadge">Minimum par service: 1000 unités</div>
+        </div>
+    </div>
+
+    <!-- Balle flottante WhatsApp -->
+    <a href="https://wa.me/237689011185" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span id="whatsappText">Contactez-nous</span>
+    </a>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        // CONFIG SUPABASE
+        // ═══════════════════════════════════════════════════════════════
+        const SUPABASE_URL  = 'https://mutdtyifvcrkiouudwhr.supabase.co';
+        const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11dGR0eWlmdmNya2lvdXVkd2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODEwODcsImV4cCI6MjA4OTU1NzA4N30.l08pEalpQ50QN4xVuDp5hyan7hwXprHOeCo0nrCA4vU';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+        // ═══════════════════════════════════════════════════════════════
+        // TOAST
+        // ═══════════════════════════════════════════════════════════════
+        function showToast(message, type = 'info', duration = 3500) {
+            const icons = { success: 'fa-check-circle', error: 'fa-times-circle', info: 'fa-info-circle' };
+            const t = document.getElementById('toast');
+            t.className = `toast ${type}`;
+            t.innerHTML = `<i class="fas ${icons[type] || 'fa-info-circle'}"></i> ${message}`;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), duration);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // DONNÉES TRADUCTIONS
+        // ═══════════════════════════════════════════════════════════════
+        const translations = {
+            fr: {
+                welcomeTitle: "Bienvenue !",
+                welcomeMessage: "Nous sommes ravis de vous revoir sur Boost Central. Que souhaitez-vous booster aujourd'hui ?",
+                balanceLabel: "Votre solde",
+                networksTitle: "Réseaux supportés",
+                orderTitle: "Nouvelle commande",
+                networkLabel: "Réseau social",
+                categoryLabel: "Catégorie",
+                serviceLabel: "Service",
+                quantityLabel: "Quantité (minimum: 1000)",
+                linkLabel: "Lien du compte / vidéo",
+                defaultDescription: "Sélectionnez un réseau, une catégorie et un service pour voir la description ici.",
+                unitPriceLabel: "Prix unitaire",
+                totalPriceLabel: "Prix total",
+                boostBtnText: "BOOSTER MAINTENANT",
+                infoTitle: "SALUT A TOUT NOS UTILISATEURS! 😎",
+                infoMessage1: "Boost Central a fait peau neuve afin d'améliorer ses services et corriger les bugs. Pour tout problème que vous rencontrez, veuillez nous contacter immédiatement en cliquant sur le bouton WhatsApp en bas de l'écran.",
+                infoMessage2: "Nous attendons vos impressions.",
+                reductionBadge: "RÉDUCTION 1%",
+                minimumBadge: "Minimum par service: 1000 unités",
+                languageLabel: "Français",
+                menuRecharge: "Recharger",
+                menuServices: "Services",
+                menuOrders: "Commandes",
+                menuAccount: "Compte",
+                menuGroupOrders: "Commandes groupées",
+                menuReferral: "Parrainage",
+                logout: "Déconnexion",
+                whatsappText: "Contactez-nous"
+            },
+            en: {
+                welcomeTitle: "Welcome!",
+                welcomeMessage: "We're glad to see you back on Boost Central. What would you like to boost today?",
+                balanceLabel: "Your balance",
+                networksTitle: "Supported networks",
+                orderTitle: "New order",
+                networkLabel: "Social network",
+                categoryLabel: "Category",
+                serviceLabel: "Service",
+                quantityLabel: "Quantity (minimum: 1000)",
+                linkLabel: "Account / video link",
+                defaultDescription: "Select a network, category and service to see the description here.",
+                unitPriceLabel: "Unit price",
+                totalPriceLabel: "Total price",
+                boostBtnText: "BOOST NOW",
+                infoTitle: "HELLO TO ALL OUR USERS! 😎",
+                infoMessage1: "Boost Central has been revamped to improve its services and fix bugs. For any problem you encounter, please contact us immediately by clicking the WhatsApp button at the bottom of the screen.",
+                infoMessage2: "We await your feedback.",
+                reductionBadge: "1% DISCOUNT",
+                minimumBadge: "Minimum per service: 1000 units",
+                languageLabel: "English",
+                menuRecharge: "Recharge",
+                menuServices: "Services",
+                menuOrders: "Orders",
+                menuAccount: "Account",
+                menuGroupOrders: "Group orders",
+                menuReferral: "Referral",
+                logout: "Logout",
+                whatsappText: "Contact us"
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════════
+        // DONNÉES SERVICES
+        // ═══════════════════════════════════════════════════════════════
+        const servicesData = {
+            facebook: {
+                categories: ["Facebook abonnés", "Facebook vue", "Facebook commentaire", "Facebook partage", "Facebook membre de groupe"],
+                descriptions: {
+                    fr: {
+                        "Facebook abonnés": "Augmentez le nombre d'abonnés sur votre page Facebook avec des comptes réels et actifs. Prix: 1 FCFA par abonné.",
+                        "Facebook vue": "Boostez le nombre de vues sur vos vidéos Facebook pour augmenter leur visibilité. Prix: 1 FCFA par vue.",
+                        "Facebook commentaire": "Ajoutez des commentaires pertinents à vos publications pour engager votre communauté. Prix: 1 FCFA par commentaire.",
+                        "Facebook partage": "Multipliez les partages de vos publications pour toucher un public plus large. Prix: 1 FCFA par partage.",
+                        "Facebook membre de groupe": "Augmentez le nombre de membres dans vos groupes Facebook avec des utilisateurs actifs. Prix: 1 FCFA par membre."
+                    },
+                    en: {
+                        "Facebook abonnés": "Increase the number of followers on your Facebook page with real and active accounts. Price: 1 FCFA per follower.",
+                        "Facebook vue": "Boost the number of views on your Facebook videos to increase their visibility. Price: 1 FCFA per view.",
+                        "Facebook commentaire": "Add relevant comments to your posts to engage your community. Price: 1 FCFA per comment.",
+                        "Facebook partage": "Multiply shares of your posts to reach a wider audience. Price: 1 FCFA per share.",
+                        "Facebook membre de groupe": "Increase the number of members in your Facebook groups with active users. Price: 1 FCFA per member."
+                    }
+                },
+                prices: { "Facebook abonnés": 1, "Facebook vue": 1, "Facebook commentaire": 1, "Facebook partage": 1, "Facebook membre de groupe": 1 }
+            },
+            tiktok: {
+                categories: ["TikTok abonnés", "TikTok vue", "TikTok like", "TikTok commentaire", "TikTok partage"],
+                descriptions: {
+                    fr: {
+                        "TikTok abonnés": "Gagnez des abonnés réels sur votre compte TikTok. Augmentez votre visibilité et votre crédibilité. Prix: 2.1 FCFA par abonné.",
+                        "TikTok vue": "Augmentez le nombre de vues sur vos vidéos TikTok pour monter dans les tendances. Prix: 0.8 FCFA par vue.",
+                        "TikTok like": "Ajoutez des likes à vos vidéos TikTok pour améliorer leur engagement. Prix: 0.8 FCFA par like.",
+                        "TikTok commentaire": "Obtenez des commentaires pertinents sur vos vidéos TikTok. Prix: 0.8 FCFA par commentaire.",
+                        "TikTok partage": "Boostez le nombre de partages de vos vidéos TikTok. Prix: 0.8 FCFA par partage."
+                    },
+                    en: {
+                        "TikTok abonnés": "Gain real followers on your TikTok account. Increase your visibility and credibility. Price: 2.1 FCFA per follower.",
+                        "TikTok vue": "Increase the number of views on your TikTok videos to trend. Price: 0.8 FCFA per view.",
+                        "TikTok like": "Add likes to your TikTok videos to improve their engagement. Price: 0.8 FCFA per like.",
+                        "TikTok commentaire": "Get relevant comments on your TikTok videos. Price: 0.8 FCFA per comment.",
+                        "TikTok partage": "Boost the number of shares of your TikTok videos. Price: 0.8 FCFA per share."
+                    }
+                },
+                prices: { "TikTok abonnés": 2.1, "TikTok vue": 0.8, "TikTok like": 0.8, "TikTok commentaire": 0.8, "TikTok partage": 0.8 }
+            },
+            instagram: {
+                categories: ["Instagram abonnés", "Instagram like", "Instagram vue story", "Instagram commentaire", "Instagram partage"],
+                descriptions: {
+                    fr: {
+                        "Instagram abonnés": "Gagnez des abonnés réels et actifs sur votre compte Instagram. Prix: 2 FCFA par abonné.",
+                        "Instagram like": "Augmentez le nombre de likes sur vos publications Instagram. Prix: 2 FCFA par like.",
+                        "Instagram vue story": "Boostez les vues de vos stories Instagram. Prix: 2 FCFA par vue.",
+                        "Instagram commentaire": "Ajoutez des commentaires à vos publications Instagram. Prix: 2 FCFA par commentaire.",
+                        "Instagram partage": "Augmentez le nombre de partages de vos publications Instagram. Prix: 2 FCFA par partage."
+                    },
+                    en: {
+                        "Instagram abonnés": "Gain real and active followers on your Instagram account. Price: 2 FCFA per follower.",
+                        "Instagram like": "Increase the number of likes on your Instagram posts. Price: 2 FCFA per like.",
+                        "Instagram vue story": "Boost views of your Instagram stories. Price: 2 FCFA per view.",
+                        "Instagram commentaire": "Add comments to your Instagram posts. Price: 2 FCFA per comment.",
+                        "Instagram partage": "Increase the number of shares of your Instagram posts. Price: 2 FCFA per share."
+                    }
+                },
+                prices: { "Instagram abonnés": 2, "Instagram like": 2, "Instagram vue story": 2, "Instagram commentaire": 2, "Instagram partage": 2 }
+            },
+            youtube: {
+                categories: ["YouTube vue", "YouTube like", "YouTube commentaire", "YouTube abonnés"],
+                descriptions: {
+                    fr: {
+                        "YouTube vue": "Augmentez le nombre de vues sur vos vidéos YouTube. Prix: 2 FCFA par vue.",
+                        "YouTube like": "Ajoutez des likes à vos vidéos YouTube. Prix: 2 FCFA par like.",
+                        "YouTube commentaire": "Obtenez des commentaires sur vos vidéos YouTube. Prix: 2 FCFA par commentaire.",
+                        "YouTube abonnés": "Gagnez des abonnés sur votre chaîne YouTube. Prix: 2 FCFA par abonné."
+                    },
+                    en: {
+                        "YouTube vue": "Increase the number of views on your YouTube videos. Price: 2 FCFA per view.",
+                        "YouTube like": "Add likes to your YouTube videos. Price: 2 FCFA per like.",
+                        "YouTube commentaire": "Get comments on your YouTube videos. Price: 2 FCFA per comment.",
+                        "YouTube abonnés": "Gain subscribers on your YouTube channel. Price: 2 FCFA per subscriber."
+                    }
+                },
+                prices: { "YouTube vue": 2, "YouTube like": 2, "YouTube commentaire": 2, "YouTube abonnés": 2 }
+            },
+            twitter: {
+                categories: ["X abonnés", "X like", "X retweet"],
+                descriptions: {
+                    fr: {
+                        "X abonnés": "Augmentez le nombre d'abonnés sur votre compte Twitter (X). Prix: 12 FCFA par abonné.",
+                        "X like": "Ajoutez des likes à vos tweets. Prix: 12 FCFA par like.",
+                        "X retweet": "Boostez le nombre de retweets de vos publications. Prix: 12 FCFA par retweet."
+                    },
+                    en: {
+                        "X abonnés": "Increase the number of followers on your Twitter (X) account. Price: 12 FCFA per follower.",
+                        "X like": "Add likes to your tweets. Price: 12 FCFA per like.",
+                        "X retweet": "Boost the number of retweets of your posts. Price: 12 FCFA per retweet."
+                    }
+                },
+                prices: { "X abonnés": 12, "X like": 12, "X retweet": 12 }
+            },
+            telegram: {
+                categories: ["Telegram abonnés chaîne", "Telegram membres groupe"],
+                descriptions: {
+                    fr: {
+                        "Telegram abonnés chaîne": "Augmentez le nombre d'abonnés sur votre chaîne Telegram. Prix: 2 FCFA par abonné.",
+                        "Telegram membres groupe": "Ajoutez des membres à vos groupes Telegram. Prix: 2 FCFA par membre."
+                    },
+                    en: {
+                        "Telegram abonnés chaîne": "Increase the number of subscribers on your Telegram channel. Price: 2 FCFA per subscriber.",
+                        "Telegram membres groupe": "Add members to your Telegram groups. Price: 2 FCFA per member."
+                    }
+                },
+                prices: { "Telegram abonnés chaîne": 2, "Telegram membres groupe": 2 }
+            },
+            spotify: {
+                categories: ["Spotify follower", "Spotify play", "Spotify save"],
+                descriptions: {
+                    fr: {
+                        "Spotify follower": "Gagnez des followers sur votre profil Spotify. Prix: 1 FCFA par follower.",
+                        "Spotify play": "Augmentez le nombre de lectures de vos titres Spotify. Prix: 1 FCFA par lecture.",
+                        "Spotify save": "Ajoutez des sauvegardes à vos titres Spotify. Prix: 1 FCFA par sauvegarde."
+                    },
+                    en: {
+                        "Spotify follower": "Gain followers on your Spotify profile. Price: 1 FCFA per follower.",
+                        "Spotify play": "Increase the number of plays of your Spotify tracks. Price: 1 FCFA per play.",
+                        "Spotify save": "Add saves to your Spotify tracks. Price: 1 FCFA per save."
+                    }
+                },
+                prices: { "Spotify follower": 1, "Spotify play": 1, "Spotify save": 1 }
+            },
+            whatsapp: {
+                categories: ["WhatsApp membres groupe"],
+                descriptions: {
+                    fr: { "WhatsApp membres groupe": "Ajoutez des membres à vos groupes WhatsApp. Prix: 1.5 FCFA par membre." },
+                    en: { "WhatsApp membres groupe": "Add members to your WhatsApp groups. Price: 1.5 FCFA per member." }
+                },
+                prices: { "WhatsApp membres groupe": 1.5 }
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════════
+        // VARIABLES GLOBALES
+        // ═══════════════════════════════════════════════════════════════
+        let currentLanguage = "fr";
+        let currentCurrency = "FCFA";
+        let currentUnitPrice = 0;
+        let currentNetwork = "";
+        let currentCategory = "";
+        let currentUser = null;
+        let userBalanceFcfa = 0; // solde brut en FCFA
+
+        // ═══════════════════════════════════════════════════════════════
+        // ÉLÉMENTS DOM
+        // ═══════════════════════════════════════════════════════════════
+        const burgerBtn       = document.getElementById('burgerBtn');
+        const dropdownMenu    = document.getElementById('dropdownMenu');
+        const languageSwitch  = document.getElementById('languageSwitch');
+        const languageLabel   = document.getElementById('languageLabel');
+        const currencySwitchEl = document.getElementById('currencySwitch');
+        const currencyLabel   = document.getElementById('currencyLabel');
+        const balanceAmount   = document.getElementById('balanceAmount');
+        const balanceCurrency = document.getElementById('balanceCurrency');
+        const networkSelect   = document.getElementById('network');
+        const categorySelect  = document.getElementById('category');
+        const serviceSelect   = document.getElementById('service');
+        const quantityInput   = document.getElementById('quantity');
+        const unitPriceEl     = document.getElementById('unitPrice');
+        const totalPriceEl    = document.getElementById('totalPrice');
+        const descriptionBox  = document.getElementById('descriptionBox');
+        const boostBtn        = document.getElementById('boostBtn');
+
+        // ═══════════════════════════════════════════════════════════════
+        // INIT - VÉRIFICATION SESSION
+        // ═══════════════════════════════════════════════════════════════
+        async function initDashboard() {
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (!session) {
+                // Pas de session → rediriger vers la page de connexion
+                showToast('Session expirée. Redirection...', 'error');
+                setTimeout(() => { window.location.href = 'auth.html'; }, 1500);
+                return;
+            }
+
+            currentUser = session.user;
+
+            // Afficher badge email dans le header
+            const badge = document.getElementById('userHeaderBadge');
+            const emailSpan = document.getElementById('userHeaderEmail');
+            const emailShort = currentUser.email.length > 22
+                ? currentUser.email.substring(0, 20) + '…'
+                : currentUser.email;
+            emailSpan.textContent = emailShort;
+            badge.style.display = 'flex';
+
+            // Message de bienvenue personnalisé
+            const name = currentUser.user_metadata?.full_name
+                || currentUser.email.split('@')[0];
+            document.getElementById('welcomeTitle').innerHTML =
+                `Bienvenue, <span class="highlight">${name}</span> !`;
+
+            // Charger le solde depuis Supabase
+            await loadUserBalance();
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // CHARGER LE SOLDE
+        // ═══════════════════════════════════════════════════════════════
+        async function loadUserBalance() {
+            if (!currentUser) return;
+
+            const { data, error } = await supabase
+                .from('user_profiles')
+                .select('balance, conditions_accepted')
+                .eq('user_id', currentUser.id)
+                .single();
+
+            if (!error && data) {
+                userBalanceFcfa = data.balance || 0;
+                displayBalance();
+            } else {
+                // Profil inexistant → créer un enregistrement vide
+                await supabase.from('user_profiles').upsert({
+                    user_id: currentUser.id,
+                    balance: 0,
+                    conditions_accepted: false
+                }, { onConflict: 'user_id' });
+                userBalanceFcfa = 0;
+                displayBalance();
+            }
+        }
+
+        function displayBalance() {
+            if (currentCurrency === 'FCFA') {
+                balanceAmount.textContent = formatNumber(userBalanceFcfa.toFixed(0));
+                balanceCurrency.textContent = 'FCFA';
+            } else {
+                balanceAmount.textContent = (userBalanceFcfa / 600).toFixed(2);
+                balanceCurrency.textContent = 'USD';
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // MENU BURGER
+        // ═══════════════════════════════════════════════════════════════
+        burgerBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!burgerBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // ITEMS DU MENU
+        // ═══════════════════════════════════════════════════════════════
+        function closeMenu() { dropdownMenu.classList.remove('show'); }
+
+        document.getElementById('menuRecharge').addEventListener('click', function(e) {
+            e.preventDefault(); closeMenu(); showRechargeModal();
+        });
+
+        document.getElementById('menuServices').addEventListener('click', function(e) {
+            e.preventDefault(); closeMenu();
+            showToast('Page Services bientôt disponible 🚀', 'info');
+        });
+
+        document.getElementById('menuOrders').addEventListener('click', function(e) {
+            e.preventDefault(); closeMenu();
+            window.location.href = 'commandes.html';
+        });
+
+        document.getElementById('menuAccount').addEventListener('click', function(e) {
+            e.preventDefault(); closeMenu();
+            window.location.href = 'profil.html';
+        });
+
+        document.getElementById('menuGroupOrders').addEventListener('click', function(e) {
+            e.preventDefault(); closeMenu();
+            showToast('Commandes groupées bientôt disponibles 📦', 'info');
+        });
+
+        document.getElementById('menuReferral').addEventListener('click', function(e) {
+            e.preventDefault(); closeMenu();
+            showToast('Programme de parrainage bientôt disponible 🎁', 'info');
+        });
+
+        // Bouton recharger dans la carte solde
+        document.getElementById('rechargeQuickBtn').addEventListener('click', showRechargeModal);
+
+        // ═══════════════════════════════════════════════════════════════
+        // MODALE RECHARGE
+        // ═══════════════════════════════════════════════════════════════
+        function showRechargeModal() {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            overlay.id = 'rechargeModal';
+
+            overlay.innerHTML = `
+                <div class="modal-box">
+                    <button class="modal-close" id="closeRecharge" title="Fermer">✕</button>
+                    <h3><i class="fas fa-wallet" style="color:var(--primary-blue);margin-right:10px;"></i> Recharger mon solde</h3>
+                    <p>Pour recharger votre solde, contactez-nous directement sur WhatsApp avec le montant souhaité. Nous traitons votre recharge en quelques minutes.</p>
+                    <div style="background:var(--light-gray);border-radius:12px;padding:15px;margin-bottom:20px;">
+                        <p style="font-size:0.9rem;color:var(--dark-gray);margin:0;">
+                            <strong style="color:var(--dark);">Solde actuel :</strong>
+                            <span style="color:var(--accent-orange);font-weight:800;font-size:1.1rem;margin-left:8px;">
+                                ${formatNumber(userBalanceFcfa.toFixed(0))} FCFA
+                            </span>
+                        </p>
+                    </div>
+                    <a href="https://wa.me/237689011185?text=${encodeURIComponent('Bonjour Boost Central ! Je souhaite recharger mon solde. Mon email : ' + (currentUser ? currentUser.email : ''))}"
+                       target="_blank"
+                       style="display:flex;align-items:center;justify-content:center;gap:10px;
+                              background:#25D366;color:white;padding:14px 25px;
+                              border-radius:15px;text-decoration:none;font-weight:700;
+                              font-size:1rem;transition:all 0.3s;box-shadow:0 5px 15px rgba(37,211,102,0.3);">
+                        <i class="fab fa-whatsapp"></i> Recharger via WhatsApp
+                    </a>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            document.getElementById('closeRecharge').addEventListener('click', () => overlay.remove());
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // DÉCONNEXION
+        // ═══════════════════════════════════════════════════════════════
+        document.getElementById('logoutBtn').addEventListener('click', async function() {
+            closeMenu();
+            const confirm = window.confirm(
+                currentLanguage === 'fr'
+                    ? 'Êtes-vous sûr de vouloir vous déconnecter ?'
+                    : 'Are you sure you want to logout?'
+            );
+            if (!confirm) return;
+
+            showToast('Déconnexion en cours...', 'info');
+            await supabase.auth.signOut();
+            localStorage.removeItem('bc_conditions_accepted');
+            setTimeout(() => { window.location.href = 'auth.html'; }, 800);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // CHANGEMENT DE LANGUE
+        // ═══════════════════════════════════════════════════════════════
+        languageSwitch.addEventListener('click', function() {
+            currentLanguage = currentLanguage === "fr" ? "en" : "fr";
+            updateLanguage();
+            closeMenu();
+        });
+
+        function updateLanguage() {
+            const t = translations[currentLanguage];
+            document.getElementById('balanceLabel').textContent        = t.balanceLabel;
+            document.getElementById('networksTitle').textContent       = t.networksTitle;
+            document.getElementById('orderTitle').textContent          = t.orderTitle;
+            document.getElementById('networkLabel').textContent        = t.networkLabel;
+            document.getElementById('categoryLabel').textContent       = t.categoryLabel;
+            document.getElementById('serviceLabel').textContent        = t.serviceLabel;
+            document.getElementById('quantityLabel').textContent       = t.quantityLabel;
+            document.getElementById('linkLabel').textContent           = t.linkLabel;
+            document.getElementById('defaultDescription').textContent  = t.defaultDescription;
+            document.getElementById('unitPriceLabel').textContent      = t.unitPriceLabel;
+            document.getElementById('totalPriceLabel').textContent     = t.totalPriceLabel;
+            document.getElementById('boostBtnText').textContent        = t.boostBtnText;
+            document.getElementById('infoTitle').textContent           = t.infoTitle;
+            document.getElementById('infoMessage1').textContent        = t.infoMessage1;
+            document.getElementById('infoMessage2').textContent        = t.infoMessage2;
+            document.getElementById('reductionBadge').textContent      = t.reductionBadge;
+            document.getElementById('minimumBadge').textContent        = t.minimumBadge;
+            document.getElementById('languageLabel').textContent       = t.languageLabel;
+            document.getElementById('whatsappText').textContent        = t.whatsappText;
+
+            document.getElementById('menuRecharge').innerHTML    = `<i class="fas fa-redo"></i> ${t.menuRecharge}`;
+            document.getElementById('menuServices').innerHTML    = `<i class="fas fa-concierge-bell"></i> ${t.menuServices}`;
+            document.getElementById('menuOrders').innerHTML      = `<i class="fas fa-shopping-cart"></i> ${t.menuOrders}`;
+            document.getElementById('menuAccount').innerHTML     = `<i class="fas fa-user-circle"></i> ${t.menuAccount}`;
+            document.getElementById('menuGroupOrders').innerHTML = `<i class="fas fa-boxes"></i> ${t.menuGroupOrders}`;
+            document.getElementById('menuReferral').innerHTML    = `<i class="fas fa-user-friends"></i> ${t.menuReferral}`;
+            document.getElementById('logoutBtn').innerHTML       = `<i class="fas fa-sign-out-alt"></i> ${t.logout}`;
+
+            networkSelect.options[0].text = currentLanguage === "fr" ? "Sélectionnez un réseau" : "Select a network";
+            if (categorySelect.disabled) categorySelect.options[0].text = currentLanguage === "fr" ? "Sélectionnez d'abord un réseau" : "Select a network first";
+            if (serviceSelect.disabled)  serviceSelect.options[0].text  = currentLanguage === "fr" ? "Sélectionnez d'abord une catégorie" : "Select a category first";
+
+            if (currentNetwork && currentCategory) {
+                const nd = servicesData[currentNetwork];
+                if (nd?.descriptions[currentLanguage]?.[currentCategory]) {
+                    descriptionBox.innerHTML = `<p>${nd.descriptions[currentLanguage][currentCategory]}</p>`;
+                }
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // CHANGEMENT DE DEVISE
+        // ═══════════════════════════════════════════════════════════════
+        currencySwitchEl.addEventListener('change', function() {
+            currentCurrency = this.checked ? "USD" : "FCFA";
+            currencyLabel.textContent = currentCurrency;
+            displayBalance();
+            updatePrices();
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // CLIC SUR CARTE RÉSEAU → pré-remplir le select
+        // ═══════════════════════════════════════════════════════════════
+        document.querySelectorAll('.network-card[data-network]').forEach(card => {
+            card.addEventListener('click', function() {
+                const net = this.dataset.network;
+                networkSelect.value = net;
+                networkSelect.dispatchEvent(new Event('change'));
+                document.querySelector('.order-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // SÉLECTION RÉSEAU
+        // ═══════════════════════════════════════════════════════════════
+        networkSelect.addEventListener('change', function() {
+            const sel = this.value;
+            currentNetwork = sel;
+
+            categorySelect.innerHTML = `<option value="">${currentLanguage === "fr" ? "Sélectionnez une catégorie" : "Select a category"}</option>`;
+            serviceSelect.innerHTML  = `<option value="">${currentLanguage === "fr" ? "Sélectionnez d'abord une catégorie" : "Select a category first"}</option>`;
+            serviceSelect.disabled = true;
+
+            if (sel && servicesData[sel]) {
+                categorySelect.disabled = false;
+                servicesData[sel].categories.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat; opt.textContent = cat;
+                    categorySelect.appendChild(opt);
+                });
+                descriptionBox.innerHTML = `<p>${currentLanguage === "fr" ? "Sélectionnez une catégorie pour voir la description du service." : "Select a category to see the service description."}</p>`;
+                currentUnitPrice = 0;
+                updatePrices();
+            } else {
+                categorySelect.disabled = true;
+                currentUnitPrice = 0;
+                updatePrices();
+                descriptionBox.innerHTML = `<p>${translations[currentLanguage].defaultDescription}</p>`;
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // SÉLECTION CATÉGORIE
+        // ═══════════════════════════════════════════════════════════════
+        categorySelect.addEventListener('change', function() {
+            const sel = this.value;
+            currentCategory = sel;
+            serviceSelect.innerHTML = `<option value="">${currentLanguage === "fr" ? "Sélectionnez un service" : "Select a service"}</option>`;
+
+            if (sel && currentNetwork && servicesData[currentNetwork]) {
+                serviceSelect.disabled = false;
+                const opt = document.createElement('option');
+                opt.value = sel; opt.textContent = sel;
+                serviceSelect.appendChild(opt);
+
+                currentUnitPrice = servicesData[currentNetwork].prices[sel] || 0;
+                const nd = servicesData[currentNetwork];
+                if (nd.descriptions[currentLanguage]?.[sel]) {
+                    descriptionBox.innerHTML = `<p>${nd.descriptions[currentLanguage][sel]}</p>`;
+                }
+                updatePrices();
+            } else {
+                serviceSelect.disabled = true;
+                currentUnitPrice = 0;
+                updatePrices();
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // QUANTITÉ
+        // ═══════════════════════════════════════════════════════════════
+        quantityInput.addEventListener('input', function() {
+            if (parseInt(this.value) < 1000) this.value = 1000;
+            updatePrices();
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // MISE À JOUR PRIX
+        // ═══════════════════════════════════════════════════════════════
+        function updatePrices() {
+            const qty = parseInt(quantityInput.value) || 0;
+            if (currentUnitPrice > 0 && qty >= 1000) {
+                if (currentCurrency === "FCFA") {
+                    const total = currentUnitPrice * qty * 0.99;
+                    unitPriceEl.textContent  = `${currentUnitPrice % 1 === 0 ? currentUnitPrice : currentUnitPrice.toFixed(1)} FCFA`;
+                    totalPriceEl.textContent = `${formatNumber(total.toFixed(0))} FCFA`;
+                } else {
+                    const upu   = currentUnitPrice / 600;
+                    const total = upu * qty * 0.99;
+                    unitPriceEl.textContent  = `$${upu.toFixed(4)}`;
+                    totalPriceEl.textContent = `$${total.toFixed(2)}`;
+                }
+            } else {
+                unitPriceEl.textContent  = currentCurrency === "FCFA" ? "0 FCFA" : "$0";
+                totalPriceEl.textContent = currentCurrency === "FCFA" ? "0 FCFA" : "$0";
+            }
+        }
+
+        function formatNumber(n) {
+            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // BOUTON BOOSTER
+        // ═══════════════════════════════════════════════════════════════
+        boostBtn.addEventListener('click', async function() {
+            const qty      = parseInt(quantityInput.value);
+            const link     = document.getElementById('link').value.trim();
+            const network  = networkSelect.value;
+            const category = categorySelect.value;
+            const service  = serviceSelect.value;
+
+            // Validation
+            if (!network)   { showToast(currentLanguage === "fr" ? "Veuillez sélectionner un réseau social." : "Please select a social network.", 'error'); return; }
+            if (!category)  { showToast(currentLanguage === "fr" ? "Veuillez sélectionner une catégorie." : "Please select a category.", 'error'); return; }
+            if (!service)   { showToast(currentLanguage === "fr" ? "Veuillez sélectionner un service." : "Please select a service.", 'error'); return; }
+            if (qty < 1000) { showToast(currentLanguage === "fr" ? "La quantité minimum est de 1000 unités." : "Minimum quantity is 1000 units.", 'error'); return; }
+            if (!link)      { showToast(currentLanguage === "fr" ? "Veuillez entrer le lien du compte/vidéo." : "Please enter the account/video link.", 'error'); return; }
+
+            // Calcul prix
+            let totalFcfa = currentUnitPrice * qty * 0.99;
+
+            // Vérifier solde suffisant
+            if (currentUser && userBalanceFcfa > 0 && userBalanceFcfa < totalFcfa) {
+                showToast(
+                    currentLanguage === "fr"
+                        ? `Solde insuffisant. Solde : ${formatNumber(userBalanceFcfa.toFixed(0))} FCFA — Requis : ${formatNumber(totalFcfa.toFixed(0))} FCFA`
+                        : `Insufficient balance. Balance: ${formatNumber(userBalanceFcfa.toFixed(0))} FCFA — Required: ${formatNumber(totalFcfa.toFixed(0))} FCFA`,
+                    'error', 5000
+                );
+                return;
+            }
+
+            // Désactiver le bouton
+            boostBtn.disabled = true;
+            boostBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
+
+            // Enregistrer la commande dans Supabase
+            if (currentUser) {
+                const priceDisplay = currentCurrency === "FCFA"
+                    ? `${formatNumber(totalFcfa.toFixed(0))} FCFA`
+                    : `$${(totalFcfa / 600).toFixed(2)}`;
+
+                const { error } = await supabase.from('commandes').insert({
+                    user_id:    currentUser.id,
+                    reseau:     network,
+                    service:    service,
+                    quantite:   qty,
+                    lien:       link,
+                    prix_unitaire: currentUnitPrice,
+                    prix_total: parseFloat(totalFcfa.toFixed(2)),
+                    devise:     currentCurrency,
+                    statut:     'en_attente',
+                    created_at: new Date().toISOString()
+                });
+
+                if (error) {
+                    console.warn('Commande non enregistrée en base (table manquante?) :', error.message);
+                }
+            }
+
+            // Message WhatsApp
+            const totalDisplay = currentCurrency === "FCFA"
+                ? `${formatNumber(totalFcfa.toFixed(0))} FCFA`
+                : `$${(totalFcfa / 600).toFixed(2)}`;
+
+            const msg = currentLanguage === "fr"
+                ? `Bonjour Boost Central! Je souhaite passer une commande:\n\n🔗 Réseau: ${network}\n📋 Service: ${service}\n📊 Quantité: ${formatNumber(qty)}\n💰 Prix total: ${totalDisplay}\n🔗 Lien: ${link}\n\nJe confirme cette commande.`
+                : `Hello Boost Central! I would like to place an order:\n\n🔗 Network: ${network}\n📋 Service: ${service}\n📊 Quantity: ${formatNumber(qty)}\n💰 Total price: ${totalDisplay}\n🔗 Link: ${link}\n\nI confirm this order.`;
+
+            window.open(`https://wa.me/237689011185?text=${encodeURIComponent(msg)}`, '_blank');
+
+            showToast(
+                currentLanguage === "fr" ? "Commande envoyée ! Vous serez redirigé vers WhatsApp." : "Order sent! You'll be redirected to WhatsApp.",
+                'success', 4000
+            );
+
+            // Réinitialiser
+            setTimeout(() => {
+                quantityInput.value = 1000;
+                document.getElementById('link').value = "";
+                boostBtn.disabled = false;
+                boostBtn.innerHTML = `<i class="fas fa-bolt"></i> <span id="boostBtnText">${translations[currentLanguage].boostBtnText}</span>`;
+                updatePrices();
+            }, 1200);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // ANIMATION D'ENTRÉE
+        // ═══════════════════════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.animate-in').forEach((el, i) => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.animation = `slideIn 0.5s ease forwards`;
+                }, i * 80);
+            });
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // LANCEMENT
+        // ═══════════════════════════════════════════════════════════════
+        initDashboard();
+        updatePrices();
+    </script>
+
+    <!-- ══════════════════════════════════════════════════════
+         MODALE CGU - affichée uniquement si pas encore acceptée
+    ══════════════════════════════════════════════════════════ -->
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            // N'afficher que si les CGU n'ont pas encore été acceptées
+            if (localStorage.getItem('bc_conditions_accepted') === 'true') return;
+
+            const modal = document.createElement('div');
+            modal.id = 'cguModal';
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background-color: rgba(248, 250, 252, 0.95); backdrop-filter: blur(8px);
+                display: flex; align-items: center; justify-content: center; z-index: 9999;
+                animation: fadeIn 0.5s ease;
+            `;
+
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(230,240,255,0.9));
+                border: 2px solid rgba(0,102,255,0.4); border-radius: 25px; padding: 40px;
+                max-width: 500px; width: 90%; color: #1E293B; text-align: center;
+                backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+                animation: slideIn 0.5s ease;
+            `;
+
+            modalContent.innerHTML = `
+                <div style="margin-bottom: 25px;">
+                    <div style="font-size: 3rem; color: #0066FF; margin-bottom: 15px;">📄</div>
+                    <h2 style="color: #0066FF; margin-bottom: 15px; font-size: 1.8rem; font-weight: 800;">Conditions d'Utilisation</h2>
+                    <p style="color: #475569; line-height: 1.6; margin-bottom: 10px;">
+                        Avant d'utiliser Boost Central, veuillez prendre connaissance de nos
+                        <strong style="color: #0066FF;">Conditions Générales d'Utilisation</strong>.
+                    </p>
+                    <p style="color: #64748B; font-size: 0.9rem; line-height: 1.5;">
+                        En utilisant notre plateforme, vous acceptez nos conditions et notre politique de confidentialité.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button id="viewCguBtn" style="
+                        background: linear-gradient(90deg, #FF6600, #E65C00);
+                        color: white; border: none; padding: 14px 35px;
+                        border-radius: 15px; font-weight: 700; cursor: pointer;
+                        font-size: 1.1rem; box-shadow: 0 5px 15px rgba(255,102,0,0.3);
+                        transition: all 0.3s ease; flex: 1; min-width: 180px;">
+                        <i class="fas fa-file-contract" style="margin-right:8px;"></i> Lire les CGU
+                    </button>
+                    <button id="closeModalBtn" style="
+                        background: rgba(255,255,255,0.9); color: #0066FF;
+                        border: 2px solid rgba(0,102,255,0.3); padding: 14px 35px;
+                        border-radius: 15px; font-weight: 700; cursor: pointer;
+                        font-size: 1.1rem; transition: all 0.3s ease; flex: 1; min-width: 180px;">
+                        <i class="fas fa-times" style="margin-right:8px;"></i> Fermer
+                    </button>
+                </div>
+            `;
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+
+            document.getElementById('viewCguBtn').addEventListener('click', function() {
+                window.location.href = 'conditions.html';
+            });
+
+            document.getElementById('closeModalBtn').addEventListener('click', function() {
+                // Acceptation implicite à la fermeture
+                localStorage.setItem('bc_conditions_accepted', 'true');
+                modal.style.opacity = '0';
+                modal.style.transition = 'opacity 0.4s ease';
+                setTimeout(() => modal.remove(), 400);
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) document.getElementById('closeModalBtn').click();
+            });
+        });
+
+        const cguStyle = document.createElement('style');
+        cguStyle.textContent = `
+            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+            #cguModal * { box-sizing: border-box; }
+        `;
+        document.head.appendChild(cguStyle);
+    </script>
+</body>
+</html>
