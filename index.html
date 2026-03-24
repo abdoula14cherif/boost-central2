@@ -3,1220 +3,817 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Boost Central</title>
+    <title>Boost Central - Boostez votre présence en ligne</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary-blue: #0066FF;
-            --primary-blue-dark: #0052CC;
-            --primary-blue-light: #E6F0FF;
-            --accent-orange: #FF6600;
-            --accent-orange-dark: #E65C00;
-            --accent-orange-light: #FFE6CC;
-            --white: #FFFFFF;
-            --white-light: #F8FAFC;
-            --light-gray: #F1F5F9;
-            --medium-gray: #E2E8F0;
-            --dark-gray: #475569;
-            --dark: #1E293B;
-            --card-bg: var(--white);
-            --shadow: rgba(0, 102, 255, 0.15);
-            --cinematic-glow: rgba(255, 102, 0, 0.3);
+            --blue:        #0066FF;
+            --blue-dark:   #0047CC;
+            --blue-light:  #E6F0FF;
+            --orange:      #FF6600;
+            --orange-dark: #CC5200;
+            --white:       #FFFFFF;
+            --off:         #F7F9FC;
+            --gray:        #E2E8F0;
+            --dark:        #0D1B35;
+            --mid:         #4A5568;
+            --light:       #8A9AB5;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: var(--white-light);
-            color: var(--dark-gray);
-            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--white);
+            color: var(--dark);
             overflow-x: hidden;
-            position: relative;
         }
 
-        .cinematic-glow {
+        /* ── BLOBS ─────────────────────────────────────────────── */
+        .blobs {
             position: fixed;
-            width: 300px;
-            height: 300px;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
             border-radius: 50%;
-            background: var(--cinematic-glow);
-            filter: blur(60px);
-            z-index: -1;
-            animation: pulse 8s infinite alternate;
+            filter: blur(90px);
+            animation: blobMove 12s ease-in-out infinite alternate;
         }
 
-        .glow-1 { top: 10%; left: 5%; }
-        .glow-2 { bottom: 10%; right: 5%; }
+        .b1 { width: 420px; height: 420px; background: rgba(255,102,0,0.15); top: -100px; left: -80px; }
+        .b2 { width: 380px; height: 380px; background: rgba(0,102,255,0.12); bottom: -80px; right: -60px; animation-delay: 4s; }
+        .b3 { width: 220px; height: 220px; background: rgba(0,102,255,0.07); top: 45%; left: 35%; animation-delay: 8s; }
 
-        @keyframes pulse {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.6; transform: scale(1.1); }
+        @keyframes blobMove {
+            0%   { transform: scale(1) translate(0,0); }
+            100% { transform: scale(1.1) translate(18px, 12px); }
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            background-color: var(--white);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--medium-gray);
-            position: sticky;
-            top: 0;
+        /* ── NAV ───────────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,102,255,0.1);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         }
 
-        .site-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--accent-orange) 100%);
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
-        .burger-menu { position: relative; }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
 
-        .burger-btn {
-            background: none;
-            border: none;
-            color: var(--primary-blue);
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: var(--primary-blue-light);
-            transition: all 0.3s;
-        }
-
-        .burger-btn:hover {
-            background-color: var(--primary-blue);
-            color: var(--white);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 60px;
-            left: 0;
-            background-color: var(--white);
-            backdrop-filter: blur(15px);
-            border-radius: 15px;
-            padding: 15px;
-            min-width: 280px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 2px solid var(--medium-gray);
-            display: none;
-            z-index: 1000;
-        }
-
-        .dropdown-menu.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            color: var(--dark-gray);
-            text-decoration: none;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            transition: all 0.3s;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--primary-blue-light);
-            color: var(--primary-blue);
-        }
-
-        .dropdown-item i {
-            margin-right: 12px;
-            color: var(--primary-blue);
-            width: 20px;
-            text-align: center;
-        }
-
-        .menu-divider {
-            height: 1px;
-            background-color: var(--medium-gray);
-            margin: 10px 0;
-        }
-
-        .currency-switch {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            border-radius: 10px;
-            background-color: var(--light-gray);
-            margin-bottom: 10px;
-        }
-
-        .currency-switch span {
-            margin-right: 10px;
-            font-size: 0.9rem;
-            color: var(--dark-gray);
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input { opacity: 0; width: 0; height: 0; }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--medium-gray);
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider { background-color: var(--accent-orange); }
-        input:checked + .slider:before { transform: translateX(26px); }
-
-        .currency-label {
-            margin-left: 10px;
+        .nav-link {
+            font-size: 0.88rem;
             font-weight: 600;
-            color: var(--primary-blue);
+            color: var(--mid);
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 9px;
+            transition: all 0.22s;
+            white-space: nowrap;
         }
 
-        .language-switch {
+        .nav-link:hover { background: var(--blue-light); color: var(--blue); }
+
+        .nav-cta {
             display: flex;
             align-items: center;
-            padding: 10px 15px;
+            gap: 7px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(90deg, var(--blue), var(--blue-dark));
+            padding: 9px 18px;
             border-radius: 10px;
-            background-color: var(--light-gray);
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
+            text-decoration: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,102,255,0.25);
+            transition: all 0.25s;
         }
 
-        .language-switch:hover { background-color: var(--primary-blue-light); }
-        .language-switch i { margin-right: 10px; color: var(--primary-blue); }
-        .language-label { font-weight: 600; color: var(--dark-gray); }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 7px 18px rgba(0,102,255,0.35); }
 
-        .main-content {
-            padding: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .welcome-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .welcome-section { grid-template-columns: 1fr; }
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--medium-gray);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 28px rgba(0, 102, 255, 0.1);
-            border-color: var(--primary-blue);
-        }
-
-        .user-welcome h2 { font-size: 1.8rem; margin-bottom: 10px; color: var(--dark); }
-        .user-welcome p { color: var(--dark-gray); font-size: 1.1rem; }
-        .user-welcome .highlight { color: var(--primary-blue); font-weight: 600; }
-
-        .balance-card .balance-label { color: var(--dark-gray); font-size: 1rem; margin-bottom: 10px; }
-        .balance-card .balance-amount { font-size: 2.5rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 5px; }
-        .balance-card .currency { font-size: 1rem; color: var(--dark-gray); }
-
-        .networks-section { margin-bottom: 30px; }
-        .networks-section h3 { font-size: 1.5rem; margin-bottom: 20px; color: var(--dark); }
-
-        .networks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-        }
-
-        .network-card {
-            background-color: var(--white);
-            border-radius: 15px;
-            padding: 20px 15px;
+        /* ── HERO ──────────────────────────────────────────────── */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            border: 2px solid var(--medium-gray);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            text-align: center;
+            padding: 110px 20px 70px;
         }
 
-        .network-card:hover {
-            background-color: var(--white-light);
-            transform: translateY(-5px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.1);
-        }
-
-        .network-card i { font-size: 2rem; margin-bottom: 10px; }
-        .network-card .network-name { font-size: 0.9rem; font-weight: 600; color: var(--dark); }
-
-        .facebook { color: #1877F2; }
-        .tiktok { color: #000000; }
-        .instagram { color: #E4405F; }
-        .twitter { color: #1DA1F2; }
-        .telegram { color: #26A5E4; }
-        .spotify { color: #1DB954; }
-        .whatsapp { color: #25D366; }
-        .youtube { color: #FF0000; }
-
-        .order-section {
-            background-color: var(--white);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 2px solid var(--medium-gray);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .section-title { font-size: 1.8rem; margin-bottom: 25px; color: var(--dark); display: flex; align-items: center; }
-        .section-title i { margin-right: 10px; color: var(--primary-blue); }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; color: var(--dark); font-weight: 600; }
-
-        .select-wrapper { position: relative; }
-        .select-wrapper i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary-blue);
-            pointer-events: none;
-        }
-
-        .form-select {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--white);
-            border: 2px solid var(--medium-gray);
-            border-radius: 15px;
-            font-size: 1rem;
-            color: var(--dark);
-            appearance: none;
-            transition: all 0.3s;
-        }
-
-        .form-select:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px var(--primary-blue-light);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--white);
-            border: 2px solid var(--medium-gray);
-            border-radius: 15px;
-            font-size: 1rem;
-            color: var(--dark);
-            transition: all 0.3s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px var(--primary-blue-light);
-        }
-
-        .form-input::placeholder { color: var(--dark-gray); opacity: 0.6; }
-
-        .price-info {
-            display: flex;
-            justify-content: space-between;
-            background-color: var(--light-gray);
-            padding: 15px;
-            border-radius: 15px;
-            margin-top: 10px;
-        }
-
-        .price-unit, .price-total { text-align: center; }
-        .price-label { font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 5px; }
-        .price-value { font-size: 1.5rem; font-weight: 800; color: var(--accent-orange); }
-
-        .description-box {
-            background-color: var(--light-gray);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 4px solid var(--primary-blue);
-        }
-
-        .description-box p { color: var(--dark-gray); line-height: 1.6; }
-
-        .boost-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(90deg, var(--accent-orange) 0%, var(--accent-orange-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            letter-spacing: 1px;
-            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--blue-light);
+            color: var(--blue);
+            font-size: 0.76rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(0,102,255,0.18);
+            margin-bottom: 22px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
+            animation: up 0.5s ease 0.1s both;
         }
 
-        .boost-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(255, 102, 0, 0.4);
-            background: linear-gradient(90deg, var(--accent-orange-dark) 0%, #D45500 100%);
-        }
-
-        .boost-btn:active { transform: translateY(0); }
-
-        .info-message {
-            background: linear-gradient(90deg, var(--accent-orange-light) 0%, var(--white) 100%);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--accent-orange);
-            border: 2px solid var(--accent-orange-light);
-        }
-
-        .info-message h4 { font-size: 1.3rem; margin-bottom: 10px; color: var(--dark); }
-        .info-message p { color: var(--dark-gray); line-height: 1.6; margin-bottom: 10px; }
-
-        .reduction-badge {
-            display: inline-block;
-            background-color: var(--accent-orange);
-            color: var(--white);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 800;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-
-        .minimum-badge {
-            display: inline-block;
-            background-color: var(--primary-blue);
-            color: var(--white);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-left: 15px;
-            font-size: 0.9rem;
-        }
-
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background-color: #25D366;
+        .badge-dot {
+            width: 7px; height: 7px;
+            background: var(--orange);
             border-radius: 50%;
+            animation: blink 1.3s infinite;
+        }
+
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        /* Titre hero — taille fixe adaptée mobile en premier */
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            color: var(--dark);
+            max-width: 700px;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+            animation: up 0.5s ease 0.2s both;
+        }
+
+        /* Gradient sur le mot-clé */
+        .hero-title .g {
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Tablette */
+        @media (min-width: 600px) {
+            .hero-title { font-size: 3rem; }
+        }
+
+        /* Desktop */
+        @media (min-width: 900px) {
+            .hero-title { font-size: 3.8rem; }
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: var(--mid);
+            max-width: 500px;
+            line-height: 1.7;
+            margin-bottom: 36px;
+            animation: up 0.5s ease 0.3s both;
+        }
+
+        @media (min-width: 600px) {
+            .hero-sub { font-size: 1.08rem; }
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: up 0.5s ease 0.4s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: linear-gradient(90deg, var(--orange), var(--orange-dark));
+            color: white;
+            font-size: 0.97rem;
+            font-weight: 700;
+            padding: 14px 30px;
+            border-radius: 13px;
+            text-decoration: none;
+            box-shadow: 0 7px 20px rgba(255,102,0,0.3);
+            transition: all 0.28s;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(255,102,0,0.42); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: white;
+            color: var(--blue);
+            font-size: 0.97rem;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 13px;
+            text-decoration: none;
+            border: 2px solid rgba(0,102,255,0.2);
+            transition: all 0.28s;
+        }
+
+        .btn-secondary:hover { background: var(--blue-light); border-color: var(--blue); transform: translateY(-3px); }
+
+        @media (max-width: 420px) {
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; max-width: 300px; }
+            .hero-btns { flex-direction: column; align-items: center; }
+        }
+
+        /* Flèche scroll */
+        .scroll-hint {
+            margin-top: 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--light);
+            font-size: 0.75rem;
+            animation: up 0.5s ease 0.8s both;
+        }
+
+        .arrow-down { animation: bounce 1.8s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+
+        /* ── STATS ─────────────────────────────────────────────── */
+        .stats {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            padding: 0 20px 70px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid var(--gray);
+            border-radius: 16px;
+            padding: 22px 28px;
+            text-align: center;
+            min-width: 130px;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.05);
+            transition: all 0.28s;
+        }
+
+        .stat:hover { transform: translateY(-5px); box-shadow: 0 10px 24px rgba(0,102,255,0.1); border-color: var(--blue); }
+
+        .stat-n {
+            font-size: 1.7rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-l { font-size: 0.8rem; color: var(--mid); margin-top: 3px; font-weight: 500; }
+
+        /* ── SECTION générique ─────────────────────────────────── */
+        .sec {
+            position: relative;
+            z-index: 1;
+            padding: 64px 20px;
+        }
+
+        .sec-label {
+            display: inline-block;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 10px;
+        }
+
+        .sec-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--dark);
+            line-height: 1.25;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        @media (min-width: 600px) { .sec-title { font-size: 2rem; } }
+        @media (min-width: 900px) { .sec-title { font-size: 2.4rem; } }
+
+        .sec-sub {
+            font-size: 0.95rem;
+            color: var(--mid);
+            max-width: 500px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .tc { text-align: center; }
+        .tc .sec-sub { margin-left: auto; margin-right: auto; }
+
+        /* ── RÉSEAUX ───────────────────────────────────────────── */
+        .nets {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .net {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-            z-index: 99;
-            transition: all 0.3s;
-            text-decoration: none;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
-            animation: none;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .whatsapp-float span {
-            position: absolute;
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            gap: 8px;
+            padding: 11px 20px;
+            background: white;
+            border: 2px solid var(--gray);
+            border-radius: 50px;
+            font-size: 0.88rem;
             font-weight: 600;
-            white-space: nowrap;
-            right: 70px;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
+            color: var(--dark);
+            transition: all 0.25s;
         }
 
-        .whatsapp-float:hover span { opacity: 1; }
+        .net:hover { transform: translateY(-3px); box-shadow: 0 7px 18px rgba(0,0,0,0.08); }
+        .net i { font-size: 1.1rem; }
+        .net.fb i { color:#1877F2; } .net.fb:hover { border-color:#1877F2; background:#f0f5ff; }
+        .net.tt i { color:#000; }    .net.tt:hover { border-color:#000; background:#f5f5f5; }
+        .net.ig i { color:#E4405F; } .net.ig:hover { border-color:#E4405F; background:#fff0f3; }
+        .net.yt i { color:#FF0000; } .net.yt:hover { border-color:#FF0000; background:#fff0f0; }
+        .net.tw i { color:#1DA1F2; } .net.tw:hover { border-color:#1DA1F2; background:#f0f8ff; }
+        .net.tg i { color:#26A5E4; } .net.tg:hover { border-color:#26A5E4; background:#f0f9ff; }
+        .net.sp i { color:#1DB954; } .net.sp:hover { border-color:#1DB954; background:#f0fff5; }
+        .net.wa i { color:#25D366; } .net.wa:hover { border-color:#25D366; background:#f0fff8; }
 
-        @keyframes slideIn {
+        /* ── AVANTAGES ─────────────────────────────────────────── */
+        .feat-bg {
+            background: var(--off);
+            border-top: 1px solid var(--gray);
+            border-bottom: 1px solid var(--gray);
+        }
+
+        .feat-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 560px) { .feat-grid { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 860px) { .feat-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+        .feat {
+            background: white;
+            border-radius: 18px;
+            padding: 26px 22px;
+            border: 1px solid var(--gray);
+            box-shadow: 0 3px 14px rgba(0,0,0,0.04);
+            transition: all 0.28s;
+        }
+
+        .feat:hover { transform: translateY(-5px); box-shadow: 0 10px 26px rgba(0,102,255,0.09); border-color: var(--blue); }
+
+        .feat-ico {
+            width: 46px; height: 46px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 14px;
+        }
+
+        .ico-o { background: #FFF0E6; color: var(--orange); }
+        .ico-b { background: var(--blue-light); color: var(--blue); }
+        .ico-g { background: #EDFFF5; color: #059669; }
+
+        .feat-t { font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 7px; }
+        .feat-d { font-size: 0.86rem; color: var(--mid); line-height: 1.6; }
+
+        /* ── ÉTAPES ────────────────────────────────────────────── */
+        .steps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 700px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+
+        .step {
+            background: white;
+            border-radius: 18px;
+            padding: 26px 18px;
+            text-align: center;
+            border: 1px solid var(--gray);
+            transition: all 0.28s;
+        }
+
+        .step:hover { transform: translateY(-5px); box-shadow: 0 10px 24px rgba(0,0,0,0.07); }
+
+        .step-n {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            font-weight: 900;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .step:nth-child(1) .step-n { background: #FFF0E6; color: var(--orange); }
+        .step:nth-child(2) .step-n { background: var(--blue-light); color: var(--blue); }
+        .step:nth-child(3) .step-n { background: #EDFFF5; color: #059669; }
+        .step:nth-child(4) .step-n { background: #FFF8E6; color: #D97706; }
+
+        .step-t { font-size: 0.92rem; font-weight: 700; color: var(--dark); margin-bottom: 7px; }
+        .step-d { font-size: 0.8rem; color: var(--mid); line-height: 1.6; }
+
+        /* ── CTA BOX ───────────────────────────────────────────── */
+        .cta-sec {
+            position: relative;
+            z-index: 1;
+            padding: 64px 20px 90px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #0047CC, #0066FF, #0080FF);
+            border-radius: 24px;
+            padding: 50px 28px;
+            max-width: 660px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 16px 50px rgba(0,102,255,0.28);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 50%;
+        }
+
+        .cta-box::after {
+            content: '';
+            position: absolute;
+            bottom: -40px; left: -40px;
+            width: 150px; height: 150px;
+            background: rgba(255,102,0,0.18);
+            border-radius: 50%;
+        }
+
+        .cta-t {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 12px;
+            position: relative; z-index: 1;
+            line-height: 1.25;
+        }
+
+        @media (min-width: 600px) { .cta-t { font-size: 2rem; } }
+
+        .cta-d {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+            line-height: 1.65;
+            position: relative; z-index: 1;
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            background: linear-gradient(90deg, var(--orange), var(--orange-dark));
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 15px 36px;
+            border-radius: 13px;
+            text-decoration: none;
+            box-shadow: 0 7px 22px rgba(255,102,0,0.38);
+            transition: all 0.28s;
+            position: relative; z-index: 1;
+        }
+
+        .btn-cta:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 30px rgba(255,102,0,0.52); }
+
+        .cta-login {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            position: relative; z-index: 1;
+        }
+
+        .cta-login a { color: white; font-weight: 700; text-decoration: underline; }
+
+        /* ── FOOTER ────────────────────────────────────────────── */
+        footer {
+            position: relative; z-index: 1;
+            background: var(--dark);
+            color: rgba(255,255,255,0.45);
+            text-align: center;
+            padding: 26px 20px;
+            font-size: 0.82rem;
+        }
+
+        .f-logo {
+            font-size: 1.15rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        footer a { color: rgba(255,255,255,0.55); text-decoration: none; margin: 0 8px; transition: color 0.2s; }
+        footer a:hover { color: white; }
+
+        /* ── WHATSAPP FLOTTANT ─────────────────────────────────── */
+        .wa {
+            position: fixed;
+            bottom: 24px; right: 24px;
+            width: 54px; height: 54px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.5rem;
+            box-shadow: 0 5px 18px rgba(37,211,102,0.38);
+            z-index: 200;
+            text-decoration: none;
+            animation: waFloat 3.5s ease-in-out infinite;
+            transition: transform 0.3s;
+        }
+
+        .wa:hover { transform: scale(1.12); animation: none; }
+
+        @keyframes waFloat {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-8px); }
+        }
+
+        /* ── ANIMATIONS ────────────────────────────────────────── */
+        @keyframes up {
             from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .animate-in { animation: slideIn 0.5s ease forwards; }
-
-        @media (max-width: 768px) {
-            .header { padding: 15px 20px; }
-            .main-content { padding: 20px 15px; }
-            .networks-grid { grid-template-columns: repeat(4, 1fr); }
-            .form-row { grid-template-columns: 1fr; }
-            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 1.5rem; }
-            .whatsapp-float span { display: none; }
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
         }
 
-        @media (max-width: 480px) {
-            .networks-grid { grid-template-columns: repeat(3, 1fr); }
-        }
+        .reveal.on { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
-    <div class="cinematic-glow glow-1"></div>
-    <div class="cinematic-glow glow-2"></div>
 
-    <header class="header">
-        <div class="burger-menu">
-            <button class="burger-btn" id="burgerBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <div class="language-switch" id="languageSwitch">
-                    <i class="fas fa-globe"></i>
-                    <span class="language-label" id="languageLabel">Français</span>
-                </div>
-                <div class="menu-divider"></div>
-                <a href="recharge.html" class="dropdown-item">
-                    <i class="fas fa-redo"></i> Recharger
-                </a>
-                <a href="services.html" class="dropdown-item">
-                    <i class="fas fa-concierge-bell"></i> Services
-                </a>
-                <a href="commandes.html" class="dropdown-item">
-                    <i class="fas fa-shopping-cart"></i> Commandes
-                </a>
-                <a href="compte.html" class="dropdown-item">
-                    <i class="fas fa-user-circle"></i> Compte
-                </a>
-                <a href="commandes-groupees.html" class="dropdown-item">
-                    <i class="fas fa-boxes"></i> Commandes groupées
-                </a>
-                <a href="parrainage.html" class="dropdown-item">
-                    <i class="fas fa-user-friends"></i> Parrainage
-                </a>
-                <div class="menu-divider"></div>
-                <div class="currency-switch">
-                    <span>Devise:</span>
-                    <label class="switch">
-                        <input type="checkbox" id="currencySwitch">
-                        <span class="slider"></span>
-                    </label>
-                    <span class="currency-label" id="currencyLabel">FCFA</span>
-                </div>
-                <div class="menu-divider"></div>
-                <a href="logout.html" class="dropdown-item logout" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Déconnexion
-                </a>
-            </div>
-        </div>
-        <div class="site-name">BOOST CENTRAL</div>
-    </header>
-
-    <div class="main-content">
-        <div class="welcome-section">
-            <div class="card user-welcome animate-in">
-                <h2 id="welcomeTitle">Bienvenue !</h2>
-                <p id="welcomeMessage">Nous sommes ravis de vous revoir sur Boost Central. Que souhaitez-vous booster aujourd'hui ?</p>
-            </div>
-            <div class="card balance-card animate-in" style="animation-delay: 0.1s;">
-                <div class="balance-label" id="balanceLabel">Votre solde</div>
-                <div class="balance-amount" id="balanceAmount">0</div>
-                <div class="currency" id="balanceCurrency">FCFA</div>
-            </div>
-        </div>
-
-        <div class="networks-section">
-            <h3 id="networksTitle">Réseaux supportés</h3>
-            <div class="networks-grid">
-                <div class="network-card animate-in" style="animation-delay: 0.2s;">
-                    <i class="fab fa-facebook facebook"></i>
-                    <div class="network-name">Facebook</div>
-                </div>
-                <div class="network-card animate-in" style="animation-delay: 0.25s;">
-                    <i class="fab fa-tiktok tiktok"></i>
-                    <div class="network-name">TikTok</div>
-                </div>
-                <div class="network-card animate-in" style="animation-delay: 0.3s;">
-                    <i class="fab fa-instagram instagram"></i>
-                    <div class="network-name">Instagram</div>
-                </div>
-                <div class="network-card animate-in" style="animation-delay: 0.35s;">
-                    <i class="fab fa-twitter twitter"></i>
-                    <div class="network-name">Twitter (X)</div>
-                </div>
-                <div class="network-card animate-in" style="animation-delay: 0.4s;">
-                    <i class="fab fa-telegram telegram"></i>
-                    <div class="network-name">Telegram</div>
-                </div>
-                <div class="network-card animate-in" style="animation-delay: 0.45s;">
-                    <i class="fab fa-spotify spotify"></i>
-                    <div class="network-name">Spotify</div>
-                </div>
-                <div class="network-card animate-in" style="animation-delay: 0.5s;">
-                    <i class="fab fa-whatsapp whatsapp"></i>
-                    <div class="network-name">WhatsApp</div>
-                </div>
-                <div class="network-card animate-in" style="animation-delay: 0.55s;">
-                    <i class="fab fa-youtube youtube"></i>
-                    <div class="network-name">YouTube</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="order-section animate-in" style="animation-delay: 0.6s;">
-            <h2 class="section-title"><i class="fas fa-rocket"></i> <span id="orderTitle">Nouvelle commande</span></h2>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="network" id="networkLabel">Réseau social</label>
-                    <div class="select-wrapper">
-                        <select id="network" class="form-select">
-                            <option value="">Sélectionnez un réseau</option>
-                            <option value="facebook">Facebook</option>
-                            <option value="tiktok">TikTok</option>
-                            <option value="instagram">Instagram</option>
-                            <option value="twitter">Twitter (X)</option>
-                            <option value="telegram">Telegram</option>
-                            <option value="spotify">Spotify</option>
-                            <option value="youtube">YouTube</option>
-                            <option value="whatsapp">WhatsApp</option>
-                        </select>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="category" id="categoryLabel">Catégorie</label>
-                    <div class="select-wrapper">
-                        <select id="category" class="form-select" disabled>
-                            <option value="">Sélectionnez d'abord un réseau</option>
-                        </select>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="service" id="serviceLabel">Service</label>
-                    <div class="select-wrapper">
-                        <select id="service" class="form-select" disabled>
-                            <option value="">Sélectionnez d'abord une catégorie</option>
-                        </select>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="quantity" id="quantityLabel">Quantité (minimum: 1000)</label>
-                    <input type="number" id="quantity" class="form-input" placeholder="Ex: 1000" min="1000" value="1000">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="link" id="linkLabel">Lien du compte / vidéo</label>
-                <input type="text" id="link" class="form-input" placeholder="https://example.com/votre-lien">
-            </div>
-            <div id="descriptionBox" class="description-box">
-                <p id="defaultDescription">Sélectionnez un réseau, une catégorie et un service pour voir la description ici.</p>
-            </div>
-            <div class="price-info">
-                <div class="price-unit">
-                    <div class="price-label" id="unitPriceLabel">Prix unitaire</div>
-                    <div class="price-value" id="unitPrice">0 FCFA</div>
-                </div>
-                <div class="price-total">
-                    <div class="price-label" id="totalPriceLabel">Prix total</div>
-                    <div class="price-value" id="totalPrice">0 FCFA</div>
-                </div>
-            </div>
-            <button class="boost-btn" id="boostBtn">
-                <i class="fas fa-bolt"></i> <span id="boostBtnText">BOOSTER MAINTENANT</span>
-            </button>
-        </div>
-
-        <div class="info-message animate-in" style="animation-delay: 0.7s;">
-            <h4 id="infoTitle">SALUT A TOUT NOS UTILISATEURS! 😎</h4>
-            <p id="infoMessage1">Boost Central a fait peau neuve afin d'améliorer ses services et corriger les bugs. Pour tout problème que vous rencontrez, veuillez nous contacter immédiatement en cliquant sur le bouton WhatsApp en bas de l'écran.</p>
-            <p id="infoMessage2">Nous attendons vos impressions.</p>
-            <div class="reduction-badge" id="reductionBadge">RÉDUCTION 1%</div>
-            <div class="minimum-badge" id="minimumBadge">Minimum par service: 1000 unités</div>
-        </div>
+    <!-- Décoration fond -->
+    <div class="blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
     </div>
 
-    <a href="https://wa.me/237689011185" class="whatsapp-float" target="_blank">
+    <!-- ══ NAV ══════════════════════════════════════════════════ -->
+    <nav>
+        <div class="nav-logo">BOOST CENTRAL</div>
+        <div class="nav-right">
+            <a href="#reseaux" class="nav-link">Réseaux</a>
+            <a href="#etapes" class="nav-link">Comment ça marche</a>
+            <a href="auth.html" class="nav-cta"><i class="fas fa-bolt"></i> Commencer</a>
+        </div>
+    </nav>
+
+    <!-- ══ HERO ══════════════════════════════════════════════════ -->
+    <section class="hero">
+        <div class="badge">
+            <span class="badge-dot"></span>
+            Plateforme N°1 de boost en Afrique
+        </div>
+
+        <h1 class="hero-title">
+            Boostez votre<br>
+            <span class="g">présence en ligne</span><br>
+            en quelques clics
+        </h1>
+
+        <p class="hero-sub">
+            Abonnés, vues, likes, commentaires — obtenez rapidement la visibilité dont vous avez besoin sur tous vos réseaux sociaux.
+        </p>
+
+        <div class="hero-btns">
+            <a href="auth.html" class="btn-primary">
+                <i class="fas fa-rocket"></i> Commencer gratuitement
+            </a>
+            <a href="#etapes" class="btn-secondary">
+                <i class="fas fa-play-circle"></i> Comment ça marche
+            </a>
+        </div>
+
+        <div class="scroll-hint">
+            <span>Défiler</span>
+            <i class="fas fa-chevron-down arrow-down"></i>
+        </div>
+    </section>
+
+    <!-- ══ STATS ═════════════════════════════════════════════════ -->
+    <div class="stats reveal">
+        <div class="stat"><div class="stat-n">8+</div><div class="stat-l">Réseaux supportés</div></div>
+        <div class="stat"><div class="stat-n">1000+</div><div class="stat-l">Clients satisfaits</div></div>
+        <div class="stat"><div class="stat-n">1 FCFA</div><div class="stat-l">À partir de</div></div>
+        <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Support WhatsApp</div></div>
+    </div>
+
+    <!-- ══ RÉSEAUX ═══════════════════════════════════════════════ -->
+    <section class="sec tc" id="reseaux">
+        <div class="reveal">
+            <span class="sec-label">Plateformes</span>
+            <h2 class="sec-title">Tous vos réseaux en un seul endroit</h2>
+            <p class="sec-sub">Facebook, TikTok, Instagram, YouTube et bien d'autres — nous couvrons toutes les grandes plateformes.</p>
+        </div>
+        <div class="nets reveal">
+            <div class="net fb"><i class="fab fa-facebook"></i> Facebook</div>
+            <div class="net tt"><i class="fab fa-tiktok"></i> TikTok</div>
+            <div class="net ig"><i class="fab fa-instagram"></i> Instagram</div>
+            <div class="net yt"><i class="fab fa-youtube"></i> YouTube</div>
+            <div class="net tw"><i class="fab fa-twitter"></i> Twitter (X)</div>
+            <div class="net tg"><i class="fab fa-telegram"></i> Telegram</div>
+            <div class="net sp"><i class="fab fa-spotify"></i> Spotify</div>
+            <div class="net wa"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+        </div>
+    </section>
+
+    <!-- ══ AVANTAGES ══════════════════════════════════════════════ -->
+    <section class="sec feat-bg">
+        <div style="max-width:960px;margin:0 auto;">
+            <div class="reveal tc" style="margin-bottom:36px;">
+                <span class="sec-label">Pourquoi nous choisir</span>
+                <h2 class="sec-title">Simple, rapide et fiable</h2>
+                <p class="sec-sub">Tout ce dont vous avez besoin pour développer votre audience.</p>
+            </div>
+            <div class="feat-grid reveal">
+                <div class="feat">
+                    <div class="feat-ico ico-o"><i class="fas fa-bolt"></i></div>
+                    <div class="feat-t">Livraison rapide</div>
+                    <div class="feat-d">Résultats visibles en quelques heures selon le service choisi.</div>
+                </div>
+                <div class="feat">
+                    <div class="feat-ico ico-b"><i class="fas fa-shield-alt"></i></div>
+                    <div class="feat-t">100% sécurisé</div>
+                    <div class="feat-d">Aucun mot de passe demandé. Vos données restent protégées.</div>
+                </div>
+                <div class="feat">
+                    <div class="feat-ico ico-g"><i class="fas fa-tags"></i></div>
+                    <div class="feat-t">Prix imbattables</div>
+                    <div class="feat-d">À partir de 1 FCFA par unité avec 1% de réduction automatique.</div>
+                </div>
+                <div class="feat">
+                    <div class="feat-ico ico-o"><i class="fab fa-whatsapp"></i></div>
+                    <div class="feat-t">Support WhatsApp</div>
+                    <div class="feat-d">Notre équipe est disponible 24h/7j pour toutes vos questions.</div>
+                </div>
+                <div class="feat">
+                    <div class="feat-ico ico-b"><i class="fas fa-globe-africa"></i></div>
+                    <div class="feat-t">Conçu pour l'Afrique</div>
+                    <div class="feat-d">Paiements en FCFA ou USD. Optimisé pour les connexions mobiles.</div>
+                </div>
+                <div class="feat">
+                    <div class="feat-ico ico-g"><i class="fas fa-chart-line"></i></div>
+                    <div class="feat-t">Résultats garantis</div>
+                    <div class="feat-d">Nous garantissons la livraison des unités commandées.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ ÉTAPES ═════════════════════════════════════════════════ -->
+    <section class="sec tc" id="etapes">
+        <div class="reveal">
+            <span class="sec-label">Processus</span>
+            <h2 class="sec-title">Comment ça marche ?</h2>
+            <p class="sec-sub">4 étapes simples pour booster votre audience.</p>
+        </div>
+        <div class="steps reveal">
+            <div class="step">
+                <div class="step-n">1</div>
+                <div class="step-t">Créez un compte</div>
+                <div class="step-d">Inscrivez-vous gratuitement en moins de 30 secondes.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">2</div>
+                <div class="step-t">Rechargez</div>
+                <div class="step-d">Ajoutez du crédit via WhatsApp pour passer vos commandes.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">3</div>
+                <div class="step-t">Choisissez</div>
+                <div class="step-d">Sélectionnez le réseau, le type de boost et la quantité.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">4</div>
+                <div class="step-t">Regardez croître</div>
+                <div class="step-d">Confirmez et regardez votre audience augmenter.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ CTA FINAL ══════════════════════════════════════════════ -->
+    <section class="cta-sec">
+        <div class="cta-box reveal">
+            <h2 class="cta-t">Prêt à booster votre présence ?</h2>
+            <p class="cta-d">Rejoignez des milliers d'utilisateurs qui font confiance à Boost Central pour développer leur audience.</p>
+            <a href="auth.html" class="btn-cta">
+                <i class="fas fa-rocket"></i> Créer mon compte gratuitement
+            </a>
+            <div class="cta-login">
+                Déjà un compte ? <a href="auth.html">Se connecter</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ FOOTER ═════════════════════════════════════════════════ -->
+    <footer>
+        <span class="f-logo">BOOST CENTRAL</span>
+        <div style="margin-bottom:8px;">
+            <a href="conditions.html">Conditions d'utilisation</a>
+            <a href="auth.html">Connexion</a>
+            <a href="https://wa.me/237689011185" target="_blank">WhatsApp</a>
+        </div>
+        <div>© 2024 Boost Central. Tous droits réservés.</div>
+    </footer>
+
+    <!-- WhatsApp flottant -->
+    <a href="https://wa.me/237689011185" class="wa" target="_blank">
         <i class="fab fa-whatsapp"></i>
-        <span id="whatsappText">Contactez-nous</span>
     </a>
 
-    <!-- ============================================================
-         TOUT LE JS ICI — Supabase chargé en dernier, isolé en try/catch
-         pour ne pas bloquer le reste si le CDN est lent
-    ============================================================ -->
+    <!-- Supabase : si déjà connecté → dashboard directement -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-    // ════════════════════════════════════════════════════════════
-    // 1. DONNÉES
-    // ════════════════════════════════════════════════════════════
-    var translations = {
-        fr: {
-            welcomeTitle: "Bienvenue !",
-            welcomeMessage: "Nous sommes ravis de vous revoir sur Boost Central. Que souhaitez-vous booster aujourd'hui ?",
-            balanceLabel: "Votre solde",
-            networksTitle: "Réseaux supportés",
-            orderTitle: "Nouvelle commande",
-            networkLabel: "Réseau social",
-            categoryLabel: "Catégorie",
-            serviceLabel: "Service",
-            quantityLabel: "Quantité (minimum: 1000)",
-            linkLabel: "Lien du compte / vidéo",
-            defaultDescription: "Sélectionnez un réseau, une catégorie et un service pour voir la description ici.",
-            unitPriceLabel: "Prix unitaire",
-            totalPriceLabel: "Prix total",
-            boostBtnText: "BOOSTER MAINTENANT",
-            infoTitle: "SALUT A TOUT NOS UTILISATEURS! 😎",
-            infoMessage1: "Boost Central a fait peau neuve afin d'améliorer ses services et corriger les bugs. Pour tout problème que vous rencontrez, veuillez nous contacter immédiatement en cliquant sur le bouton WhatsApp en bas de l'écran.",
-            infoMessage2: "Nous attendons vos impressions.",
-            reductionBadge: "RÉDUCTION 1%",
-            minimumBadge: "Minimum par service: 1000 unités",
-            languageLabel: "Français",
-            menuRecharge: "Recharger",
-            menuServices: "Services",
-            menuOrders: "Commandes",
-            menuAccount: "Compte",
-            menuGroupOrders: "Commandes groupées",
-            menuReferral: "Parrainage",
-            logout: "Déconnexion",
-            whatsappText: "Contactez-nous"
-        },
-        en: {
-            welcomeTitle: "Welcome!",
-            welcomeMessage: "We're glad to see you back on Boost Central. What would you like to boost today?",
-            balanceLabel: "Your balance",
-            networksTitle: "Supported networks",
-            orderTitle: "New order",
-            networkLabel: "Social network",
-            categoryLabel: "Category",
-            serviceLabel: "Service",
-            quantityLabel: "Quantity (minimum: 1000)",
-            linkLabel: "Account / video link",
-            defaultDescription: "Select a network, category and service to see the description here.",
-            unitPriceLabel: "Unit price",
-            totalPriceLabel: "Total price",
-            boostBtnText: "BOOST NOW",
-            infoTitle: "HELLO TO ALL OUR USERS! 😎",
-            infoMessage1: "Boost Central has been revamped to improve its services and fix bugs. For any problem you encounter, please contact us immediately by clicking the WhatsApp button at the bottom of the screen.",
-            infoMessage2: "We await your feedback.",
-            reductionBadge: "1% DISCOUNT",
-            minimumBadge: "Minimum per service: 1000 units",
-            languageLabel: "English",
-            menuRecharge: "Recharge",
-            menuServices: "Services",
-            menuOrders: "Orders",
-            menuAccount: "Account",
-            menuGroupOrders: "Group orders",
-            menuReferral: "Referral",
-            logout: "Logout",
-            whatsappText: "Contact us"
-        }
-    };
-
-    var servicesData = {
-        facebook: {
-            categories: ["Facebook abonnés","Facebook vue","Facebook commentaire","Facebook partage","Facebook membre de groupe"],
-            descriptions: {
-                fr: {
-                    "Facebook abonnés": "Augmentez le nombre d'abonnés sur votre page Facebook avec des comptes réels et actifs. Prix: 1 FCFA par abonné.",
-                    "Facebook vue": "Boostez le nombre de vues sur vos vidéos Facebook pour augmenter leur visibilité. Prix: 1 FCFA par vue.",
-                    "Facebook commentaire": "Ajoutez des commentaires pertinents à vos publications pour engager votre communauté. Prix: 1 FCFA par commentaire.",
-                    "Facebook partage": "Multipliez les partages de vos publications pour toucher un public plus large. Prix: 1 FCFA par partage.",
-                    "Facebook membre de groupe": "Augmentez le nombre de membres dans vos groupes Facebook avec des utilisateurs actifs. Prix: 1 FCFA par membre."
-                },
-                en: {
-                    "Facebook abonnés": "Increase the number of followers on your Facebook page. Price: 1 FCFA per follower.",
-                    "Facebook vue": "Boost the number of views on your Facebook videos. Price: 1 FCFA per view.",
-                    "Facebook commentaire": "Add comments to your posts. Price: 1 FCFA per comment.",
-                    "Facebook partage": "Multiply shares of your posts. Price: 1 FCFA per share.",
-                    "Facebook membre de groupe": "Increase members in your Facebook groups. Price: 1 FCFA per member."
+        window.addEventListener('load', function() {
+            try {
+                if (window.supabase && window.supabase.createClient) {
+                    var sb = window.supabase.createClient(
+                        'https://mutdtyifvcrkiouudwhr.supabase.co',
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11dGR0eWlmdmNya2lvdXVkd2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODEwODcsImV4cCI6MjA4OTU1NzA4N30.l08pEalpQ50QN4xVuDp5hyan7hwXprHOeCo0nrCA4vU'
+                    );
+                    sb.auth.getSession().then(function(ref) {
+                        // Si déjà connecté → aller directement au dashboard
+                        if (ref.data && ref.data.session) {
+                            window.location.href = 'dashboard.html';
+                        }
+                    });
                 }
-            },
-            prices: { "Facebook abonnés":1,"Facebook vue":1,"Facebook commentaire":1,"Facebook partage":1,"Facebook membre de groupe":1 }
-        },
-        tiktok: {
-            categories: ["TikTok abonnés","TikTok vue","TikTok like","TikTok commentaire","TikTok partage"],
-            descriptions: {
-                fr: {
-                    "TikTok abonnés": "Gagnez des abonnés réels sur votre compte TikTok. Prix: 2.1 FCFA par abonné.",
-                    "TikTok vue": "Augmentez les vues sur vos vidéos TikTok. Prix: 0.8 FCFA par vue.",
-                    "TikTok like": "Ajoutez des likes à vos vidéos TikTok. Prix: 0.8 FCFA par like.",
-                    "TikTok commentaire": "Obtenez des commentaires sur vos vidéos TikTok. Prix: 0.8 FCFA par commentaire.",
-                    "TikTok partage": "Boostez les partages de vos vidéos TikTok. Prix: 0.8 FCFA par partage."
-                },
-                en: {
-                    "TikTok abonnés": "Gain real followers on TikTok. Price: 2.1 FCFA per follower.",
-                    "TikTok vue": "Increase views on TikTok. Price: 0.8 FCFA per view.",
-                    "TikTok like": "Add likes to TikTok videos. Price: 0.8 FCFA per like.",
-                    "TikTok commentaire": "Get comments on TikTok. Price: 0.8 FCFA per comment.",
-                    "TikTok partage": "Boost shares on TikTok. Price: 0.8 FCFA per share."
+            } catch(e) {}
+        });
+
+        // Scroll reveal
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+                if (e.isIntersecting) {
+                    e.target.classList.add('on');
+                    // Cascade sur les enfants
+                    e.target.querySelectorAll('.stat,.net,.feat,.step').forEach(function(c, i) {
+                        c.style.transitionDelay = (i * 0.07) + 's';
+                    });
                 }
-            },
-            prices: { "TikTok abonnés":2.1,"TikTok vue":0.8,"TikTok like":0.8,"TikTok commentaire":0.8,"TikTok partage":0.8 }
-        },
-        instagram: {
-            categories: ["Instagram abonnés","Instagram like","Instagram vue story","Instagram commentaire","Instagram partage"],
-            descriptions: {
-                fr: {
-                    "Instagram abonnés": "Gagnez des abonnés réels sur Instagram. Prix: 2 FCFA par abonné.",
-                    "Instagram like": "Augmentez les likes sur vos publications. Prix: 2 FCFA par like.",
-                    "Instagram vue story": "Boostez les vues de vos stories. Prix: 2 FCFA par vue.",
-                    "Instagram commentaire": "Ajoutez des commentaires. Prix: 2 FCFA par commentaire.",
-                    "Instagram partage": "Augmentez les partages. Prix: 2 FCFA par partage."
-                },
-                en: {
-                    "Instagram abonnés": "Gain real followers on Instagram. Price: 2 FCFA per follower.",
-                    "Instagram like": "Increase likes on Instagram. Price: 2 FCFA per like.",
-                    "Instagram vue story": "Boost story views. Price: 2 FCFA per view.",
-                    "Instagram commentaire": "Add comments. Price: 2 FCFA per comment.",
-                    "Instagram partage": "Increase shares. Price: 2 FCFA per share."
-                }
-            },
-            prices: { "Instagram abonnés":2,"Instagram like":2,"Instagram vue story":2,"Instagram commentaire":2,"Instagram partage":2 }
-        },
-        youtube: {
-            categories: ["YouTube vue","YouTube like","YouTube commentaire","YouTube abonnés"],
-            descriptions: {
-                fr: {
-                    "YouTube vue": "Augmentez les vues sur vos vidéos YouTube. Prix: 2 FCFA par vue.",
-                    "YouTube like": "Ajoutez des likes. Prix: 2 FCFA par like.",
-                    "YouTube commentaire": "Obtenez des commentaires. Prix: 2 FCFA par commentaire.",
-                    "YouTube abonnés": "Gagnez des abonnés sur votre chaîne. Prix: 2 FCFA par abonné."
-                },
-                en: {
-                    "YouTube vue": "Increase YouTube views. Price: 2 FCFA per view.",
-                    "YouTube like": "Add likes. Price: 2 FCFA per like.",
-                    "YouTube commentaire": "Get comments. Price: 2 FCFA per comment.",
-                    "YouTube abonnés": "Gain subscribers. Price: 2 FCFA per subscriber."
-                }
-            },
-            prices: { "YouTube vue":2,"YouTube like":2,"YouTube commentaire":2,"YouTube abonnés":2 }
-        },
-        twitter: {
-            categories: ["X abonnés","X like","X retweet"],
-            descriptions: {
-                fr: {
-                    "X abonnés": "Augmentez vos abonnés sur Twitter (X). Prix: 12 FCFA par abonné.",
-                    "X like": "Ajoutez des likes à vos tweets. Prix: 12 FCFA par like.",
-                    "X retweet": "Boostez les retweets. Prix: 12 FCFA par retweet."
-                },
-                en: {
-                    "X abonnés": "Increase followers on Twitter (X). Price: 12 FCFA per follower.",
-                    "X like": "Add likes to tweets. Price: 12 FCFA per like.",
-                    "X retweet": "Boost retweets. Price: 12 FCFA per retweet."
-                }
-            },
-            prices: { "X abonnés":12,"X like":12,"X retweet":12 }
-        },
-        telegram: {
-            categories: ["Telegram abonnés chaîne","Telegram membres groupe"],
-            descriptions: {
-                fr: {
-                    "Telegram abonnés chaîne": "Augmentez les abonnés de votre chaîne Telegram. Prix: 2 FCFA par abonné.",
-                    "Telegram membres groupe": "Ajoutez des membres à vos groupes Telegram. Prix: 2 FCFA par membre."
-                },
-                en: {
-                    "Telegram abonnés chaîne": "Increase Telegram channel subscribers. Price: 2 FCFA per subscriber.",
-                    "Telegram membres groupe": "Add members to Telegram groups. Price: 2 FCFA per member."
-                }
-            },
-            prices: { "Telegram abonnés chaîne":2,"Telegram membres groupe":2 }
-        },
-        spotify: {
-            categories: ["Spotify follower","Spotify play","Spotify save"],
-            descriptions: {
-                fr: {
-                    "Spotify follower": "Gagnez des followers sur Spotify. Prix: 1 FCFA par follower.",
-                    "Spotify play": "Augmentez les lectures de vos titres. Prix: 1 FCFA par lecture.",
-                    "Spotify save": "Ajoutez des sauvegardes à vos titres. Prix: 1 FCFA par sauvegarde."
-                },
-                en: {
-                    "Spotify follower": "Gain Spotify followers. Price: 1 FCFA per follower.",
-                    "Spotify play": "Increase track plays. Price: 1 FCFA per play.",
-                    "Spotify save": "Add saves to tracks. Price: 1 FCFA per save."
-                }
-            },
-            prices: { "Spotify follower":1,"Spotify play":1,"Spotify save":1 }
-        },
-        whatsapp: {
-            categories: ["WhatsApp membres groupe"],
-            descriptions: {
-                fr: { "WhatsApp membres groupe": "Ajoutez des membres à vos groupes WhatsApp. Prix: 1.5 FCFA par membre." },
-                en: { "WhatsApp membres groupe": "Add members to WhatsApp groups. Price: 1.5 FCFA per member." }
-            },
-            prices: { "WhatsApp membres groupe":1.5 }
-        }
-    };
+            });
+        }, { threshold: 0.1 });
 
-    // ════════════════════════════════════════════════════════════
-    // 2. VARIABLES GLOBALES
-    // ════════════════════════════════════════════════════════════
-    var currentLanguage  = "fr";
-    var currentCurrency  = "FCFA";
-    var currentUnitPrice = 0;
-    var currentNetwork   = "";
-    var currentCategory  = "";
-
-    // ════════════════════════════════════════════════════════════
-    // 3. UTILITAIRES
-    // ════════════════════════════════════════════════════════════
-    function formatNumber(n) {
-        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    function updatePrices() {
-        var qty = parseInt(document.getElementById('quantity').value) || 0;
-        var up  = document.getElementById('unitPrice');
-        var tp  = document.getElementById('totalPrice');
-        if (currentUnitPrice > 0 && qty >= 1000) {
-            if (currentCurrency === "FCFA") {
-                var unit  = currentUnitPrice;
-                var total = unit * qty * 0.99;
-                up.textContent = (unit % 1 === 0 ? unit : unit.toFixed(1)) + " FCFA";
-                tp.textContent = formatNumber(Math.round(total)) + " FCFA";
-            } else {
-                var unit2  = currentUnitPrice / 600;
-                var total2 = unit2 * qty * 0.99;
-                up.textContent = "$" + unit2.toFixed(4);
-                tp.textContent = "$" + total2.toFixed(2);
-            }
-        } else {
-            up.textContent = currentCurrency === "FCFA" ? "0 FCFA" : "$0";
-            tp.textContent = currentCurrency === "FCFA" ? "0 FCFA" : "$0";
-        }
-    }
-
-    function updateLanguage() {
-        var t = translations[currentLanguage];
-        var ids = [
-            'welcomeTitle','welcomeMessage','balanceLabel','networksTitle',
-            'orderTitle','networkLabel','categoryLabel','serviceLabel',
-            'quantityLabel','linkLabel','defaultDescription',
-            'unitPriceLabel','totalPriceLabel','boostBtnText',
-            'infoTitle','infoMessage1','infoMessage2',
-            'reductionBadge','minimumBadge','languageLabel','whatsappText'
-        ];
-        var keys = [
-            'welcomeTitle','welcomeMessage','balanceLabel','networksTitle',
-            'orderTitle','networkLabel','categoryLabel','serviceLabel',
-            'quantityLabel','linkLabel','defaultDescription',
-            'unitPriceLabel','totalPriceLabel','boostBtnText',
-            'infoTitle','infoMessage1','infoMessage2',
-            'reductionBadge','minimumBadge','languageLabel','whatsappText'
-        ];
-        for (var i = 0; i < ids.length; i++) {
-            var el = document.getElementById(ids[i]);
-            if (el) el.textContent = t[keys[i]];
-        }
-
-        var menuItems = document.querySelectorAll('.dropdown-item');
-        if (menuItems.length >= 7) {
-            menuItems[0].innerHTML = '<i class="fas fa-redo"></i> ' + t.menuRecharge;
-            menuItems[1].innerHTML = '<i class="fas fa-concierge-bell"></i> ' + t.menuServices;
-            menuItems[2].innerHTML = '<i class="fas fa-shopping-cart"></i> ' + t.menuOrders;
-            menuItems[3].innerHTML = '<i class="fas fa-user-circle"></i> ' + t.menuAccount;
-            menuItems[4].innerHTML = '<i class="fas fa-boxes"></i> ' + t.menuGroupOrders;
-            menuItems[5].innerHTML = '<i class="fas fa-user-friends"></i> ' + t.menuReferral;
-            menuItems[6].innerHTML = '<i class="fas fa-sign-out-alt"></i> ' + t.logout;
-        }
-
-        if (currentNetwork && currentCategory) {
-            var nd = servicesData[currentNetwork];
-            if (nd && nd.descriptions[currentLanguage] && nd.descriptions[currentLanguage][currentCategory]) {
-                document.getElementById('descriptionBox').innerHTML = '<p>' + nd.descriptions[currentLanguage][currentCategory] + '</p>';
-            }
-        }
-
-        var netSel = document.getElementById('network');
-        var catSel = document.getElementById('category');
-        var svcSel = document.getElementById('service');
-        netSel.options[0].text = currentLanguage === "fr" ? "Sélectionnez un réseau" : "Select a network";
-        if (catSel.disabled) catSel.options[0].text = currentLanguage === "fr" ? "Sélectionnez d'abord un réseau" : "Select a network first";
-        if (svcSel.disabled) svcSel.options[0].text = currentLanguage === "fr" ? "Sélectionnez d'abord une catégorie" : "Select a category first";
-    }
-
-    // ════════════════════════════════════════════════════════════
-    // 4. LISTENERS — attachés après que le DOM est prêt
-    // ════════════════════════════════════════════════════════════
-    document.addEventListener('DOMContentLoaded', function() {
-
-        // ── Burger ──────────────────────────────────────────────
-        var burgerBtn    = document.getElementById('burgerBtn');
-        var dropdownMenu = document.getElementById('dropdownMenu');
-
-        burgerBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!burgerBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.classList.remove('show');
-            }
-        });
-
-        // ── Langue ──────────────────────────────────────────────
-        document.getElementById('languageSwitch').addEventListener('click', function() {
-            currentLanguage = currentLanguage === "fr" ? "en" : "fr";
-            updateLanguage();
-            dropdownMenu.classList.remove('show');
-        });
-
-        // ── Devise ──────────────────────────────────────────────
-        document.getElementById('currencySwitch').addEventListener('change', function() {
-            var balAmt = document.getElementById('balanceAmount');
-            var balCur = document.getElementById('balanceCurrency');
-            var curLabel = document.getElementById('currencyLabel');
-            if (this.checked) {
-                currentCurrency = "USD";
-                curLabel.textContent = "USD";
-                balCur.textContent  = "USD";
-                var fcfa = parseFloat(balAmt.textContent.replace(/,/g, '')) || 0;
-                balAmt.textContent  = (fcfa / 600).toFixed(2);
-            } else {
-                currentCurrency = "FCFA";
-                curLabel.textContent = "FCFA";
-                balCur.textContent  = "FCFA";
-                var usd = parseFloat(balAmt.textContent) || 0;
-                balAmt.textContent  = formatNumber(Math.round(usd * 600));
-            }
-            updatePrices();
-        });
-
-        // ── Réseau ──────────────────────────────────────────────
-        document.getElementById('network').addEventListener('change', function() {
-            currentNetwork = this.value;
-            var catSel = document.getElementById('category');
-            var svcSel = document.getElementById('service');
-            var descBox = document.getElementById('descriptionBox');
-            var fr = currentLanguage === "fr";
-
-            catSel.innerHTML = '<option value="">' + (fr ? "Sélectionnez une catégorie" : "Select a category") + '</option>';
-            svcSel.innerHTML  = '<option value="">' + (fr ? "Sélectionnez d'abord une catégorie" : "Select a category first") + '</option>';
-            svcSel.disabled = true;
-
-            if (currentNetwork && servicesData[currentNetwork]) {
-                catSel.disabled = false;
-                servicesData[currentNetwork].categories.forEach(function(cat) {
-                    var opt = document.createElement('option');
-                    opt.value = cat; opt.textContent = cat;
-                    catSel.appendChild(opt);
-                });
-                descBox.innerHTML = '<p>' + (fr ? "Sélectionnez une catégorie pour voir la description du service." : "Select a category to see the service description.") + '</p>';
-            } else {
-                catSel.disabled = true;
-                descBox.innerHTML = '<p>' + translations[currentLanguage].defaultDescription + '</p>';
-            }
-            currentUnitPrice = 0;
-            updatePrices();
-        });
-
-        // ── Catégorie ────────────────────────────────────────────
-        document.getElementById('category').addEventListener('change', function() {
-            currentCategory = this.value;
-            var svcSel  = document.getElementById('service');
-            var descBox = document.getElementById('descriptionBox');
-            var fr = currentLanguage === "fr";
-
-            svcSel.innerHTML = '<option value="">' + (fr ? "Sélectionnez un service" : "Select a service") + '</option>';
-
-            if (currentCategory && currentNetwork && servicesData[currentNetwork]) {
-                svcSel.disabled = false;
-                var opt = document.createElement('option');
-                opt.value = currentCategory; opt.textContent = currentCategory;
-                svcSel.appendChild(opt);
-                currentUnitPrice = servicesData[currentNetwork].prices[currentCategory] || 0;
-                var desc = servicesData[currentNetwork].descriptions[currentLanguage];
-                if (desc && desc[currentCategory]) {
-                    descBox.innerHTML = '<p>' + desc[currentCategory] + '</p>';
-                }
-            } else {
-                svcSel.disabled = true;
-                currentUnitPrice = 0;
-            }
-            updatePrices();
-        });
-
-        // ── Quantité ─────────────────────────────────────────────
-        document.getElementById('quantity').addEventListener('input', function() {
-            if (parseInt(this.value) < 1000) this.value = 1000;
-            updatePrices();
-        });
-
-        // ── Bouton BOOSTER ───────────────────────────────────────
-        document.getElementById('boostBtn').addEventListener('click', function() {
-            var qty     = parseInt(document.getElementById('quantity').value);
-            var link    = document.getElementById('link').value;
-            var network = document.getElementById('network').value;
-            var category= document.getElementById('category').value;
-            var service = document.getElementById('service').value;
-            var fr = currentLanguage === "fr";
-
-            if (!network)    { alert(fr ? "Veuillez sélectionner un réseau social." : "Please select a social network."); return; }
-            if (!category)   { alert(fr ? "Veuillez sélectionner une catégorie." : "Please select a category."); return; }
-            if (!service)    { alert(fr ? "Veuillez sélectionner un service." : "Please select a service."); return; }
-            if (qty < 1000)  { alert(fr ? "La quantité minimum est de 1000 unités." : "Minimum quantity is 1000 units."); return; }
-            if (!link)       { alert(fr ? "Veuillez entrer le lien du compte/vidéo." : "Please enter the account/video link."); return; }
-
-            var total = currentUnitPrice * qty * 0.99;
-            if (currentCurrency === "USD") total = total / 600;
-            var priceDisplay = currentCurrency === "FCFA"
-                ? formatNumber(Math.round(total)) + " FCFA"
-                : "$" + total.toFixed(2);
-
-            var msg = fr
-                ? "Bonjour Boost Central! Je souhaite passer une commande:\n\n\uD83D\uDD17 Réseau: " + network + "\n\uD83D\uDCCB Service: " + service + "\n\uD83D\uDCCA Quantité: " + formatNumber(qty) + "\n\uD83D\uDCB0 Prix total: " + priceDisplay + "\n\uD83D\uDD17 Lien: " + link + "\n\nJe confirme cette commande."
-                : "Hello Boost Central! I would like to place an order:\n\n\uD83D\uDD17 Network: " + network + "\n\uD83D\uDCCB Service: " + service + "\n\uD83D\uDCCA Quantity: " + formatNumber(qty) + "\n\uD83D\uDCB0 Total price: " + priceDisplay + "\n\uD83D\uDD17 Link: " + link + "\n\nI confirm this order.";
-
-            window.open("https://wa.me/237689011185?text=" + encodeURIComponent(msg), '_blank');
-
-            setTimeout(function() {
-                document.getElementById('quantity').value = 1000;
-                document.getElementById('link').value = "";
-                updatePrices();
-            }, 1000);
-        });
-
-        // ── Déconnexion → logout.html (géré par le href du lien) ──
-
-        // ── Init prix ────────────────────────────────────────────
-        updatePrices();
-
-        // ── Modale CGU — s'affiche toujours à l'ouverture ────────
-        var modal = document.createElement('div');
-        modal.id = 'cguModal';
-        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:9999;animation:cguFadeIn 0.3s ease;';
-
-        var box = document.createElement('div');
-        box.style.cssText = 'background:#fff;border:2px solid rgba(0,102,255,0.3);border-radius:20px;padding:24px 22px;max-width:360px;width:92%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.15);animation:cguSlideUp 0.35s ease;';
-        box.innerHTML =
-            '<div style="font-size:2.2rem;margin-bottom:10px;">📄</div>' +
-            '<h2 style="color:#0066FF;margin-bottom:10px;font-size:1.3rem;font-weight:800;">Conditions d\'Utilisation</h2>' +
-            '<p style="color:#475569;font-size:0.88rem;line-height:1.55;margin-bottom:8px;">Avant d\'utiliser <strong>Boost Central</strong>, veuillez prendre connaissance de nos <strong style="color:#0066FF;">CGU</strong>.</p>' +
-            '<p style="color:#64748B;font-size:0.8rem;line-height:1.4;margin-bottom:18px;">En continuant, vous acceptez nos conditions et notre politique de confidentialité.</p>' +
-            '<div style="display:flex;gap:10px;justify-content:center;">' +
-            '<button id="cguRead" style="background:linear-gradient(90deg,#FF6600,#E65C00);color:white;border:none;padding:11px 0;border-radius:12px;font-weight:700;cursor:pointer;font-size:0.92rem;flex:1;box-shadow:0 4px 12px rgba(255,102,0,0.3);">📄 Lire les CGU</button>' +
-            '<button id="cguClose" style="background:#E6F0FF;color:#0066FF;border:none;padding:11px 0;border-radius:12px;font-weight:700;cursor:pointer;font-size:0.92rem;flex:1;">✕ Fermer</button>' +
-            '</div>';
-
-        modal.appendChild(box);
-        document.body.appendChild(modal);
-
-        // Style animation injecté une seule fois
-        var cguAnim = document.createElement('style');
-        cguAnim.textContent = '@keyframes cguFadeIn{from{opacity:0}to{opacity:1}}@keyframes cguSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}';
-        document.head.appendChild(cguAnim);
-
-        document.getElementById('cguRead').addEventListener('click', function() {
-            window.location.href = 'conditions.html';
-        });
-        document.getElementById('cguClose').addEventListener('click', function() {
-            modal.style.opacity = '0';
-            modal.style.transition = 'opacity 0.3s';
-            setTimeout(function() { if (modal.parentNode) modal.parentNode.removeChild(modal); }, 300);
-        });
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) document.getElementById('cguClose').click();
-        });
-
-    }); // fin DOMContentLoaded
-
-    // ════════════════════════════════════════════════════════════
-    // 5. SUPABASE — chargé séparément, n'affecte RIEN si absent
-    // ════════════════════════════════════════════════════════════
-    window._supabase = null;
-    function initSupabase() {
-        try {
-            if (window.supabase && window.supabase.createClient) {
-                window._supabase = window.supabase.createClient(
-                    'https://mutdtyifvcrkiouudwhr.supabase.co',
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11dGR0eWlmdmNya2lvdXVkd2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODEwODcsImV4cCI6MjA4OTU1NzA4N30.l08pEalpQ50QN4xVuDp5hyan7hwXprHOeCo0nrCA4vU'
-                );
-                // Si pas connecté → page d'accueil
-                window._supabase.auth.getSession().then(function(ref) {
-                    if (!ref.data || !ref.data.session) {
-                        window.location.href = 'landing.html';
-                    }
-                });
-            }
-        } catch(e) { /* Supabase indisponible, pas grave */ }
-    }
-
+        document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
     </script>
-
-    <!-- SDK Supabase chargé EN DERNIER — s'il plante, le reste marche déjà -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onload="initSupabase()" onerror="console.warn('Supabase CDN indisponible')"></script>
-
 </body>
 </html>
