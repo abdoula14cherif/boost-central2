@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -1203,6 +1204,12 @@
                     'https://mutdtyifvcrkiouudwhr.supabase.co',
                     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11dGR0eWlmdmNya2lvdXVkd2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODEwODcsImV4cCI6MjA4OTU1NzA4N30.l08pEalpQ50QN4xVuDp5hyan7hwXprHOeCo0nrCA4vU'
                 );
+                // Si pas connecté → page d'accueil
+                window._supabase.auth.getSession().then(function(ref) {
+                    if (!ref.data || !ref.data.session) {
+                        window.location.href = 'index.html';
+                    }
+                });
             }
         } catch(e) { /* Supabase indisponible, pas grave */ }
     }
