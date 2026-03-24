@@ -3,528 +3,538 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conditions d'Utilisation - Boost Central</title>
+    <title>Admin - Boost Central</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+        :root{--blue:#0066FF;--blue-d:#0047CC;--blue-l:#E6F0FF;--orange:#FF6600;--orange-d:#CC5200;--orange-l:#FFE6CC;--white:#fff;--off:#F8FAFC;--gray:#E2E8F0;--light-g:#F1F5F9;--dark:#1E293B;--mid:#475569;--light:#8A9AB5;--green:#059669;--red:#DC2626;--yellow:#D97706}
+        body{background:var(--off);color:var(--mid);min-height:100vh}
 
-        :root {
-            /* NOUVELLE PALETTE : BLANC CLAIR, BLEU, ORANGE */
-            --primary-blue: #007bff;          /* Bleu principal */
-            --primary-blue-dark: #0056b3;     /* Bleu foncé */
-            --primary-blue-light: #e7f1ff;    /* Bleu très clair */
-            
-            --secondary-orange: #fd7e14;      /* Orange principal */
-            --secondary-orange-dark: #e96a00; /* Orange foncé */
-            --secondary-orange-light: #ffe5d0; /* Orange très clair */
-            
-            --white: #ffffff;                /* Blanc pur */
-            --white-light: #f8f9fa;          /* Blanc clair/gris très clair */
-            --gray: #e9ecef;                 /* Gris clair */
-            --dark: #212529;                 /* Noir pour texte */
-            --dark-bg: #f8f9fa;              /* Fond de page en blanc clair */
-            --card-bg: rgba(255, 255, 255, 0.95); /* Fond des cartes en blanc semi-transparent */
-            --shadow: rgba(0, 123, 255, 0.15); /* Ombre bleue légère */
-            --cinematic-glow: rgba(255, 107, 0, 0.3); /* Lueur orange */
-        }
+        /* HEADER */
+        header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--dark);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+        .adm-logo{font-size:1.2rem;font-weight:900;background:linear-gradient(90deg,#60a5fa,#f97316);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .adm-badge{background:rgba(255,255,255,.15);padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;color:#fff}
+        .btn-back{background:rgba(255,255,255,.12);border:none;color:#fff;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:6px;transition:.22s}
+        .btn-back:hover{background:rgba(255,255,255,.22)}
 
-        body {
-            background-color: var(--dark-bg); /* Maintenant blanc clair */
-            color: var(--dark); /* Texte en noir */
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            line-height: 1.6;
+        /* TABS */
+        .tabs-wrap{background:var(--white);border-bottom:2px solid var(--gray);padding:0 20px;display:flex;gap:4px;overflow-x:auto}
+        .tab-btn{
+            display:flex;align-items:center;gap:7px;padding:14px 18px;border:none;background:none;
+            font-size:.88rem;font-weight:600;color:var(--mid);cursor:pointer;border-bottom:3px solid transparent;
+            margin-bottom:-2px;white-space:nowrap;transition:all .22s
         }
+        .tab-btn:hover{color:var(--blue)}
+        .tab-btn.on{color:var(--blue);border-bottom-color:var(--blue)}
+        .tab-btn .cnt{background:var(--orange);color:#fff;font-size:.68rem;font-weight:900;padding:2px 7px;border-radius:12px}
 
-        /* Effets cinématographiques - maintenant orange */
-        .cinematic-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: var(--cinematic-glow);
-            filter: blur(60px);
-            z-index: -1;
-            animation: pulse 8s infinite alternate;
-        }
+        /* PANELS */
+        .panel{display:none;padding:20px}
+        .panel.on{display:block;animation:fadeP .28s ease}
+        @keyframes fadeP{from{opacity:0}to{opacity:1}}
 
-        .glow-1 {
-            top: 10%;
-            left: 5%;
-        }
+        main{max-width:1100px;margin:0 auto}
 
-        .glow-2 {
-            bottom: 10%;
-            right: 5%;
-        }
+        /* cards stats */
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:22px}
+        .stat-c{background:var(--white);border-radius:14px;padding:18px;border:1px solid var(--gray);box-shadow:0 3px 12px rgba(0,0,0,.04)}
+        .stat-c .s-lbl{font-size:.78rem;color:var(--mid);margin-bottom:5px}
+        .stat-c .s-val{font-size:1.8rem;font-weight:900;color:var(--dark)}
+        .stat-c .s-sub{font-size:.75rem;color:var(--light);margin-top:2px}
 
-        @keyframes pulse {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 0.6; transform: scale(1.1); }
-        }
+        /* tables */
+        .tbl-wrap{background:var(--white);border-radius:16px;border:1px solid var(--gray);overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+        .tbl-head{padding:16px 18px;border-bottom:1px solid var(--gray);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+        .tbl-head h3{font-size:1rem;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:8px}
+        table{width:100%;border-collapse:collapse}
+        th{background:var(--light-g);padding:11px 14px;text-align:left;font-size:.78rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--gray)}
+        td{padding:12px 14px;font-size:.85rem;color:var(--dark);border-bottom:1px solid var(--gray);vertical-align:middle}
+        tr:last-child td{border-bottom:none}
+        tr:hover td{background:var(--off)}
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            background-color: var(--white); /* Blanc pur */
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 123, 255, 0.2); /* Bleu clair */
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
+        /* badge statut */
+        .badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:.72rem;font-weight:700}
+        .s-wait{background:#FFF8E6;color:#D97706}.s-run{background:var(--blue-l);color:var(--blue)}.s-ok{background:#EDFFF5;color:var(--green)}.s-ref{background:#fee2e2;color:var(--red)}
 
-        .site-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-orange) 100%); /* Bleu vers Orange */
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 1px;
+        /* boutons action */
+        .btn-sm{
+            padding:6px 12px;border:none;border-radius:8px;font-size:.76rem;font-weight:700;
+            cursor:pointer;transition:.22s;display:inline-flex;align-items:center;gap:5px
         }
+        .btn-green{background:#EDFFF5;color:var(--green)}.btn-green:hover{background:var(--green);color:#fff}
+        .btn-red{background:#fee2e2;color:var(--red)}.btn-red:hover{background:var(--red);color:#fff}
+        .btn-blue{background:var(--blue-l);color:var(--blue)}.btn-blue:hover{background:var(--blue);color:#fff}
+        .btn-orange{background:var(--orange-l);color:var(--orange)}.btn-orange:hover{background:var(--orange);color:#fff}
+        .btns-row{display:flex;gap:6px;flex-wrap:wrap}
 
-        /* Contenu principal */
-        .main-content {
-            padding: 40px 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        /* progress edit */
+        .prog-edit{display:flex;align-items:center;gap:8px}
+        .prog-edit input{width:70px;padding:5px 8px;border:1px solid var(--gray);border-radius:8px;font-size:.82rem;color:var(--dark)}
+        .prog-bar-sm{flex:1;height:6px;background:var(--gray);border-radius:6px;overflow:hidden;min-width:60px}
+        .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));transition:width .4s}
 
-        .conditions-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(0, 123, 255, 0.3); /* Bleu */
-        }
+        /* modal */
+        .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:800;display:none;align-items:center;justify-content:center;padding:16px}
+        .modal-bg.on{display:flex;animation:fadeP .25s ease}
+        .modal{background:var(--white);border-radius:18px;padding:26px 22px;max-width:440px;width:100%;box-shadow:0 14px 40px rgba(0,0,0,.14);position:relative}
+        .modal h3{font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:12px}
+        .modal-close{position:absolute;top:14px;right:14px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--mid)}
+        .fg{margin-bottom:12px}
+        .fg label{display:block;font-size:.8rem;font-weight:600;color:var(--dark);margin-bottom:4px}
+        .inp{width:100%;padding:11px 13px;border:2px solid var(--gray);border-radius:11px;font-size:.9rem;color:var(--dark);outline:none;transition:border-color .22s}
+        .inp:focus{border-color:var(--blue)}
+        .inp-sm{padding:7px 10px;border:1px solid var(--gray);border-radius:8px;font-size:.85rem;color:var(--dark);outline:none;transition:border-color .22s}
+        .inp-sm:focus{border-color:var(--blue)}
+        .btn-full{width:100%;padding:12px;border:none;border-radius:11px;font-weight:700;font-size:.92rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .25s}
+        .btn-full-b{background:linear-gradient(90deg,var(--blue),var(--blue-d));color:#fff;box-shadow:0 4px 14px rgba(0,102,255,.22)}
+        .btn-full-b:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(0,102,255,.35)}
+        .btn-full-b:disabled{opacity:.6;cursor:not-allowed;transform:none}
+        .btn-full-g{background:linear-gradient(90deg,#059669,#047857);color:#fff;margin-top:8px}
+        .btn-full-g:hover{transform:translateY(-2px)}
 
-        .conditions-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--dark); /* Texte noir */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
+        /* alert */
+        .alert{display:none;padding:10px 14px;border-radius:10px;font-size:.83rem;font-weight:600;margin-bottom:12px}
+        .alert.on{display:block;animation:fadeP .25s ease}
+        .alert.ok{background:#d1fae5;color:#065f46}.alert.err{background:#fee2e2;color:#991b1b}
 
-        .conditions-header h1 i {
-            color: var(--primary-blue); /* Icônes en bleu */
-        }
+        /* service grid */
+        .svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+        .svc-card{background:var(--white);border:1px solid var(--gray);border-radius:14px;padding:16px;transition:all .25s}
+        .svc-card:hover{box-shadow:0 6px 18px rgba(0,0,0,.07)}
+        .svc-card .svc-name{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:8px}
+        .svc-card .svc-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+        .svc-card .svc-label{font-size:.72rem;color:var(--mid);margin-bottom:2px}
 
-        .last-updated {
-            color: #666; /* Gris moyen */
-            font-size: 0.9rem;
-            margin-top: 10px;
-        }
+        /* toast */
+        .toast{position:fixed;bottom:20px;right:20px;background:var(--dark);color:#fff;padding:11px 16px;border-radius:10px;font-size:.84rem;z-index:9999;display:flex;align-items:center;gap:7px;box-shadow:0 5px 18px rgba(0,0,0,.22);opacity:0;transform:translateY(14px);transition:all .32s;max-width:300px}
+        .toast.on{opacity:1;transform:translateY(0)}
+        .toast.ok{border-left:4px solid var(--green)}.toast.err{border-left:4px solid var(--red)}
 
-        .warning-box {
-            background: linear-gradient(90deg, var(--secondary-orange-light), rgba(255, 255, 255, 0.9));
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--secondary-orange); /* Orange */
-        }
+        .no-data{text-align:center;padding:36px 20px;color:var(--light)}
+        .no-data i{font-size:2rem;display:block;margin-bottom:10px;color:var(--gray)}
 
-        .warning-box p {
-            color: #d35400; /* Orange foncé */
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .warning-box i {
-            color: #d35400;
-            font-size: 1.5rem;
-        }
-
-        /* Sections */
-        .section {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(0, 0, 0, 0.1); /* Bordure grise claire */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Ombre douce */
-            transition: transform 0.3s ease;
-        }
-
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--primary-blue); /* Titres en bleu */
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 123, 255, 0.2);
-        }
-
-        .section-title i {
-            font-size: 1.3rem;
-            color: var(--primary-blue);
-        }
-
-        .section-content p {
-            margin-bottom: 15px;
-            color: #444; /* Texte gris foncé */
-        }
-
-        .section-content ul {
-            margin-left: 20px;
-            margin-bottom: 20px;
-        }
-
-        .section-content li {
-            margin-bottom: 10px;
-            color: #444;
-            position: relative;
-            padding-left: 10px;
-        }
-
-        .section-content li:before {
-            content: "•";
-            color: var(--primary-blue); /* Points en bleu */
-            font-weight: bold;
-            position: absolute;
-            left: -10px;
-            font-size: 1.2rem;
-        }
-
-        .highlight {
-            background-color: var(--primary-blue-light); /* Bleu très clair */
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border-left: 3px solid var(--primary-blue);
-        }
-
-        .highlight strong {
-            color: var(--primary-blue-dark); /* Bleu foncé */
-        }
-
-        /* Boutons */
-        .button-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 15px 35px;
-            border-radius: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            min-width: 200px;
-            border: none;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--secondary-orange), var(--secondary-orange-dark)); /* Orange */
-            color: white;
-            box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(253, 126, 20, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--white);
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue-light);
-            box-shadow: 0 3px 10px rgba(0, 123, 255, 0.1);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary-blue-light);
-            border-color: var(--primary-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
-        }
-
-        .contact-box {
-            background: linear-gradient(135deg, var(--primary-blue-light), rgba(255, 255, 255, 0.9));
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 40px;
-            text-align: center;
-            border: 1px solid var(--primary-blue-light);
-        }
-
-        .contact-box h3 {
-            color: var(--primary-blue-dark);
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-
-        .contact-box p {
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        .whatsapp-contact {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #25D366;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 15px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 15px;
-            transition: all 0.3s;
-        }
-
-        .whatsapp-contact:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 30px;
-            margin-top: 50px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1); /* Gris clair */
-            color: #666;
-            font-size: 0.9rem;
-            background-color: var(--white);
-        }
-
-        .footer .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-orange) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                padding: 15px 20px;
-            }
-            
-            .main-content {
-                padding: 25px 15px;
-            }
-            
-            .conditions-header h1 {
-                font-size: 2rem;
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            .button-group {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .conditions-header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.3rem;
-            }
-        }
+        @media(max-width:600px){th:nth-child(n+4),td:nth-child(n+4){display:none}}
     </style>
 </head>
 <body>
-    <!-- Effets cinématographiques -->
-    <div class="cinematic-glow glow-1"></div>
-    <div class="cinematic-glow glow-2"></div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="site-name">BOOST CENTRAL</div>
+    <header>
+        <div class="adm-logo">⚡ BOOST CENTRAL — Admin</div>
+        <span class="adm-badge" id="adminEmail">Admin</span>
+        <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left"></i> Dashboard</a>
     </header>
 
-    <!-- Contenu principal -->
-    <div class="main-content">
-        <div class="conditions-header">
-            <h1><i class="fas fa-file-contract"></i> Conditions d'Utilisation</h1>
-            <p class="last-updated">Dernière mise à jour : 26 octobre 2023</p>
-        </div>
+    <!-- TABS -->
+    <div class="tabs-wrap">
+        <button class="tab-btn on" onclick="showTab('recharges')"><i class="fas fa-wallet"></i> Recharges <span class="cnt" id="cnt-recharges">0</span></button>
+        <button class="tab-btn" onclick="showTab('commandes')"><i class="fas fa-shopping-cart"></i> Commandes <span class="cnt" id="cnt-commandes">0</span></button>
+        <button class="tab-btn" onclick="showTab('services')"><i class="fas fa-cog"></i> Services & Prix</button>
+        <button class="tab-btn" onclick="showTab('users')"><i class="fas fa-users"></i> Utilisateurs</button>
+    </div>
 
-        <div class="warning-box">
-            <p><i class="fas fa-exclamation-triangle"></i> En passant une commande sur BOOST CENTRAL, vous acceptez automatiquement l'ensemble des conditions ci-dessous, que vous les ayez lues ou non.</p>
-        </div>
+    <div class="toast" id="toast"></div>
 
-        <!-- Section Conditions Générales -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-gavel"></i> Conditions Générales</h2>
-            <div class="section-content">
-                <p>Nous nous réservons le droit de modifier ces conditions sans préavis. Il est de votre responsabilité de les consulter avant chaque commande pour rester informé des changements éventuels.</p>
-                
-                <p>L'utilisation de Boost Central doit se faire en conformité avec les règles d'Instagram, Facebook, Twitter, YouTube et tout autre réseau social, telles qu'énoncées dans leurs propres conditions.</p>
-                
-                <div class="highlight">
-                    <p><strong>⚠️ Attention :</strong> Les prix pratiqués par Boost Central peuvent être modifiés à tout moment sans avertissement préalable. En cas de modification tarifaire, la politique de paiement et de remboursement reste inchangée.</p>
+    <main>
+
+        <!-- ══════════════════ RECHARGES ══════════════════ -->
+        <div class="panel on" id="tab-recharges">
+            <div class="stats-grid" id="statsRecharges"></div>
+            <div class="tbl-wrap">
+                <div class="tbl-head"><h3><i class="fas fa-wallet" style="color:var(--blue)"></i> Demandes de recharge</h3>
+                    <button class="btn-sm btn-blue" onclick="loadRecharges()"><i class="fas fa-sync"></i> Actualiser</button>
+                </div>
+                <div style="overflow-x:auto">
+                <table>
+                    <thead><tr>
+                        <th>Utilisateur</th><th>Montant</th><th>Méthode</th><th>TXID / Numéro</th><th>Date</th><th>Statut</th><th>Actions</th>
+                    </tr></thead>
+                    <tbody id="tbl-recharges"><tr><td colspan="7" class="no-data"><i class="fas fa-sync fa-spin"></i> Chargement...</td></tr></tbody>
+                </table>
                 </div>
             </div>
         </div>
 
-        <!-- Section Clause de non-responsabilité -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-ban"></i> Clause de non-responsabilité</h2>
-            <div class="section-content">
-                <p>Boost Central décline toute responsabilité concernant les dommages subis par vous ou votre entreprise.</p>
-                
-                <h3 style="color: #fff; margin: 20px 0 10px 0;">Responsabilités</h3>
-                <p>Boost Central n'est en aucun cas responsable des suspensions de comptes ou des suppressions de contenus décidées par Instagram, Twitter, Facebook, YouTube ou tout autre réseau social.</p>
-            </div>
-        </div>
-
-        <!-- Section Prestations -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-concierge-bell"></i> Prestations</h2>
-            <div class="section-content">
-                <p>Boost Central ne sert qu'à promouvoir vos profils sur les réseaux sociaux (Instagram, Twitter, Facebook, etc.) et à améliorer votre visibilité.</p>
-                
-                <ul>
-                    <li>Aucune garantie n'est donnée concernant les délais de livraison. Les estimations fournies sont indicatives et ne donnent pas droit à remboursement si la commande prend plus de temps que prévu.</li>
-                    <li>Nous pouvons, si nécessaire, adapter le type de service pour finaliser une commande.</li>
-                    <li>Les descriptions et délais fournis ne sont pas garantis. Nous vous recommandons de tester d'abord avec une petite commande. Aucune réclamation ne sera acceptée et aucun remboursement ne sera accordé si vous n'êtes pas satisfait.</li>
-                    <li>Nous ne garantissons pas que les abonnés obtenus resteront définitivement ou interagiront avec votre contenu. Nous vous assurons uniquement la livraison du nombre d'abonnés commandé.</li>
-                    <li>Il est interdit de télécharger du contenu inapproprié (nudité, contenus non conformes aux règles des réseaux sociaux).</li>
-                </ul>
-                
-                <div class="highlight">
-                    <p><strong>📝 Important :</strong> Les comptes privés ne donnent pas droit à un remboursement. Assurez-vous que votre compte soit public avant de commander.</p>
+        <!-- ══════════════════ COMMANDES ══════════════════ -->
+        <div class="panel" id="tab-commandes">
+            <div class="tbl-wrap">
+                <div class="tbl-head"><h3><i class="fas fa-rocket" style="color:var(--orange)"></i> Commandes clients</h3>
+                    <button class="btn-sm btn-blue" onclick="loadCommandes()"><i class="fas fa-sync"></i> Actualiser</button>
+                </div>
+                <div style="overflow-x:auto">
+                <table>
+                    <thead><tr>
+                        <th>Utilisateur</th><th>Service</th><th>Qté</th><th>Lien</th><th>Prix</th><th>Date</th><th>Statut</th><th>Progression</th><th>Actions</th>
+                    </tr></thead>
+                    <tbody id="tbl-commandes"><tr><td colspan="9" class="no-data"><i class="fas fa-sync fa-spin"></i> Chargement...</td></tr></tbody>
+                </table>
                 </div>
             </div>
         </div>
 
-        <!-- Section Politique de remboursement -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-money-bill-wave"></i> Politique de remboursement</h2>
-            <div class="section-content">
-                <p>Aucun remboursement ne sera effectué vers votre mode de paiement initial. Tout dépôt est définitif et utilisable uniquement pour passer des commandes sur BOOST CENTRAL.</p>
-                
-                <ul>
-                    <li>Après paiement, vous vous engagez à ne pas déposer de litige ou demande de rétrofacturation.</li>
-                    <li>En cas de litige ou rétrofacturation, nous nous réservons le droit de suspendre vos commandes et de bloquer votre compte.</li>
-                    <li>Les commandes passées ne peuvent être annulées ni remboursées, sauf si elles sont impossibles à livrer : dans ce cas, un crédit sera ajouté sur votre compte BOOST CENTRAL.</li>
-                    <li>Les commandes perdues ou effectuées sur un compte privé ne sont pas remboursables. Vérifiez toujours vos informations avant de commander.</li>
-                    <li>Toute tentative de fraude (paiement avec carte bancaire volée ou non autorisée) entraînera la clôture immédiate de votre compte.</li>
-                </ul>
-                
-                <div class="highlight">
-                    <p><strong>🚫 Interdiction :</strong> N'utilisez pas plusieurs serveurs simultanément pour une même page : cela fausse les résultats, et aucun remboursement ne sera effectué dans ce cas.</p>
+        <!-- ══════════════════ SERVICES ══════════════════ -->
+        <div class="panel" id="tab-services">
+            <div class="tbl-wrap" style="margin-bottom:0">
+                <div class="tbl-head"><h3><i class="fas fa-cog" style="color:var(--blue)"></i> Catalogue des services</h3>
+                    <button class="btn-sm btn-blue" onclick="loadServices()"><i class="fas fa-sync"></i> Actualiser</button>
+                </div>
+            </div>
+            <div class="svc-grid" id="svc-grid" style="margin-top:14px"></div>
+        </div>
+
+        <!-- ══════════════════ USERS ══════════════════ -->
+        <div class="panel" id="tab-users">
+            <div class="tbl-wrap">
+                <div class="tbl-head"><h3><i class="fas fa-users" style="color:var(--blue)"></i> Utilisateurs</h3>
+                    <button class="btn-sm btn-blue" onclick="loadUsers()"><i class="fas fa-sync"></i> Actualiser</button>
+                </div>
+                <div style="overflow-x:auto">
+                <table>
+                    <thead><tr><th>Email</th><th>Nom</th><th>Pays</th><th>Solde (FCFA)</th><th>Admin</th><th>Actions</th></tr></thead>
+                    <tbody id="tbl-users"><tr><td colspan="6" class="no-data"><i class="fas fa-sync fa-spin"></i> Chargement...</td></tr></tbody>
+                </table>
                 </div>
             </div>
         </div>
 
-        <!-- Section Politique de confidentialité -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-shield-alt"></i> Politique de confidentialité</h2>
-            <div class="section-content">
-                <p>Nous respectons la confidentialité de vos données et faisons tout pour protéger vos informations personnelles.</p>
-                
-                <ul>
-                    <li>Les données recueillies ne sont utilisées que pour traiter vos commandes. Elles ne seront ni revendues ni partagées.</li>
-                    <li>Vos informations personnelles sont chiffrées et stockées de manière sécurisée.</li>
-                </ul>
+    </main>
+
+    <!-- MODAL RECHARGE NOTE -->
+    <div class="modal-bg" id="modalRecharge">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('modalRecharge')">✕</button>
+            <h3 id="modalRTitle">Valider la recharge</h3>
+            <div class="alert" id="al-recharge"></div>
+            <div class="fg">
+                <label>Note admin (optionnel)</label>
+                <input class="inp" type="text" id="rNote" placeholder="Message pour l'utilisateur...">
             </div>
-        </div>
-
-        <!-- Section Contact -->
-        <div class="contact-box">
-            <h3><i class="fas fa-headset"></i> Besoin d'aide ?</h3>
-            <p>Pour toute question concernant nos conditions d'utilisation</p>
-            <a href="https://wa.me/237689011185" class="whatsapp-contact" target="_blank">
-                <i class="fab fa-whatsapp"></i> Contactez-nous sur WhatsApp
-            </a>
-        </div>
-
-        <!-- Boutons d'action -->
-        <div class="button-group">
-            <a href="index.html" class="btn btn-primary">
-                <i class="fas fa-arrow-left"></i> Retour au Dashboard
-            </a>
-            <button onclick="window.print()" class="btn btn-secondary">
-                <i class="fas fa-print"></i> Imprimer ces conditions
+            <button class="btn-full btn-full-b" id="btnValRech" onclick="execRecharge(true)">
+                <i class="fas fa-check"></i> Valider et créditer le solde
+            </button>
+            <button class="btn-full btn-full-g" onclick="execRecharge(false)" style="background:linear-gradient(90deg,#DC2626,#B91C1C)">
+                <i class="fas fa-times"></i> Refuser
             </button>
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <div class="logo">BOOST CENTRAL</div>
-        <p>© 2023 Boost Central. Tous droits réservés.</p>
-        <p>Merci de votre confiance</p>
+    <!-- MODAL COMMANDE -->
+    <div class="modal-bg" id="modalCmd">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('modalCmd')">✕</button>
+            <h3>Mettre à jour la commande</h3>
+            <div class="alert" id="al-cmd"></div>
+            <div class="fg">
+                <label>Statut</label>
+                <select class="inp" id="cmdStatut">
+                    <option value="en_attente">⏳ En attente</option>
+                    <option value="en_cours">🔄 En cours</option>
+                    <option value="termine">✅ Terminé</option>
+                    <option value="refuse">❌ Refusé</option>
+                </select>
+            </div>
+            <div class="fg">
+                <label>Progression (0-100)</label>
+                <input class="inp" type="number" id="cmdProg" min="0" max="100" value="0">
+            </div>
+            <div class="fg">
+                <label>Note admin</label>
+                <input class="inp" type="text" id="cmdNote" placeholder="Message pour l'utilisateur...">
+            </div>
+            <button class="btn-full btn-full-b" id="btnSaveCmd" onclick="saveCommande()">
+                <i class="fas fa-save"></i> Enregistrer
+            </button>
+        </div>
     </div>
 
+    <!-- MODAL SOLDE USER -->
+    <div class="modal-bg" id="modalSolde">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('modalSolde')">✕</button>
+            <h3>Modifier le solde</h3>
+            <p style="font-size:.83rem;color:var(--mid);margin-bottom:14px" id="soldeName"></p>
+            <div class="alert" id="al-solde"></div>
+            <div class="fg">
+                <label>Nouveau solde (FCFA)</label>
+                <input class="inp" type="number" id="newSolde" min="0" placeholder="0">
+            </div>
+            <button class="btn-full btn-full-b" id="btnSaveSolde" onclick="saveSolde()">
+                <i class="fas fa-save"></i> Enregistrer
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL SERVICE -->
+    <div class="modal-bg" id="modalSvc">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('modalSvc')">✕</button>
+            <h3 id="modalSvcTitle">Modifier le service</h3>
+            <div class="alert" id="al-svc"></div>
+            <div class="fg"><label>Prix (FCFA par unité)</label><input class="inp" type="number" id="svcPrix" min="0.1" step="0.1"></div>
+            <div class="fg"><label>Quantité minimum</label><input class="inp" type="number" id="svcMin" min="1"></div>
+            <div class="fg"><label>Quantité maximum</label><input class="inp" type="number" id="svcMax" min="1"></div>
+            <div class="fg"><label>Description</label><input class="inp" type="text" id="svcDesc"></div>
+            <div class="fg" style="display:flex;align-items:center;gap:10px">
+                <label style="margin:0">Actif</label>
+                <input type="checkbox" id="svcActif" style="width:18px;height:18px;cursor:pointer">
+            </div>
+            <button class="btn-full btn-full-b" style="margin-top:10px" id="btnSaveSvc" onclick="saveSvc()">
+                <i class="fas fa-save"></i> Enregistrer
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Animation d'entrée pour les sections
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.section');
-            
-            sections.forEach((section, index) => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    section.style.opacity = '1';
-                    section.style.transform = 'translateY(0)';
-                }, index * 100);
+    var SB_URL = 'https://mgogeabzjtuosxexyhjw.supabase.co';
+    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ';
+    var ADMIN_EMAIL = 'abdoula13cherif@gmail.com';
+    var sb, adminUser;
+    var curRechargeId = null, curRUserId = null, curRMontant = 0;
+    var curCmdId = null;
+    var curSoldeUserId = null;
+    var curSvcId = null;
+
+    window.addEventListener('load', function() {
+        try {
+            sb = window.supabase.createClient(SB_URL, SB_KEY);
+            sb.auth.getSession().then(async function(r) {
+                if (!r.data || !r.data.session) { window.location.href = 'index.html'; return; }
+                adminUser = r.data.session.user;
+                // Vérifier admin
+                var { data } = await sb.from('profiles').select('is_admin,email').eq('id', adminUser.id).single();
+                if (!data || (!data.is_admin && adminUser.email !== ADMIN_EMAIL)) { alert('Accès refusé. Vous n\'êtes pas administrateur.'); window.location.href = 'dashboard.html'; return; }
+                document.getElementById('adminEmail').textContent = data.email || adminUser.email;
+                loadRecharges();
             });
-            
-            // Mise à jour automatique de la date
-            const today = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const dateElement = document.querySelector('.last-updated');
-            if(dateElement) {
-                dateElement.textContent = 'Dernière mise à jour : ' + today.toLocaleDateString('fr-FR', options);
-            }
-        });
+        } catch(e) { alert('Erreur serveur : ' + e.message); }
+    });
+
+    // ══ TABS ══════════════════════════════════════════
+    function showTab(name) {
+        document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('on'); });
+        document.getElementById('tab-' + name).classList.add('on');
+        event.currentTarget.classList.add('on');
+        if (name === 'recharges') loadRecharges();
+        if (name === 'commandes') loadCommandes();
+        if (name === 'services')  loadServices();
+        if (name === 'users')     loadUsers();
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('on'); }
+    function openModal(id)  { document.getElementById(id).classList.add('on'); }
+
+    function fmt(n) { return (n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+    function toast(msg, type) {
+        var t = document.getElementById('toast');
+        t.innerHTML = (type==='ok'?'✅ ':'❌ ') + msg;
+        t.className = 'toast on ' + (type||'');
+        clearTimeout(t._t);
+        t._t = setTimeout(function(){ t.classList.remove('on'); }, 4000);
+    }
+
+    function showAl(id, msg, type) {
+        var el = document.getElementById(id);
+        el.textContent = msg;
+        el.className = 'alert on ' + type;
+    }
+
+    function badgeCls(s) { return {en_attente:'s-wait',en_cours:'s-run',termine:'s-ok',valide:'s-ok',refuse:'s-ref'}[s]||'s-wait'; }
+    function badgeTxt(s) { return {en_attente:'⏳ En attente',en_cours:'🔄 En cours',termine:'✅ Terminé',valide:'✅ Validée',refuse:'❌ Refusé'}[s]||s; }
+
+    // ══ RECHARGES ═════════════════════════════════════
+    async function loadRecharges() {
+        var { data } = await sb.from('recharges').select('*').order('created_at', {ascending:false}).limit(50);
+        var pending = (data||[]).filter(function(r){ return r.statut === 'en_attente'; }).length;
+        document.getElementById('cnt-recharges').textContent = pending;
+
+        // Stats
+        var total = (data||[]).reduce(function(a,r){ return a + (r.montant_fcfa||0); }, 0);
+        var valides = (data||[]).filter(function(r){ return r.statut==='valide'; }).reduce(function(a,r){ return a+(r.montant_fcfa||0);},0);
+        document.getElementById('statsRecharges').innerHTML =
+            '<div class="stat-c"><div class="s-lbl">Total demandes</div><div class="s-val">'+(data||[]).length+'</div></div>' +
+            '<div class="stat-c"><div class="s-lbl">En attente</div><div class="s-val" style="color:var(--yellow)">'+pending+'</div></div>' +
+            '<div class="stat-c"><div class="s-lbl">Montant total</div><div class="s-val" style="color:var(--orange)">'+fmt(Math.round(total))+'</div><div class="s-sub">FCFA demandés</div></div>' +
+            '<div class="stat-c"><div class="s-lbl">Validé</div><div class="s-val" style="color:var(--green)">'+fmt(Math.round(valides))+'</div><div class="s-sub">FCFA crédités</div></div>';
+
+        var meths = {mtn:'MTN MoMo',orange:'Orange Money',crypto_btc:'BTC',crypto_bnb:'BNB',crypto_sol:'SOL'};
+        var tbody = document.getElementById('tbl-recharges');
+        if (!data || !data.length) { tbody.innerHTML = '<tr><td colspan="7"><div class="no-data"><i class="fas fa-inbox"></i><p>Aucune recharge.</p></div></td></tr>'; return; }
+
+        tbody.innerHTML = data.map(function(r) {
+            var date = new Date(r.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+            var txid = r.hash_tx || r.capture_url || '-';
+            txid = txid.length > 20 ? txid.substring(0,20)+'...' : txid;
+            var actions = r.statut === 'en_attente'
+                ? '<div class="btns-row"><button class="btn-sm btn-green" onclick="openRecharge(\''+r.id+'\',\''+r.user_id+'\','+r.montant_fcfa+')"><i class="fas fa-check"></i> Valider</button></div>'
+                : '<span style="font-size:.75rem;color:var(--light)">Traité</span>';
+            return '<tr><td><div style="font-size:.82rem">'+r.user_email+'</div></td><td><strong>'+fmt(Math.round(r.montant_fcfa))+' FCFA</strong></td><td>'+(meths[r.methode]||r.methode)+'</td><td style="font-size:.75rem;color:var(--mid)">'+txid+'</td><td style="font-size:.76rem">'+date+'</td><td><span class="badge '+badgeCls(r.statut)+'">'+badgeTxt(r.statut)+'</span></td><td>'+actions+'</td></tr>';
+        }).join('');
+    }
+
+    function openRecharge(id, userId, montant) {
+        curRechargeId = id; curRUserId = userId; curRMontant = montant;
+        document.getElementById('modalRTitle').textContent = 'Valider la recharge de ' + fmt(Math.round(montant)) + ' FCFA';
+        document.getElementById('rNote').value = '';
+        document.getElementById('al-recharge').className = 'alert';
+        openModal('modalRecharge');
+    }
+
+    async function execRecharge(valider) {
+        if (!curRechargeId) return;
+        document.getElementById('btnValRech').disabled = true;
+        var note = document.getElementById('rNote').value.trim();
+        var statut = valider ? 'valide' : 'refuse';
+
+        var { error: e1 } = await sb.from('recharges').update({ statut, note_admin: note, updated_at: new Date().toISOString() }).eq('id', curRechargeId);
+        if (e1) { showAl('al-recharge', e1.message, 'err'); document.getElementById('btnValRech').disabled=false; return; }
+
+        if (valider) {
+            // Créditer le solde
+            var { data: prof } = await sb.from('profiles').select('balance').eq('id', curRUserId).single();
+            var newBal = ((prof && prof.balance) || 0) + curRMontant;
+            await sb.from('profiles').update({ balance: newBal }).eq('id', curRUserId);
+            toast('Recharge validée ! +' + fmt(Math.round(curRMontant)) + ' FCFA crédités.', 'ok');
+        } else {
+            toast('Recharge refusée.', 'err');
+        }
+
+        closeModal('modalRecharge');
+        document.getElementById('btnValRech').disabled = false;
+        loadRecharges();
+    }
+
+    // ══ COMMANDES ═════════════════════════════════════
+    async function loadCommandes() {
+        var { data } = await sb.from('commandes').select('*').order('created_at', {ascending:false}).limit(100);
+        var pending = (data||[]).filter(function(c){ return c.statut==='en_attente'; }).length;
+        document.getElementById('cnt-commandes').textContent = pending;
+
+        var tbody = document.getElementById('tbl-commandes');
+        if (!data || !data.length) { tbody.innerHTML='<tr><td colspan="9"><div class="no-data"><i class="fas fa-inbox"></i><p>Aucune commande.</p></div></td></tr>'; return; }
+
+        tbody.innerHTML = data.map(function(c) {
+            var date = new Date(c.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+            var prog = c.progression || 0;
+            var lien = c.lien.length > 25 ? c.lien.substring(0,25)+'...' : c.lien;
+            var progHtml = '<div class="prog-edit">' +
+                '<div class="prog-bar-sm"><div class="prog-fill" style="width:'+prog+'%"></div></div>' +
+                '<span style="font-size:.75rem;color:var(--mid)">'+prog+'%</span></div>';
+            return '<tr><td style="font-size:.78rem">'+c.user_email+'</td><td><div style="font-size:.82rem;font-weight:700;color:var(--dark)">'+c.service+'</div></td><td>'+fmt(c.quantite)+'</td><td style="font-size:.73rem;color:var(--mid)"><a href="'+c.lien+'" target="_blank" title="'+c.lien+'">'+lien+'</a></td><td><strong>'+fmt(Math.round(c.prix_total))+' FCFA</strong></td><td style="font-size:.75rem">'+date+'</td><td><span class="badge '+badgeCls(c.statut)+'">'+badgeTxt(c.statut)+'</span></td><td>'+progHtml+'</td><td><button class="btn-sm btn-blue" onclick="openCmd(\''+c.id+'\',\''+c.statut+'\','+prog+',\''+encodeURIComponent(c.note_admin||'')+'\')"><i class="fas fa-edit"></i></button></td></tr>';
+        }).join('');
+    }
+
+    function openCmd(id, statut, prog, note) {
+        curCmdId = id;
+        document.getElementById('cmdStatut').value = statut;
+        document.getElementById('cmdProg').value = prog;
+        document.getElementById('cmdNote').value = decodeURIComponent(note);
+        document.getElementById('al-cmd').className = 'alert';
+        openModal('modalCmd');
+    }
+
+    async function saveCommande() {
+        if (!curCmdId) return;
+        document.getElementById('btnSaveCmd').disabled = true;
+        var statut = document.getElementById('cmdStatut').value;
+        var prog   = parseInt(document.getElementById('cmdProg').value) || 0;
+        var note   = document.getElementById('cmdNote').value.trim();
+
+        // Si terminé → 100%
+        if (statut === 'termine') prog = 100;
+        if (statut === 'refuse')  prog = 0;
+
+        var { error } = await sb.from('commandes').update({
+            statut, progression: prog, note_admin: note, updated_at: new Date().toISOString()
+        }).eq('id', curCmdId);
+
+        document.getElementById('btnSaveCmd').disabled = false;
+        if (error) { showAl('al-cmd', error.message, 'err'); return; }
+        toast('Commande mise à jour.', 'ok');
+        closeModal('modalCmd');
+        loadCommandes();
+    }
+
+    // ══ SERVICES ══════════════════════════════════════
+    async function loadServices() {
+        var { data } = await sb.from('services').select('*').order('reseau').order('categorie');
+        var grid = document.getElementById('svc-grid');
+        if (!data || !data.length) { grid.innerHTML='<p style="color:var(--light);font-size:.85rem">Aucun service trouvé. Exécutez le SQL schema.</p>'; return; }
+
+        grid.innerHTML = data.map(function(s) {
+            return '<div class="svc-card">' +
+                '<div class="svc-name">' + (s.actif ? '🟢' : '🔴') + ' ' + s.categorie + '</div>' +
+                '<div class="svc-fields">' +
+                    '<div><div class="svc-label">Prix</div><strong style="color:var(--orange)">' + s.prix_fcfa + ' FCFA</strong></div>' +
+                    '<div><div class="svc-label">Min</div><strong>' + fmt(s.min_qte) + '</strong></div>' +
+                    '<div><div class="svc-label">Max</div><strong>' + fmt(s.max_qte) + '</strong></div>' +
+                    '<div><div class="svc-label">Réseau</div><strong>' + s.reseau + '</strong></div>' +
+                '</div>' +
+                '<button class="btn-sm btn-blue" onclick="openSvc('+s.id+','+s.prix_fcfa+','+s.min_qte+','+s.max_qte+',\''+encodeURIComponent(s.description||'')+'\','+s.actif+',\''+encodeURIComponent(s.categorie)+'\')"><i class="fas fa-edit"></i> Modifier</button>' +
+            '</div>';
+        }).join('');
+    }
+
+    function openSvc(id, prix, min, max, desc, actif, cat) {
+        curSvcId = id;
+        document.getElementById('modalSvcTitle').textContent = 'Modifier : ' + decodeURIComponent(cat);
+        document.getElementById('svcPrix').value = prix;
+        document.getElementById('svcMin').value  = min;
+        document.getElementById('svcMax').value  = max;
+        document.getElementById('svcDesc').value = decodeURIComponent(desc);
+        document.getElementById('svcActif').checked = actif;
+        document.getElementById('al-svc').className = 'alert';
+        openModal('modalSvc');
+    }
+
+    async function saveSvc() {
+        if (!curSvcId) return;
+        document.getElementById('btnSaveSvc').disabled = true;
+        var { error } = await sb.from('services').update({
+            prix_fcfa:   parseFloat(document.getElementById('svcPrix').value),
+            min_qte:     parseInt(document.getElementById('svcMin').value),
+            max_qte:     parseInt(document.getElementById('svcMax').value),
+            description: document.getElementById('svcDesc').value.trim(),
+            actif:       document.getElementById('svcActif').checked,
+            updated_at:  new Date().toISOString()
+        }).eq('id', curSvcId);
+        document.getElementById('btnSaveSvc').disabled = false;
+        if (error) { showAl('al-svc', error.message, 'err'); return; }
+        toast('Service mis à jour.', 'ok');
+        closeModal('modalSvc');
+        loadServices();
+    }
+
+    // ══ USERS ═════════════════════════════════════════
+    async function loadUsers() {
+        var { data } = await sb.from('profiles').select('*').order('created_at', {ascending:false});
+        var tbody = document.getElementById('tbl-users');
+        if (!data || !data.length) { tbody.innerHTML='<tr><td colspan="6"><div class="no-data"><i class="fas fa-users"></i><p>Aucun utilisateur.</p></div></td></tr>'; return; }
+
+        tbody.innerHTML = data.map(function(u) {
+            return '<tr><td style="font-size:.83rem">' + u.email + '</td><td>' + (u.full_name||'-') + '</td><td>' + (u.country||'-') + '</td><td><strong style="color:var(--orange)">' + fmt(Math.round(u.balance||0)) + '</strong></td><td>' + (u.is_admin ? '👑 Admin' : '—') + '</td><td><button class="btn-sm btn-orange" onclick="openSolde(\''+u.id+'\',\''+encodeURIComponent(u.email)+'\','+(u.balance||0)+')"><i class="fas fa-wallet"></i> Solde</button></td></tr>';
+        }).join('');
+    }
+
+    function openSolde(userId, email, balance) {
+        curSoldeUserId = userId;
+        document.getElementById('soldeName').textContent = 'Utilisateur : ' + decodeURIComponent(email);
+        document.getElementById('newSolde').value = balance;
+        document.getElementById('al-solde').className = 'alert';
+        openModal('modalSolde');
+    }
+
+    async function saveSolde() {
+        if (!curSoldeUserId) return;
+        document.getElementById('btnSaveSolde').disabled = true;
+        var newBal = parseFloat(document.getElementById('newSolde').value) || 0;
+        var { error } = await sb.from('profiles').update({ balance: newBal }).eq('id', curSoldeUserId);
+        document.getElementById('btnSaveSolde').disabled = false;
+        if (error) { showAl('al-solde', error.message, 'err'); return; }
+        toast('Solde mis à jour : ' + fmt(Math.round(newBal)) + ' FCFA.', 'ok');
+        closeModal('modalSolde');
+        loadUsers();
+    }
     </script>
 </body>
 </html>
