@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharger mon solde - Boost Central</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+        :root{--blue:#0066FF;--blue-d:#0047CC;--blue-l:#E6F0FF;--orange:#FF6600;--orange-d:#CC5200;--white:#fff;--off:#F8FAFC;--gray:#E2E8F0;--light-g:#F1F5F9;--dark:#1E293B;--mid:#475569;--light:#8A9AB5;--green:#059669;--red:#DC2626}
+        body{background:var(--off);min-height:100vh;color:var(--mid)}
+
+        /* header simple */
+        header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--white);border-bottom:2px solid var(--gray);box-shadow:0 2px 8px rgba(0,0,0,.04);position:sticky;top:0;z-index:10}
+        .back-btn{background:var(--blue-l);border:none;color:var(--blue);padding:8px 12px;border-radius:9px;cursor:pointer;font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:6px;text-decoration:none;transition:all .22s}
+        .back-btn:hover{background:var(--blue);color:var(--white)}
+        .logo{font-size:1.3rem;font-weight:900;background:linear-gradient(90deg,var(--blue),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+        main{padding:20px;max-width:680px;margin:0 auto}
+
+        /* solde actuel */
+        .bal-box{background:var(--white);border-radius:16px;padding:20px;border:1px solid var(--gray);box-shadow:0 4px 14px rgba(0,0,0,.05);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+        .bal-box .lbl{font-size:.82rem;color:var(--mid);margin-bottom:4px}
+        .bal-box .val{font-size:2rem;font-weight:900;color:var(--orange)}
+        .bal-box .cur{font-size:.82rem;color:var(--mid)}
+
+        /* titre */
+        .pg-title{font-size:1.2rem;font-weight:800;color:var(--dark);margin-bottom:6px}
+        .pg-sub{font-size:.85rem;color:var(--mid);margin-bottom:20px;line-height:1.6}
+
+        /* methodes */
+        .meth-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+        @media(max-width:440px){.meth-grid{grid-template-columns:1fr}}
+        .meth-card{
+            border:2px solid var(--gray);border-radius:14px;padding:16px 14px;
+            cursor:pointer;transition:all .25s;background:var(--white);text-align:center
+        }
+        .meth-card:hover,.meth-card.sel{border-color:var(--blue);background:var(--blue-l)}
+        .meth-card i{font-size:1.8rem;display:block;margin-bottom:8px}
+        .meth-card .meth-name{font-size:.88rem;font-weight:700;color:var(--dark)}
+        .meth-card .meth-sub{font-size:.74rem;color:var(--mid);margin-top:2px}
+        .mth-mtn{color:#FFCC00}.mth-orange{color:#FF6600}.mth-btc{color:#F7931A}.mth-bnb{color:#F3BA2F}.mth-sol{color:#9945FF}
+        .cameroon-only{display:flex;align-items:center;gap:6px;font-size:.74rem;color:var(--blue);background:var(--blue-l);padding:4px 10px;border-radius:20px;margin-bottom:16px;width:fit-content}
+
+        /* formulaire */
+        .form-card{background:var(--white);border-radius:16px;padding:22px;border:1px solid var(--gray);box-shadow:0 4px 14px rgba(0,0,0,.05);display:none}
+        .form-card.on{display:block;animation:fadeIn .3s ease}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .form-title{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .fg{margin-bottom:14px}
+        .fg label{display:block;font-size:.82rem;font-weight:600;color:var(--dark);margin-bottom:5px}
+        .inp{width:100%;padding:12px 14px;border:2px solid var(--gray);border-radius:12px;font-size:.92rem;color:var(--dark);outline:none;transition:border-color .22s;background:var(--white)}
+        .inp:focus{border-color:var(--blue)}
+
+        /* Adresse crypto */
+        .crypto-addr{
+            background:var(--light-g);border-radius:12px;padding:14px;
+            margin-bottom:14px;word-break:break-all;font-size:.78rem;
+            color:var(--dark);border:1px solid var(--gray)
+        }
+        .crypto-addr .addr-label{font-size:.72rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+        .crypto-addr .addr-val{font-size:.8rem;font-family:monospace;color:var(--blue-d);line-height:1.5;margin-bottom:8px}
+        .copy-btn{
+            display:inline-flex;align-items:center;gap:6px;padding:6px 12px;
+            background:var(--blue);color:#fff;border:none;border-radius:8px;
+            font-size:.75rem;font-weight:700;cursor:pointer;transition:all .22s
+        }
+        .copy-btn:hover{background:var(--blue-d)}
+
+        /* whatsapp methode */
+        .wa-info{background:#E8FFF1;border:1px solid #6ee7b7;border-radius:12px;padding:14px;margin-bottom:14px;font-size:.84rem;color:#065f46;line-height:1.6}
+        .wa-info strong{display:block;margin-bottom:4px}
+
+        /* alert */
+        .alert{display:none;align-items:center;gap:8px;padding:10px 14px;border-radius:11px;font-size:.84rem;font-weight:600;margin-bottom:12px}
+        .alert.on{display:flex;animation:fadeIn .25s ease}
+        .alert.ok{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
+        .alert.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+        .alert.info{background:var(--blue-l);color:var(--blue-d);border:1px solid #93c5fd}
+
+        /* btn submit */
+        .btn-sub{
+            width:100%;padding:14px;border:none;border-radius:12px;
+            background:linear-gradient(90deg,var(--blue),var(--blue-d));
+            color:#fff;font-size:.97rem;font-weight:700;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;gap:8px;
+            box-shadow:0 5px 16px rgba(0,102,255,.25);transition:all .25s
+        }
+        .btn-sub:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,102,255,.35)}
+        .btn-sub:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+        .taux{font-size:.78rem;color:var(--mid);margin-top:6px;text-align:center}
+
+        /* historique */
+        .hist-sec{margin-top:24px}
+        .hist-title{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:12px}
+        .hist-item{background:var(--white);border:1px solid var(--gray);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+        .hist-info .hn{font-size:.88rem;font-weight:700;color:var(--dark)}
+        .hist-info .hd{font-size:.74rem;color:var(--light)}
+        .badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:18px;font-size:.73rem;font-weight:700}
+        .s-wait{background:#FFF8E6;color:#D97706}.s-ok{background:#EDFFF5;color:var(--green)}.s-ref{background:#fee2e2;color:var(--red)}
+
+        .wa-float{position:fixed;bottom:22px;right:22px;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;box-shadow:0 5px 16px rgba(37,211,102,.38);z-index:90;text-decoration:none;animation:waf 3.5s ease-in-out infinite}
+        .wa-float:hover{animation:none;transform:scale(1.1)}
+        @keyframes waf{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+    </style>
+</head>
+<body>
+    <header>
+        <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Retour</a>
+        <div class="logo">BOOST CENTRAL</div>
+    </header>
+
+    <main>
+        <!-- Solde -->
+        <div class="bal-box">
+            <div><div class="lbl">Solde actuel</div><div class="val" id="balVal">0</div><div class="cur">FCFA</div></div>
+            <i class="fas fa-wallet" style="font-size:2rem;color:var(--blue-l)"></i>
+        </div>
+
+        <div class="pg-title">💳 Recharger mon solde</div>
+        <div class="pg-sub">Choisissez votre méthode de paiement ci-dessous. L'admin validera votre recharge et votre solde sera mis à jour sous peu.</div>
+
+        <!-- Cameroun : Mobile Money + Crypto -->
+        <div class="cameroon-only" id="cmSection"><i class="fas fa-flag"></i> 🇨🇲 Cameroun détecté — Mobile Money disponible</div>
+
+        <!-- Méthodes -->
+        <div class="meth-grid" id="methGrid">
+            <!-- Mobile Money (Cameroun seulement) -->
+            <div class="meth-card cm-only" data-meth="mtn" onclick="selectMeth(this)">
+                <i class="fas fa-mobile-alt mth-mtn"></i>
+                <div class="meth-name">MTN Mobile Money</div>
+                <div class="meth-sub">🇨🇲 Cameroun uniquement</div>
+            </div>
+            <div class="meth-card cm-only" data-meth="orange" onclick="selectMeth(this)">
+                <i class="fas fa-mobile-alt mth-orange"></i>
+                <div class="meth-name">Orange Money</div>
+                <div class="meth-sub">🇨🇲 Cameroun uniquement</div>
+            </div>
+            <!-- Crypto (tous pays) -->
+            <div class="meth-card" data-meth="crypto_btc" onclick="selectMeth(this)">
+                <i class="fab fa-bitcoin mth-btc"></i>
+                <div class="meth-name">Bitcoin (BTC)</div>
+                <div class="meth-sub">Tous pays</div>
+            </div>
+            <div class="meth-card" data-meth="crypto_bnb" onclick="selectMeth(this)">
+                <i class="fas fa-coins mth-bnb"></i>
+                <div class="meth-name">BNB BSC</div>
+                <div class="meth-sub">Tous pays</div>
+            </div>
+            <div class="meth-card" data-meth="crypto_sol" onclick="selectMeth(this)">
+                <i class="fas fa-sun mth-sol"></i>
+                <div class="meth-name">Solana (SOL)</div>
+                <div class="meth-sub">Tous pays</div>
+            </div>
+        </div>
+
+        <!-- FORMULAIRE MTN -->
+        <div class="form-card" id="form-mtn">
+            <div class="form-title"><i class="fas fa-mobile-alt" style="color:#FFCC00"></i> MTN Mobile Money</div>
+            <div class="wa-info">
+                <strong>Comment procéder :</strong>
+                1. Envoyez le montant souhaité au <strong>+237 6 89 01 11 85</strong> via MTN MoMo.<br>
+                2. Entrez le montant et votre numéro ci-dessous.<br>
+                3. L'admin validera votre recharge rapidement.
+            </div>
+            <div class="alert" id="al-mtn"></div>
+            <div class="fg"><label>Montant (FCFA)</label><input type="number" class="inp" id="mtn-amt" placeholder="Ex : 5000" min="500"></div>
+            <div class="fg"><label>Votre numéro MTN MoMo</label><input type="text" class="inp" id="mtn-num" placeholder="Ex : 6XX XXX XXX"></div>
+            <div class="taux">Taux : 1 FCFA = 1 FCFA de solde</div>
+            <button class="btn-sub" id="btn-mtn" onclick="submitRecharge('mtn')" style="margin-top:14px">
+                <i class="fas fa-paper-plane"></i> Envoyer la demande
+            </button>
+        </div>
+
+        <!-- FORMULAIRE ORANGE -->
+        <div class="form-card" id="form-orange">
+            <div class="form-title"><i class="fas fa-mobile-alt mth-orange"></i> Orange Money</div>
+            <div class="wa-info">
+                <strong>Comment procéder :</strong>
+                1. Envoyez le montant au <strong>+237 6 89 01 11 85</strong> via Orange Money.<br>
+                2. Entrez le montant et votre numéro ci-dessous.<br>
+                3. L'admin validera votre recharge rapidement.
+            </div>
+            <div class="alert" id="al-orange"></div>
+            <div class="fg"><label>Montant (FCFA)</label><input type="number" class="inp" id="orange-amt" placeholder="Ex : 5000" min="500"></div>
+            <div class="fg"><label>Votre numéro Orange Money</label><input type="text" class="inp" id="orange-num" placeholder="Ex : 6XX XXX XXX"></div>
+            <div class="taux">Taux : 1 FCFA = 1 FCFA de solde</div>
+            <button class="btn-sub" id="btn-orange" onclick="submitRecharge('orange')" style="margin-top:14px">
+                <i class="fas fa-paper-plane"></i> Envoyer la demande
+            </button>
+        </div>
+
+        <!-- FORMULAIRE BTC -->
+        <div class="form-card" id="form-crypto_btc">
+            <div class="form-title"><i class="fab fa-bitcoin mth-btc"></i> Bitcoin (BTC)</div>
+            <div class="crypto-addr">
+                <div class="addr-label">Adresse BTC</div>
+                <div class="addr-val" id="addr-btc">bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x</div>
+                <button class="copy-btn" onclick="copyAddr('addr-btc')"><i class="fas fa-copy"></i> Copier</button>
+            </div>
+            <div class="wa-info"><strong>Instructions :</strong> Envoyez vos BTC à l'adresse ci-dessus, puis entrez le hash de transaction et le montant en FCFA souhaité. L'admin validera après confirmation blockchain.</div>
+            <div class="alert" id="al-crypto_btc"></div>
+            <div class="fg"><label>Montant souhaité (FCFA)</label><input type="number" class="inp" id="btc-amt" placeholder="Ex : 10000" min="1000"></div>
+            <div class="fg"><label>Hash de transaction (TXID)</label><input type="text" class="inp" id="btc-hash" placeholder="Collez le TXID ici"></div>
+            <div class="taux">Taux appliqué selon le cours BTC au moment de la validation.</div>
+            <button class="btn-sub" id="btn-crypto_btc" onclick="submitRecharge('crypto_btc')" style="margin-top:14px">
+                <i class="fas fa-paper-plane"></i> Envoyer la demande
+            </button>
+        </div>
+
+        <!-- FORMULAIRE BNB -->
+        <div class="form-card" id="form-crypto_bnb">
+            <div class="form-title"><i class="fas fa-coins mth-bnb"></i> BNB (BSC)</div>
+            <div class="crypto-addr">
+                <div class="addr-label">Adresse BNB BSC</div>
+                <div class="addr-val" id="addr-bnb">0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB</div>
+                <button class="copy-btn" onclick="copyAddr('addr-bnb')"><i class="fas fa-copy"></i> Copier</button>
+            </div>
+            <div class="wa-info"><strong>Instructions :</strong> Envoyez vos BNB (réseau BSC) à l'adresse ci-dessus, entrez le hash de transaction et le montant en FCFA souhaité.</div>
+            <div class="alert" id="al-crypto_bnb"></div>
+            <div class="fg"><label>Montant souhaité (FCFA)</label><input type="number" class="inp" id="bnb-amt" placeholder="Ex : 10000" min="1000"></div>
+            <div class="fg"><label>Hash de transaction (TXID)</label><input type="text" class="inp" id="bnb-hash" placeholder="Collez le TXID ici"></div>
+            <div class="taux">Taux appliqué selon le cours BNB au moment de la validation.</div>
+            <button class="btn-sub" id="btn-crypto_bnb" onclick="submitRecharge('crypto_bnb')" style="margin-top:14px">
+                <i class="fas fa-paper-plane"></i> Envoyer la demande
+            </button>
+        </div>
+
+        <!-- FORMULAIRE SOL -->
+        <div class="form-card" id="form-crypto_sol">
+            <div class="form-title"><i class="fas fa-sun mth-sol"></i> Solana (SOL)</div>
+            <div class="crypto-addr">
+                <div class="addr-label">Adresse SOL</div>
+                <div class="addr-val" id="addr-sol">JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ</div>
+                <button class="copy-btn" onclick="copyAddr('addr-sol')"><i class="fas fa-copy"></i> Copier</button>
+            </div>
+            <div class="wa-info"><strong>Instructions :</strong> Envoyez vos SOL à l'adresse ci-dessus, entrez le hash de transaction et le montant en FCFA souhaité.</div>
+            <div class="alert" id="al-crypto_sol"></div>
+            <div class="fg"><label>Montant souhaité (FCFA)</label><input type="number" class="inp" id="sol-amt" placeholder="Ex : 10000" min="1000"></div>
+            <div class="fg"><label>Hash de transaction (TXID)</label><input type="text" class="inp" id="sol-hash" placeholder="Collez le TXID ici"></div>
+            <div class="taux">Taux appliqué selon le cours SOL au moment de la validation.</div>
+            <button class="btn-sub" id="btn-crypto_sol" onclick="submitRecharge('crypto_sol')" style="margin-top:14px">
+                <i class="fas fa-paper-plane"></i> Envoyer la demande
+            </button>
+        </div>
+
+        <!-- Historique recharges -->
+        <div class="hist-sec">
+            <div class="hist-title"><i class="fas fa-history" style="color:var(--blue)"></i> Historique des recharges</div>
+            <div id="histList"><p style="font-size:.84rem;color:var(--light)">Chargement...</p></div>
+        </div>
+    </main>
+
+    <a href="https://wa.me/237689011185" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    var SB_URL = 'https://mutdtyifvcrkiouudwhr.supabase.co';
+    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11dGR0eWlmdmNya2lvdXVkd2hyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5ODEwODcsImV4cCI6MjA4OTU1NzA4N30.l08pEalpQ50QN4xVuDp5hyan7hwXprHOeCo0nrCA4vU';
+    var sb, currentUser;
+    var isCameroon = false; // détecté via profil
+
+    window.addEventListener('load', function() {
+        try {
+            sb = window.supabase.createClient(SB_URL, SB_KEY);
+            sb.auth.getSession().then(async function(r) {
+                if (!r.data || !r.data.session) { window.location.href = 'index.html'; return; }
+                currentUser = r.data.session.user;
+                await loadProfile();
+                await loadHistory();
+            });
+        } catch(e) {}
+    });
+
+    async function loadProfile() {
+        var { data } = await sb.from('profiles').select('balance,country').eq('id', currentUser.id).single();
+        if (data) {
+            document.getElementById('balVal').textContent = fmt(Math.round(data.balance || 0));
+            // Cameroun
+            var country = (data.country || '').toLowerCase();
+            isCameroon = country.includes('cm') || country.includes('cameroun') || country.includes('cameroon');
+        }
+        // Afficher/masquer méthodes Mobile Money
+        document.querySelectorAll('.cm-only').forEach(function(el) {
+            el.style.display = isCameroon ? 'block' : 'none';
+        });
+        if (!isCameroon) document.getElementById('cmSection').style.display = 'none';
+    }
+
+    function selectMeth(card) {
+        document.querySelectorAll('.meth-card').forEach(function(c) { c.classList.remove('sel'); });
+        document.querySelectorAll('.form-card').forEach(function(f) { f.classList.remove('on'); });
+        card.classList.add('sel');
+        var meth = card.dataset.meth;
+        var form = document.getElementById('form-' + meth);
+        if (form) { form.classList.add('on'); form.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+    }
+
+    function copyAddr(id) {
+        var addr = document.getElementById(id).textContent.trim();
+        navigator.clipboard.writeText(addr).then(function() { alert('Adresse copiée ✅'); });
+    }
+
+    function showAlert(id, msg, type) {
+        var el = document.getElementById('al-' + id);
+        if (!el) return;
+        el.textContent = msg;
+        el.className = 'alert on ' + type;
+    }
+
+    function hideAlert(id) {
+        var el = document.getElementById('al-' + id);
+        if (el) el.className = 'alert';
+    }
+
+    async function submitRecharge(meth) {
+        hideAlert(meth);
+        var montant, hash = null, extra = null;
+        var btnId = 'btn-' + meth;
+
+        if (meth === 'mtn') {
+            montant = parseFloat(document.getElementById('mtn-amt').value);
+            extra   = document.getElementById('mtn-num').value.trim();
+            if (!montant || !extra) { showAlert(meth, 'Remplissez le montant et votre numéro.', 'err'); return; }
+        } else if (meth === 'orange') {
+            montant = parseFloat(document.getElementById('orange-amt').value);
+            extra   = document.getElementById('orange-num').value.trim();
+            if (!montant || !extra) { showAlert(meth, 'Remplissez le montant et votre numéro.', 'err'); return; }
+        } else if (meth === 'crypto_btc') {
+            montant = parseFloat(document.getElementById('btc-amt').value);
+            hash    = document.getElementById('btc-hash').value.trim();
+            if (!montant || !hash) { showAlert(meth, 'Remplissez le montant et le TXID.', 'err'); return; }
+        } else if (meth === 'crypto_bnb') {
+            montant = parseFloat(document.getElementById('bnb-amt').value);
+            hash    = document.getElementById('bnb-hash').value.trim();
+            if (!montant || !hash) { showAlert(meth, 'Remplissez le montant et le TXID.', 'err'); return; }
+        } else if (meth === 'crypto_sol') {
+            montant = parseFloat(document.getElementById('sol-amt').value);
+            hash    = document.getElementById('sol-hash').value.trim();
+            if (!montant || !hash) { showAlert(meth, 'Remplissez le montant et le TXID.', 'err'); return; }
+        }
+
+        if (montant < 500) { showAlert(meth, 'Montant minimum : 500 FCFA.', 'err'); return; }
+
+        document.getElementById(btnId).disabled = true;
+        document.getElementById(btnId).innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+
+        var payload = {
+            user_id:     currentUser.id,
+            user_email:  currentUser.email,
+            montant_fcfa: montant,
+            methode:     meth,
+            hash_tx:     hash,
+            capture_url: extra,
+            statut:      'en_attente'
+        };
+
+        var { error } = await sb.from('recharges').insert(payload);
+
+        document.getElementById(btnId).disabled = false;
+        document.getElementById(btnId).innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer la demande';
+
+        if (error) {
+            showAlert(meth, 'Erreur : ' + error.message, 'err');
+        } else {
+            showAlert(meth, '✅ Demande envoyée ! L\'admin va valider votre recharge très prochainement.', 'ok');
+            await loadHistory();
+        }
+    }
+
+    async function loadHistory() {
+        var { data } = await sb.from('recharges')
+            .select('*')
+            .eq('user_id', currentUser.id)
+            .order('created_at', { ascending: false })
+            .limit(10);
+
+        var container = document.getElementById('histList');
+        if (!data || data.length === 0) {
+            container.innerHTML = '<p style="font-size:.84rem;color:var(--light)">Aucune recharge pour l\'instant.</p>';
+            return;
+        }
+
+        var meths = { mtn:'MTN Mobile Money', orange:'Orange Money', crypto_btc:'Bitcoin (BTC)', crypto_bnb:'BNB BSC', crypto_sol:'Solana (SOL)' };
+        container.innerHTML = data.map(function(r) {
+            var badgeCls = { en_attente:'s-wait', valide:'s-ok', refuse:'s-ref' }[r.statut] || 's-wait';
+            var badgeTxt = { en_attente:'⏳ En attente', valide:'✅ Validée', refuse:'❌ Refusée' }[r.statut] || 'En attente';
+            var date = new Date(r.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+            return '<div class="hist-item">' +
+                '<div class="hist-info"><div class="hn">' + (meths[r.methode]||r.methode) + ' — ' + fmt(Math.round(r.montant_fcfa)) + ' FCFA</div><div class="hd">' + date + '</div></div>' +
+                '<span class="badge ' + badgeCls + '">' + badgeTxt + '</span>' +
+            '</div>';
+        }).join('');
+    }
+
+    function fmt(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+    </script>
+</body>
+</html>
