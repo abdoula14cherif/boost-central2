@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Boost Central</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Supabase chargé en premier dans le head -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
@@ -18,7 +17,7 @@
         }
         body{background:var(--off);color:var(--mid);min-height:100vh}
 
-        /* ── ÉCRAN DE CHARGEMENT ─────────────────────────── */
+        /* ── ÉCRAN DE CHARGEMENT */
         #loadingScreen{
             position:fixed;inset:0;background:var(--dark);
             display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -33,7 +32,7 @@
         .spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.15);border-top-color:#60a5fa;border-radius:50%;animation:spin .8s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
 
-        /* ── CONTENU PRINCIPAL (caché pendant le chargement) */
+        /* ── CONTENU PRINCIPAL */
         #appContent{display:none}
 
         /* HEADER */
@@ -46,10 +45,12 @@
 
         /* TABS */
         .tabs-bar{background:var(--white);border-bottom:2px solid var(--gray);padding:0 16px;display:flex;gap:2px;overflow-x:auto}
-        .tab-btn{display:flex;align-items:center;gap:6px;padding:13px 16px;border:none;background:none;font-size:.86rem;font-weight:600;color:var(--mid);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .22s}
+        .tab-btn{display:flex;align-items:center;gap:6px;padding:13px 16px;border:none;background:none;font-size:.86rem;font-weight:600;color:var(--mid);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .22s;pointer-events:none}
         .tab-btn:hover{color:var(--blue)}
         .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
-        .cnt{background:var(--orange);color:#fff;font-size:.66rem;font-weight:900;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center}
+        /* Les boutons eux-mêmes reçoivent les clics — pointer-events réactivés */
+        .tabs-bar .tab-btn{pointer-events:auto}
+        .cnt{display:inline-flex;align-items:center;justify-content:center;background:var(--orange);color:#fff;font-size:.66rem;font-weight:900;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center;pointer-events:none}
 
         /* PANELS */
         .panel{display:none;padding:18px;max-width:1100px;margin:0 auto}
@@ -166,17 +167,18 @@
             </div>
         </header>
 
-        <div class="tabs-bar">
-            <button class="tab-btn active" onclick="showTab('recharges', this)">
+        <!-- TABS — data-tab au lieu de onclick inline pour éviter le bug avec this -->
+        <div class="tabs-bar" id="tabs-bar">
+            <button class="tab-btn active" data-tab="recharges">
                 <i class="fas fa-wallet"></i> Recharges <span class="cnt" id="cnt-r">0</span>
             </button>
-            <button class="tab-btn" onclick="showTab('commandes', this)">
+            <button class="tab-btn" data-tab="commandes">
                 <i class="fas fa-rocket"></i> Commandes <span class="cnt" id="cnt-c">0</span>
             </button>
-            <button class="tab-btn" onclick="showTab('services', this)">
+            <button class="tab-btn" data-tab="services">
                 <i class="fas fa-cog"></i> Services
             </button>
-            <button class="tab-btn" onclick="showTab('users', this)">
+            <button class="tab-btn" data-tab="users">
                 <i class="fas fa-users"></i> Utilisateurs
             </button>
         </div>
@@ -187,7 +189,7 @@
             <div class="tbl-box">
                 <div class="tbl-hd">
                     <h3><i class="fas fa-wallet" style="color:var(--blue)"></i> Demandes de recharge</h3>
-                    <button class="btn btn-sync" onclick="loadRecharges()"><i class="fas fa-sync"></i> Actualiser</button>
+                    <button class="btn btn-sync" id="btn-sync-r"><i class="fas fa-sync"></i> Actualiser</button>
                 </div>
                 <div class="ow">
                     <table>
@@ -208,7 +210,7 @@
             <div class="tbl-box">
                 <div class="tbl-hd">
                     <h3><i class="fas fa-rocket" style="color:var(--orange)"></i> Commandes clients</h3>
-                    <button class="btn btn-sync" onclick="loadCommandes()"><i class="fas fa-sync"></i> Actualiser</button>
+                    <button class="btn btn-sync" id="btn-sync-c"><i class="fas fa-sync"></i> Actualiser</button>
                 </div>
                 <div class="ow">
                     <table>
@@ -228,7 +230,7 @@
         <div class="panel" id="panel-services">
             <div class="tbl-hd" style="background:var(--white);border-radius:16px 16px 0 0;border:1px solid var(--gray);border-bottom:none;margin-bottom:0">
                 <h3><i class="fas fa-cog" style="color:var(--blue)"></i> Catalogue des services</h3>
-                <button class="btn btn-sync" onclick="loadServices()"><i class="fas fa-sync"></i> Actualiser</button>
+                <button class="btn btn-sync" id="btn-sync-s"><i class="fas fa-sync"></i> Actualiser</button>
             </div>
             <div class="svc-grid" id="svc-grid" style="margin-top:14px"></div>
         </div>
@@ -238,7 +240,7 @@
             <div class="tbl-box">
                 <div class="tbl-hd">
                     <h3><i class="fas fa-users" style="color:var(--blue)"></i> Utilisateurs</h3>
-                    <button class="btn btn-sync" onclick="loadUsers()"><i class="fas fa-sync"></i> Actualiser</button>
+                    <button class="btn btn-sync" id="btn-sync-u"><i class="fas fa-sync"></i> Actualiser</button>
                 </div>
                 <div class="ow">
                     <table>
@@ -262,17 +264,17 @@
     <!-- MODAL RECHARGE -->
     <div class="modal-bg" id="modal-r">
         <div class="modal">
-            <button class="modal-close" onclick="closeM('modal-r')">✕</button>
+            <button class="modal-close" data-close="modal-r">✕</button>
             <h3 id="modal-r-title">Valider la recharge</h3>
             <div class="alert" id="al-r"></div>
             <div class="fg">
                 <label>Note admin (optionnel)</label>
                 <input class="inp" type="text" id="r-note" placeholder="Message pour l'utilisateur...">
             </div>
-            <button class="btn-full btn-full-b" id="btn-valider" onclick="execRecharge(true)">
+            <button class="btn-full btn-full-b" id="btn-valider">
                 <i class="fas fa-check"></i> Valider et créditer
             </button>
-            <button class="btn-full btn-full-red" onclick="execRecharge(false)">
+            <button class="btn-full btn-full-red" id="btn-refuser">
                 <i class="fas fa-times"></i> Refuser
             </button>
         </div>
@@ -281,7 +283,7 @@
     <!-- MODAL COMMANDE -->
     <div class="modal-bg" id="modal-c">
         <div class="modal">
-            <button class="modal-close" onclick="closeM('modal-c')">✕</button>
+            <button class="modal-close" data-close="modal-c">✕</button>
             <h3>Mettre à jour la commande</h3>
             <div class="alert" id="al-c"></div>
             <div class="fg">
@@ -301,7 +303,7 @@
                 <label>Note admin</label>
                 <input class="inp" type="text" id="c-note" placeholder="Message visible par l'utilisateur">
             </div>
-            <button class="btn-full btn-full-b" id="btn-save-c" onclick="saveCmd()">
+            <button class="btn-full btn-full-b" id="btn-save-c">
                 <i class="fas fa-save"></i> Enregistrer
             </button>
         </div>
@@ -310,7 +312,7 @@
     <!-- MODAL SERVICE -->
     <div class="modal-bg" id="modal-s">
         <div class="modal">
-            <button class="modal-close" onclick="closeM('modal-s')">✕</button>
+            <button class="modal-close" data-close="modal-s">✕</button>
             <h3 id="modal-s-title">Modifier le service</h3>
             <div class="alert" id="al-s"></div>
             <div class="fg"><label>Prix FCFA / unité</label><input class="inp" type="number" id="s-prix" step="0.1" min="0.1"></div>
@@ -321,7 +323,7 @@
                 <label style="margin:0">Actif</label>
                 <input type="checkbox" id="s-actif" style="width:18px;height:18px;cursor:pointer">
             </div>
-            <button class="btn-full btn-full-b" id="btn-save-s" onclick="saveSvc()" style="margin-top:12px">
+            <button class="btn-full btn-full-b" id="btn-save-s" style="margin-top:12px">
                 <i class="fas fa-save"></i> Enregistrer
             </button>
         </div>
@@ -330,12 +332,12 @@
     <!-- MODAL SOLDE -->
     <div class="modal-bg" id="modal-solde">
         <div class="modal">
-            <button class="modal-close" onclick="closeM('modal-solde')">✕</button>
+            <button class="modal-close" data-close="modal-solde">✕</button>
             <h3>Modifier le solde</h3>
             <p id="solde-info" style="font-size:.82rem;color:var(--mid);margin-bottom:14px"></p>
             <div class="alert" id="al-solde"></div>
             <div class="fg"><label>Nouveau solde (FCFA)</label><input class="inp" type="number" id="new-solde" min="0"></div>
-            <button class="btn-full btn-full-b" id="btn-save-solde" onclick="saveSolde()">
+            <button class="btn-full btn-full-b" id="btn-save-solde">
                 <i class="fas fa-save"></i> Enregistrer
             </button>
         </div>
@@ -343,7 +345,7 @@
 
     <script>
     // ═══════════════════════════════════════════════════════
-    // CONFIG — EMAIL ADMIN HARDCODÉ
+    // CONFIG
     // ═══════════════════════════════════════════════════════
     var ADMIN_EMAIL = 'abdoula13cherif@gmail.com';
     var SB_URL = 'https://mutdtyifvcrkiouudwhr.supabase.co';
@@ -351,13 +353,13 @@
 
     var sb = null;
     var adminUser = null;
-    var curR = {}; // recharge courante
-    var curCId = null; // commande courante
-    var curSId = null; // service courant
+    var curR = {};
+    var curCId = null;
+    var curSId = null;
     var curSoldeId = null;
 
     // ═══════════════════════════════════════════════════════
-    // INIT — exécuté immédiatement, sans attendre load
+    // INIT
     // ═══════════════════════════════════════════════════════
     (async function init() {
         setMsg('Initialisation...');
@@ -374,7 +376,7 @@
         var sessionRes = await sb.auth.getSession();
 
         if (!sessionRes.data || !sessionRes.data.session) {
-            setMsg('❌ Pas de session — Redirection vers la connexion...');
+            setMsg('❌ Pas de session — Redirection...');
             setTimeout(function() { window.location.href = 'auth.html'; }, 1500);
             return;
         }
@@ -382,18 +384,17 @@
         adminUser = sessionRes.data.session.user;
         setMsg('Session trouvée : ' + adminUser.email);
 
-        // Vérification admin par email hardcodé
         if (adminUser.email !== ADMIN_EMAIL) {
             setMsg('❌ Accès refusé pour : ' + adminUser.email);
             setTimeout(function() { window.location.href = 'dashboard.html'; }, 2000);
             return;
         }
 
-        // Tout bon — afficher l'interface
         document.getElementById('adminEmail').textContent = adminUser.email;
         document.getElementById('loadingScreen').style.display = 'none';
         document.getElementById('appContent').style.display = 'block';
 
+        bindEvents();
         loadRecharges();
     })();
 
@@ -402,17 +403,92 @@
     }
 
     // ═══════════════════════════════════════════════════════
-    // TABS
+    // BIND ALL EVENTS — délégation, jamais de onclick inline
     // ═══════════════════════════════════════════════════════
-    function showTab(name, btn) {
-        document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
-        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-        document.getElementById('panel-' + name).classList.add('active');
-        btn.classList.add('active');
-        if (name === 'recharges') loadRecharges();
-        if (name === 'commandes') loadCommandes();
-        if (name === 'services')  loadServices();
-        if (name === 'users')     loadUsers();
+    function bindEvents() {
+
+        // TABS — on remonte jusqu'au bouton depuis n'importe quel enfant cliqué
+        document.getElementById('tabs-bar').addEventListener('click', function(e) {
+            var btn = e.target.closest('.tab-btn');
+            if (!btn) return;
+            var name = btn.dataset.tab;
+            if (!name) return;
+            document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+            document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+            document.getElementById('panel-' + name).classList.add('active');
+            btn.classList.add('active');
+            if (name === 'recharges') loadRecharges();
+            if (name === 'commandes') loadCommandes();
+            if (name === 'services')  loadServices();
+            if (name === 'users')     loadUsers();
+        });
+
+        // BOUTONS SYNC
+        document.getElementById('btn-sync-r').addEventListener('click', loadRecharges);
+        document.getElementById('btn-sync-c').addEventListener('click', loadCommandes);
+        document.getElementById('btn-sync-s').addEventListener('click', loadServices);
+        document.getElementById('btn-sync-u').addEventListener('click', loadUsers);
+
+        // FERMETURE MODALS — boutons .modal-close et clic sur le fond
+        document.querySelectorAll('.modal-close').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                closeM(btn.dataset.close);
+            });
+        });
+        document.querySelectorAll('.modal-bg').forEach(function(bg) {
+            bg.addEventListener('click', function(e) {
+                if (e.target === bg) closeM(bg.id);
+            });
+        });
+
+        // MODAL RECHARGE — boutons Valider / Refuser
+        document.getElementById('btn-valider').addEventListener('click', function() { execRecharge(true); });
+        document.getElementById('btn-refuser').addEventListener('click', function() { execRecharge(false); });
+
+        // MODAL COMMANDE
+        document.getElementById('btn-save-c').addEventListener('click', saveCmd);
+
+        // MODAL SERVICE
+        document.getElementById('btn-save-s').addEventListener('click', saveSvc);
+
+        // MODAL SOLDE
+        document.getElementById('btn-save-solde').addEventListener('click', saveSolde);
+
+        // DÉLÉGATION — tableau recharges (bouton "Traiter")
+        document.getElementById('tbody-r').addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-action="open-recharge"]');
+            if (!btn) return;
+            openRecharge(btn.dataset.id, btn.dataset.userId, parseFloat(btn.dataset.montant), btn.dataset.email);
+        });
+
+        // DÉLÉGATION — tableau commandes (bouton "Éditer")
+        document.getElementById('tbody-c').addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-action="open-cmd"]');
+            if (!btn) return;
+            openCmd(btn.dataset.id, btn.dataset.statut, parseInt(btn.dataset.prog), btn.dataset.note);
+        });
+
+        // DÉLÉGATION — grille services (bouton "Modifier")
+        document.getElementById('svc-grid').addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-action="open-svc"]');
+            if (!btn) return;
+            openSvc(
+                btn.dataset.id,
+                parseFloat(btn.dataset.prix),
+                parseInt(btn.dataset.min),
+                parseInt(btn.dataset.max),
+                btn.dataset.desc,
+                btn.dataset.actif === 'true',
+                btn.dataset.cat
+            );
+        });
+
+        // DÉLÉGATION — tableau utilisateurs (bouton "Solde")
+        document.getElementById('tbody-u').addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-action="open-solde"]');
+            if (!btn) return;
+            openSolde(btn.dataset.id, btn.dataset.email, parseFloat(btn.dataset.balance));
+        });
     }
 
     // ═══════════════════════════════════════════════════════
@@ -445,6 +521,7 @@
     function bCls(s) { return { en_attente: 'b-wait', en_cours: 'b-run', termine: 'b-ok', valide: 'b-ok', refuse: 'b-ref' }[s] || 'b-wait'; }
     function bTxt(s) { return { en_attente: '⏳ En attente', en_cours: '🔄 En cours', termine: '✅ Terminé', valide: '✅ Validée', refuse: '❌ Refusé' }[s] || s; }
     var methLabels = { mtn: 'MTN MoMo', orange: 'Orange Money', crypto_btc: 'Bitcoin', crypto_bnb: 'BNB BSC', crypto_sol: 'Solana' };
+    function escAttr(s) { return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
     // ═══════════════════════════════════════════════════════
     // RECHARGES
@@ -473,14 +550,15 @@
         document.getElementById('tbody-r').innerHTML = data.map(function(r) {
             var txid = (r.hash_tx || r.capture_url || '—');
             txid = txid.length > 18 ? txid.slice(0, 18) + '…' : txid;
+            // Utilise data-* pour éviter tout bug de guillemets dans les valeurs
             var actions = r.statut === 'en_attente'
-                ? '<button class="btn btn-g" onclick="openRecharge(\'' + r.id + '\',\'' + r.user_id + '\',' + r.montant_fcfa + ',\'' + (r.user_email || '') + '\')"><i class="fas fa-check"></i> Traiter</button>'
+                ? '<button class="btn btn-g" data-action="open-recharge" data-id="' + escAttr(r.id) + '" data-user-id="' + escAttr(r.user_id) + '" data-montant="' + (r.montant_fcfa || 0) + '" data-email="' + escAttr(r.user_email || '') + '"><i class="fas fa-check"></i> Traiter</button>'
                 : '<span style="font-size:.72rem;color:var(--light)">Traité</span>';
             return '<tr>' +
-                '<td style="font-size:.79rem">' + (r.user_email || '—') + '</td>' +
+                '<td style="font-size:.79rem">' + escAttr(r.user_email || '—') + '</td>' +
                 '<td><strong>' + fmt(Math.round(r.montant_fcfa)) + ' FCFA</strong></td>' +
-                '<td>' + (methLabels[r.methode] || r.methode) + '</td>' +
-                '<td style="font-size:.74rem;color:var(--mid)">' + txid + '</td>' +
+                '<td>' + escAttr(methLabels[r.methode] || r.methode) + '</td>' +
+                '<td style="font-size:.74rem;color:var(--mid)">' + escAttr(txid) + '</td>' +
                 '<td style="font-size:.74rem">' + fmtDate(r.created_at) + '</td>' +
                 '<td><span class="badge ' + bCls(r.statut) + '">' + bTxt(r.statut) + '</span></td>' +
                 '<td>' + actions + '</td>' +
@@ -497,6 +575,7 @@
         document.getElementById('modal-r-title').textContent = 'Recharge de ' + fmt(Math.round(montant)) + ' FCFA — ' + email;
         document.getElementById('r-note').value = '';
         document.getElementById('al-r').className = 'alert';
+        document.getElementById('btn-valider').disabled = false;
         openM('modal-r');
     }
 
@@ -544,24 +623,25 @@
             var prog = c.progression || 0;
             var progHtml = '<div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:' + prog + '%"></div></div><span class="prog-pct">' + prog + '%</span></div>';
             return '<tr>' +
-                '<td style="font-size:.78rem">' + (c.user_email || '—') + '</td>' +
-                '<td><div style="font-size:.82rem;font-weight:700;color:var(--dark)">' + c.service + '</div><div style="font-size:.72rem;color:var(--mid)">' + c.reseau + '</div></td>' +
+                '<td style="font-size:.78rem">' + escAttr(c.user_email || '—') + '</td>' +
+                '<td><div style="font-size:.82rem;font-weight:700;color:var(--dark)">' + escAttr(c.service) + '</div><div style="font-size:.72rem;color:var(--mid)">' + escAttr(c.reseau) + '</div></td>' +
                 '<td>' + fmt(c.quantite) + '</td>' +
                 '<td><strong>' + fmt(Math.round(c.prix_total)) + ' FCFA</strong></td>' +
                 '<td style="font-size:.73rem">' + fmtDate(c.created_at) + '</td>' +
                 '<td><span class="badge ' + bCls(c.statut) + '">' + bTxt(c.statut) + '</span></td>' +
                 '<td>' + progHtml + '</td>' +
-                '<td><button class="btn btn-b" onclick="openCmd(\'' + c.id + '\',\'' + c.statut + '\',' + prog + ',\'' + encodeURIComponent(c.note_admin || '') + '\',\'' + encodeURIComponent(c.lien || '') + '\')"><i class="fas fa-edit"></i></button></td>' +
+                '<td><button class="btn btn-b" data-action="open-cmd" data-id="' + escAttr(c.id) + '" data-statut="' + escAttr(c.statut) + '" data-prog="' + prog + '" data-note="' + escAttr(c.note_admin || '') + '"><i class="fas fa-edit"></i></button></td>' +
             '</tr>';
         }).join('');
     }
 
-    function openCmd(id, statut, prog, note, lien) {
+    function openCmd(id, statut, prog, note) {
         curCId = id;
         document.getElementById('c-statut').value = statut;
         document.getElementById('c-prog').value   = prog;
-        document.getElementById('c-note').value   = decodeURIComponent(note);
+        document.getElementById('c-note').value   = note || '';
         document.getElementById('al-c').className = 'alert';
+        document.getElementById('btn-save-c').disabled = false;
         openM('modal-c');
     }
 
@@ -600,27 +680,37 @@
 
         document.getElementById('svc-grid').innerHTML = data.map(function(s) {
             return '<div class="svc-card">' +
-                '<div class="svc-name">' + (s.actif ? '🟢' : '🔴') + ' ' + s.categorie + '</div>' +
+                '<div class="svc-name">' + (s.actif ? '🟢' : '🔴') + ' ' + escAttr(s.categorie) + '</div>' +
                 '<div class="svc-row">' +
                     '<div><div class="svc-lbl">Prix</div><div class="svc-val" style="color:var(--orange)">' + s.prix_fcfa + ' FCFA</div></div>' +
-                    '<div><div class="svc-lbl">Réseau</div><div class="svc-val">' + s.reseau + '</div></div>' +
+                    '<div><div class="svc-lbl">Réseau</div><div class="svc-val">' + escAttr(s.reseau) + '</div></div>' +
                     '<div><div class="svc-lbl">Min</div><div class="svc-val">' + fmt(s.min_qte) + '</div></div>' +
                     '<div><div class="svc-lbl">Max</div><div class="svc-val">' + fmt(s.max_qte) + '</div></div>' +
                 '</div>' +
-                '<button class="btn btn-b" onclick="openSvc(' + s.id + ',' + s.prix_fcfa + ',' + s.min_qte + ',' + s.max_qte + ',\'' + encodeURIComponent(s.description || '') + '\',' + s.actif + ',\'' + encodeURIComponent(s.categorie) + '\')"><i class="fas fa-edit"></i> Modifier</button>' +
+                '<button class="btn btn-b" data-action="open-svc"' +
+                    ' data-id="' + escAttr(s.id) + '"' +
+                    ' data-prix="' + s.prix_fcfa + '"' +
+                    ' data-min="' + s.min_qte + '"' +
+                    ' data-max="' + s.max_qte + '"' +
+                    ' data-desc="' + escAttr(s.description || '') + '"' +
+                    ' data-actif="' + (s.actif ? 'true' : 'false') + '"' +
+                    ' data-cat="' + escAttr(s.categorie) + '">' +
+                    '<i class="fas fa-edit"></i> Modifier' +
+                '</button>' +
             '</div>';
         }).join('');
     }
 
     function openSvc(id, prix, min, max, desc, actif, cat) {
         curSId = id;
-        document.getElementById('modal-s-title').textContent = 'Modifier : ' + decodeURIComponent(cat);
+        document.getElementById('modal-s-title').textContent = 'Modifier : ' + cat;
         document.getElementById('s-prix').value  = prix;
         document.getElementById('s-min').value   = min;
         document.getElementById('s-max').value   = max;
-        document.getElementById('s-desc').value  = decodeURIComponent(desc);
+        document.getElementById('s-desc').value  = desc;
         document.getElementById('s-actif').checked = actif;
         document.getElementById('al-s').className = 'alert';
+        document.getElementById('btn-save-s').disabled = false;
         openM('modal-s');
     }
 
@@ -652,21 +742,22 @@
 
         document.getElementById('tbody-u').innerHTML = data.map(function(u) {
             return '<tr>' +
-                '<td style="font-size:.8rem">' + (u.email || '—') + '</td>' +
-                '<td>' + (u.full_name || '—') + '</td>' +
-                '<td>' + (u.country || '—') + '</td>' +
+                '<td style="font-size:.8rem">' + escAttr(u.email || '—') + '</td>' +
+                '<td>' + escAttr(u.full_name || '—') + '</td>' +
+                '<td>' + escAttr(u.country || '—') + '</td>' +
                 '<td><strong style="color:var(--orange)">' + fmt(Math.round(u.balance || 0)) + '</strong></td>' +
                 '<td>' + (u.is_admin ? '👑 Admin' : '—') + '</td>' +
-                '<td><button class="btn btn-o" onclick="openSolde(\'' + u.id + '\',\'' + encodeURIComponent(u.email || '') + '\',' + (u.balance || 0) + ')"><i class="fas fa-wallet"></i> Solde</button></td>' +
+                '<td><button class="btn btn-o" data-action="open-solde" data-id="' + escAttr(u.id) + '" data-email="' + escAttr(u.email || '') + '" data-balance="' + (u.balance || 0) + '"><i class="fas fa-wallet"></i> Solde</button></td>' +
             '</tr>';
         }).join('');
     }
 
     function openSolde(userId, email, balance) {
         curSoldeId = userId;
-        document.getElementById('solde-info').textContent = decodeURIComponent(email);
+        document.getElementById('solde-info').textContent = email;
         document.getElementById('new-solde').value = balance;
         document.getElementById('al-solde').className = 'alert';
+        document.getElementById('btn-save-solde').disabled = false;
         openM('modal-solde');
     }
 
