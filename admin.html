@@ -30,7 +30,6 @@
         .btn-back:hover{background:rgba(255,255,255,.2)}
         .tabs-bar{background:var(--white);border-bottom:2px solid var(--gray);padding:0 16px;display:flex;gap:2px;overflow-x:auto}
         .tab-btn{display:flex;align-items:center;gap:6px;padding:13px 16px;border:none;background:none;font-size:.86rem;font-weight:600;color:var(--mid);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .22s}
-        /* Clé du fix tabs : les enfants (icône, span compteur) ne reçoivent pas les clics */
         .tab-btn *{pointer-events:none}
         .tab-btn:hover{color:var(--blue)}
         .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
@@ -245,28 +244,35 @@
 
 <script>
 var ADMIN_EMAIL = 'abdoula13cherif@gmail.com';
-var SB_URL = 'https://mgogeabzjtuosxexyhjw.supabase.co';
-var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ';
+var SB_URL     = 'https://mgogeabzjtuosxexyhjw.supabase.co';
+var SB_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ';
+var SB_SERVICE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDM4MTQxMCwiZXhwIjoyMDg5OTU3NDEwfQ.yxEz61saciPNtExNguO_Afx3tVDhUHpRUBapYs_yum0';
 
-var sb = null, adminUser = null, curR = {}, curCId = null, curSId = null, curSoldeId = null;
-// Caches pour éviter de passer des données complexes via onclick inline
+// sb  → auth uniquement (anon key, session utilisateur)
+// sbA → toutes les requêtes DB (service role key, bypass RLS)
+var sb = null, sbA = null;
+var adminUser = null, curR = {}, curCId = null, curSId = null, curSoldeId = null;
 window._recharges = {}; window._commandes = {}; window._services = {}; window._profiles = {};
 
 (async function init() {
     setMsg('Initialisation...');
-    try { sb = window.supabase.createClient(SB_URL, SB_KEY); }
-    catch(e){ setMsg('❌ Erreur SDK : '+e.message); return; }
+    try {
+        sb  = window.supabase.createClient(SB_URL, SB_ANON);
+        sbA = window.supabase.createClient(SB_URL, SB_SERVICE, {
+            auth: { persistSession: false, autoRefreshToken: false }
+        });
+    } catch(e){ setMsg('❌ Erreur SDK : '+e.message); return; }
 
     setMsg('Récupération de la session...');
     var res = await sb.auth.getSession();
-    if (!res.data||!res.data.session){
+    if (!res.data || !res.data.session){
         setMsg('❌ Pas de session — Redirection...');
-        setTimeout(function(){ window.location.href='auth.html'; },1500); return;
+        setTimeout(function(){ window.location.href='auth.html'; }, 1500); return;
     }
     adminUser = res.data.session.user;
     if (adminUser.email !== ADMIN_EMAIL){
         setMsg('❌ Accès refusé : '+adminUser.email);
-        setTimeout(function(){ window.location.href='dashboard.html'; },2000); return;
+        setTimeout(function(){ window.location.href='dashboard.html'; }, 2000); return;
     }
     document.getElementById('adminEmail').textContent = adminUser.email;
     document.getElementById('loadingScreen').style.display = 'none';
@@ -274,13 +280,12 @@ window._recharges = {}; window._commandes = {}; window._services = {}; window._p
     loadRecharges();
 })();
 
-function setMsg(t){ document.getElementById('loadMsg').textContent=t; }
+function setMsg(t){ document.getElementById('loadMsg').textContent = t; }
 
-// ── TABS ─────────────────────────────────────────
-// pointer-events:none sur .tab-btn * garantit que this=le bouton, jamais l'icône ou le span
-function showTab(name,btn){
-    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
-    document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+// ── TABS ──────────────────────────────────────────
+function showTab(name, btn){
+    document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
     document.getElementById('panel-'+name).classList.add('active');
     btn.classList.add('active');
     if(name==='recharges') loadRecharges();
@@ -290,46 +295,46 @@ function showTab(name,btn){
 }
 
 // ── MODALS / TOAST ────────────────────────────────
-function openM(id){document.getElementById(id).classList.add('open');}
-function closeM(id){document.getElementById(id).classList.remove('open');}
-function showAl(id,msg,type){var e=document.getElementById(id);e.textContent=msg;e.className='alert show alert-'+type;}
-function toast(msg,type){
-    var t=document.getElementById('toast');
-    t.innerHTML=(type==='ok'?'✅ ':'❌ ')+msg;
-    t.className='toast show '+type;
+function openM(id){ document.getElementById(id).classList.add('open'); }
+function closeM(id){ document.getElementById(id).classList.remove('open'); }
+function showAl(id, msg, type){ var e=document.getElementById(id); e.textContent=msg; e.className='alert show alert-'+type; }
+function toast(msg, type){
+    var t = document.getElementById('toast');
+    t.innerHTML = (type==='ok' ? '✅ ' : '❌ ') + msg;
+    t.className = 'toast show ' + type;
     clearTimeout(t._t);
-    t._t=setTimeout(function(){t.classList.remove('show');},4000);
+    t._t = setTimeout(function(){ t.classList.remove('show'); }, 4000);
 }
 
 // ── UTILS ─────────────────────────────────────────
-function fmt(n){return (n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');}
-function fmtDate(d){return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}
-function bCls(s){return {en_attente:'b-wait',en_cours:'b-run',termine:'b-ok',valide:'b-ok',refuse:'b-ref'}[s]||'b-wait';}
-function bTxt(s){return {en_attente:'⏳ En attente',en_cours:'🔄 En cours',termine:'✅ Terminé',valide:'✅ Validée',refuse:'❌ Refusé'}[s]||s;}
-function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-var mL={mtn:'MTN MoMo',orange:'Orange Money',crypto_btc:'Bitcoin',crypto_bnb:'BNB BSC',crypto_sol:'Solana'};
+function fmt(n){ return (n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function fmtDate(d){ return new Date(d).toLocaleDateString('fr-FR', {day:'2-digit',month:'short',year:'numeric'}); }
+function bCls(s){ return {en_attente:'b-wait',en_cours:'b-run',termine:'b-ok',valide:'b-ok',refuse:'b-ref'}[s]||'b-wait'; }
+function bTxt(s){ return {en_attente:'⏳ En attente',en_cours:'🔄 En cours',termine:'✅ Terminé',valide:'✅ Validée',refuse:'❌ Refusé'}[s]||s; }
+function escH(s){ return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+var mL = {mtn:'MTN MoMo', orange:'Orange Money', crypto_btc:'Bitcoin', crypto_bnb:'BNB BSC', crypto_sol:'Solana'};
 
 // ── RECHARGES ─────────────────────────────────────
 async function loadRecharges(){
-    var {data,error}=await sb.from('recharges').select('*').order('created_at',{ascending:false}).limit(50);
-    if(error){toast('Erreur recharges : '+error.message,'err');return;}
-    data=data||[];
-    var pend=data.filter(function(r){return r.statut==='en_attente';}).length;
-    var tot=data.reduce(function(a,r){return a+(r.montant_fcfa||0);},0);
-    var val=data.filter(function(r){return r.statut==='valide';}).reduce(function(a,r){return a+(r.montant_fcfa||0);},0);
-    document.getElementById('cnt-r').textContent=pend;
-    document.getElementById('stats-recharges').innerHTML=
+    var {data, error} = await sbA.from('recharges').select('*').order('created_at', {ascending:false}).limit(50);
+    if(error){ toast('Erreur recharges : '+error.message, 'err'); return; }
+    data = data || [];
+    var pend = data.filter(function(r){ return r.statut==='en_attente'; }).length;
+    var tot  = data.reduce(function(a,r){ return a+(r.montant_fcfa||0); }, 0);
+    var val  = data.filter(function(r){ return r.statut==='valide'; }).reduce(function(a,r){ return a+(r.montant_fcfa||0); }, 0);
+    document.getElementById('cnt-r').textContent = pend;
+    document.getElementById('stats-recharges').innerHTML =
         stat(data.length,'Total demandes','')+stat(pend,'En attente','','var(--yellow)')+
         stat(fmt(Math.round(tot)),'FCFA demandés','','var(--orange)')+stat(fmt(Math.round(val)),'FCFA crédités','','var(--green)');
-    if(!data.length){document.getElementById('tbody-r').innerHTML=noData(7);return;}
-    window._recharges={};
-    data.forEach(function(r){window._recharges[r.id]=r;});
-    document.getElementById('tbody-r').innerHTML=data.map(function(r){
-        var tx=(r.hash_tx||r.capture_url||'—');
-        tx=tx.length>18?tx.slice(0,18)+'…':tx;
-        var act=r.statut==='en_attente'
-            ?'<button class="btn btn-g" onclick="openRecharge(\''+escH(r.id)+'\')"><i class="fas fa-check"></i> Traiter</button>'
-            :'<span style="font-size:.72rem;color:var(--light)">Traité</span>';
+    if(!data.length){ document.getElementById('tbody-r').innerHTML = noData(7); return; }
+    window._recharges = {};
+    data.forEach(function(r){ window._recharges[r.id] = r; });
+    document.getElementById('tbody-r').innerHTML = data.map(function(r){
+        var tx = (r.hash_tx || r.capture_url || '—');
+        tx = tx.length > 18 ? tx.slice(0,18)+'…' : tx;
+        var act = r.statut === 'en_attente'
+            ? '<button class="btn btn-g" onclick="openRecharge(\''+escH(r.id)+'\')"><i class="fas fa-check"></i> Traiter</button>'
+            : '<span style="font-size:.72rem;color:var(--light)">Traité</span>';
         return '<tr><td style="font-size:.79rem">'+escH(r.user_email||'—')+'</td>'+
             '<td><strong>'+fmt(Math.round(r.montant_fcfa))+' FCFA</strong></td>'+
             '<td>'+escH(mL[r.methode]||r.methode)+'</td>'+
@@ -339,46 +344,46 @@ async function loadRecharges(){
             '<td>'+act+'</td></tr>';
     }).join('');
 }
-function stat(val,lbl,sub,color){
+function stat(val, lbl, sub, color){
     return '<div class="stat-box"><div class="sl">'+lbl+'</div><div class="sv" style="color:'+(color||'var(--dark)')+'">'+val+'</div>'+(sub?'<div class="ss">'+sub+'</div>':'')+'</div>';
 }
 function openRecharge(id){
-    var r=window._recharges[id]; if(!r)return;
-    curR={id:r.id,userId:r.user_id,montant:r.montant_fcfa,email:r.user_email||''};
-    document.getElementById('modal-r-title').textContent='Recharge de '+fmt(Math.round(r.montant_fcfa))+' FCFA — '+(r.user_email||'');
-    document.getElementById('r-note').value='';
-    document.getElementById('al-r').className='alert';
-    document.getElementById('btn-valider').disabled=false;
+    var r = window._recharges[id]; if(!r) return;
+    curR = {id:r.id, userId:r.user_id, montant:r.montant_fcfa, email:r.user_email||''};
+    document.getElementById('modal-r-title').textContent = 'Recharge de '+fmt(Math.round(r.montant_fcfa))+' FCFA — '+(r.user_email||'');
+    document.getElementById('r-note').value = '';
+    document.getElementById('al-r').className = 'alert';
+    document.getElementById('btn-valider').disabled = false;
     openM('modal-r');
 }
 async function execRecharge(valider){
-    document.getElementById('btn-valider').disabled=true;
-    var note=document.getElementById('r-note').value.trim();
-    var statut=valider?'valide':'refuse';
-    var {error:e1}=await sb.from('recharges').update({statut:statut,note_admin:note,updated_at:new Date().toISOString()}).eq('id',curR.id);
-    if(e1){showAl('al-r',e1.message,'err');document.getElementById('btn-valider').disabled=false;return;}
-    if(valider&&curR.userId){
-        var {data:prof}=await sb.from('profiles').select('balance').eq('id',curR.userId).single();
-        var nb=((prof&&prof.balance)||0)+curR.montant;
-        await sb.from('profiles').update({balance:nb}).eq('id',curR.userId);
-        toast('+'+fmt(Math.round(curR.montant))+' FCFA crédités à '+curR.email,'ok');
-    }else if(!valider){toast('Recharge refusée.','err');}
-    document.getElementById('btn-valider').disabled=false;
+    document.getElementById('btn-valider').disabled = true;
+    var note   = document.getElementById('r-note').value.trim();
+    var statut = valider ? 'valide' : 'refuse';
+    var {error:e1} = await sbA.from('recharges').update({statut:statut, note_admin:note, updated_at:new Date().toISOString()}).eq('id', curR.id);
+    if(e1){ showAl('al-r', e1.message, 'err'); document.getElementById('btn-valider').disabled=false; return; }
+    if(valider && curR.userId){
+        var {data:prof} = await sbA.from('profiles').select('balance').eq('id', curR.userId).single();
+        var nb = ((prof && prof.balance) || 0) + curR.montant;
+        await sbA.from('profiles').update({balance:nb}).eq('id', curR.userId);
+        toast('+'+fmt(Math.round(curR.montant))+' FCFA crédités à '+curR.email, 'ok');
+    } else if(!valider){ toast('Recharge refusée.', 'err'); }
+    document.getElementById('btn-valider').disabled = false;
     closeM('modal-r'); loadRecharges();
 }
 
 // ── COMMANDES ─────────────────────────────────────
 async function loadCommandes(){
-    var {data,error}=await sb.from('commandes').select('*').order('created_at',{ascending:false}).limit(100);
-    if(error){toast('Erreur commandes : '+error.message,'err');return;}
-    data=data||[];
-    document.getElementById('cnt-c').textContent=data.filter(function(c){return c.statut==='en_attente';}).length;
-    if(!data.length){document.getElementById('tbody-c').innerHTML=noData(8);return;}
-    window._commandes={};
-    data.forEach(function(c){window._commandes[c.id]=c;});
-    document.getElementById('tbody-c').innerHTML=data.map(function(c){
-        var p=c.progression||0;
-        var ph='<div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:'+p+'%"></div></div><span class="prog-pct">'+p+'%</span></div>';
+    var {data, error} = await sbA.from('commandes').select('*').order('created_at', {ascending:false}).limit(100);
+    if(error){ toast('Erreur commandes : '+error.message, 'err'); return; }
+    data = data || [];
+    document.getElementById('cnt-c').textContent = data.filter(function(c){ return c.statut==='en_attente'; }).length;
+    if(!data.length){ document.getElementById('tbody-c').innerHTML = noData(8); return; }
+    window._commandes = {};
+    data.forEach(function(c){ window._commandes[c.id] = c; });
+    document.getElementById('tbody-c').innerHTML = data.map(function(c){
+        var p  = c.progression || 0;
+        var ph = '<div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:'+p+'%"></div></div><span class="prog-pct">'+p+'%</span></div>';
         return '<tr><td style="font-size:.78rem">'+escH(c.user_email||'—')+'</td>'+
             '<td><div style="font-size:.82rem;font-weight:700;color:var(--dark)">'+escH(c.service)+'</div><div style="font-size:.72rem;color:var(--mid)">'+escH(c.reseau)+'</div></td>'+
             '<td>'+fmt(c.quantite)+'</td><td><strong>'+fmt(Math.round(c.prix_total))+' FCFA</strong></td>'+
@@ -389,36 +394,36 @@ async function loadCommandes(){
     }).join('');
 }
 function openCmd(id){
-    var c=window._commandes[id]; if(!c)return;
-    curCId=id;
-    document.getElementById('c-statut').value=c.statut;
-    document.getElementById('c-prog').value=c.progression||0;
-    document.getElementById('c-note').value=c.note_admin||'';
-    document.getElementById('al-c').className='alert';
-    document.getElementById('btn-save-c').disabled=false;
+    var c = window._commandes[id]; if(!c) return;
+    curCId = id;
+    document.getElementById('c-statut').value = c.statut;
+    document.getElementById('c-prog').value   = c.progression || 0;
+    document.getElementById('c-note').value   = c.note_admin || '';
+    document.getElementById('al-c').className = 'alert';
+    document.getElementById('btn-save-c').disabled = false;
     openM('modal-c');
 }
 async function saveCmd(){
-    document.getElementById('btn-save-c').disabled=true;
-    var statut=document.getElementById('c-statut').value;
-    var prog=parseInt(document.getElementById('c-prog').value)||0;
-    var note=document.getElementById('c-note').value.trim();
-    if(statut==='termine')prog=100; if(statut==='refuse')prog=0;
-    var {error}=await sb.from('commandes').update({statut:statut,progression:prog,note_admin:note,updated_at:new Date().toISOString()}).eq('id',curCId);
-    document.getElementById('btn-save-c').disabled=false;
-    if(error){showAl('al-c',error.message,'err');return;}
-    toast('Commande mise à jour.','ok'); closeM('modal-c'); loadCommandes();
+    document.getElementById('btn-save-c').disabled = true;
+    var statut = document.getElementById('c-statut').value;
+    var prog   = parseInt(document.getElementById('c-prog').value) || 0;
+    var note   = document.getElementById('c-note').value.trim();
+    if(statut==='termine') prog=100; if(statut==='refuse') prog=0;
+    var {error} = await sbA.from('commandes').update({statut:statut, progression:prog, note_admin:note, updated_at:new Date().toISOString()}).eq('id', curCId);
+    document.getElementById('btn-save-c').disabled = false;
+    if(error){ showAl('al-c', error.message, 'err'); return; }
+    toast('Commande mise à jour.', 'ok'); closeM('modal-c'); loadCommandes();
 }
 
 // ── SERVICES ──────────────────────────────────────
 async function loadServices(){
-    var {data,error}=await sb.from('services').select('*').order('reseau').order('categorie');
-    if(error){toast('Erreur services : '+error.message,'err');return;}
-    data=data||[];
-    if(!data.length){document.getElementById('svc-grid').innerHTML='<p style="color:var(--light);font-size:.85rem;padding:20px">Aucun service.</p>';return;}
-    window._services={};
-    data.forEach(function(s){window._services[s.id]=s;});
-    document.getElementById('svc-grid').innerHTML=data.map(function(s){
+    var {data, error} = await sbA.from('services').select('*').order('reseau').order('categorie');
+    if(error){ toast('Erreur services : '+error.message, 'err'); return; }
+    data = data || [];
+    if(!data.length){ document.getElementById('svc-grid').innerHTML='<p style="color:var(--light);font-size:.85rem;padding:20px">Aucun service.</p>'; return; }
+    window._services = {};
+    data.forEach(function(s){ window._services[s.id] = s; });
+    document.getElementById('svc-grid').innerHTML = data.map(function(s){
         return '<div class="svc-card">'+
             '<div class="svc-name">'+(s.actif?'🟢':'🔴')+' '+escH(s.categorie)+'</div>'+
             '<div class="svc-row">'+
@@ -432,41 +437,41 @@ async function loadServices(){
     }).join('');
 }
 function openSvc(id){
-    var s=window._services[id]; if(!s)return;
-    curSId=id;
-    document.getElementById('modal-s-title').textContent='Modifier : '+s.categorie;
-    document.getElementById('s-prix').value=s.prix_fcfa;
-    document.getElementById('s-min').value=s.min_qte;
-    document.getElementById('s-max').value=s.max_qte;
-    document.getElementById('s-desc').value=s.description||'';
-    document.getElementById('s-actif').checked=!!s.actif;
-    document.getElementById('al-s').className='alert';
-    document.getElementById('btn-save-s').disabled=false;
+    var s = window._services[id]; if(!s) return;
+    curSId = id;
+    document.getElementById('modal-s-title').textContent = 'Modifier : '+s.categorie;
+    document.getElementById('s-prix').value  = s.prix_fcfa;
+    document.getElementById('s-min').value   = s.min_qte;
+    document.getElementById('s-max').value   = s.max_qte;
+    document.getElementById('s-desc').value  = s.description || '';
+    document.getElementById('s-actif').checked = !!s.actif;
+    document.getElementById('al-s').className = 'alert';
+    document.getElementById('btn-save-s').disabled = false;
     openM('modal-s');
 }
 async function saveSvc(){
-    document.getElementById('btn-save-s').disabled=true;
-    var {error}=await sb.from('services').update({
-        prix_fcfa:parseFloat(document.getElementById('s-prix').value),
-        min_qte:parseInt(document.getElementById('s-min').value),
-        max_qte:parseInt(document.getElementById('s-max').value),
-        description:document.getElementById('s-desc').value.trim(),
-        actif:document.getElementById('s-actif').checked
-    }).eq('id',curSId);
-    document.getElementById('btn-save-s').disabled=false;
-    if(error){showAl('al-s',error.message,'err');return;}
-    toast('Service mis à jour.','ok'); closeM('modal-s'); loadServices();
+    document.getElementById('btn-save-s').disabled = true;
+    var {error} = await sbA.from('services').update({
+        prix_fcfa   : parseFloat(document.getElementById('s-prix').value),
+        min_qte     : parseInt(document.getElementById('s-min').value),
+        max_qte     : parseInt(document.getElementById('s-max').value),
+        description : document.getElementById('s-desc').value.trim(),
+        actif       : document.getElementById('s-actif').checked
+    }).eq('id', curSId);
+    document.getElementById('btn-save-s').disabled = false;
+    if(error){ showAl('al-s', error.message, 'err'); return; }
+    toast('Service mis à jour.', 'ok'); closeM('modal-s'); loadServices();
 }
 
 // ── UTILISATEURS ──────────────────────────────────
 async function loadUsers(){
-    var {data,error}=await sb.from('profiles').select('*').order('created_at',{ascending:false});
-    if(error){toast('Erreur utilisateurs : '+error.message,'err');return;}
-    data=data||[];
-    if(!data.length){document.getElementById('tbody-u').innerHTML=noData(6);return;}
-    window._profiles={};
-    data.forEach(function(u){window._profiles[u.id]=u;});
-    document.getElementById('tbody-u').innerHTML=data.map(function(u){
+    var {data, error} = await sbA.from('profiles').select('*').order('created_at', {ascending:false});
+    if(error){ toast('Erreur utilisateurs : '+error.message, 'err'); return; }
+    data = data || [];
+    if(!data.length){ document.getElementById('tbody-u').innerHTML = noData(6); return; }
+    window._profiles = {};
+    data.forEach(function(u){ window._profiles[u.id] = u; });
+    document.getElementById('tbody-u').innerHTML = data.map(function(u){
         return '<tr><td style="font-size:.8rem">'+escH(u.email||'—')+'</td>'+
             '<td>'+escH(u.full_name||'—')+'</td><td>'+escH(u.country||'—')+'</td>'+
             '<td><strong style="color:var(--orange)">'+fmt(Math.round(u.balance||0))+'</strong></td>'+
@@ -475,25 +480,25 @@ async function loadUsers(){
     }).join('');
 }
 function openSolde(id){
-    var u=window._profiles[id]; if(!u)return;
-    curSoldeId=id;
-    document.getElementById('solde-info').textContent=u.email||'';
-    document.getElementById('new-solde').value=u.balance||0;
-    document.getElementById('al-solde').className='alert';
-    document.getElementById('btn-save-solde').disabled=false;
+    var u = window._profiles[id]; if(!u) return;
+    curSoldeId = id;
+    document.getElementById('solde-info').textContent = u.email || '';
+    document.getElementById('new-solde').value = u.balance || 0;
+    document.getElementById('al-solde').className = 'alert';
+    document.getElementById('btn-save-solde').disabled = false;
     openM('modal-solde');
 }
 async function saveSolde(){
-    document.getElementById('btn-save-solde').disabled=true;
-    var nb=parseFloat(document.getElementById('new-solde').value)||0;
-    var {error}=await sb.from('profiles').update({balance:nb}).eq('id',curSoldeId);
-    document.getElementById('btn-save-solde').disabled=false;
-    if(error){showAl('al-solde',error.message,'err');return;}
-    toast('Solde mis à jour : '+fmt(Math.round(nb))+' FCFA.','ok');
+    document.getElementById('btn-save-solde').disabled = true;
+    var nb = parseFloat(document.getElementById('new-solde').value) || 0;
+    var {error} = await sbA.from('profiles').update({balance:nb}).eq('id', curSoldeId);
+    document.getElementById('btn-save-solde').disabled = false;
+    if(error){ showAl('al-solde', error.message, 'err'); return; }
+    toast('Solde mis à jour : '+fmt(Math.round(nb))+' FCFA.', 'ok');
     closeM('modal-solde'); loadUsers();
 }
 
-function noData(cols){return '<tr><td colspan="'+cols+'"><div class="no-data"><i class="fas fa-inbox"></i><p>Aucune donnée</p></div></td></tr>';}
+function noData(cols){ return '<tr><td colspan="'+cols+'"><div class="no-data"><i class="fas fa-inbox"></i><p>Aucune donnée</p></div></td></tr>'; }
 </script>
 </body>
 </html>
