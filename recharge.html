@@ -9,40 +9,26 @@
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
         :root{--blue:#0066FF;--blue-d:#0047CC;--blue-l:#E6F0FF;--orange:#FF6600;--orange-d:#CC5200;--white:#fff;--off:#F8FAFC;--gray:#E2E8F0;--light-g:#F1F5F9;--dark:#1E293B;--mid:#475569;--light:#8A9AB5;--green:#059669;--red:#DC2626}
         body{background:var(--off);min-height:100vh;color:var(--mid)}
-
-        /* header simple */
         header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--white);border-bottom:2px solid var(--gray);box-shadow:0 2px 8px rgba(0,0,0,.04);position:sticky;top:0;z-index:10}
         .back-btn{background:var(--blue-l);border:none;color:var(--blue);padding:8px 12px;border-radius:9px;cursor:pointer;font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:6px;text-decoration:none;transition:all .22s}
         .back-btn:hover{background:var(--blue);color:var(--white)}
         .logo{font-size:1.3rem;font-weight:900;background:linear-gradient(90deg,var(--blue),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
-
         main{padding:20px;max-width:680px;margin:0 auto}
-
-        /* solde actuel */
         .bal-box{background:var(--white);border-radius:16px;padding:20px;border:1px solid var(--gray);box-shadow:0 4px 14px rgba(0,0,0,.05);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
         .bal-box .lbl{font-size:.82rem;color:var(--mid);margin-bottom:4px}
         .bal-box .val{font-size:2rem;font-weight:900;color:var(--orange)}
         .bal-box .cur{font-size:.82rem;color:var(--mid)}
-
-        /* titre */
         .pg-title{font-size:1.2rem;font-weight:800;color:var(--dark);margin-bottom:6px}
         .pg-sub{font-size:.85rem;color:var(--mid);margin-bottom:20px;line-height:1.6}
-
-        /* methodes */
         .meth-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
         @media(max-width:440px){.meth-grid{grid-template-columns:1fr}}
-        .meth-card{
-            border:2px solid var(--gray);border-radius:14px;padding:16px 14px;
-            cursor:pointer;transition:all .25s;background:var(--white);text-align:center
-        }
+        .meth-card{border:2px solid var(--gray);border-radius:14px;padding:16px 14px;cursor:pointer;transition:all .25s;background:var(--white);text-align:center}
         .meth-card:hover,.meth-card.sel{border-color:var(--blue);background:var(--blue-l)}
         .meth-card i{font-size:1.8rem;display:block;margin-bottom:8px}
         .meth-card .meth-name{font-size:.88rem;font-weight:700;color:var(--dark)}
         .meth-card .meth-sub{font-size:.74rem;color:var(--mid);margin-top:2px}
         .mth-mtn{color:#FFCC00}.mth-orange{color:#FF6600}.mth-btc{color:#F7931A}.mth-bnb{color:#F3BA2F}.mth-sol{color:#9945FF}
         .cameroon-only{display:flex;align-items:center;gap:6px;font-size:.74rem;color:var(--blue);background:var(--blue-l);padding:4px 10px;border-radius:20px;margin-bottom:16px;width:fit-content}
-
-        /* formulaire */
         .form-card{background:var(--white);border-radius:16px;padding:22px;border:1px solid var(--gray);box-shadow:0 4px 14px rgba(0,0,0,.05);display:none}
         .form-card.on{display:block;animation:fadeIn .3s ease}
         @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -51,47 +37,22 @@
         .fg label{display:block;font-size:.82rem;font-weight:600;color:var(--dark);margin-bottom:5px}
         .inp{width:100%;padding:12px 14px;border:2px solid var(--gray);border-radius:12px;font-size:.92rem;color:var(--dark);outline:none;transition:border-color .22s;background:var(--white)}
         .inp:focus{border-color:var(--blue)}
-
-        /* Adresse crypto */
-        .crypto-addr{
-            background:var(--light-g);border-radius:12px;padding:14px;
-            margin-bottom:14px;word-break:break-all;font-size:.78rem;
-            color:var(--dark);border:1px solid var(--gray)
-        }
+        .crypto-addr{background:var(--light-g);border-radius:12px;padding:14px;margin-bottom:14px;word-break:break-all;font-size:.78rem;color:var(--dark);border:1px solid var(--gray)}
         .crypto-addr .addr-label{font-size:.72rem;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
         .crypto-addr .addr-val{font-size:.8rem;font-family:monospace;color:var(--blue-d);line-height:1.5;margin-bottom:8px}
-        .copy-btn{
-            display:inline-flex;align-items:center;gap:6px;padding:6px 12px;
-            background:var(--blue);color:#fff;border:none;border-radius:8px;
-            font-size:.75rem;font-weight:700;cursor:pointer;transition:all .22s
-        }
+        .copy-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .22s}
         .copy-btn:hover{background:var(--blue-d)}
-
-        /* whatsapp methode */
         .wa-info{background:#E8FFF1;border:1px solid #6ee7b7;border-radius:12px;padding:14px;margin-bottom:14px;font-size:.84rem;color:#065f46;line-height:1.6}
         .wa-info strong{display:block;margin-bottom:4px}
-
-        /* alert */
         .alert{display:none;align-items:center;gap:8px;padding:10px 14px;border-radius:11px;font-size:.84rem;font-weight:600;margin-bottom:12px}
         .alert.on{display:flex;animation:fadeIn .25s ease}
         .alert.ok{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
         .alert.err{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
         .alert.info{background:var(--blue-l);color:var(--blue-d);border:1px solid #93c5fd}
-
-        /* btn submit */
-        .btn-sub{
-            width:100%;padding:14px;border:none;border-radius:12px;
-            background:linear-gradient(90deg,var(--blue),var(--blue-d));
-            color:#fff;font-size:.97rem;font-weight:700;cursor:pointer;
-            display:flex;align-items:center;justify-content:center;gap:8px;
-            box-shadow:0 5px 16px rgba(0,102,255,.25);transition:all .25s
-        }
+        .btn-sub{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,var(--blue),var(--blue-d));color:#fff;font-size:.97rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 5px 16px rgba(0,102,255,.25);transition:all .25s}
         .btn-sub:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,102,255,.35)}
         .btn-sub:disabled{opacity:.6;cursor:not-allowed;transform:none}
-
         .taux{font-size:.78rem;color:var(--mid);margin-top:6px;text-align:center}
-
-        /* historique */
         .hist-sec{margin-top:24px}
         .hist-title{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:12px}
         .hist-item{background:var(--white);border:1px solid var(--gray);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
@@ -99,7 +60,6 @@
         .hist-info .hd{font-size:.74rem;color:var(--light)}
         .badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:18px;font-size:.73rem;font-weight:700}
         .s-wait{background:#FFF8E6;color:#D97706}.s-ok{background:#EDFFF5;color:var(--green)}.s-ref{background:#fee2e2;color:var(--red)}
-
         .wa-float{position:fixed;bottom:22px;right:22px;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;box-shadow:0 5px 16px rgba(37,211,102,.38);z-index:90;text-decoration:none;animation:waf 3.5s ease-in-out infinite}
         .wa-float:hover{animation:none;transform:scale(1.1)}
         @keyframes waf{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -112,7 +72,6 @@
     </header>
 
     <main>
-        <!-- Solde -->
         <div class="bal-box">
             <div><div class="lbl">Solde actuel</div><div class="val" id="balVal">0</div><div class="cur">FCFA</div></div>
             <i class="fas fa-wallet" style="font-size:2rem;color:var(--blue-l)"></i>
@@ -121,12 +80,9 @@
         <div class="pg-title">💳 Recharger mon solde</div>
         <div class="pg-sub">Choisissez votre méthode de paiement ci-dessous. L'admin validera votre recharge et votre solde sera mis à jour sous peu.</div>
 
-        <!-- Cameroun : Mobile Money + Crypto -->
         <div class="cameroon-only" id="cmSection"><i class="fas fa-flag"></i> 🇨🇲 Cameroun détecté — Mobile Money disponible</div>
 
-        <!-- Méthodes -->
         <div class="meth-grid" id="methGrid">
-            <!-- Mobile Money (Cameroun seulement) -->
             <div class="meth-card cm-only" data-meth="mtn" onclick="selectMeth(this)">
                 <i class="fas fa-mobile-alt mth-mtn"></i>
                 <div class="meth-name">MTN Mobile Money</div>
@@ -137,7 +93,6 @@
                 <div class="meth-name">Orange Money</div>
                 <div class="meth-sub">🇨🇲 Cameroun uniquement</div>
             </div>
-            <!-- Crypto (tous pays) -->
             <div class="meth-card" data-meth="crypto_btc" onclick="selectMeth(this)">
                 <i class="fab fa-bitcoin mth-btc"></i>
                 <div class="meth-name">Bitcoin (BTC)</div>
@@ -245,7 +200,7 @@
             </button>
         </div>
 
-        <!-- Historique recharges -->
+        <!-- Historique -->
         <div class="hist-sec">
             <div class="hist-title"><i class="fas fa-history" style="color:var(--blue)"></i> Historique des recharges</div>
             <div id="histList"><p style="font-size:.84rem;color:var(--light)">Chargement...</p></div>
@@ -256,44 +211,48 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-    var SB_URL = 'https://mgogeabzjtuosxexyhjw.supabase.co';
-    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ';
-    var sb, currentUser;
-    var isCameroon = false; // détecté via profil
+    var SB_URL     = 'https://mgogeabzjtuosxexyhjw.supabase.co';
+    var SB_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ';
+    var SB_SERVICE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDM4MTQxMCwiZXhwIjoyMDg5OTU3NDEwfQ.yxEz61saciPNtExNguO_Afx3tVDhUHpRUBapYs_yum0';
+
+    // sb  → auth uniquement (vérifier la session)
+    // sbA → toutes les requêtes DB (bypass RLS, solde toujours à jour)
+    var sb = null, sbA = null, currentUser = null;
 
     window.addEventListener('load', function() {
         try {
-            sb = window.supabase.createClient(SB_URL, SB_KEY);
+            sb  = window.supabase.createClient(SB_URL, SB_ANON);
+            sbA = window.supabase.createClient(SB_URL, SB_SERVICE, {
+                auth: { persistSession: false, autoRefreshToken: false }
+            });
             sb.auth.getSession().then(async function(r) {
                 if (!r.data || !r.data.session) { window.location.href = 'index.html'; return; }
                 currentUser = r.data.session.user;
                 await loadProfile();
                 await loadHistory();
             });
-        } catch(e) {}
+        } catch(e) { console.error(e); }
     });
 
     async function loadProfile() {
-        var { data } = await sb.from('profiles').select('balance,country').eq('id', currentUser.id).single();
+        // sbA garantit que le solde lu est toujours le plus récent (bypass RLS)
+        var { data } = await sbA.from('profiles').select('balance,country').eq('id', currentUser.id).single();
         if (data) {
             document.getElementById('balVal').textContent = fmt(Math.round(data.balance || 0));
-            // Cameroun
             var country = (data.country || '').toLowerCase();
-            isCameroon = country.includes('cm') || country.includes('cameroun') || country.includes('cameroon');
+            var isCameroon = country.includes('cm') || country.includes('cameroun') || country.includes('cameroon');
+            document.querySelectorAll('.cm-only').forEach(function(el) {
+                el.style.display = isCameroon ? 'block' : 'none';
+            });
+            if (!isCameroon) document.getElementById('cmSection').style.display = 'none';
         }
-        // Afficher/masquer méthodes Mobile Money
-        document.querySelectorAll('.cm-only').forEach(function(el) {
-            el.style.display = isCameroon ? 'block' : 'none';
-        });
-        if (!isCameroon) document.getElementById('cmSection').style.display = 'none';
     }
 
     function selectMeth(card) {
         document.querySelectorAll('.meth-card').forEach(function(c) { c.classList.remove('sel'); });
         document.querySelectorAll('.form-card').forEach(function(f) { f.classList.remove('on'); });
         card.classList.add('sel');
-        var meth = card.dataset.meth;
-        var form = document.getElementById('form-' + meth);
+        var form = document.getElementById('form-' + card.dataset.meth);
         if (form) { form.classList.add('on'); form.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
     }
 
@@ -308,7 +267,6 @@
         el.textContent = msg;
         el.className = 'alert on ' + type;
     }
-
     function hideAlert(id) {
         var el = document.getElementById('al-' + id);
         if (el) el.className = 'alert';
@@ -346,17 +304,15 @@
         document.getElementById(btnId).disabled = true;
         document.getElementById(btnId).innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
 
-        var payload = {
-            user_id:     currentUser.id,
-            user_email:  currentUser.email,
+        var { error } = await sbA.from('recharges').insert({
+            user_id:      currentUser.id,
+            user_email:   currentUser.email,
             montant_fcfa: montant,
-            methode:     meth,
-            hash_tx:     hash,
-            capture_url: extra,
-            statut:      'en_attente'
-        };
-
-        var { error } = await sb.from('recharges').insert(payload);
+            methode:      meth,
+            hash_tx:      hash,
+            capture_url:  extra,
+            statut:       'en_attente'
+        });
 
         document.getElementById(btnId).disabled = false;
         document.getElementById(btnId).innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer la demande';
@@ -370,7 +326,7 @@
     }
 
     async function loadHistory() {
-        var { data } = await sb.from('recharges')
+        var { data } = await sbA.from('recharges')
             .select('*')
             .eq('user_id', currentUser.id)
             .order('created_at', { ascending: false })
@@ -381,7 +337,6 @@
             container.innerHTML = '<p style="font-size:.84rem;color:var(--light)">Aucune recharge pour l\'instant.</p>';
             return;
         }
-
         var meths = { mtn:'MTN Mobile Money', orange:'Orange Money', crypto_btc:'Bitcoin (BTC)', crypto_bnb:'BNB BSC', crypto_sol:'Solana (SOL)' };
         container.innerHTML = data.map(function(r) {
             var badgeCls = { en_attente:'s-wait', valide:'s-ok', refuse:'s-ref' }[r.statut] || 's-wait';
