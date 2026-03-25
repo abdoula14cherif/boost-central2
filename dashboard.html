@@ -15,56 +15,21 @@
             --green:#059669;--red:#DC2626;--yellow:#D97706;
         }
         body{background:var(--off);color:var(--mid);min-height:100vh;overflow-x:hidden}
-
-        /* glows */
         .glow{position:fixed;border-radius:50%;filter:blur(70px);z-index:0;pointer-events:none;animation:pulse 9s ease-in-out infinite alternate}
         .g1{width:320px;height:320px;background:rgba(255,102,0,.12);top:-80px;left:-60px}
         .g2{width:280px;height:280px;background:rgba(0,102,255,.1);bottom:-60px;right:-50px}
         @keyframes pulse{0%{opacity:.3;transform:scale(1)}100%{opacity:.6;transform:scale(1.1)}}
-
-        /* HEADER */
-        header{
-            position:sticky;top:0;z-index:100;
-            display:flex;align-items:center;justify-content:space-between;
-            padding:14px 20px;background:var(--white);
-            border-bottom:2px solid var(--gray);
-            box-shadow:0 3px 10px rgba(0,0,0,.05)
-        }
+        header{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--white);border-bottom:2px solid var(--gray);box-shadow:0 3px 10px rgba(0,0,0,.05)}
         .burger-menu{position:relative}
-        .burger-btn{
-            background:var(--blue-l);border:none;color:var(--blue);
-            font-size:1.5rem;cursor:pointer;padding:9px 11px;border-radius:10px;
-            transition:all .25s
-        }
+        .burger-btn{background:var(--blue-l);border:none;color:var(--blue);font-size:1.5rem;cursor:pointer;padding:9px 11px;border-radius:10px;transition:all .25s}
         .burger-btn:hover{background:var(--blue);color:var(--white)}
-        .logo{
-            font-size:1.4rem;font-weight:900;
-            background:linear-gradient(90deg,var(--blue),var(--orange));
-            -webkit-background-clip:text;background-clip:text;color:transparent;
-            letter-spacing:.5px
-        }
-        .user-badge{
-            display:flex;align-items:center;gap:6px;font-size:.78rem;
-            color:var(--mid);background:var(--blue-l);padding:5px 12px;
-            border-radius:20px;border:1px solid rgba(0,102,255,.18);
-            max-width:180px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis
-        }
+        .logo{font-size:1.4rem;font-weight:900;background:linear-gradient(90deg,var(--blue),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.5px}
+        .user-badge{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--mid);background:var(--blue-l);padding:5px 12px;border-radius:20px;border:1px solid rgba(0,102,255,.18);max-width:180px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
         .user-badge i{color:var(--blue);flex-shrink:0}
-
-        /* DROPDOWN */
-        .dropdown{
-            position:absolute;top:52px;left:0;
-            background:var(--white);border-radius:14px;padding:12px;
-            min-width:260px;box-shadow:0 10px 28px rgba(0,0,0,.1);
-            border:2px solid var(--gray);display:none;z-index:1000
-        }
+        .dropdown{position:absolute;top:52px;left:0;background:var(--white);border-radius:14px;padding:12px;min-width:260px;box-shadow:0 10px 28px rgba(0,0,0,.1);border:2px solid var(--gray);display:none;z-index:1000}
         .dropdown.open{display:block;animation:fadeD .25s ease both}
         @keyframes fadeD{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-        .dd-item{
-            display:flex;align-items:center;gap:10px;
-            padding:11px 13px;color:var(--mid);text-decoration:none;
-            border-radius:9px;margin-bottom:6px;transition:all .22s;font-size:.9rem
-        }
+        .dd-item{display:flex;align-items:center;gap:10px;padding:11px 13px;color:var(--mid);text-decoration:none;border-radius:9px;margin-bottom:6px;transition:all .22s;font-size:.9rem}
         .dd-item:hover{background:var(--blue-l);color:var(--blue)}
         .dd-item i{color:var(--blue);width:18px;text-align:center}
         .dd-item.logout i{color:var(--red)}
@@ -79,108 +44,55 @@
         input:checked+.slider{background:var(--orange)}
         input:checked+.slider:before{transform:translateX(24px)}
         .cur-lbl{margin-left:8px;font-weight:700;color:var(--blue);font-size:.84rem}
-        .lang-sw{display:flex;align-items:center;gap:8px;padding:9px 13px;background:var(--light-g);border-radius:9px;margin-bottom:6px;cursor:pointer;transition:.22s}
-        .lang-sw:hover{background:var(--blue-l)}
-        .lang-sw i{color:var(--blue)}
-        .lang-lbl{font-weight:600;color:var(--mid);font-size:.88rem}
-
-        /* MAIN */
         main{padding:20px;max-width:1100px;margin:0 auto;position:relative;z-index:1}
-
-        /* CARDS */
         .card{background:var(--white);border-radius:18px;padding:22px;border:1px solid var(--gray);box-shadow:0 5px 18px rgba(0,0,0,.05);transition:all .28s}
         .card:hover{transform:translateY(-4px);box-shadow:0 10px 26px rgba(0,102,255,.1);border-color:var(--blue)}
-
         .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
         @media(max-width:600px){.grid2{grid-template-columns:1fr}}
-
         .welcome h2{font-size:1.4rem;font-weight:700;color:var(--dark);margin-bottom:6px}
         .welcome p{font-size:.9rem;color:var(--mid);line-height:1.6}
         .hi-name{color:var(--blue);font-weight:700}
-
         .balance-lbl{font-size:.85rem;color:var(--mid);margin-bottom:6px}
         .balance-val{font-size:2.2rem;font-weight:900;color:var(--orange);margin-bottom:3px}
         .balance-cur{font-size:.85rem;color:var(--mid);margin-bottom:14px}
-        .btn-recharge{
-            display:inline-flex;align-items:center;gap:7px;
-            background:linear-gradient(90deg,var(--blue),var(--blue-d));
-            color:#fff;border:none;padding:9px 18px;border-radius:10px;
-            font-size:.85rem;font-weight:700;cursor:pointer;transition:all .25s
-        }
+        .btn-recharge{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(90deg,var(--blue),var(--blue-d));color:#fff;border:none;padding:9px 18px;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .25s}
         .btn-recharge:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(0,102,255,.3)}
-
-        /* NETWORKS */
         .nets-sec{margin-bottom:20px}
         .sec-title{font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
         .sec-title i{color:var(--blue)}
         .nets-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
         @media(max-width:480px){.nets-grid{grid-template-columns:repeat(3,1fr)}}
-        .net-card{
-            background:var(--white);border-radius:13px;padding:16px 10px;
-            text-align:center;border:2px solid var(--gray);cursor:pointer;
-            transition:all .25s
-        }
+        .net-card{background:var(--white);border-radius:13px;padding:16px 10px;text-align:center;border:2px solid var(--gray);cursor:pointer;transition:all .25s}
         .net-card:hover,.net-card.sel{border-color:var(--blue);background:var(--blue-l);transform:translateY(-3px)}
         .net-card i{font-size:1.6rem;margin-bottom:6px;display:block}
         .net-card span{font-size:.75rem;font-weight:600;color:var(--dark)}
         .fa-facebook{color:#1877F2}.fa-tiktok{color:#000}.fa-instagram{color:#E4405F}
         .fa-twitter{color:#1DA1F2}.fa-telegram{color:#26A5E4}.fa-spotify{color:#1DB954}
         .fa-whatsapp{color:#25D366}.fa-youtube{color:#FF0000}
-
-        /* ORDER FORM */
         .order-sec{margin-bottom:20px}
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
         @media(max-width:560px){.form-row{grid-template-columns:1fr}}
         .fg{margin-bottom:14px}
         .fg label{display:block;font-size:.82rem;font-weight:600;color:var(--dark);margin-bottom:5px}
         .sw{position:relative}
-        .sw select,.inp{
-            width:100%;padding:13px 14px;background:var(--white);
-            border:2px solid var(--gray);border-radius:12px;
-            font-size:.92rem;color:var(--dark);appearance:none;
-            outline:none;transition:border-color .22s
-        }
+        .sw select,.inp{width:100%;padding:13px 14px;background:var(--white);border:2px solid var(--gray);border-radius:12px;font-size:.92rem;color:var(--dark);appearance:none;outline:none;transition:border-color .22s}
         .sw select:focus,.inp:focus{border-color:var(--blue)}
-        .sw::after{
-            content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;
-            position:absolute;right:13px;top:50%;transform:translateY(-50%);
-            color:var(--blue);pointer-events:none;font-size:.78rem
-        }
-        .desc-box{
-            background:var(--light-g);border-radius:12px;padding:16px;
-            margin:14px 0;border-left:4px solid var(--blue);font-size:.88rem;color:var(--mid);line-height:1.6
-        }
-        .price-row{
-            display:flex;justify-content:space-around;background:var(--light-g);
-            padding:14px;border-radius:12px;margin-bottom:4px
-        }
+        .sw::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--blue);pointer-events:none;font-size:.78rem}
+        .desc-box{background:var(--light-g);border-radius:12px;padding:16px;margin:14px 0;border-left:4px solid var(--blue);font-size:.88rem;color:var(--mid);line-height:1.6}
+        .price-row{display:flex;justify-content:space-around;background:var(--light-g);padding:14px;border-radius:12px;margin-bottom:4px}
         .price-col{text-align:center}
         .price-lbl{font-size:.78rem;color:var(--mid);margin-bottom:3px}
         .price-val{font-size:1.3rem;font-weight:900;color:var(--orange)}
-        .btn-boost{
-            width:100%;padding:16px;margin-top:14px;border:none;border-radius:13px;
-            background:linear-gradient(90deg,var(--orange),var(--orange-d));
-            color:#fff;font-size:1.05rem;font-weight:900;cursor:pointer;
-            text-transform:uppercase;letter-spacing:.8px;
-            box-shadow:0 7px 20px rgba(255,102,0,.28);transition:all .28s
-        }
+        .btn-boost{width:100%;padding:16px;margin-top:14px;border:none;border-radius:13px;background:linear-gradient(90deg,var(--orange),var(--orange-d));color:#fff;font-size:1.05rem;font-weight:900;cursor:pointer;text-transform:uppercase;letter-spacing:.8px;box-shadow:0 7px 20px rgba(255,102,0,.28);transition:all .28s}
         .btn-boost:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(255,102,0,.4)}
         .btn-boost:disabled{opacity:.6;cursor:not-allowed;transform:none}
-
-        /* ORDERS LIST */
         .orders-sec{margin-bottom:24px}
-        .order-card{
-            background:var(--white);border:1px solid var(--gray);border-radius:14px;
-            padding:18px;margin-bottom:12px;transition:all .25s
-        }
+        .order-card{background:var(--white);border:1px solid var(--gray);border-radius:14px;padding:18px;margin-bottom:12px;transition:all .25s}
         .order-card:hover{box-shadow:0 6px 18px rgba(0,0,0,.07)}
         .order-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
         .order-name{font-size:.92rem;font-weight:700;color:var(--dark)}
         .order-date{font-size:.75rem;color:var(--light)}
-        .badge-status{
-            display:inline-flex;align-items:center;gap:5px;
-            padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700
-        }
+        .badge-status{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700}
         .s-wait{background:#FFF8E6;color:#D97706}
         .s-run{background:var(--blue-l);color:var(--blue)}
         .s-done{background:#EDFFF5;color:var(--green)}
@@ -188,50 +100,27 @@
         .order-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
         .meta-item{font-size:.78rem;color:var(--mid)}
         .meta-item strong{color:var(--dark)}
-        /* barre de progression */
         .prog-wrap{margin-top:8px}
         .prog-lbl{display:flex;justify-content:space-between;font-size:.75rem;color:var(--mid);margin-bottom:4px}
         .prog-bar{height:7px;background:var(--gray);border-radius:6px;overflow:hidden}
         .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:6px;transition:width .6s ease}
         .no-orders{text-align:center;padding:40px 20px;color:var(--light)}
         .no-orders i{font-size:2.5rem;display:block;margin-bottom:12px;color:var(--gray)}
-
-        /* TOAST */
-        .toast{
-            position:fixed;bottom:80px;right:20px;
-            background:var(--dark);color:#fff;padding:12px 18px;
-            border-radius:11px;font-size:.85rem;display:flex;align-items:center;gap:8px;
-            z-index:9999;box-shadow:0 5px 18px rgba(0,0,0,.22);
-            opacity:0;transform:translateY(16px);transition:all .35s;max-width:320px
-        }
+        .toast{position:fixed;bottom:80px;right:20px;background:var(--dark);color:#fff;padding:12px 18px;border-radius:11px;font-size:.85rem;display:flex;align-items:center;gap:8px;z-index:9999;box-shadow:0 5px 18px rgba(0,0,0,.22);opacity:0;transform:translateY(16px);transition:all .35s;max-width:320px}
         .toast.on{opacity:1;transform:translateY(0)}
         .toast.ok{border-left:4px solid var(--green)}
         .toast.err{border-left:4px solid var(--red)}
         .toast.info{border-left:4px solid var(--blue)}
-
-        /* MODAL */
-        .modal-bg{
-            position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:800;
-            display:none;align-items:center;justify-content:center;padding:20px
-        }
+        .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:800;display:none;align-items:center;justify-content:center;padding:20px}
         .modal-bg.on{display:flex;animation:fadeD .3s ease}
         .modal{background:var(--white);border-radius:20px;padding:28px 24px;max-width:440px;width:100%;box-shadow:0 14px 40px rgba(0,0,0,.15)}
         .modal h3{font-size:1.15rem;font-weight:700;color:var(--dark);margin-bottom:6px}
         .modal p{font-size:.85rem;color:var(--mid);margin-bottom:18px;line-height:1.6}
         .modal-close{float:right;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--mid);margin-top:-6px}
         .modal-close:hover{color:var(--dark)}
-
-        /* WHATSAPP FLOAT */
-        .wa-float{
-            position:fixed;bottom:24px;right:24px;width:52px;height:52px;
-            background:#25D366;border-radius:50%;display:flex;align-items:center;
-            justify-content:center;color:#fff;font-size:1.4rem;
-            box-shadow:0 5px 18px rgba(37,211,102,.38);z-index:90;text-decoration:none;
-            animation:waF 3.5s ease-in-out infinite
-        }
+        .wa-float{position:fixed;bottom:24px;right:24px;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;box-shadow:0 5px 18px rgba(37,211,102,.38);z-index:90;text-decoration:none;animation:waF 3.5s ease-in-out infinite}
         .wa-float:hover{animation:none;transform:scale(1.1)}
         @keyframes waF{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-
         @keyframes slideIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
         .anim{animation:slideIn .45s ease both}
     </style>
@@ -241,12 +130,10 @@
     <div class="glow g2"></div>
     <div class="toast" id="toast"></div>
 
-    <!-- ── HEADER ──────────────────────────────────────── -->
     <header>
         <div class="burger-menu">
             <button class="burger-btn" id="burgerBtn"><i class="fas fa-bars"></i></button>
             <div class="dropdown" id="dropdown">
-                <div class="lang-sw" id="langSw"><i class="fas fa-globe"></i><span class="lang-lbl" id="langLbl">Français</span></div>
                 <div class="dd-div"></div>
                 <a href="recharge.html" class="dd-item"><i class="fas fa-wallet"></i> Recharger mon solde</a>
                 <a href="#orders" class="dd-item" onclick="closeMenu()"><i class="fas fa-shopping-cart"></i> Mes commandes</a>
@@ -273,7 +160,6 @@
     </header>
 
     <main>
-        <!-- BIENVENUE + SOLDE -->
         <div class="grid2 anim">
             <div class="card welcome">
                 <h2>Bienvenue, <span class="hi-name" id="hiName">...</span> 👋</h2>
@@ -281,7 +167,7 @@
             </div>
             <div class="card">
                 <div class="balance-lbl">Votre solde</div>
-                <div class="balance-val" id="balVal">0</div>
+                <div class="balance-val" id="balVal">—</div>
                 <div class="balance-cur" id="balCur">FCFA</div>
                 <button class="btn-recharge" onclick="window.location.href='recharge.html'">
                     <i class="fas fa-plus-circle"></i> Recharger
@@ -289,22 +175,20 @@
             </div>
         </div>
 
-        <!-- RÉSEAUX -->
         <div class="card nets-sec anim">
             <div class="sec-title"><i class="fas fa-share-alt"></i> Réseaux supportés</div>
             <div class="nets-grid">
-                <div class="net-card" data-net="facebook" onclick="selectNet(this)"><i class="fab fa-facebook"></i><span>Facebook</span></div>
-                <div class="net-card" data-net="tiktok"   onclick="selectNet(this)"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
+                <div class="net-card" data-net="facebook"  onclick="selectNet(this)"><i class="fab fa-facebook"></i><span>Facebook</span></div>
+                <div class="net-card" data-net="tiktok"    onclick="selectNet(this)"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
                 <div class="net-card" data-net="instagram" onclick="selectNet(this)"><i class="fab fa-instagram"></i><span>Instagram</span></div>
-                <div class="net-card" data-net="youtube"  onclick="selectNet(this)"><i class="fab fa-youtube"></i><span>YouTube</span></div>
-                <div class="net-card" data-net="twitter"  onclick="selectNet(this)"><i class="fab fa-twitter"></i><span>Twitter (X)</span></div>
-                <div class="net-card" data-net="telegram" onclick="selectNet(this)"><i class="fab fa-telegram"></i><span>Telegram</span></div>
-                <div class="net-card" data-net="spotify"  onclick="selectNet(this)"><i class="fab fa-spotify"></i><span>Spotify</span></div>
-                <div class="net-card" data-net="whatsapp" onclick="selectNet(this)"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
+                <div class="net-card" data-net="youtube"   onclick="selectNet(this)"><i class="fab fa-youtube"></i><span>YouTube</span></div>
+                <div class="net-card" data-net="twitter"   onclick="selectNet(this)"><i class="fab fa-twitter"></i><span>Twitter (X)</span></div>
+                <div class="net-card" data-net="telegram"  onclick="selectNet(this)"><i class="fab fa-telegram"></i><span>Telegram</span></div>
+                <div class="net-card" data-net="spotify"   onclick="selectNet(this)"><i class="fab fa-spotify"></i><span>Spotify</span></div>
+                <div class="net-card" data-net="whatsapp"  onclick="selectNet(this)"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
             </div>
         </div>
 
-        <!-- FORMULAIRE COMMANDE -->
         <div class="card order-sec anim">
             <div class="sec-title"><i class="fas fa-rocket"></i> Nouvelle commande</div>
             <div class="form-row">
@@ -357,16 +241,14 @@
             </button>
         </div>
 
-        <!-- MES COMMANDES -->
         <div class="card orders-sec anim" id="orders">
             <div class="sec-title"><i class="fas fa-list-check"></i> Mes commandes</div>
-            <div id="ordersList"><div class="no-orders"><i class="fas fa-inbox"></i><p>Aucune commande pour l'instant.</p></div></div>
+            <div id="ordersList"><div class="no-orders"><i class="fas fa-sync fa-spin"></i><p>Chargement...</p></div></div>
         </div>
     </main>
 
     <a href="https://wa.me/237689011185" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-    <!-- MODAL CONFIRMATION -->
     <div class="modal-bg" id="modalConfirm">
         <div class="modal">
             <button class="modal-close" onclick="closeModal()">✕</button>
@@ -385,47 +267,46 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-    // ══════════════════════════════════════════════════════════
-    // CONFIG
-    // ══════════════════════════════════════════════════════════
-    var SB_URL = 'https://mgogeabzjtuosxexyhjw.supabase.co';
-    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ';
-    var sb, currentUser, userBalance = 0, curCurrency = 'FCFA';
-    var pendingOrder = null; // données avant confirmation
-    var dbServices = {};    // services chargés depuis la BDD
+    var SB_URL     = 'https://mgogeabzjtuosxexyhjw.supabase.co';
+    var SB_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ';
+    var SB_SERVICE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDM4MTQxMCwiZXhwIjoyMDg5OTU3NDEwfQ.yxEz61saciPNtExNguO_Afx3tVDhUHpRUBapYs_yum0';
 
-    // ══════════════════════════════════════════════════════════
-    // INIT
-    // ══════════════════════════════════════════════════════════
+    // sb  → auth uniquement
+    // sbA → toutes les requêtes DB (bypass RLS — solde et services toujours lisibles)
+    var sb = null, sbA = null;
+    var currentUser = null, userBalance = 0, curCurrency = 'FCFA';
+    var pendingOrder = null, dbServices = {};
+
     window.addEventListener('load', function() {
         try {
-            sb = window.supabase.createClient(SB_URL, SB_KEY);
+            sb  = window.supabase.createClient(SB_URL, SB_ANON);
+            sbA = window.supabase.createClient(SB_URL, SB_SERVICE, {
+                auth: { persistSession: false, autoRefreshToken: false }
+            });
             sb.auth.getSession().then(function(r) {
                 if (!r.data || !r.data.session) { window.location.href = 'index.html'; return; }
                 currentUser = r.data.session.user;
                 initUI();
             });
-        } catch(e) { toast('Erreur de connexion au serveur.', 'err'); }
+        } catch(e) { showToast('Erreur de connexion au serveur.', 'err'); }
     });
 
     async function initUI() {
-        // Nom
-        var name = currentUser.user_metadata && currentUser.user_metadata.full_name
+        var name = (currentUser.user_metadata && currentUser.user_metadata.full_name)
             ? currentUser.user_metadata.full_name.split(' ')[0]
             : currentUser.email.split('@')[0];
-        document.getElementById('hiName').textContent = name;
+        document.getElementById('hiName').textContent    = name;
         document.getElementById('userEmail').textContent = currentUser.email;
         document.getElementById('userBadge').style.display = 'flex';
-        // Solde
         await loadBalance();
-        // Services depuis BDD
         await loadServices();
-        // Commandes
         await loadOrders();
     }
 
+    // ── SOLDE ─────────────────────────────────────────────────
     async function loadBalance() {
-        var { data } = await sb.from('profiles').select('balance').eq('id', currentUser.id).single();
+        var { data, error } = await sbA.from('profiles').select('balance').eq('id', currentUser.id).single();
+        if (error) { console.error('balance:', error.message); return; }
         userBalance = data ? (data.balance || 0) : 0;
         displayBalance();
     }
@@ -440,19 +321,18 @@
         }
     }
 
+    // ── SERVICES (depuis BDD via sbA) ─────────────────────────
     async function loadServices() {
-        var { data } = await sb.from('services').select('*').eq('actif', true).order('reseau');
-        if (!data) return;
+        var { data, error } = await sbA.from('services').select('*').eq('actif', true).order('reseau');
+        if (error) { console.error('services:', error.message); return; }
         dbServices = {};
-        data.forEach(function(s) {
+        (data || []).forEach(function(s) {
             if (!dbServices[s.reseau]) dbServices[s.reseau] = [];
             dbServices[s.reseau].push(s);
         });
     }
 
-    // ══════════════════════════════════════════════════════════
-    // BURGER
-    // ══════════════════════════════════════════════════════════
+    // ── BURGER ────────────────────────────────────────────────
     document.getElementById('burgerBtn').addEventListener('click', function(e) {
         e.stopPropagation();
         document.getElementById('dropdown').classList.toggle('open');
@@ -464,7 +344,6 @@
     });
     function closeMenu() { document.getElementById('dropdown').classList.remove('open'); }
 
-    // Devise
     document.getElementById('curSwitch').addEventListener('change', function() {
         curCurrency = this.checked ? 'USD' : 'FCFA';
         document.getElementById('curLbl').textContent = curCurrency;
@@ -472,9 +351,7 @@
         calcPrice();
     });
 
-    // ══════════════════════════════════════════════════════════
-    // SÉLECTION RÉSEAU (carte ou select)
-    // ══════════════════════════════════════════════════════════
+    // ── SÉLECTION RÉSEAU ──────────────────────────────────────
     function selectNet(card) {
         document.querySelectorAll('.net-card').forEach(function(c) { c.classList.remove('sel'); });
         card.classList.add('sel');
@@ -487,37 +364,45 @@
         var net = document.getElementById('selNet').value;
         var svcSel = document.getElementById('selSvc');
         svcSel.innerHTML = '<option value="">— Sélectionnez un service —</option>';
-        svcSel.disabled = !net;
+        svcSel.disabled = true;
         document.getElementById('descBox').textContent = 'Sélectionnez un service pour voir la description.';
         calcPrice();
 
-        if (!net || !dbServices[net]) return;
-        dbServices[net].forEach(function(s) {
-            var opt = document.createElement('option');
-            opt.value = s.id;
-            opt.textContent = s.categorie;
-            opt.dataset.prix = s.prix_fcfa;
-            opt.dataset.min  = s.min_qte;
-            opt.dataset.max  = s.max_qte;
-            opt.dataset.desc = s.description || '';
-            opt.dataset.cat  = s.categorie;
-            svcSel.appendChild(opt);
-        });
-        svcSel.disabled = false;
+        if (!net) return;
 
         // Sync carte réseau
         document.querySelectorAll('.net-card').forEach(function(c) {
             c.classList.toggle('sel', c.dataset.net === net);
         });
+
+        var svcs = dbServices[net];
+        if (!svcs || svcs.length === 0) {
+            svcSel.innerHTML = '<option value="">— Aucun service disponible —</option>';
+            return;
+        }
+
+        svcs.forEach(function(s) {
+            var opt = document.createElement('option');
+            opt.value         = s.id;
+            opt.textContent   = s.categorie;
+            opt.dataset.prix  = s.prix_fcfa;
+            opt.dataset.min   = s.min_qte;
+            opt.dataset.max   = s.max_qte;
+            opt.dataset.desc  = s.description || '';
+            opt.dataset.cat   = s.categorie;
+            svcSel.appendChild(opt);
+        });
+        svcSel.disabled = false;
     }
 
     function onSvcChange() {
         var opt = document.getElementById('selSvc').selectedOptions[0];
         if (!opt || !opt.value) { calcPrice(); return; }
-        document.getElementById('minQty').textContent = opt.dataset.min;
-        document.getElementById('inpQty').min = opt.dataset.min;
-        if (parseInt(document.getElementById('inpQty').value) < parseInt(opt.dataset.min)) {
-            document.getElementById('inpQty').value = opt.dataset.min;
+        var minQ = parseInt(opt.dataset.min) || 100;
+        document.getElementById('minQty').textContent = fmt(minQ);
+        document.getElementById('inpQty').min = minQ;
+        if (parseInt(document.getElementById('inpQty').value) < minQ) {
+            document.getElementById('inpQty').value = minQ;
         }
         document.getElementById('descBox').textContent = opt.dataset.desc || opt.dataset.cat;
         calcPrice();
@@ -526,49 +411,45 @@
     document.getElementById('inpQty').addEventListener('input', calcPrice);
 
     function calcPrice() {
-        var opt = document.getElementById('selSvc').selectedOptions[0];
-        var qty = parseInt(document.getElementById('inpQty').value) || 0;
+        var opt   = document.getElementById('selSvc').selectedOptions[0];
+        var qty   = parseInt(document.getElementById('inpQty').value) || 0;
         var pUnit = document.getElementById('pUnit');
-        var pTotal = document.getElementById('pTotal');
-        if (!opt || !opt.value) { pUnit.textContent = '0 FCFA'; pTotal.textContent = '0 FCFA'; return; }
-        var prix = parseFloat(opt.dataset.prix);
+        var pTot  = document.getElementById('pTotal');
+        if (!opt || !opt.value) { pUnit.textContent = '0 FCFA'; pTot.textContent = '0 FCFA'; return; }
+        var prix  = parseFloat(opt.dataset.prix);
         var total = prix * qty * 0.99;
         if (curCurrency === 'FCFA') {
-            pUnit.textContent  = prix % 1 === 0 ? prix + ' FCFA' : prix.toFixed(1) + ' FCFA';
-            pTotal.textContent = fmt(Math.round(total)) + ' FCFA';
+            pUnit.textContent = (prix % 1 === 0 ? prix : prix.toFixed(1)) + ' FCFA';
+            pTot.textContent  = fmt(Math.round(total)) + ' FCFA';
         } else {
-            pUnit.textContent  = '$' + (prix / 600).toFixed(4);
-            pTotal.textContent = '$' + (total / 600).toFixed(2);
+            pUnit.textContent = '$' + (prix / 600).toFixed(4);
+            pTot.textContent  = '$' + (total / 600).toFixed(2);
         }
     }
 
-    // ══════════════════════════════════════════════════════════
-    // SOUMETTRE COMMANDE — étape 1 : validation + modal
-    // ══════════════════════════════════════════════════════════
+    // ── SOUMETTRE ─────────────────────────────────────────────
     function submitOrder() {
         var net  = document.getElementById('selNet').value;
         var opt  = document.getElementById('selSvc').selectedOptions[0];
         var link = document.getElementById('inpLink').value.trim();
         var qty  = parseInt(document.getElementById('inpQty').value);
 
-        if (!net)         { toast('Choisissez un réseau social.', 'err'); return; }
-        if (!opt || !opt.value) { toast('Choisissez un service.', 'err'); return; }
-        if (!link)        { toast('Entrez le lien de votre compte / vidéo.', 'err'); return; }
-        var min = parseInt(opt.dataset.min);
-        var max = parseInt(opt.dataset.max);
-        if (qty < min)    { toast('Quantité minimum : ' + fmt(min) + '.', 'err'); return; }
-        if (qty > max)    { toast('Quantité maximum : ' + fmt(max) + '.', 'err'); return; }
+        if (!net)              { showToast('Choisissez un réseau social.', 'err'); return; }
+        if (!opt || !opt.value){ showToast('Choisissez un service.', 'err'); return; }
+        if (!link)             { showToast('Entrez le lien de votre compte / vidéo.', 'err'); return; }
+        var min = parseInt(opt.dataset.min), max = parseInt(opt.dataset.max);
+        if (qty < min) { showToast('Quantité minimum : ' + fmt(min) + '.', 'err'); return; }
+        if (qty > max) { showToast('Quantité maximum : ' + fmt(max) + '.', 'err'); return; }
 
         var prix  = parseFloat(opt.dataset.prix);
         var total = Math.round(prix * qty * 0.99);
 
         if (userBalance < total) {
-            toast('Solde insuffisant. Votre solde : ' + fmt(Math.round(userBalance)) + ' FCFA — Requis : ' + fmt(total) + ' FCFA.', 'err');
+            showToast('Solde insuffisant — Solde : ' + fmt(Math.round(userBalance)) + ' FCFA | Requis : ' + fmt(total) + ' FCFA.', 'err');
             return;
         }
 
-        pendingOrder = { net, svcId: parseInt(opt.value), svcName: opt.dataset.cat, link, qty, prixUnit: prix, total };
-
+        pendingOrder = { net:net, svcId:parseInt(opt.value), svcName:opt.dataset.cat, link:link, qty:qty, prixUnit:prix, total:total };
         var disp = curCurrency === 'FCFA' ? fmt(total) + ' FCFA' : '$' + (total/600).toFixed(2);
         document.getElementById('modalBody').innerHTML =
             '<b>' + opt.dataset.cat + '</b><br>' +
@@ -580,9 +461,7 @@
 
     function closeModal() { document.getElementById('modalConfirm').classList.remove('on'); }
 
-    // ══════════════════════════════════════════════════════════
-    // CONFIRMER COMMANDE — étape 2 : écriture BDD + débit solde
-    // ══════════════════════════════════════════════════════════
+    // ── CONFIRMER ─────────────────────────────────────────────
     async function confirmOrder() {
         closeModal();
         if (!pendingOrder) return;
@@ -591,8 +470,7 @@
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement...';
 
-        // 1. Insérer la commande
-        var { error: errCmd } = await sb.from('commandes').insert({
+        var { error: errCmd } = await sbA.from('commandes').insert({
             user_id:       currentUser.id,
             user_email:    currentUser.email,
             reseau:        o.net,
@@ -606,69 +484,63 @@
         });
 
         if (errCmd) {
-            toast('Erreur lors de la commande : ' + errCmd.message, 'err');
+            showToast('Erreur commande : ' + errCmd.message, 'err');
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-bolt"></i> BOOSTER MAINTENANT';
             return;
         }
 
-        // 2. Déduire le solde
+        // Déduire le solde
         var newBal = userBalance - o.total;
-        await sb.from('profiles').update({ balance: newBal }).eq('id', currentUser.id);
+        await sbA.from('profiles').update({ balance: newBal }).eq('id', currentUser.id);
         userBalance = newBal;
         displayBalance();
 
-        toast('Commande passée ! ✅ ' + fmt(o.total) + ' FCFA déduits. L\'admin va traiter votre demande.', 'ok', 5000);
+        showToast('Commande passée ✅ — ' + fmt(o.total) + ' FCFA déduits. L\'admin va traiter votre demande.', 'ok', 5000);
 
-        // Reset form
+        // Reset
         document.getElementById('selNet').value = '';
         document.getElementById('selSvc').innerHTML = '<option value="">— Choisissez d\'abord un réseau —</option>';
         document.getElementById('selSvc').disabled = true;
         document.getElementById('inpLink').value = '';
         document.getElementById('inpQty').value = '1000';
         document.getElementById('descBox').textContent = 'Sélectionnez un réseau et un service pour voir la description.';
-        calcPrice();
         document.querySelectorAll('.net-card').forEach(function(c) { c.classList.remove('sel'); });
+        calcPrice();
         pendingOrder = null;
-
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-bolt"></i> BOOSTER MAINTENANT';
-
-        // Recharger les commandes
         await loadOrders();
         document.getElementById('orders').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // ══════════════════════════════════════════════════════════
-    // AFFICHER LES COMMANDES
-    // ══════════════════════════════════════════════════════════
+    // ── COMMANDES ─────────────────────────────────────────────
     async function loadOrders() {
-        var { data } = await sb.from('commandes')
+        var { data, error } = await sbA.from('commandes')
             .select('*')
             .eq('user_id', currentUser.id)
             .order('created_at', { ascending: false })
             .limit(20);
 
         var container = document.getElementById('ordersList');
-        if (!data || data.length === 0) {
+        if (error || !data || data.length === 0) {
             container.innerHTML = '<div class="no-orders"><i class="fas fa-inbox"></i><p>Aucune commande pour l\'instant.</p></div>';
             return;
         }
 
         container.innerHTML = data.map(function(o) {
-            var statut = o.statut || 'en_attente';
-            var prog   = o.progression || 0;
-            var badgeCls = { en_attente: 's-wait', en_cours: 's-run', termine: 's-done', refuse: 's-ref' }[statut] || 's-wait';
-            var badgeTxt = { en_attente: '⏳ En attente', en_cours: '🔄 En cours', termine: '✅ Terminé', refuse: '❌ Refusé' }[statut] || 'En attente';
-            var date = new Date(o.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
-
-            var progBar = '';
-            if (statut !== 'refuse') {
-                progBar = '<div class="prog-wrap"><div class="prog-lbl"><span>Progression</span><span>' + prog + '%</span></div>' +
-                    '<div class="prog-bar"><div class="prog-fill" style="width:' + prog + '%"></div></div></div>';
-            }
-            var noteHtml = o.note_admin ? '<div style="margin-top:8px;font-size:.78rem;color:var(--mid);background:var(--light-g);padding:8px 10px;border-radius:8px">💬 Admin : ' + o.note_admin + '</div>' : '';
-
+            var statut   = o.statut || 'en_attente';
+            var prog     = o.progression || 0;
+            var badgeCls = { en_attente:'s-wait', en_cours:'s-run', termine:'s-done', refuse:'s-ref' }[statut] || 's-wait';
+            var badgeTxt = { en_attente:'⏳ En attente', en_cours:'🔄 En cours', termine:'✅ Terminé', refuse:'❌ Refusé' }[statut] || 'En attente';
+            var date     = new Date(o.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+            var progBar  = statut !== 'refuse'
+                ? '<div class="prog-wrap"><div class="prog-lbl"><span>Progression</span><span>' + prog + '%</span></div>' +
+                  '<div class="prog-bar"><div class="prog-fill" style="width:' + prog + '%"></div></div></div>'
+                : '';
+            var noteHtml = o.note_admin
+                ? '<div style="margin-top:8px;font-size:.78rem;color:var(--mid);background:var(--light-g);padding:8px 10px;border-radius:8px">💬 Admin : ' + o.note_admin + '</div>'
+                : '';
             return '<div class="order-card">' +
                 '<div class="order-head">' +
                     '<div><div class="order-name">' + o.service + '</div><div class="order-date">' + date + '</div></div>' +
@@ -679,24 +551,22 @@
                     '<span class="meta-item">Qté : <strong>' + fmt(o.quantite) + '</strong></span>' +
                     '<span class="meta-item">Total : <strong>' + fmt(Math.round(o.prix_total)) + ' FCFA</strong></span>' +
                 '</div>' +
-                '<div style="font-size:.76rem;color:var(--light);margin-bottom:6px;word-break:break-all">' + o.lien + '</div>' +
+                '<div style="font-size:.76rem;color:var(--light);margin-bottom:6px;word-break:break-all">' + (o.lien||'') + '</div>' +
                 progBar + noteHtml +
             '</div>';
         }).join('');
     }
 
-    // ══════════════════════════════════════════════════════════
-    // UTILS
-    // ══════════════════════════════════════════════════════════
+    // ── UTILS ─────────────────────────────────────────────────
     function fmt(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 
-    function toast(msg, type, dur) {
+    function showToast(msg, type, dur) {
         var t = document.getElementById('toast');
         var icons = { ok:'✅', err:'❌', info:'ℹ️' };
         t.innerHTML = (icons[type]||'') + ' ' + msg;
         t.className = 'toast on ' + (type||'info');
         clearTimeout(t._t);
-        t._t = setTimeout(function() { t.classList.remove('on'); }, dur || 3800);
+        t._t = setTimeout(function() { t.classList.remove('on'); }, dur || 4000);
     }
     </script>
 </body>
