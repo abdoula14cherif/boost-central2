@@ -295,16 +295,14 @@
     window.addEventListener('load', function() {
         try {
             sb = window.supabase.createClient(SB_URL, SB_KEY);
+             // Liste des emails admin autorisés
+             var ADMINS = ['abdoula13cherif@gmail.com'];
+
              sb.auth.getSession().then(function(r) {
                  if (!r.data || !r.data.session) { window.location.href = 'index.html'; return; }
                  adminUser = r.data.session.user;
 
-                 // Vérifier is_admin dans les métadonnées Auth (pas de RLS, instantané)
-                 var meta = adminUser.user_metadata || {};
-                 var appMeta = adminUser.app_metadata || {};
-
-                 if (!meta.is_admin && !appMeta.is_admin) {
-                     alert('Accès refusé.\nEmail : ' + adminUser.email + '\n\nExécutez dans Supabase SQL Editor :\nUPDATE auth.users SET raw_user_meta_data = raw_user_meta_data || \'{"is_admin": true}\'::jsonb WHERE email = \'' + adminUser.email + '\';');
+                 if (!ADMINS.includes(adminUser.email)) {
                      window.location.href = 'dashboard.html';
                      return;
                  }
