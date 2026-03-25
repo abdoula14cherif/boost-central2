@@ -295,15 +295,31 @@
     window.addEventListener('load', function() {
         try {
             sb = window.supabase.createClient(SB_URL, SB_KEY);
-            sb.auth.getSession().then(async function(r) {
-                if (!r.data || !r.data.session) { window.location.href = 'index.html'; return; }
-                adminUser = r.data.session.user;
-                // Vérifier admin
-                var { data } = await sb.from('profiles').select('is_admin,email').eq('id', adminUser.id).single();
-                if (!data || !data.is_admin) { alert('Accès refusé. Vous n\'êtes pas administrateur.'); window.location.href = 'dashboard.html'; return; }
-                document.getElementById('adminEmail').textContent = data.email || adminUser.email;
-                loadRecharges();
-            });
+             sb.auth.getSession().then(async function(r) {
+                 if (!r.data || !r.data.session) { window.location.href = 'index.html'; return; }
+                 adminUser = r.data.session.user;
+
+                 var res = await sb.from('profiles').select('is_admin, email').eq('id', adminUser.id).maybeSingle();
+                 var data  = res.data;
+                 var error = res.error;
+
+                 if (error) {
+                     alert('Erreur BDD/RLS : ' + error.message + ' | code: ' + (error.code||'?'));
+                     return;
+                 }
+                 if (!data) {
+                     alert('Profil introuvable pour : ' + adminUser.email + '. Connectez-vous via auth.html dabord puis relancez le SQL UPDATE.');
+                     return;
+                 }
+                 if (!data.is_admin) {
+                     alert('is_admin = ' + data.is_admin + ' pour ' + adminUser.email + '. Le UPDATE SQL na pas fonctionné. Relancez-le dans Supabase.');
+                     window.location.href = 'dashboard.html';
+                     return;
+                 }
+
+                 document.getElementById('adminEmail').textContent = data.email || adminUser.email;
+                 loadRecharges();
+             });
         } catch(e) { alert('Erreur serveur : ' + e.message); }
     });
 
