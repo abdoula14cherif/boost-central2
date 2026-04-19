@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#04080F;--bg:#070C1A;--card:#0D1528;--card2:#111D35;
+  --blue:#1A3FE3;--blue2:#2D55FF;--cyan:#00C2B7;--green:#00C271;
+  --orange:#FF6B1A;--orange-l:#FF8C42;--red:#E83030;--gold:#F5B731;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.04);
+  --txt:#E8EEFF;--muted:rgba(232,238,255,.38);--nav-h:66px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--txt);}
+body{display:flex;flex-direction:column;max-width:480px;margin:0 auto;}
+
+/* TOPBAR */
+.topbar{background:rgba(4,8,15,.97);height:58px;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:80;border-bottom:1px solid var(--border);backdrop-filter:blur(12px);}
+.top-logo{font-family:'Clash Display',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:2px;color:var(--txt);}
+.top-logo span{color:var(--orange);}
+.admin-badge{background:rgba(232,48,48,.15);border:1px solid rgba(232,48,48,.3);border-radius:6px;padding:.22rem .65rem;font-size:.6rem;font-weight:800;color:#FF8080;letter-spacing:.08em;}
+.top-logout{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:.35rem .75rem;font-size:.68rem;font-weight:700;color:var(--muted);cursor:pointer;}
+
+/* MENU TABS — horizontal scroll */
+.menu-bar{background:rgba(4,8,15,.95);border-bottom:1px solid var(--border);padding:.6rem .8rem;position:sticky;top:58px;z-index:70;backdrop-filter:blur(12px);}
+.menu-scroll{display:flex;gap:.4rem;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;}
+.menu-scroll::-webkit-scrollbar{display:none;}
+.menu-btn{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.22rem;padding:.55rem .7rem;border:1px solid var(--border);background:var(--card);border-radius:12px;cursor:pointer;transition:all .2s;min-width:60px;}
+.menu-btn:hover{background:var(--card2);border-color:rgba(255,255,255,.14);}
+.menu-btn.active{border-color:var(--blue2);background:rgba(27,63,228,.15);}
+.menu-btn.active .mb-ico{filter:none;}
+.mb-ico{font-size:1.2rem;line-height:1;}
+.mb-lbl{font-size:.52rem;font-weight:700;color:var(--muted);white-space:nowrap;}
+.menu-btn.active .mb-lbl{color:var(--blue2);}
+
+/* CONTENT */
+.content{flex:1;padding:.9rem .9rem calc(var(--nav-h)+.8rem);}
+
+/* SECTION */
+.section{display:none;animation:fadeU .35s ease both;}
+.section.active{display:block;}
+@keyframes fadeU{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.9rem;}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:.9rem;position:relative;overflow:hidden;}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat-box.blue::before{background:linear-gradient(90deg,var(--blue),var(--blue2));}
+.stat-box.green::before{background:linear-gradient(90deg,var(--green),var(--cyan));}
+.stat-box.orange::before{background:linear-gradient(90deg,var(--orange),var(--orange-l));}
+.stat-box.gold::before{background:linear-gradient(90deg,var(--gold),#E8A000);}
+.sb-ico{font-size:1.4rem;margin-bottom:.4rem;}
+.sb-val{font-family:'Clash Display',sans-serif;font-size:1.5rem;font-weight:700;color:var(--txt);line-height:1;}
+.sb-lbl{font-size:.6rem;color:var(--muted);margin-top:.18rem;font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;margin-bottom:.8rem;overflow:hidden;}
+.card-head{padding:.85rem 1rem;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-family:'Clash Display',sans-serif;font-size:.9rem;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:.45rem;}
+.card-body{padding:.9rem 1rem;}
+
+/* INPUTS */
+.field{margin-bottom:.8rem;}
+.field label{display:block;font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.3rem;}
+.inp{width:100%;padding:.72rem .9rem;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:11px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--txt);outline:none;transition:all .2s;}
+.inp:focus{border-color:rgba(27,63,228,.6);box-shadow:0 0 0 3px rgba(27,63,228,.1);background:rgba(27,63,228,.05);}
+.inp::placeholder{color:rgba(232,238,255,.2);}
+textarea.inp{resize:none;height:75px;line-height:1.5;}
+select.inp{cursor:pointer;-webkit-appearance:none;}
+
+/* BUTTONS */
+.btn{border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:all .2s;}
+.btn:hover:not(:disabled){transform:translateY(-1px);}
+.btn:active{transform:scale(.97);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:.82rem 1.2rem;font-size:.82rem;box-shadow:0 4px 14px rgba(27,63,228,.25);}
+.btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange-l));color:#fff;padding:.82rem 1.2rem;font-size:.82rem;box-shadow:0 4px 14px rgba(255,107,26,.25);}
+.btn-green{background:linear-gradient(135deg,var(--green),var(--cyan));color:var(--ink);padding:.82rem 1.2rem;font-size:.82rem;box-shadow:0 4px 14px rgba(0,194,113,.2);}
+.btn-red{background:rgba(232,48,48,.12);color:#FF8080;border:1px solid rgba(232,48,48,.25)!important;padding:.7rem 1rem;font-size:.78rem;}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border)!important;padding:.7rem 1rem;font-size:.78rem;}
+.btn-full{width:100%;}
+.btn-sm{padding:.55rem .9rem;font-size:.72rem;border-radius:8px;}
+
+/* USER LIST */
+.user-item{display:flex;align-items:center;gap:.75rem;padding:.8rem .9rem;background:var(--card2);border-radius:13px;margin-bottom:.5rem;border:1px solid var(--border2);cursor:pointer;transition:all .18s;}
+.user-item:hover{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04);}
+.user-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:800;color:#fff;flex-shrink:0;}
+.user-info{flex:1;min-width:0;}
+.user-name{font-size:.82rem;font-weight:700;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.user-email{font-size:.63rem;color:var(--muted);margin-top:.06rem;}
+.user-right{text-align:right;flex-shrink:0;}
+.user-solde{font-family:'Clash Display',sans-serif;font-size:.88rem;font-weight:700;color:var(--gold);}
+.user-date{font-size:.58rem;color:var(--muted);margin-top:.04rem;}
+.tag{display:inline-block;padding:.15rem .5rem;border-radius:6px;font-size:.58rem;font-weight:700;margin-top:.18rem;}
+.tag-admin{background:rgba(27,63,228,.2);color:var(--blue2);}
+.tag-actif{background:rgba(0,194,113,.12);color:var(--green);}
+.tag-suspendu{background:rgba(232,48,48,.12);color:#FF8080;}
+
+/* INVEST/RECHARGE LIST */
+.tx-item{display:flex;align-items:center;gap:.75rem;padding:.72rem .9rem;background:var(--card2);border-radius:12px;margin-bottom:.45rem;border:1px solid var(--border2);}
+.tx-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;}
+.tx-info{flex:1;min-width:0;}
+.tx-title{font-size:.78rem;font-weight:700;color:var(--txt);}
+.tx-sub{font-size:.6rem;color:var(--muted);margin-top:.05rem;}
+.tx-right{text-align:right;flex-shrink:0;}
+.tx-amt{font-family:'Clash Display',sans-serif;font-size:.9rem;font-weight:700;}
+.tx-date{font-size:.58rem;color:var(--muted);margin-top:.04rem;}
+.tx-status{font-size:.58rem;font-weight:700;padding:.12rem .45rem;border-radius:5px;margin-top:.2rem;display:inline-block;}
+.s-pending{background:rgba(245,183,49,.12);color:var(--gold);}
+.s-valide{background:rgba(0,194,113,.12);color:var(--green);}
+.s-rejete{background:rgba(232,48,48,.12);color:#FF8080;}
+
+/* NOTIF MESSAGES */
+.msg-template{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;margin-bottom:.5rem;cursor:pointer;transition:all .18s;}
+.msg-template:hover{border-color:rgba(27,63,228,.4);background:rgba(27,63,228,.05);}
+.msg-template.sel{border-color:var(--blue2);background:rgba(27,63,228,.1);}
+.mt-title{font-size:.78rem;font-weight:700;color:var(--txt);margin-bottom:.18rem;}
+.mt-prev{font-size:.65rem;color:var(--muted);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+
+/* SEARCH */
+.search-bar{display:flex;gap:.5rem;margin-bottom:.8rem;}
+.search-inp{flex:1;padding:.65rem .9rem;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:11px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;color:var(--txt);outline:none;}
+.search-inp::placeholder{color:rgba(232,238,255,.2);}
+.search-inp:focus{border-color:rgba(27,63,228,.5);}
+
+/* SECTION LABEL */
+.sec-lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:.6rem 0 .7rem;display:flex;align-items:center;gap:.5rem;}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border2);}
+
+/* ALERT BOX */
+.alert{border-radius:12px;padding:.75rem .9rem;font-size:.74rem;line-height:1.65;margin-bottom:.8rem;display:flex;gap:.5rem;align-items:flex-start;}
+.alert-info{background:rgba(27,63,228,.08);border:1px solid rgba(27,63,228,.2);color:#7BA4FF;}
+.alert-warn{background:rgba(245,183,49,.08);border:1px solid rgba(245,183,49,.2);color:var(--gold);}
+.alert-success{background:rgba(0,194,113,.08);border:1px solid rgba(0,194,113,.2);color:var(--green);}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(4,8,15,.8);z-index:300;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);}
+.modal-bg.open{display:flex;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-sheet{background:#0D1528;border-radius:22px 22px 0 0;width:100%;max-width:480px;padding:1.2rem 1.1rem 2.5rem;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto;border-top:1px solid var(--border);}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mh{width:36px;height:4px;background:var(--border);border-radius:99px;margin:0 auto 1.1rem;}
+.modal-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--txt);margin-bottom:.3rem;}
+.modal-sub{font-size:.74rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;}
+
+/* CHECKBOX */
+.check-row{display:flex;align-items:center;gap:.7rem;padding:.65rem .9rem;background:var(--card2);border-radius:10px;margin-bottom:.4rem;cursor:pointer;border:1px solid var(--border2);}
+.check-row:hover{border-color:rgba(255,255,255,.1);}
+.check-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--blue2);}
+.check-label{font-size:.78rem;color:var(--txt);flex:1;}
+
+/* LOADER */
+.loader{display:flex;align-items:center;justify-content:center;padding:2rem;color:var(--muted);font-size:.78rem;gap:.6rem;}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--blue2);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* EMPTY */
+.empty{text-align:center;padding:2rem;color:var(--muted);font-size:.75rem;}
+.empty-ico{font-size:1.8rem;opacity:.25;margin-bottom:.4rem;}
+
+/* TOAST */
+#toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-16px);background:rgba(13,21,40,.98);color:var(--txt);padding:.7rem 1.2rem;border-radius:14px;font-size:.78rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--cyan);box-shadow:0 8px 24px rgba(4,8,15,.6);max-width:88vw;text-align:center;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{border-color:var(--green);}
+#toast.error{border-color:var(--red);}
+#toast.warning{border-color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:.6rem">
+    <div class="top-logo">SIL<span>LA</span></div>
+    <div class="admin-badge">ADMIN</div>
+  </div>
+  <button class="top-logout" onclick="logout()">🚪 Quitter</button>
+</div>
+
+<!-- MENU TABS -->
+<div class="menu-bar">
+  <div class="menu-scroll">
+    <div class="menu-btn active" id="mb-dash" onclick="goSection('dash')"><div class="mb-ico">📊</div><div class="mb-lbl">Dashboard</div></div>
+    <div class="menu-btn" id="mb-users" onclick="goSection('users')"><div class="mb-ico">👥</div><div class="mb-lbl">Utilisateurs</div></div>
+    <div class="menu-btn" id="mb-invests" onclick="goSection('invests')"><div class="mb-ico">📈</div><div class="mb-lbl">Invest.</div></div>
+    <div class="menu-btn" id="mb-recharges" onclick="goSection('recharges')"><div class="mb-ico">💳</div><div class="mb-lbl">Recharges</div></div>
+    <div class="menu-btn" id="mb-retraits" onclick="goSection('retraits')"><div class="mb-ico">💸</div><div class="mb-lbl">Retraits</div></div>
+    <div class="menu-btn" id="mb-messages" onclick="goSection('messages')"><div class="mb-ico">📣</div><div class="mb-lbl">Messages</div></div>
+    <div class="menu-btn" id="mb-parrain" onclick="goSection('parrain')"><div class="mb-ico">👑</div><div class="mb-lbl">Parrainage</div></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ══ DASHBOARD ══ -->
+  <div class="section active" id="sec-dash">
+    <div class="stats-grid">
+      <div class="stat-box blue"><div class="sb-ico">👥</div><div class="sb-val" id="st-users">—</div><div class="sb-lbl">Utilisateurs</div></div>
+      <div class="stat-box green"><div class="sb-ico">💰</div><div class="sb-val" id="st-soldes">—</div><div class="sb-lbl">Soldes total</div></div>
+      <div class="stat-box orange"><div class="sb-ico">📈</div><div class="sb-val" id="st-invests">—</div><div class="sb-lbl">Investissements</div></div>
+      <div class="stat-box gold"><div class="sb-ico">💳</div><div class="sb-val" id="st-recharges">—</div><div class="sb-lbl">Recharges</div></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box green"><div class="sb-ico">⏳</div><div class="sb-val" id="st-pending">—</div><div class="sb-lbl">En attente</div></div>
+      <div class="stat-box orange"><div class="sb-ico">👑</div><div class="sb-val" id="st-parrain">—</div><div class="sb-lbl">Gains parrain</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">⚡ Actions rapides</div></div>
+      <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+        <button class="btn btn-primary" onclick="goSection('recharges')">✅ Valider recharges</button>
+        <button class="btn btn-orange" onclick="goSection('retraits')">💸 Traiter retraits</button>
+        <button class="btn btn-green" onclick="goSection('messages')">📣 Envoyer notif</button>
+        <button class="btn btn-ghost" onclick="goSection('users')" style="border:1px solid var(--border)">👥 Voir users</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ UTILISATEURS ══ -->
+  <div class="section" id="sec-users">
+    <div class="search-bar">
+      <input class="search-inp" id="search-user" placeholder="🔍 Rechercher un utilisateur…" oninput="filterUsers()"/>
+      <button class="btn btn-primary btn-sm" onclick="openModal('addUser')">+ Ajouter</button>
+    </div>
+    <div id="users-list"><div class="loader"><div class="spin"></div> Chargement…</div></div>
+  </div>
+
+  <!-- ══ INVESTISSEMENTS ══ -->
+  <div class="section" id="sec-invests">
+    <div class="card" style="margin-bottom:.8rem">
+      <div class="card-head"><div class="card-title">🔍 Filtrer</div></div>
+      <div class="card-body" style="display:flex;gap:.5rem">
+        <select class="inp" id="filter-invest-statut" onchange="loadInvests()" style="flex:1;padding:.6rem .8rem">
+          <option value="">Tous les statuts</option>
+          <option value="actif">Actif</option>
+          <option value="gain_dispo">Gain disponible</option>
+          <option value="termine">Terminé</option>
+          <option value="expire">Expiré</option>
+        </select>
+      </div>
+    </div>
+    <div id="invests-list"><div class="loader"><div class="spin"></div> Chargement…</div></div>
+  </div>
+
+  <!-- ══ RECHARGES ══ -->
+  <div class="section" id="sec-recharges">
+    <div class="alert alert-warn">⚠️ Vérifiez les transactions Mobile Money / Crypto avant de valider.</div>
+    <div class="card" style="margin-bottom:.8rem">
+      <div class="card-head"><div class="card-title">🔍 Filtrer</div></div>
+      <div class="card-body" style="display:flex;gap:.5rem">
+        <select class="inp" id="filter-rech-statut" onchange="loadRecharges()" style="flex:1;padding:.6rem .8rem">
+          <option value="en_attente">En attente ⏳</option>
+          <option value="valide">Validées ✅</option>
+          <option value="rejete">Rejetées ❌</option>
+          <option value="">Toutes</option>
+        </select>
+      </div>
+    </div>
+    <div id="recharges-list"><div class="loader"><div class="spin"></div> Chargement…</div></div>
+  </div>
+
+  <!-- ══ RETRAITS ══ -->
+  <div class="section" id="sec-retraits">
+    <div class="alert alert-info">ℹ️ Traitez les retraits manuellement via Mobile Money.</div>
+    <div class="card" style="margin-bottom:.8rem">
+      <div class="card-head"><div class="card-title">🔍 Filtrer</div></div>
+      <div class="card-body" style="display:flex;gap:.5rem">
+        <select class="inp" id="filter-ret-statut" onchange="loadRetraits()" style="flex:1;padding:.6rem .8rem">
+          <option value="en_attente">En attente ⏳</option>
+          <option value="valide">Validés ✅</option>
+          <option value="rejete">Rejetés ❌</option>
+          <option value="">Tous</option>
+        </select>
+      </div>
+    </div>
+    <div id="retraits-list"><div class="loader"><div class="spin"></div> Chargement…</div></div>
+  </div>
+
+  <!-- ══ MESSAGES ══ -->
+  <div class="section" id="sec-messages">
+    <!-- DESTINATAIRES -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">👥 Destinataires</div></div>
+      <div class="card-body">
+        <div class="check-row" onclick="toggleAll()">
+          <input type="checkbox" id="chk-all" onchange="toggleAll()"/>
+          <div class="check-label" style="font-weight:800">📢 Tous les utilisateurs</div>
+        </div>
+        <div id="msg-recipients" style="max-height:140px;overflow-y:auto;margin-top:.3rem"></div>
+      </div>
+    </div>
+
+    <!-- MESSAGES PRÉ-REMPLIS -->
+    <div class="sec-lbl">Messages prédéfinis</div>
+    <div id="msg-templates">
+      <div class="msg-template" onclick="selTemplate(0)"><div class="mt-title">🎉 Bienvenue</div><div class="mt-prev">Bienvenue sur SILLA ! Votre compte est prêt. Investissez dès maintenant pour commencer à gagner.</div></div>
+      <div class="msg-template" onclick="selTemplate(1)"><div class="mt-title">💰 Rappel investissement</div><div class="mt-prev">Vous avez des gains disponibles ! Connectez-vous pour récupérer vos gains avant expiration.</div></div>
+      <div class="msg-template" onclick="selTemplate(2)"><div class="mt-title">✅ Recharge validée</div><div class="mt-prev">Votre recharge a été validée et créditée sur votre compte. Vous pouvez maintenant investir.</div></div>
+      <div class="msg-template" onclick="selTemplate(3)"><div class="mt-title">💸 Retrait traité</div><div class="mt-prev">Votre demande de retrait a été traitée. Les fonds ont été envoyés sur votre compte Mobile Money.</div></div>
+      <div class="msg-template" onclick="selTemplate(4)"><div class="mt-title">🚀 Nouveau plan disponible</div><div class="mt-prev">Un nouveau plan d'investissement est disponible sur SILLA ! Connectez-vous pour le découvrir.</div></div>
+      <div class="msg-template" onclick="selTemplate(5)"><div class="mt-title">⚠️ Gains expirent bientôt</div><div class="mt-prev">Attention ! Vos gains expirent dans 24h. Connectez-vous et récupérez-les avant qu'il ne soit trop tard.</div></div>
+      <div class="msg-template" onclick="selTemplate(6)"><div class="mt-title">🎁 Bonus spécial</div><div class="mt-prev">Profitez d'un bonus exceptionnel réservé aux membres actifs ! Connectez-vous pour en savoir plus.</div></div>
+    </div>
+
+    <!-- COMPOSER -->
+    <div class="sec-lbl" style="margin-top:.8rem">Composer le message</div>
+    <div class="card">
+      <div class="card-body">
+        <div class="field"><label>Titre de la notification *</label><input class="inp" id="msg-titre" placeholder="Ex: Rappel important"/></div>
+        <div class="field"><label>Message *</label><textarea class="inp" id="msg-body" placeholder="Contenu du message…" style="height:100px"></textarea></div>
+        <button class="btn btn-primary btn-full" onclick="envoyerMessage()">📣 Envoyer maintenant</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PARRAINAGE ══ -->
+  <div class="section" id="sec-parrain">
+    <div class="card" style="margin-bottom:.8rem">
+      <div class="card-head"><div class="card-title">💰 Gains parrainage</div></div>
+      <div class="card-body">
+        <div class="stats-grid" style="margin:0">
+          <div class="stat-box orange" style="margin:0"><div class="sb-ico">💰</div><div class="sb-val" id="pg-total">—</div><div class="sb-lbl">Total distribué</div></div>
+          <div class="stat-box green" style="margin:0"><div class="sb-ico">📊</div><div class="sb-val" id="pg-count">—</div><div class="sb-lbl">Transactions</div></div>
+        </div>
+      </div>
+    </div>
+    <div id="parrain-list"><div class="loader"><div class="spin"></div> Chargement…</div></div>
+  </div>
+
+</div>
+
+<!-- MODAL ÉDITER UTILISATEUR -->
+<div class="modal-bg" id="modal-editUser" onclick="if(event.target===this)closeModal('editUser')">
+  <div class="modal-sheet">
+    <div class="mh"></div>
+    <div class="modal-title" id="editUser-title">Modifier l'utilisateur</div>
+    <div class="modal-sub" id="editUser-sub">—</div>
+    <input type="hidden" id="edit-uid"/>
+    <div class="field"><label>Nom complet</label><input class="inp" id="edit-nom" placeholder="Nom"/></div>
+    <div class="field"><label>Email</label><input class="inp" id="edit-email" type="email" placeholder="Email"/></div>
+    <div class="field"><label>Téléphone</label><input class="inp" id="edit-tel" placeholder="Téléphone"/></div>
+    <div class="field"><label>Solde (FCFA)</label><input class="inp" id="edit-solde" type="number" placeholder="Solde"/></div>
+    <div class="field"><label>Statut</label>
+      <select class="inp" id="edit-statut">
+        <option value="actif">✅ Actif</option>
+        <option value="suspendu">🚫 Suspendu</option>
+      </select>
+    </div>
+    <div class="field"><label>Rôle</label>
+      <select class="inp" id="edit-role">
+        <option value="0">👤 Utilisateur</option>
+        <option value="1">🔑 Administrateur</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.3rem">
+      <button class="btn btn-red btn-full" onclick="supprimerUser()">🗑 Supprimer</button>
+      <button class="btn btn-primary btn-full" onclick="sauvegarderUser()">💾 Sauvegarder</button>
+    </div>
+    <button class="btn btn-ghost btn-full" style="margin-top:.5rem;border:1px solid var(--border)" onclick="closeModal('editUser')">Annuler</button>
+  </div>
+</div>
+
+<!-- MODAL AJOUTER UTILISATEUR -->
+<div class="modal-bg" id="modal-addUser" onclick="if(event.target===this)closeModal('addUser')">
+  <div class="modal-sheet">
+    <div class="mh"></div>
+    <div class="modal-title">➕ Ajouter un utilisateur</div>
+    <div class="modal-sub">Créer manuellement un compte</div>
+    <div class="field"><label>Nom complet *</label><input class="inp" id="add-nom" placeholder="Nom complet"/></div>
+    <div class="field"><label>Email *</label><input class="inp" id="add-email" type="email" placeholder="email@exemple.com"/></div>
+    <div class="field"><label>Mot de passe *</label><input class="inp" id="add-pwd" type="password" placeholder="Minimum 8 caractères"/></div>
+    <div class="field"><label>Solde initial (FCFA)</label><input class="inp" id="add-solde" type="number" placeholder="0" value="1000"/></div>
+    <button class="btn btn-primary btn-full" onclick="ajouterUser()">✅ Créer le compte</button>
+    <button class="btn btn-ghost btn-full" style="margin-top:.5rem;border:1px solid var(--border)" onclick="closeModal('addUser')">Annuler</button>
+  </div>
+</div>
+
+<!-- MODAL RECHARGE -->
+<div class="modal-bg" id="modal-recharge" onclick="if(event.target===this)closeModal('recharge')">
+  <div class="modal-sheet">
+    <div class="mh"></div>
+    <div class="modal-title" id="rech-modal-title">Recharge #—</div>
+    <div id="rech-modal-body"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem" id="rech-modal-btns"></div>
+    <button class="btn btn-ghost btn-full" style="margin-top:.5rem;border:1px solid var(--border)" onclick="closeModal('recharge')">Fermer</button>
+  </div>
+</div>
+
+<!-- MODAL RETRAIT -->
+<div class="modal-bg" id="modal-retrait" onclick="if(event.target===this)closeModal('retrait')">
+  <div class="modal-sheet">
+    <div class="mh"></div>
+    <div class="modal-title" id="ret-modal-title">Retrait #—</div>
+    <div id="ret-modal-body"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem" id="ret-modal-btns"></div>
+    <button class="btn btn-ghost btn-full" style="margin-top:.5rem;border:1px solid var(--border)" onclick="closeModal('retrait')">Fermer</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
+
+const fmt = n => Number(n||0).toLocaleString('fr-FR');
+const fmtK = n => n>=1000?Math.round(n/100)/10+'k':fmt(n);
+const fdate = d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+
+let U=null, allUsers=[], selUsersMsg=new Set(), msgSendAll=false;
+let curSec = 'dash';
+
+const TEMPLATES = [
+  {titre:'🎉 Bienvenue sur SILLA !',     body:'Bienvenue sur SILLA ! Votre compte est prêt. Investissez dès maintenant pour commencer à gagner de l\'argent.'},
+  {titre:'💰 Gains disponibles !',        body:'Vous avez des gains disponibles ! Connectez-vous pour les récupérer avant expiration (48h).'},
+  {titre:'✅ Recharge validée',           body:'Votre recharge a été validée et créditée sur votre compte. Vous pouvez maintenant investir.'},
+  {titre:'💸 Retrait traité',             body:'Votre demande de retrait a été traitée. Les fonds ont été envoyés sur votre compte Mobile Money.'},
+  {titre:'🚀 Nouveau plan disponible',    body:'Un nouveau plan d\'investissement est disponible sur SILLA ! Connectez-vous pour le découvrir.'},
+  {titre:'⚠️ Vos gains expirent bientôt !',body:'Attention ! Vos gains expirent dans 24h. Connectez-vous et récupérez-les avant qu\'il ne soit trop tard.'},
+  {titre:'🎁 Bonus spécial pour vous',   body:'Profitez d\'un bonus exceptionnel réservé aux membres actifs ! Connectez-vous pour en savoir plus.'},
+];
+
+// ── INIT ──
+async function init() {
+  const { data } = await sb.auth.getSession();
+  if (!data?.session) { window.location.href = 'silla-login.html'; return; }
+  U = data.session.user;
+  // Vérifier admin
+  const { data: p } = await sb.from('utilisateurs').select('is_admin').eq('id', U.id).maybeSingle();
+  if (!p?.is_admin) { alert('Accès refusé'); window.location.href = 'silla-dashboard.html'; return; }
+  await loadDash();
+}
+
+// ── NAVIGATION ──
+function goSection(id) {
+  curSec = id;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id)?.classList.add('active');
+  document.getElementById('mb-' + id)?.classList.add('active');
+  // Lazy load
+  if (id === 'users')     loadUsers();
+  if (id === 'invests')   loadInvests();
+  if (id === 'recharges') loadRecharges();
+  if (id === 'retraits')  loadRetraits();
+  if (id === 'messages')  loadMsgRecipients();
+  if (id === 'parrain')   loadParrain();
+}
+
+// ── DASHBOARD ──
+async function loadDash() {
+  const [r1,r2,r3,r4,r5,r6] = await Promise.all([
+    sb.from('utilisateurs').select('*',{count:'exact',head:true}),
+    sb.from('utilisateurs').select('solde'),
+    sb.from('investissements').select('*',{count:'exact',head:true}),
+    sb.from('recharges').select('*',{count:'exact',head:true}),
+    sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente'),
+    sb.from('parrainage_gains').select('montant'),
+  ]);
+  const totalSoldes = (r2.data||[]).reduce((s,u)=>s+(u.solde||0),0);
+  const totalParrain = (r6.data||[]).reduce((s,p)=>s+(p.montant||0),0);
+  document.getElementById('st-users').textContent    = r1.count||0;
+  document.getElementById('st-soldes').textContent   = fmtK(totalSoldes)+'F';
+  document.getElementById('st-invests').textContent  = r3.count||0;
+  document.getElementById('st-recharges').textContent= r4.count||0;
+  document.getElementById('st-pending').textContent  = r5.count||0;
+  document.getElementById('st-parrain').textContent  = fmtK(totalParrain)+'F';
+}
+
+// ── USERS ──
+async function loadUsers() {
+  const el = document.getElementById('users-list');
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
+  const { data } = await sb.from('utilisateurs').select('*').order('created_at',{ascending:false});
+  allUsers = data || [];
+  renderUsers(allUsers);
+}
+
+function renderUsers(list) {
+  const el = document.getElementById('users-list');
+  if (!list.length) { el.innerHTML = '<div class="empty"><div class="empty-ico">👥</div>Aucun utilisateur</div>'; return; }
+  el.innerHTML = list.map(u => `
+    <div class="user-item" onclick="openEditUser('${u.id}')">
+      <div class="user-av">${(u.nom||u.email||'?')[0].toUpperCase()}</div>
+      <div class="user-info">
+        <div class="user-name">${u.nom||'Sans nom'}</div>
+        <div class="user-email">${u.email||'—'}</div>
+        <span class="tag tag-${u.statut||'actif'}">${u.statut==='suspendu'?'🚫 Suspendu':'✅ Actif'}</span>
+        ${u.is_admin?'<span class="tag tag-admin" style="margin-left:.3rem">🔑 Admin</span>':''}
+      </div>
+      <div class="user-right">
+        <div class="user-solde">${fmt(u.solde||0)} F</div>
+        <div class="user-date">${fdate(u.created_at)}</div>
+      </div>
+    </div>`).join('');
+}
+
+function filterUsers() {
+  const q = document.getElementById('search-user').value.toLowerCase();
+  const filtered = allUsers.filter(u =>
+    (u.nom||'').toLowerCase().includes(q) ||
+    (u.email||'').toLowerCase().includes(q) ||
+    (u.telephone||'').includes(q)
+  );
+  renderUsers(filtered);
+}
+
+function openEditUser(uid) {
+  const u = allUsers.find(x => x.id === uid);
+  if (!u) return;
+  document.getElementById('edit-uid').value     = uid;
+  document.getElementById('editUser-title').textContent = '✏️ ' + (u.nom||'Sans nom');
+  document.getElementById('editUser-sub').textContent   = u.email||'—';
+  document.getElementById('edit-nom').value     = u.nom||'';
+  document.getElementById('edit-email').value   = u.email||'';
+  document.getElementById('edit-tel').value     = u.telephone||'';
+  document.getElementById('edit-solde').value   = u.solde||0;
+  document.getElementById('edit-statut').value  = u.statut||'actif';
+  document.getElementById('edit-role').value    = u.is_admin?'1':'0';
+  openModal('editUser');
+}
+
+async function sauvegarderUser() {
+  const uid = document.getElementById('edit-uid').value;
+  const data = {
+    nom:       document.getElementById('edit-nom').value.trim(),
+    email:     document.getElementById('edit-email').value.trim(),
+    telephone: document.getElementById('edit-tel').value.trim(),
+    solde:     parseFloat(document.getElementById('edit-solde').value)||0,
+    statut:    document.getElementById('edit-statut').value,
+    is_admin:  document.getElementById('edit-role').value === '1',
+  };
+  const { error } = await sb.from('utilisateurs').update(data).eq('id', uid);
+  if (error) { showToast('❌ '+error.message,'error'); return; }
+  showToast('✅ Utilisateur mis à jour !','success');
+  closeModal('editUser');
+  await loadUsers();
+}
+
+async function supprimerUser() {
+  const uid = document.getElementById('edit-uid').value;
+  if (!confirm('Supprimer définitivement cet utilisateur ?')) return;
+  await sb.from('investissements').delete().eq('user_id',uid);
+  await sb.from('transactions').delete().eq('user_id',uid);
+  await sb.from('recharges').delete().eq('user_id',uid);
+  await sb.from('retraits').delete().eq('user_id',uid);
+  await sb.from('notifications').delete().eq('user_id',uid);
+  await sb.from('utilisateurs').delete().eq('id',uid);
+  showToast('✅ Utilisateur supprimé','success');
+  closeModal('editUser');
+  await loadUsers();
+}
+
+async function ajouterUser() {
+  const nom   = document.getElementById('add-nom').value.trim();
+  const email = document.getElementById('add-email').value.trim();
+  const pwd   = document.getElementById('add-pwd').value;
+  const solde = parseFloat(document.getElementById('add-solde').value)||1000;
+  if(!nom||!email||pwd.length<8){ showToast('⚠️ Remplissez tous les champs (mdp min 8)','warning'); return; }
+  const { data, error } = await sb.auth.admin?.createUser?.({email,password:pwd,email_confirm:true}) || 
+    await sb.auth.signUp({email,password:pwd,options:{data:{full_name:nom}}});
+  if(error){ showToast('❌ '+error.message,'error'); return; }
+  const uid = data?.user?.id;
+  if(uid) await sb.from('utilisateurs').upsert({id:uid,nom,email,solde,statut:'actif',created_at:new Date().toISOString()},{onConflict:'id'});
+  showToast('✅ Utilisateur créé !','success');
+  closeModal('addUser');
+  await loadUsers();
+}
+
+// ── INVESTISSEMENTS ──
+async function loadInvests() {
+  const el = document.getElementById('invests-list');
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
+  const statut = document.getElementById('filter-invest-statut').value;
+  let q = sb.from('investissements').select('*,user:user_id(nom,email)').order('created_at',{ascending:false}).limit(50);
+  if(statut) q = q.eq('statut',statut);
+  const { data } = await q;
+  if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">📈</div>Aucun investissement</div>'; return; }
+  el.innerHTML = data.map(inv=>{
+    const sColors={actif:'#7BA4FF',gain_dispo:var_gold,termine:'var(--green)',expire:'#FF8080'};
+    const sBgs={actif:'rgba(27,63,228,.1)',gain_dispo:'rgba(245,183,49,.1)',termine:'rgba(0,194,113,.1)',expire:'rgba(232,48,48,.1)'};
+    return `<div class="tx-item">
+      <div class="tx-ico" style="background:${sBgs[inv.statut]||'rgba(255,255,255,.05)'}">📈</div>
+      <div class="tx-info">
+        <div class="tx-title">${inv.user?.nom||inv.user?.email||'—'}</div>
+        <div class="tx-sub">${inv.plan_type} · ${fmt(inv.montant)} F · ${inv.duree_jours}j</div>
+      </div>
+      <div class="tx-right">
+        <div class="tx-amt" style="color:var(--green)">+${fmt(inv.gain_attendu)} F</div>
+        <div class="tx-date">${fdate(inv.created_at)}</div>
+        <div class="tx-status s-${inv.statut==='termine'?'valide':inv.statut==='expire'?'rejete':'pending'}">${inv.statut}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+const var_gold = 'rgba(245,183,49,.1)';
+
+// ── RECHARGES ──
+async function loadRecharges() {
+  const el = document.getElementById('recharges-list');
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
+  const statut = document.getElementById('filter-rech-statut').value;
+  let q = sb.from('recharges').select('*,user:user_id(nom,email)').order('created_at',{ascending:false}).limit(50);
+  if(statut) q = q.eq('statut',statut);
+  const { data } = await q;
+  if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💳</div>Aucune recharge</div>'; return; }
+  el.innerHTML = data.map(r=>`
+    <div class="tx-item" style="cursor:pointer" onclick="openRechargeModal('${r.id}')">
+      <div class="tx-ico" style="background:rgba(0,194,113,.1)">${r.operateur?.includes('crypto')?'₿':'📱'}</div>
+      <div class="tx-info">
+        <div class="tx-title">${r.user?.nom||r.user?.email||'—'}</div>
+        <div class="tx-sub">${r.operateur||'—'} · Réf: ${r.ref_paiement||'—'}</div>
+      </div>
+      <div class="tx-right">
+        <div class="tx-amt" style="color:var(--gold)">${fmt(r.montant)} F</div>
+        <div class="tx-date">${fdate(r.created_at)}</div>
+        <div class="tx-status ${r.statut==='valide'?'s-valide':r.statut==='rejete'?'s-rejete':'s-pending'}">${r.statut}</div>
+      </div>
+    </div>`).join('');
+}
+
+async function openRechargeModal(id) {
+  const { data: r } = await sb.from('recharges').select('*,user:user_id(nom,email,solde)').eq('id',id).single();
+  if(!r) return;
+  document.getElementById('rech-modal-title').textContent = '💳 Recharge — '+fmt(r.montant)+' F';
+  document.getElementById('rech-modal-body').innerHTML = `
+    <div style="background:var(--card2);border-radius:12px;padding:.9rem;border:1px solid var(--border2);margin-bottom:.6rem">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Utilisateur</span><span style="font-weight:700">${r.user?.nom||'—'}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Montant</span><span style="font-weight:700;color:var(--gold)">${fmt(r.montant)} F</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Opérateur</span><span style="font-weight:700">${r.operateur||'—'}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Référence TX</span><span style="font-weight:700;font-size:.68rem;font-family:monospace">${r.ref_paiement||'—'}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem"><span style="color:var(--muted)">Statut actuel</span><span class="tx-status ${r.statut==='valide'?'s-valide':r.statut==='rejete'?'s-rejete':'s-pending'}">${r.statut}</span></div>
+    </div>
+    ${r.statut==='en_attente'?'<div class="alert alert-warn">⚠️ Vérifiez que le paiement a bien été reçu avant de valider.</div>':''}`;
+  document.getElementById('rech-modal-btns').innerHTML = r.statut === 'en_attente' ? `
+    <button class="btn btn-red btn-full" onclick="traiterRecharge('${id}','rejete','${r.user_id}',${r.montant})">❌ Rejeter</button>
+    <button class="btn btn-green btn-full" onclick="traiterRecharge('${id}','valide','${r.user_id}',${r.montant})">✅ Valider</button>
+  ` : `<div style="font-size:.75rem;color:var(--muted);text-align:center;padding:.5rem">Déjà traité : ${r.statut}</div>`;
+  openModal('recharge');
+}
+
+async function traiterRecharge(id, statut, userId, montant) {
+  await sb.from('recharges').update({statut,valide_le:new Date().toISOString()}).eq('id',id);
+  if(statut === 'valide') {
+    const { data:u } = await sb.from('utilisateurs').select('solde').eq('id',userId).maybeSingle();
+    const nvSolde = (u?.solde||0)+montant;
+    await sb.from('utilisateurs').update({solde:nvSolde}).eq('id',userId);
+    await sb.from('transactions').insert({user_id:userId,type:'recharge',montant,description:'Recharge validée par admin'});
+    await sb.from('notifications').insert({user_id:userId,titre:'✅ Recharge validée !',message:`Votre recharge de ${fmt(montant)} F a été validée et créditée.`,type:'info'});
+  }
+  showToast(statut==='valide'?'✅ Recharge validée et créditée !':'❌ Recharge rejetée','success');
+  closeModal('recharge');
+  await loadRecharges();
+}
+
+// ── RETRAITS ──
+async function loadRetraits() {
+  const el = document.getElementById('retraits-list');
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
+  const statut = document.getElementById('filter-ret-statut').value;
+  let q = sb.from('retraits').select('*,user:user_id(nom,email)').order('created_at',{ascending:false}).limit(50);
+  if(statut) q = q.eq('statut',statut);
+  const { data } = await q;
+  if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💸</div>Aucun retrait</div>'; return; }
+  el.innerHTML = data.map(r=>`
+    <div class="tx-item" style="cursor:pointer" onclick="openRetraitModal('${r.id}')">
+      <div class="tx-ico" style="background:rgba(255,107,26,.1)">💸</div>
+      <div class="tx-info">
+        <div class="tx-title">${r.user?.nom||r.user?.email||'—'}</div>
+        <div class="tx-sub">${r.methode||'—'} · ${r.numero_compte||'—'}</div>
+      </div>
+      <div class="tx-right">
+        <div class="tx-amt" style="color:var(--orange)">-${fmt(r.montant)} F</div>
+        <div class="tx-date">${fdate(r.created_at)}</div>
+        <div class="tx-status ${r.statut==='valide'?'s-valide':r.statut==='rejete'?'s-rejete':'s-pending'}">${r.statut}</div>
+      </div>
+    </div>`).join('');
+}
+
+async function openRetraitModal(id) {
+  const { data: r } = await sb.from('retraits').select('*,user:user_id(nom,email,solde)').eq('id',id).single();
+  if(!r) return;
+  document.getElementById('ret-modal-title').textContent = '💸 Retrait — '+fmt(r.montant)+' F';
+  document.getElementById('ret-modal-body').innerHTML = `
+    <div style="background:var(--card2);border-radius:12px;padding:.9rem;border:1px solid var(--border2);margin-bottom:.6rem">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Utilisateur</span><span style="font-weight:700">${r.user?.nom||'—'}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Montant</span><span style="font-weight:700;color:var(--orange)">${fmt(r.montant)} F</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Méthode</span><span style="font-weight:700">${r.methode||'—'}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem"><span style="color:var(--muted)">Numéro</span><span style="font-weight:700">${r.numero_compte||'—'}</span></div>
+    </div>
+    ${r.statut==='en_attente'?`<div class="alert alert-info">ℹ️ Envoyez <strong>${fmt(r.montant)} F</strong> sur le <strong>${r.methode}</strong> <strong>${r.numero_compte}</strong> puis confirmez.</div>`:''}`;
+  document.getElementById('ret-modal-btns').innerHTML = r.statut === 'en_attente' ? `
+    <button class="btn btn-red btn-full" onclick="traiterRetrait('${id}','rejete','${r.user_id}',${r.montant})">❌ Annuler</button>
+    <button class="btn btn-green btn-full" onclick="traiterRetrait('${id}','valide','${r.user_id}',${r.montant})">✅ Envoyé</button>
+  ` : `<div style="font-size:.75rem;color:var(--muted);text-align:center;padding:.5rem">Déjà traité : ${r.statut}</div>`;
+  openModal('retrait');
+}
+
+async function traiterRetrait(id, statut, userId, montant) {
+  await sb.from('retraits').update({statut,traite_le:new Date().toISOString()}).eq('id',id);
+  if(statut === 'rejete') {
+    // Rembourser si annulé
+    const { data:u } = await sb.from('utilisateurs').select('solde').eq('id',userId).maybeSingle();
+    await sb.from('utilisateurs').update({solde:(u?.solde||0)+montant}).eq('id',userId);
+    await sb.from('transactions').insert({user_id:userId,type:'remboursement',montant,description:'Retrait annulé — remboursement'});
+  }
+  await sb.from('notifications').insert({
+    user_id:userId,
+    titre: statut==='valide'?'✅ Retrait effectué !':'❌ Retrait annulé',
+    message: statut==='valide'?`Votre retrait de ${fmt(montant)} F a été envoyé sur votre compte.`:`Votre retrait de ${fmt(montant)} F a été annulé. Le montant a été recrédité.`,
+    type:'info'
+  });
+  showToast(statut==='valide'?'✅ Retrait confirmé !':'❌ Retrait annulé et remboursé','success');
+  closeModal('retrait');
+  await loadRetraits();
+}
+
+// ── MESSAGES ──
+async function loadMsgRecipients() {
+  const { data } = await sb.from('utilisateurs').select('id,nom,email').order('nom');
+  const el = document.getElementById('msg-recipients');
+  el.innerHTML = (data||[]).map(u=>`
+    <div class="check-row" onclick="toggleUserMsg('${u.id}')">
+      <input type="checkbox" id="chk-${u.id}" onchange="toggleUserMsg('${u.id}')"/>
+      <div class="check-label">${u.nom||u.email||'?'} <span style="color:var(--muted);font-size:.68rem">${u.email||''}</span></div>
+    </div>`).join('');
+}
+
+function toggleAll() {
+  msgSendAll = document.getElementById('chk-all').checked;
+  document.querySelectorAll('#msg-recipients input[type=checkbox]').forEach(c=>c.checked=msgSendAll);
+}
+
+function toggleUserMsg(uid) {
+  const chk = document.getElementById('chk-'+uid);
+  if(chk.checked) selUsersMsg.add(uid);
+  else selUsersMsg.delete(uid);
+}
+
+let selTplIdx = -1;
+function selTemplate(i) {
+  selTplIdx = i;
+  document.querySelectorAll('.msg-template').forEach((el,j)=>el.classList.toggle('sel',j===i));
+  document.getElementById('msg-titre').value = TEMPLATES[i].titre;
+  document.getElementById('msg-body').value  = TEMPLATES[i].body;
+}
+
+async function envoyerMessage() {
+  const titre = document.getElementById('msg-titre').value.trim();
+  const body  = document.getElementById('msg-body').value.trim();
+  if(!titre||!body){ showToast('⚠️ Titre et message requis','warning'); return; }
+
+  const btn = event.target;
+  btn.disabled=true; btn.innerHTML='<div class="spin"></div> Envoi…';
+
+  try {
+    let targets = [];
+    if(msgSendAll || document.getElementById('chk-all').checked) {
+      const { data } = await sb.from('utilisateurs').select('id');
+      targets = (data||[]).map(u=>u.id);
+    } else {
+      document.querySelectorAll('#msg-recipients input[type=checkbox]:checked').forEach(c=>{
+        targets.push(c.id.replace('chk-',''));
+      });
+    }
+    if(!targets.length){ showToast('⚠️ Sélectionnez au moins un destinataire','warning'); btn.disabled=false;btn.innerHTML='📣 Envoyer maintenant'; return; }
+
+    const notifs = targets.map(uid=>({user_id:uid,titre,message:body,type:'admin'}));
+    const { error } = await sb.from('notifications').insert(notifs);
+    if(error) throw error;
+
+    showToast(`✅ Message envoyé à ${targets.length} utilisateur(s) !`,'success');
+    document.getElementById('msg-titre').value='';
+    document.getElementById('msg-body').value='';
+    document.querySelectorAll('.msg-template').forEach(el=>el.classList.remove('sel'));
+  }catch(e){
+    showToast('❌ '+e.message,'error');
+  }finally{
+    btn.disabled=false; btn.innerHTML='📣 Envoyer maintenant';
+  }
+}
+
+// ── PARRAINAGE ──
+async function loadParrain() {
+  const el = document.getElementById('parrain-list');
+  el.innerHTML='<div class="loader"><div class="spin"></div> Chargement…</div>';
+  const [r1,r2] = await Promise.all([
+    sb.from('parrainage_gains').select('montant'),
+    sb.from('parrainage_gains').select('*,benef:beneficiaire_id(nom),src:source_id(nom)').order('created_at',{ascending:false}).limit(30)
+  ]);
+  const total = (r1.data||[]).reduce((s,p)=>s+(p.montant||0),0);
+  document.getElementById('pg-total').textContent = fmtK(total)+'F';
+  document.getElementById('pg-count').textContent = r1.data?.length||0;
+
+  if(!r2.data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">👑</div>Aucune commission parrainage</div>'; return; }
+  el.innerHTML = r2.data.map(p=>`
+    <div class="tx-item">
+      <div class="tx-ico" style="background:rgba(245,183,49,.1)">💰</div>
+      <div class="tx-info">
+        <div class="tx-title">${p.benef?.nom||'—'} ← ${p.src?.nom||'—'}</div>
+        <div class="tx-sub">${fdate(p.created_at)}</div>
+      </div>
+      <div class="tx-right"><div class="tx-amt" style="color:var(--gold)">+${fmt(p.montant)} F</div></div>
+    </div>`).join('');
+}
+
+// ── MODALS ──
+function openModal(id){ document.getElementById('modal-'+id)?.classList.add('open'); }
+function closeModal(id){ document.getElementById('modal-'+id)?.classList.remove('open'); }
+
+// ── TOAST ──
+function showToast(msg,type='info'){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='show '+(type||'');
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>el.className='',4500);
+}
+
+async function logout(){
+  await sb.auth.signOut();
+  window.location.replace('silla-login.html');
+}
+
+init();
+</script>
+</body>
+</html>
