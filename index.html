@@ -1,819 +1,510 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boost Central - Boostez votre présence en ligne</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --blue:        #0066FF;
-            --blue-dark:   #0047CC;
-            --blue-light:  #E6F0FF;
-            --orange:      #FF6600;
-            --orange-dark: #CC5200;
-            --white:       #FFFFFF;
-            --off:         #F7F9FC;
-            --gray:        #E2E8F0;
-            --dark:        #0D1B35;
-            --mid:         #4A5568;
-            --light:       #8A9AB5;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--white);
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        /* ── BLOBS ─────────────────────────────────────────────── */
-        .blobs {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            animation: blobMove 12s ease-in-out infinite alternate;
-        }
-
-        .b1 { width: 420px; height: 420px; background: rgba(255,102,0,0.15); top: -100px; left: -80px; }
-        .b2 { width: 380px; height: 380px; background: rgba(0,102,255,0.12); bottom: -80px; right: -60px; animation-delay: 4s; }
-        .b3 { width: 220px; height: 220px; background: rgba(0,102,255,0.07); top: 45%; left: 35%; animation-delay: 8s; }
-
-        @keyframes blobMove {
-            0%   { transform: scale(1) translate(0,0); }
-            100% { transform: scale(1.1) translate(18px, 12px); }
-        }
-
-        /* ── NAV ───────────────────────────────────────────────── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(0,102,255,0.1);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-        }
-
-        .nav-logo {
-            font-size: 1.25rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--blue), var(--orange));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-
-        .nav-right { display: flex; align-items: center; gap: 10px; }
-
-        .nav-link {
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--mid);
-            text-decoration: none;
-            padding: 7px 14px;
-            border-radius: 9px;
-            transition: all 0.22s;
-            white-space: nowrap;
-        }
-
-        .nav-link:hover { background: var(--blue-light); color: var(--blue); }
-
-        .nav-cta {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: white;
-            background: linear-gradient(90deg, var(--blue), var(--blue-dark));
-            padding: 9px 18px;
-            border-radius: 10px;
-            text-decoration: none;
-            white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(0,102,255,0.25);
-            transition: all 0.25s;
-        }
-
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 7px 18px rgba(0,102,255,0.35); }
-
-        /* ── HERO ──────────────────────────────────────────────── */
-        .hero {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 110px 20px 70px;
-        }
-
-        /* Badge */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--blue-light);
-            color: var(--blue);
-            font-size: 0.76rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 30px;
-            border: 1px solid rgba(0,102,255,0.18);
-            margin-bottom: 22px;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            animation: up 0.5s ease 0.1s both;
-        }
-
-        .badge-dot {
-            width: 7px; height: 7px;
-            background: var(--orange);
-            border-radius: 50%;
-            animation: blink 1.3s infinite;
-        }
-
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-        /* Titre hero — taille fixe adaptée mobile en premier */
-        .hero-title {
-            font-size: 2.2rem;
-            font-weight: 900;
-            line-height: 1.2;
-            color: var(--dark);
-            max-width: 700px;
-            margin-bottom: 18px;
-            letter-spacing: -0.5px;
-            animation: up 0.5s ease 0.2s both;
-        }
-
-        /* Gradient sur le mot-clé */
-        .hero-title .g {
-            background: linear-gradient(90deg, var(--blue), var(--orange));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* Tablette */
-        @media (min-width: 600px) {
-            .hero-title { font-size: 3rem; }
-        }
-
-        /* Desktop */
-        @media (min-width: 900px) {
-            .hero-title { font-size: 3.8rem; }
-        }
-
-        .hero-sub {
-            font-size: 1rem;
-            color: var(--mid);
-            max-width: 500px;
-            line-height: 1.7;
-            margin-bottom: 36px;
-            animation: up 0.5s ease 0.3s both;
-        }
-
-        @media (min-width: 600px) {
-            .hero-sub { font-size: 1.08rem; }
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-            animation: up 0.5s ease 0.4s both;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            background: linear-gradient(90deg, var(--orange), var(--orange-dark));
-            color: white;
-            font-size: 0.97rem;
-            font-weight: 700;
-            padding: 14px 30px;
-            border-radius: 13px;
-            text-decoration: none;
-            box-shadow: 0 7px 20px rgba(255,102,0,0.3);
-            transition: all 0.28s;
-        }
-
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(255,102,0,0.42); }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            background: white;
-            color: var(--blue);
-            font-size: 0.97rem;
-            font-weight: 700;
-            padding: 14px 28px;
-            border-radius: 13px;
-            text-decoration: none;
-            border: 2px solid rgba(0,102,255,0.2);
-            transition: all 0.28s;
-        }
-
-        .btn-secondary:hover { background: var(--blue-light); border-color: var(--blue); transform: translateY(-3px); }
-
-        @media (max-width: 420px) {
-            .btn-primary, .btn-secondary { width: 100%; justify-content: center; max-width: 300px; }
-            .hero-btns { flex-direction: column; align-items: center; }
-        }
-
-        /* Flèche scroll */
-        .scroll-hint {
-            margin-top: 48px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            color: var(--light);
-            font-size: 0.75rem;
-            animation: up 0.5s ease 0.8s both;
-        }
-
-        .arrow-down { animation: bounce 1.8s infinite; }
-        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
-
-        /* ── STATS ─────────────────────────────────────────────── */
-        .stats {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 14px;
-            padding: 0 20px 70px;
-        }
-
-        .stat {
-            background: white;
-            border: 1px solid var(--gray);
-            border-radius: 16px;
-            padding: 22px 28px;
-            text-align: center;
-            min-width: 130px;
-            box-shadow: 0 3px 14px rgba(0,0,0,0.05);
-            transition: all 0.28s;
-        }
-
-        .stat:hover { transform: translateY(-5px); box-shadow: 0 10px 24px rgba(0,102,255,0.1); border-color: var(--blue); }
-
-        .stat-n {
-            font-size: 1.7rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--blue), var(--orange));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .stat-l { font-size: 0.8rem; color: var(--mid); margin-top: 3px; font-weight: 500; }
-
-        /* ── SECTION générique ─────────────────────────────────── */
-        .sec {
-            position: relative;
-            z-index: 1;
-            padding: 64px 20px;
-        }
-
-        .sec-label {
-            display: inline-block;
-            font-size: 0.74rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--orange);
-            margin-bottom: 10px;
-        }
-
-        .sec-title {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: var(--dark);
-            line-height: 1.25;
-            margin-bottom: 12px;
-            letter-spacing: -0.3px;
-        }
-
-        @media (min-width: 600px) { .sec-title { font-size: 2rem; } }
-        @media (min-width: 900px) { .sec-title { font-size: 2.4rem; } }
-
-        .sec-sub {
-            font-size: 0.95rem;
-            color: var(--mid);
-            max-width: 500px;
-            line-height: 1.7;
-            margin-bottom: 40px;
-        }
-
-        .tc { text-align: center; }
-        .tc .sec-sub { margin-left: auto; margin-right: auto; }
-
-        /* ── RÉSEAUX ───────────────────────────────────────────── */
-        .nets {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            max-width: 680px;
-            margin: 0 auto;
-        }
-
-        .net {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 11px 20px;
-            background: white;
-            border: 2px solid var(--gray);
-            border-radius: 50px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--dark);
-            transition: all 0.25s;
-        }
-
-        .net:hover { transform: translateY(-3px); box-shadow: 0 7px 18px rgba(0,0,0,0.08); }
-        .net i { font-size: 1.1rem; }
-        .net.fb i { color:#1877F2; } .net.fb:hover { border-color:#1877F2; background:#f0f5ff; }
-        .net.tt i { color:#000; }    .net.tt:hover { border-color:#000; background:#f5f5f5; }
-        .net.ig i { color:#E4405F; } .net.ig:hover { border-color:#E4405F; background:#fff0f3; }
-        .net.yt i { color:#FF0000; } .net.yt:hover { border-color:#FF0000; background:#fff0f0; }
-        .net.tw i { color:#1DA1F2; } .net.tw:hover { border-color:#1DA1F2; background:#f0f8ff; }
-        .net.tg i { color:#26A5E4; } .net.tg:hover { border-color:#26A5E4; background:#f0f9ff; }
-        .net.sp i { color:#1DB954; } .net.sp:hover { border-color:#1DB954; background:#f0fff5; }
-        .net.wa i { color:#25D366; } .net.wa:hover { border-color:#25D366; background:#f0fff8; }
-
-        /* ── AVANTAGES ─────────────────────────────────────────── */
-        .feat-bg {
-            background: var(--off);
-            border-top: 1px solid var(--gray);
-            border-bottom: 1px solid var(--gray);
-        }
-
-        .feat-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        @media (min-width: 560px) { .feat-grid { grid-template-columns: 1fr 1fr; } }
-        @media (min-width: 860px) { .feat-grid { grid-template-columns: 1fr 1fr 1fr; } }
-
-        .feat {
-            background: white;
-            border-radius: 18px;
-            padding: 26px 22px;
-            border: 1px solid var(--gray);
-            box-shadow: 0 3px 14px rgba(0,0,0,0.04);
-            transition: all 0.28s;
-        }
-
-        .feat:hover { transform: translateY(-5px); box-shadow: 0 10px 26px rgba(0,102,255,0.09); border-color: var(--blue); }
-
-        .feat-ico {
-            width: 46px; height: 46px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            margin-bottom: 14px;
-        }
-
-        .ico-o { background: #FFF0E6; color: var(--orange); }
-        .ico-b { background: var(--blue-light); color: var(--blue); }
-        .ico-g { background: #EDFFF5; color: #059669; }
-
-        .feat-t { font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 7px; }
-        .feat-d { font-size: 0.86rem; color: var(--mid); line-height: 1.6; }
-
-        /* ── ÉTAPES ────────────────────────────────────────────── */
-        .steps {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            max-width: 860px;
-            margin: 0 auto;
-        }
-
-        @media (min-width: 700px) { .steps { grid-template-columns: repeat(4, 1fr); } }
-
-        .step {
-            background: white;
-            border-radius: 18px;
-            padding: 26px 18px;
-            text-align: center;
-            border: 1px solid var(--gray);
-            transition: all 0.28s;
-        }
-
-        .step:hover { transform: translateY(-5px); box-shadow: 0 10px 24px rgba(0,0,0,0.07); }
-
-        .step-n {
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            font-size: 1.1rem;
-            font-weight: 900;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 14px;
-        }
-
-        .step:nth-child(1) .step-n { background: #FFF0E6; color: var(--orange); }
-        .step:nth-child(2) .step-n { background: var(--blue-light); color: var(--blue); }
-        .step:nth-child(3) .step-n { background: #EDFFF5; color: #059669; }
-        .step:nth-child(4) .step-n { background: #FFF8E6; color: #D97706; }
-
-        .step-t { font-size: 0.92rem; font-weight: 700; color: var(--dark); margin-bottom: 7px; }
-        .step-d { font-size: 0.8rem; color: var(--mid); line-height: 1.6; }
-
-        /* ── CTA BOX ───────────────────────────────────────────── */
-        .cta-sec {
-            position: relative;
-            z-index: 1;
-            padding: 64px 20px 90px;
-        }
-
-        .cta-box {
-            background: linear-gradient(135deg, #0047CC, #0066FF, #0080FF);
-            border-radius: 24px;
-            padding: 50px 28px;
-            max-width: 660px;
-            margin: 0 auto;
-            text-align: center;
-            box-shadow: 0 16px 50px rgba(0,102,255,0.28);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-box::before {
-            content: '';
-            position: absolute;
-            top: -50px; right: -50px;
-            width: 200px; height: 200px;
-            background: rgba(255,255,255,0.07);
-            border-radius: 50%;
-        }
-
-        .cta-box::after {
-            content: '';
-            position: absolute;
-            bottom: -40px; left: -40px;
-            width: 150px; height: 150px;
-            background: rgba(255,102,0,0.18);
-            border-radius: 50%;
-        }
-
-        .cta-t {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 12px;
-            position: relative; z-index: 1;
-            line-height: 1.25;
-        }
-
-        @media (min-width: 600px) { .cta-t { font-size: 2rem; } }
-
-        .cta-d {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 30px;
-            line-height: 1.65;
-            position: relative; z-index: 1;
-        }
-
-        .btn-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            background: linear-gradient(90deg, var(--orange), var(--orange-dark));
-            color: white;
-            font-size: 1rem;
-            font-weight: 700;
-            padding: 15px 36px;
-            border-radius: 13px;
-            text-decoration: none;
-            box-shadow: 0 7px 22px rgba(255,102,0,0.38);
-            transition: all 0.28s;
-            position: relative; z-index: 1;
-        }
-
-        .btn-cta:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 30px rgba(255,102,0,0.52); }
-
-        .cta-login {
-            margin-top: 16px;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.6);
-            position: relative; z-index: 1;
-        }
-
-        .cta-login a { color: white; font-weight: 700; text-decoration: underline; }
-
-        /* ── FOOTER ────────────────────────────────────────────── */
-        footer {
-            position: relative; z-index: 1;
-            background: var(--dark);
-            color: rgba(255,255,255,0.45);
-            text-align: center;
-            padding: 26px 20px;
-            font-size: 0.82rem;
-        }
-
-        .f-logo {
-            font-size: 1.15rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--blue), var(--orange));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        footer a { color: rgba(255,255,255,0.55); text-decoration: none; margin: 0 8px; transition: color 0.2s; }
-        footer a:hover { color: white; }
-
-        /* ── WHATSAPP FLOTTANT ─────────────────────────────────── */
-        .wa {
-            position: fixed;
-            bottom: 24px; right: 24px;
-            width: 54px; height: 54px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1.5rem;
-            box-shadow: 0 5px 18px rgba(37,211,102,0.38);
-            z-index: 200;
-            text-decoration: none;
-            animation: waFloat 3.5s ease-in-out infinite;
-            transition: transform 0.3s;
-        }
-
-        .wa:hover { transform: scale(1.12); animation: none; }
-
-        @keyframes waFloat {
-            0%,100% { transform: translateY(0); }
-            50%      { transform: translateY(-8px); }
-        }
-
-        /* ── ANIMATIONS ────────────────────────────────────────── */
-        @keyframes up {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.55s ease, transform 0.55s ease;
-        }
-
-        .reveal.on { opacity: 1; transform: translateY(0); }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Inscription</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#1B3FE4;--blue2:#2D55FF;--orange:#FF6B1A;--orange-l:#FF8C42;
+  --turq:#00C2B7;--green:#00C271;--bg:#F2F5FF;--dark:#080E2A;
+  --gray:#8892A8;--border:#E4E9F8;--card:#fff;--red:#E83030;
+  --gold:#F5B731;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
+body{display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,var(--dark) 0%,#0D1E6B 100%);
+  padding:0 1.2rem;height:62px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(8,14,42,.3);
+  position:sticky;top:0;z-index:50;
+}
+.logo{font-family:'Clash Display',sans-serif;font-size:1.8rem;font-weight:700;letter-spacing:2px;}
+.logo .s1{color:var(--turq);}
+.logo .s2{color:var(--orange);}
+.logo-sub{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-top:-2px;}
+
+/* ── HERO BAND ── */
+.hero-band{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 50%,var(--turq) 100%);
+  padding:1.4rem 1.2rem 1.2rem;text-align:center;color:white;
+}
+.hero-band h2{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem;}
+.hero-band p{font-size:.78rem;opacity:.8;line-height:1.6;}
+
+/* ── FORM CARD ── */
+.form-wrap{flex:1;padding:1.2rem 1rem 2rem;max-width:480px;margin:0 auto;width:100%;}
+
+.card{background:white;border-radius:20px;padding:1.4rem 1.2rem;box-shadow:0 4px 24px rgba(27,63,228,.08);border:1px solid var(--border);margin-bottom:1rem;}
+
+.card-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+
+/* ── FIELDS ── */
+.field{margin-bottom:.85rem;}
+.field label{display:block;font-size:.72rem;font-weight:700;color:var(--dark);margin-bottom:.32rem;letter-spacing:.04em;text-transform:uppercase;}
+.input-wrap{position:relative;}
+.input-ico{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;}
+.inp{
+  width:100%;padding:.75rem .9rem .75rem 2.6rem;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;
+  color:var(--dark);background:#FAFBFF;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.inp:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(45,85,255,.09);background:white;}
+.inp.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,48,48,.08);}
+.inp.ok{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,194,113,.08);}
+.inp::placeholder{color:#B8C0D4;}
+.inp-no-ico{padding-left:.9rem;}
+.field-err{font-size:.68rem;color:var(--red);margin-top:.28rem;display:none;align-items:center;gap:.3rem;}
+.field-err.show{display:flex;}
+.eye-btn{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--gray);padding:.2rem;}
+
+/* ── PHONE ROW ── */
+.phone-row{display:flex;gap:.5rem;}
+.country-sel{
+  width:110px;flex-shrink:0;padding:.75rem .5rem .75rem .85rem;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;
+  color:var(--dark);background:#FAFBFF;outline:none;cursor:pointer;
+  -webkit-appearance:none;transition:border-color .2s;
+}
+.country-sel:focus{border-color:var(--blue2);}
+.phone-inp{flex:1;}
+
+/* ── PASSWORD STRENGTH ── */
+.pwd-strength{margin-top:.5rem;}
+.pwd-bars{display:flex;gap:3px;margin-bottom:.3rem;}
+.pwd-bar{flex:1;height:4px;border-radius:99px;background:#E4E9F8;transition:background .3s;}
+.pwd-bar.w{background:var(--red);}
+.pwd-bar.m{background:var(--gold);}
+.pwd-bar.s{background:var(--green);}
+.pwd-txt{font-size:.68rem;color:var(--gray);}
+
+/* ── CONDITIONS ── */
+.cgu-row{display:flex;align-items:flex-start;gap:.75rem;padding:.9rem;background:#F7F9FF;border-radius:12px;border:1.5px solid var(--border);cursor:pointer;transition:border-color .2s;margin-bottom:.85rem;}
+.cgu-row:hover{border-color:var(--blue2);}
+.custom-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;}
+.custom-check.checked{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:var(--blue2);}
+.custom-check.checked::after{content:'✓';color:white;font-size:.78rem;font-weight:800;}
+.cgu-txt{font-size:.78rem;color:var(--gray);line-height:1.55;}
+.cgu-txt a{color:var(--blue2);font-weight:700;text-decoration:none;}
+.cgu-txt a:hover{text-decoration:underline;}
+
+/* ── SUBMIT BTN ── */
+.btn-submit{
+  width:100%;padding:1rem;
+  background:linear-gradient(135deg,var(--orange),var(--orange-l));
+  border:none;border-radius:14px;color:white;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;
+  cursor:pointer;transition:all .25s;letter-spacing:.02em;
+  box-shadow:0 6px 20px rgba(255,107,26,.35);
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  position:relative;overflow:hidden;
+}
+.btn-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--blue),var(--blue2));opacity:0;transition:opacity .3s;}
+.btn-submit:hover::before{opacity:1;}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(27,63,228,.35);}
+.btn-submit:active{transform:scale(.97);}
+.btn-submit:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+.btn-submit span{position:relative;z-index:1;}
+.spin{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;position:relative;z-index:1;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── LOGIN LINK ── */
+.login-link{text-align:center;margin-top:.9rem;font-size:.8rem;color:var(--gray);}
+.login-link a{color:var(--blue2);font-weight:700;text-decoration:none;}
+
+/* ── AVANTAGES ── */
+.avantages{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;}
+.av-item{background:white;border-radius:14px;padding:.85rem .8rem;border:1px solid var(--border);text-align:center;}
+.av-ico{font-size:1.4rem;margin-bottom:.3rem;}
+.av-txt{font-size:.7rem;font-weight:700;color:var(--dark);}
+.av-sub{font-size:.62rem;color:var(--gray);margin-top:.1rem;}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--dark);color:white;padding:.75rem 1.3rem;border-radius:14px;
+  font-size:.82rem;font-weight:600;opacity:0;transition:all .35s;
+  pointer-events:none;z-index:999;border-left:3px solid var(--turq);
+  box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.error{border-color:var(--red);}
+#toast.success{border-color:var(--green);}
+
+/* ── PROGRESS STEPS ── */
+.steps{display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.9rem 0;margin-bottom:.5rem;}
+.step{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+.step-dot{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(255,107,26,.3);}
+.step-dot.inactive{background:#E4E9F8;color:var(--gray);box-shadow:none;}
+.step-lbl{font-size:.6rem;font-weight:600;color:var(--dark);}
+.step-lbl.inactive{color:var(--gray);}
+.step-line{width:32px;height:2px;background:#E4E9F8;border-radius:2px;margin-bottom:14px;}
+.step-line.done{background:linear-gradient(90deg,var(--orange),var(--orange-l));}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeIn .4s ease both;}
+</style>
 </head>
 <body>
 
-    <!-- Décoration fond -->
-    <div class="blobs">
-        <div class="blob b1"></div>
-        <div class="blob b2"></div>
-        <div class="blob b3"></div>
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="logo"><span class="s1">SIL</span><span class="s2">LA</span></div>
+    <div class="logo-sub">Plateforme d'investissement</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero-band">
+  <h2>🚀 Rejoignez SILLA</h2>
+  <p>Créez votre compte gratuitement et commencez à investir dès aujourd'hui</p>
+</div>
+
+<div class="form-wrap">
+
+  <!-- ÉTAPES -->
+  <div class="steps fade-in">
+    <div class="step">
+      <div class="step-dot">1</div>
+      <div class="step-lbl">Inscription</div>
+    </div>
+    <div class="step-line done"></div>
+    <div class="step">
+      <div class="step-dot inactive">2</div>
+      <div class="step-lbl inactive">Plan</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot inactive">3</div>
+      <div class="step-lbl inactive">Recharge</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot inactive">4</div>
+      <div class="step-lbl inactive">Investir</div>
+    </div>
+  </div>
+
+  <!-- AVANTAGES -->
+  <div class="avantages fade-in">
+    <div class="av-item">
+      <div class="av-ico">📈</div>
+      <div class="av-txt">Rendements</div>
+      <div class="av-sub">Jusqu'à +40%</div>
+    </div>
+    <div class="av-item">
+      <div class="av-ico">🔒</div>
+      <div class="av-txt">100% Sécurisé</div>
+      <div class="av-sub">Fonds protégés</div>
+    </div>
+    <div class="av-item">
+      <div class="av-ico">💳</div>
+      <div class="av-txt">Mobile Money</div>
+      <div class="av-sub">MTN · Orange</div>
+    </div>
+    <div class="av-item">
+      <div class="av-ico">👥</div>
+      <div class="av-txt">Parrainage</div>
+      <div class="av-sub">Gagnez plus</div>
+    </div>
+  </div>
+
+  <!-- FORMULAIRE -->
+  <div class="card fade-in">
+    <div class="card-title">👤 Créer votre compte</div>
+
+    <!-- NOM COMPLET -->
+    <div class="field">
+      <label>Nom complet *</label>
+      <div class="input-wrap">
+        <span class="input-ico">👤</span>
+        <input id="f-nom" class="inp" type="text" placeholder="Ex: Jean Dupont" autocomplete="name"/>
+      </div>
+      <div class="field-err" id="err-nom">⚠️ Veuillez entrer votre nom complet</div>
     </div>
 
-    <!-- ══ NAV ══════════════════════════════════════════════════ -->
-    <nav>
-        <div class="nav-logo">BOOST CENTRAL</div>
-        <div class="nav-right">
-            <a href="#reseaux" class="nav-link">Réseaux</a>
-            <a href="#etapes" class="nav-link">Comment ça marche</a>
-            <a href="auth.html" class="nav-cta"><i class="fas fa-bolt"></i> Commencer</a>
+    <!-- NUMÉRO DE TÉLÉPHONE -->
+    <div class="field">
+      <label>Numéro de téléphone *</label>
+      <div class="phone-row">
+        <select class="country-sel" id="f-pays">
+          <option value="+237">🇨🇲 +237</option>
+          <option value="+225">🇨🇮 +225</option>
+          <option value="+221">🇸🇳 +221</option>
+          <option value="+233">🇬🇭 +233</option>
+          <option value="+234">🇳🇬 +234</option>
+          <option value="+243">🇨🇩 +243</option>
+          <option value="+242">🇨🇬 +242</option>
+          <option value="+241">🇬🇦 +241</option>
+          <option value="+33">🇫🇷 +33</option>
+          <option value="+32">🇧🇪 +32</option>
+        </select>
+        <div class="input-wrap" style="flex:1">
+          <span class="input-ico">📱</span>
+          <input id="f-tel" class="inp phone-inp" type="tel" placeholder="6XX XX XX XX" inputmode="tel" autocomplete="tel"/>
         </div>
-    </nav>
-
-    <!-- ══ HERO ══════════════════════════════════════════════════ -->
-    <section class="hero">
-        <div class="badge">
-            <span class="badge-dot"></span>
-            Plateforme N°1 de boost en Afrique
-        </div>
-
-        <h1 class="hero-title">
-            Boostez votre<br>
-            <span class="g">présence en ligne</span><br>
-            en quelques clics
-        </h1>
-
-        <p class="hero-sub">
-            Abonnés, vues, likes, commentaires — obtenez rapidement la visibilité dont vous avez besoin sur tous vos réseaux sociaux.
-        </p>
-
-        <div class="hero-btns">
-            <a href="auth.html" class="btn-primary">
-                <i class="fas fa-rocket"></i> Commencer gratuitement
-            </a>
-            <a href="#etapes" class="btn-secondary">
-                <i class="fas fa-play-circle"></i> Comment ça marche
-            </a>
-        </div>
-
-        <div class="scroll-hint">
-            <span>Défiler</span>
-            <i class="fas fa-chevron-down arrow-down"></i>
-        </div>
-    </section>
-
-    <!-- ══ STATS ═════════════════════════════════════════════════ -->
-    <div class="stats reveal">
-        <div class="stat"><div class="stat-n">8+</div><div class="stat-l">Réseaux supportés</div></div>
-        <div class="stat"><div class="stat-n">1000+</div><div class="stat-l">Clients satisfaits</div></div>
-        <div class="stat"><div class="stat-n">1 FCFA</div><div class="stat-l">À partir de</div></div>
-        <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Support WhatsApp</div></div>
+      </div>
+      <div class="field-err" id="err-tel">⚠️ Numéro invalide (min. 8 chiffres)</div>
     </div>
 
-    <!-- ══ RÉSEAUX ═══════════════════════════════════════════════ -->
-    <section class="sec tc" id="reseaux">
-        <div class="reveal">
-            <span class="sec-label">Plateformes</span>
-            <h2 class="sec-title">Tous vos réseaux en un seul endroit</h2>
-            <p class="sec-sub">Facebook, TikTok, Instagram, YouTube et bien d'autres — nous couvrons toutes les grandes plateformes.</p>
+    <!-- EMAIL -->
+    <div class="field">
+      <label>Adresse email *</label>
+      <div class="input-wrap">
+        <span class="input-ico">✉️</span>
+        <input id="f-email" class="inp" type="email" placeholder="votre@email.com" autocomplete="email"/>
+      </div>
+      <div class="field-err" id="err-email">⚠️ Email invalide</div>
+    </div>
+
+    <!-- MOT DE PASSE -->
+    <div class="field">
+      <label>Mot de passe *</label>
+      <div class="input-wrap">
+        <span class="input-ico">🔒</span>
+        <input id="f-pwd" class="inp" type="password" placeholder="Minimum 8 caractères" autocomplete="new-password" oninput="checkPwd(this.value)"/>
+        <button class="eye-btn" type="button" onclick="togglePwd('f-pwd','eye1')" id="eye1">👁</button>
+      </div>
+      <div class="pwd-strength">
+        <div class="pwd-bars">
+          <div class="pwd-bar" id="bar1"></div>
+          <div class="pwd-bar" id="bar2"></div>
+          <div class="pwd-bar" id="bar3"></div>
+          <div class="pwd-bar" id="bar4"></div>
         </div>
-        <div class="nets reveal">
-            <div class="net fb"><i class="fab fa-facebook"></i> Facebook</div>
-            <div class="net tt"><i class="fab fa-tiktok"></i> TikTok</div>
-            <div class="net ig"><i class="fab fa-instagram"></i> Instagram</div>
-            <div class="net yt"><i class="fab fa-youtube"></i> YouTube</div>
-            <div class="net tw"><i class="fab fa-twitter"></i> Twitter (X)</div>
-            <div class="net tg"><i class="fab fa-telegram"></i> Telegram</div>
-            <div class="net sp"><i class="fab fa-spotify"></i> Spotify</div>
-            <div class="net wa"><i class="fab fa-whatsapp"></i> WhatsApp</div>
-        </div>
-    </section>
+        <div class="pwd-txt" id="pwd-txt">Entrez un mot de passe</div>
+      </div>
+      <div class="field-err" id="err-pwd">⚠️ Minimum 8 caractères requis</div>
+    </div>
 
-    <!-- ══ AVANTAGES ══════════════════════════════════════════════ -->
-    <section class="sec feat-bg">
-        <div style="max-width:960px;margin:0 auto;">
-            <div class="reveal tc" style="margin-bottom:36px;">
-                <span class="sec-label">Pourquoi nous choisir</span>
-                <h2 class="sec-title">Simple, rapide et fiable</h2>
-                <p class="sec-sub">Tout ce dont vous avez besoin pour développer votre audience.</p>
-            </div>
-            <div class="feat-grid reveal">
-                <div class="feat">
-                    <div class="feat-ico ico-o"><i class="fas fa-bolt"></i></div>
-                    <div class="feat-t">Livraison rapide</div>
-                    <div class="feat-d">Résultats visibles en quelques heures selon le service choisi.</div>
-                </div>
-                <div class="feat">
-                    <div class="feat-ico ico-b"><i class="fas fa-shield-alt"></i></div>
-                    <div class="feat-t">100% sécurisé</div>
-                    <div class="feat-d">Aucun mot de passe demandé. Vos données restent protégées.</div>
-                </div>
-                <div class="feat">
-                    <div class="feat-ico ico-g"><i class="fas fa-tags"></i></div>
-                    <div class="feat-t">Prix imbattables</div>
-                    <div class="feat-d">À partir de 1 FCFA par unité avec 1% de réduction automatique.</div>
-                </div>
-                <div class="feat">
-                    <div class="feat-ico ico-o"><i class="fab fa-whatsapp"></i></div>
-                    <div class="feat-t">Support WhatsApp</div>
-                    <div class="feat-d">Notre équipe est disponible 24h/7j pour toutes vos questions.</div>
-                </div>
-                <div class="feat">
-                    <div class="feat-ico ico-b"><i class="fas fa-globe-africa"></i></div>
-                    <div class="feat-t">Conçu pour l'Afrique</div>
-                    <div class="feat-d">Paiements en FCFA ou USD. Optimisé pour les connexions mobiles.</div>
-                </div>
-                <div class="feat">
-                    <div class="feat-ico ico-g"><i class="fas fa-chart-line"></i></div>
-                    <div class="feat-t">Résultats garantis</div>
-                    <div class="feat-d">Nous garantissons la livraison des unités commandées.</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- CONFIRMATION MOT DE PASSE -->
+    <div class="field" style="margin-bottom:1rem">
+      <label>Confirmer le mot de passe *</label>
+      <div class="input-wrap">
+        <span class="input-ico">🔐</span>
+        <input id="f-pwd2" class="inp" type="password" placeholder="Répétez votre mot de passe" autocomplete="new-password"/>
+        <button class="eye-btn" type="button" onclick="togglePwd('f-pwd2','eye2')" id="eye2">👁</button>
+      </div>
+      <div class="field-err" id="err-pwd2">⚠️ Les mots de passe ne correspondent pas</div>
+    </div>
 
-    <!-- ══ ÉTAPES ═════════════════════════════════════════════════ -->
-    <section class="sec tc" id="etapes">
-        <div class="reveal">
-            <span class="sec-label">Processus</span>
-            <h2 class="sec-title">Comment ça marche ?</h2>
-            <p class="sec-sub">4 étapes simples pour booster votre audience.</p>
-        </div>
-        <div class="steps reveal">
-            <div class="step">
-                <div class="step-n">1</div>
-                <div class="step-t">Créez un compte</div>
-                <div class="step-d">Inscrivez-vous gratuitement en moins de 30 secondes.</div>
-            </div>
-            <div class="step">
-                <div class="step-n">2</div>
-                <div class="step-t">Rechargez</div>
-                <div class="step-d">Ajoutez du crédit via WhatsApp pour passer vos commandes.</div>
-            </div>
-            <div class="step">
-                <div class="step-n">3</div>
-                <div class="step-t">Choisissez</div>
-                <div class="step-d">Sélectionnez le réseau, le type de boost et la quantité.</div>
-            </div>
-            <div class="step">
-                <div class="step-n">4</div>
-                <div class="step-t">Regardez croître</div>
-                <div class="step-d">Confirmez et regardez votre audience augmenter.</div>
-            </div>
-        </div>
-    </section>
+    <!-- CGU -->
+    <div class="cgu-row" id="cgu-row" onclick="toggleCGU()">
+      <div class="custom-check" id="cgu-check"></div>
+      <div class="cgu-txt">
+        J'ai lu et j'accepte les <a href="silla-cgu.html" onclick="event.stopPropagation()">Conditions Générales d'Utilisation</a> et la <a href="silla-privacy.html" onclick="event.stopPropagation()">Politique de Confidentialité</a> de SILLA. Je confirme avoir au moins 18 ans.
+      </div>
+    </div>
+    <div class="field-err" id="err-cgu" style="margin-bottom:.8rem">⚠️ Vous devez accepter les conditions</div>
 
-    <!-- ══ CTA FINAL ══════════════════════════════════════════════ -->
-    <section class="cta-sec">
-        <div class="cta-box reveal">
-            <h2 class="cta-t">Prêt à booster votre présence ?</h2>
-            <p class="cta-d">Rejoignez des milliers d'utilisateurs qui font confiance à Boost Central pour développer leur audience.</p>
-            <a href="auth.html" class="btn-cta">
-                <i class="fas fa-rocket"></i> Créer mon compte gratuitement
-            </a>
-            <div class="cta-login">
-                Déjà un compte ? <a href="auth.html">Se connecter</a>
-            </div>
-        </div>
-    </section>
+    <!-- BOUTON -->
+    <button class="btn-submit" id="btn-submit" onclick="inscrire()">
+      <span>🚀 Créer mon compte SILLA</span>
+    </button>
 
-    <!-- ══ FOOTER ═════════════════════════════════════════════════ -->
-    <footer>
-        <span class="f-logo">BOOST CENTRAL</span>
-        <div style="margin-bottom:8px;">
-            <a href="conditions.html">Conditions d'utilisation</a>
-            <a href="auth.html">Connexion</a>
-            <a href="https://wa.me/237689011185" target="_blank">WhatsApp</a>
-        </div>
-        <div>© 2024 Boost Central. Tous droits réservés.</div>
-    </footer>
+    <div class="login-link">Déjà membre ? <a href="silla-login.html">Se connecter →</a></div>
+  </div>
 
-    <!-- WhatsApp flottant -->
-    <a href="https://wa.me/237689011185" class="wa" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+</div>
 
-    <!-- Supabase : si déjà connecté → dashboard directement -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        window.addEventListener('load', function() {
-            try {
-                if (window.supabase && window.supabase.createClient) {
-                    var sb = window.supabase.createClient(
-                        'https://mgogeabzjtuosxexyhjw.supabase.co',
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1nb2dlYWJ6anR1b3N4ZXh5aGp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzODE0MTAsImV4cCI6MjA4OTk1NzQxMH0.sUTWA-hzrH8tlO5eaPhDsYO7QbGkRWWm_Ygv6NJtTkQ'
-                    );
-                    sb.auth.getSession().then(function(ref) {
-                        // Si déjà connecté → aller directement au dashboard
-                        if (ref.data && ref.data.session) {
-                            window.location.href = 'dashboard.html';
-                        }
-                    });
-                }
-            } catch(e) {}
-        });
+<div id="toast"></div>
 
-        // Scroll reveal
-        var obs = new IntersectionObserver(function(entries) {
-            entries.forEach(function(e) {
-                if (e.isIntersecting) {
-                    e.target.classList.add('on');
-                    // Cascade sur les enfants
-                    e.target.querySelectorAll('.stat,.net,.feat,.step').forEach(function(c, i) {
-                        c.style.transitionDelay = (i * 0.07) + 's';
-                    });
-                }
-            });
-        }, { threshold: 0.1 });
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
 
-        document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
-    </script>
+let cguAccepted = false;
+
+// ── TOGGLE PASSWORD ──
+function togglePwd(id, btnId) {
+  const inp = document.getElementById(id);
+  const btn = document.getElementById(btnId);
+  if(inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+// ── FORCE MOT DE PASSE ──
+function checkPwd(val) {
+  const bars = ['bar1','bar2','bar3','bar4'];
+  const txt  = document.getElementById('pwd-txt');
+  let score  = 0;
+  if(val.length >= 8)  score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+
+  bars.forEach((b,i) => {
+    const el = document.getElementById(b);
+    el.className = 'pwd-bar';
+    if(i < score) {
+      if(score === 1) el.classList.add('w');
+      else if(score <= 2) el.classList.add('m');
+      else el.classList.add('s');
+    }
+  });
+
+  const labels = ['','Faible','Moyen','Fort','Très fort'];
+  const colors = ['var(--gray)','var(--red)','var(--gold)','var(--green)','var(--green)'];
+  txt.textContent = score > 0 ? labels[score] : 'Entrez un mot de passe';
+  txt.style.color = colors[score] || 'var(--gray)';
+}
+
+// ── TOGGLE CGU ──
+function toggleCGU() {
+  cguAccepted = !cguAccepted;
+  const el = document.getElementById('cgu-check');
+  el.className = 'custom-check' + (cguAccepted ? ' checked' : '');
+  if(cguAccepted) hideErr('cgu');
+}
+
+// ── VALIDATION ──
+function showErr(id, show=true) {
+  const el = document.getElementById('err-'+id);
+  if(el) el.classList.toggle('show', show);
+  const inp = document.getElementById('f-'+id);
+  if(inp) inp.classList.toggle('error', show);
+}
+function hideErr(id) { showErr(id, false); }
+function markOk(id) {
+  const inp = document.getElementById('f-'+id);
+  if(inp) { inp.classList.remove('error'); inp.classList.add('ok'); }
+}
+
+function validate() {
+  let ok = true;
+  const nom   = document.getElementById('f-nom').value.trim();
+  const tel   = document.getElementById('f-tel').value.replace(/\s/g,'');
+  const email = document.getElementById('f-email').value.trim();
+  const pwd   = document.getElementById('f-pwd').value;
+  const pwd2  = document.getElementById('f-pwd2').value;
+
+  if(nom.length < 2)     { showErr('nom');   ok=false; } else { hideErr('nom');   markOk('nom');   }
+  if(tel.length < 8)     { showErr('tel');   ok=false; } else { hideErr('tel');   markOk('tel');   }
+  if(!email.includes('@')){ showErr('email'); ok=false; } else { hideErr('email'); markOk('email'); }
+  if(pwd.length < 8)     { showErr('pwd');   ok=false; } else { hideErr('pwd');   markOk('pwd');   }
+  if(pwd !== pwd2)       { showErr('pwd2');  ok=false; } else { hideErr('pwd2');  markOk('pwd2');  }
+  if(!cguAccepted)       { showErr('cgu');   ok=false; }
+
+  return ok;
+}
+
+// ── INSCRIPTION ──
+async function inscrire() {
+  if(!validate()) {
+    showToast('⚠️ Vérifiez les champs en rouge','error');
+    return;
+  }
+
+  const btn   = document.getElementById('btn-submit');
+  const nom   = document.getElementById('f-nom').value.trim();
+  const pays  = document.getElementById('f-pays').value;
+  const tel   = pays + document.getElementById('f-tel').value.replace(/\s/g,'');
+  const email = document.getElementById('f-email').value.trim().toLowerCase();
+  const pwd   = document.getElementById('f-pwd').value;
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin"></div><span>Création du compte…</span>';
+
+  try {
+    // Inscription Supabase Auth
+    const { data, error } = await sb.auth.signUp({
+      email,
+      password: pwd,
+      options: {
+        data: {
+          full_name:    nom,
+          telephone:    tel,
+          nom_complet:  nom,
+        }
+      }
+    });
+
+    if(error) throw error;
+
+    // Sauvegarder profil dans la table users
+    const uid = data.user?.id;
+    if(uid) {
+      await sb.from('utilisateurs').upsert({
+        id:          uid,
+        nom:         nom,
+        email:       email,
+        telephone:   tel,
+        statut:      'actif',
+        solde:       0,
+        created_at:  new Date().toISOString()
+      }, { onConflict: 'id' });
+    }
+
+    showToast('🎉 Compte créé avec succès !', 'success');
+
+    btn.innerHTML = '<span>✅ Compte créé !</span>';
+    btn.style.background = 'linear-gradient(135deg,var(--green),#00A050)';
+
+    // Rediriger vers la page de plans après 1.5s
+    setTimeout(() => {
+      window.location.href = 'silla-plans.html';
+    }, 1500);
+
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '<span>🚀 Créer mon compte SILLA</span>';
+
+    const msg = e.message || '';
+    if(msg.includes('already registered') || msg.includes('already been registered')) {
+      showToast('❌ Cet email est déjà utilisé', 'error');
+      showErr('email');
+    } else if(msg.includes('Password')) {
+      showToast('❌ Mot de passe trop simple', 'error');
+      showErr('pwd');
+    } else {
+      showToast('❌ ' + (msg || 'Erreur de connexion'), 'error');
+    }
+  }
+}
+
+// ── TOAST ──
+let _tt = null;
+function showToast(msg, type='info') {
+  const el = document.getElementById('toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  clearTimeout(_tt);
+  _tt = setTimeout(() => { el.className = ''; }, 4000);
+}
+
+// ── LIVE VALIDATION ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('f-nom')?.addEventListener('blur', () => {
+    const v = document.getElementById('f-nom').value.trim();
+    if(v.length >= 2) markOk('nom'); else if(v) showErr('nom');
+  });
+  document.getElementById('f-email')?.addEventListener('blur', () => {
+    const v = document.getElementById('f-email').value.trim();
+    if(v.includes('@') && v.includes('.')) markOk('email'); else if(v) showErr('email');
+  });
+  document.getElementById('f-pwd2')?.addEventListener('input', () => {
+    const p1 = document.getElementById('f-pwd').value;
+    const p2 = document.getElementById('f-pwd2').value;
+    if(p2 && p1 !== p2) showErr('pwd2'); else if(p2) { hideErr('pwd2'); markOk('pwd2'); }
+  });
+  // Enter key
+  document.querySelectorAll('.inp').forEach(inp => {
+    inp.addEventListener('keydown', e => { if(e.key === 'Enter') inscrire(); });
+  });
+});
+</script>
 </body>
 </html>
