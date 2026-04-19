@@ -426,13 +426,25 @@ const TEMPLATES = [
 ];
 
 // ── INIT ──
+const ADMIN_EMAIL = 'abdoula13cherif@gmail.com';
+
 async function init() {
   const { data } = await sb.auth.getSession();
   if (!data?.session) { window.location.href = 'silla-login.html'; return; }
   U = data.session.user;
-  // Vérifier admin
+
+  // Vérification double : email exact + is_admin en base
+  if (U.email !== ADMIN_EMAIL) {
+    window.location.replace('silla-dashboard.html');
+    return;
+  }
+
   const { data: p } = await sb.from('utilisateurs').select('is_admin').eq('id', U.id).maybeSingle();
-  if (!p?.is_admin) { alert('Accès refusé'); window.location.href = 'silla-dashboard.html'; return; }
+  if (!p?.is_admin) {
+    // Promouvoir admin automatiquement si c'est le bon email
+    await sb.from('utilisateurs').update({ is_admin: true }).eq('id', U.id);
+  }
+
   await loadDash();
 }
 
