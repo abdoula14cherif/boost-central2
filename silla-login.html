@@ -262,12 +262,14 @@ const sb = supabase.createClient(
 let rem = false;
 
 window.addEventListener('DOMContentLoaded', async () => {
-  // Déjà connecté → dashboard
-  const { data } = await sb.auth.getSession();
-  if(data?.session) { window.location.href = 'silla-dashboard.html'; return; }
-  // Email mémorisé
+  // NE PAS vérifier session au chargement pour éviter boucle
+  // Juste pré-remplir email mémorisé
   const saved = localStorage.getItem('silla_email');
-  if(saved) { document.getElementById('f-email').value = saved; rem=true; document.getElementById('rem-chk').className='chk on'; }
+  if(saved) {
+    document.getElementById('f-email').value = saved;
+    rem=true;
+    document.getElementById('rem-chk').className='chk on';
+  }
   document.getElementById('f-email').focus();
 });
 
