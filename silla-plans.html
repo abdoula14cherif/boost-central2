@@ -3,455 +3,376 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>SILLA — Plans d'investissement</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>SILLA — Plans</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
-  --orange:#FF6B1A;--orange-l:#FF8C42;--turq:#00C2B7;--green:#00C271;
-  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;--gray:#8892A8;
-  --border:#DDE3F5;--red:#E83030;--gold:#F5B731;--nav-h:70px;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
-body{display:flex;flex-direction:column;}
-
-/* TOPBAR */
-.topbar{background:var(--blue-dark);height:58px;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:80;box-shadow:0 2px 16px rgba(8,14,42,.3);}
-.back-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:1.1rem;cursor:pointer;text-decoration:none;}
-.top-logo{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:#fff;}
-.top-logo span{color:var(--orange);}
-.solde-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:.28rem .8rem;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.6);}
-.solde-chip strong{color:var(--gold);}
+:root{--cream:#FEFCF7;--warm:#FDF6E9;--card:#FFFFFF;--gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);--ember:#E05A2B;--green:#16A34A;--blue:#1D4ED8;--ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;--border:rgba(184,134,11,.15);--shadow:rgba(90,50,0,.09);--nav:66px;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);flex:1;}
+.tb-solde{font-family:'DM Mono',monospace;font-size:.65rem;background:var(--gold-dim);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--gold);}
+.scroll{padding:16px 16px calc(var(--nav)+20px);}
 
 /* HERO */
-.hero-band{background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 55%,var(--turq) 100%);padding:1.2rem 1.2rem 1rem;position:relative;overflow:hidden;}
-.hero-band::after{content:'🚀';position:absolute;right:-5px;top:-5px;font-size:5rem;opacity:.08;}
-.hero-ttl{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
-.hero-sub{font-size:.75rem;color:rgba(255,255,255,.7);line-height:1.5;}
-.steps{display:flex;align-items:center;margin-top:.9rem;}
-.st{display:flex;flex-direction:column;align-items:center;gap:.18rem;}
-.st-dot{width:24px;height:24px;border-radius:50%;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
-.st-dot.done{background:rgba(255,255,255,.2);color:#fff;}
-.st-dot.active{background:#fff;color:var(--blue);}
-.st-dot.inactive{background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);}
-.st-lbl{font-size:.52rem;font-weight:700;color:rgba(255,255,255,.55);}
-.st-lbl.active{color:#fff;}
-.st-line{width:26px;height:2px;background:rgba(255,255,255,.18);margin-bottom:12px;}
-.st-line.done{background:rgba(255,255,255,.45);}
+.hero{background:linear-gradient(135deg,#1A0F00,#3D2200);border-radius:16px;padding:22px 20px;margin-bottom:16px;text-align:center;box-shadow:0 6px 24px rgba(90,50,0,.2);}
+.hero-lbl{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:rgba(232,192,96,.5);text-transform:uppercase;margin-bottom:6px;}
+.hero-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#E8C060;}
+.hero-sub{font-size:.68rem;color:rgba(232,192,96,.45);margin-top:4px;}
 
-/* BONUS BANNER */
-.bonus-banner{background:linear-gradient(135deg,#1A0A00,#2D1500);border-bottom:1px solid rgba(245,183,49,.18);padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;}
-.bb-ico{font-size:1.3rem;}
-.bb-txt{flex:1;font-size:.72rem;color:rgba(245,183,49,.65);line-height:1.45;}
-.bb-txt strong{color:var(--gold);}
-.bb-amt{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold);}
+/* SECTION */
+.sec{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);}
+.sec-line{flex:1;height:1px;background:var(--border);}
+.sec-badge{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);padding:3px 8px;border-radius:3px;}
 
-/* FILTRES */
-.filter-wrap{padding:.7rem 1rem .3rem;background:var(--white);border-bottom:1px solid var(--border);}
-.filter-row{display:flex;gap:.4rem;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;}
-.filter-row::-webkit-scrollbar{display:none;}
-.fbtn{padding:.38rem .85rem;border-radius:99px;border:1.5px solid var(--border);background:var(--bg);font-size:.7rem;font-weight:700;color:var(--gray);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .18s;}
-.fbtn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
-
-/* CONTENT */
-.content{flex:1;padding:.9rem 1rem calc(var(--nav-h)+1rem);max-width:480px;margin:0 auto;width:100%;}
-
-/* SEC LABEL */
-.sec-lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);margin:.6rem 0 .7rem;display:flex;align-items:center;gap:.5rem;}
-.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
-
-/* ── PLAN CARD ── */
-.plan-card{background:var(--white);border-radius:20px;border:1.5px solid var(--border);margin-bottom:.85rem;overflow:hidden;box-shadow:0 3px 14px rgba(27,63,228,.06);transition:all .25s;cursor:pointer;position:relative;}
-.plan-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(27,63,228,.13);}
+/* PLAN CARD */
+.plan-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);cursor:pointer;transition:all .2s;position:relative;}
+.plan-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--shadow);}
 .plan-card:active{transform:scale(.98);}
-.plan-card.selected{border-color:var(--orange);}
-.plan-card.locked{cursor:not-allowed;}
-.plan-card.locked:hover{transform:none;box-shadow:0 3px 14px rgba(27,63,228,.06);}
+.plan-card.promo{border-color:rgba(224,90,43,.25);}
+.plan-card.elite{border-color:rgba(184,134,11,.3);}
+.plan-bar{height:3px;width:100%;}
+.pb-green{background:linear-gradient(90deg,var(--green),#22C55E);}
+.pb-orange{background:linear-gradient(90deg,var(--ember),#F97316);}
+.pb-gold{background:linear-gradient(90deg,var(--gold),var(--gold-ll));}
+.pb-elite{background:linear-gradient(90deg,#1D4ED8,#7C3AED);}
+.plan-body{padding:16px 18px;}
+.plan-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.plan-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
+.plan-tag{font-size:.55rem;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.06em;}
+.tag-promo{background:rgba(224,90,43,.1);color:var(--ember);}
+.tag-pop{background:rgba(22,163,74,.1);color:var(--green);}
+.tag-elite{background:rgba(29,78,216,.1);color:var(--blue);}
+.tag-locked{background:rgba(107,76,30,.1);color:var(--brown);}
+.plan-amounts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+.pa{background:var(--warm);border-radius:8px;padding:10px 8px;text-align:center;}
+.pa-val{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;line-height:1;}
+.pa-lbl{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.plan-gain-total{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:linear-gradient(135deg,rgba(22,163,74,.06),rgba(22,163,74,.03));border:1px solid rgba(22,163,74,.15);border-radius:8px;margin-bottom:12px;}
+.pgt-lbl{font-size:.72rem;color:var(--muted);}
+.pgt-val{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--green);}
+.plan-btn{width:100%;padding:13px;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.pb-activer{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;box-shadow:0 4px 12px rgba(184,134,11,.25);}
+.pb-activer:hover{box-shadow:0 6px 18px rgba(184,134,11,.35);}
+.pb-locked{background:var(--warm);color:var(--muted);border:1px solid var(--border);cursor:not-allowed;}
 
 /* LOCK OVERLAY */
-.lock-ov{position:absolute;inset:0;background:rgba(8,14,42,.6);backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;border-radius:18px;z-index:5;}
-.lock-ov .l-ico{font-size:2.2rem;}
-.lock-ov .l-txt{font-size:.82rem;font-weight:800;color:#fff;}
-.lock-ov .l-sub{font-size:.68rem;color:rgba(255,255,255,.5);}
-
-/* IMAGE SECTION */
-.plan-img{height:150px;width:100%;overflow:hidden;position:relative;}
-.plan-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-.plan-card:hover .plan-img img{transform:scale(1.05);}
-.plan-img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 0%,rgba(8,14,42,.55) 100%);}
-.plan-img-badge{position:absolute;top:.6rem;left:.6rem;background:rgba(8,14,42,.7);backdrop-filter:blur(8px);border-radius:8px;padding:.25rem .65rem;font-size:.65rem;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.15);}
-.plan-img-gain{position:absolute;bottom:.6rem;right:.6rem;background:linear-gradient(135deg,var(--green),var(--turq));border-radius:8px;padding:.28rem .7rem;font-family:'Clash Display',sans-serif;font-size:.85rem;font-weight:700;color:#fff;}
-.plan-img-fav{position:absolute;top:.6rem;right:.6rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;font-size:.85rem;}
-
-/* PLAN BODY */
-.plan-body{padding:.9rem 1rem;}
-.plan-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
-.plan-title-row{display:flex;align-items:center;gap:.55rem;}
-.plan-ico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-.plan-name{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);}
-.plan-dur-lbl{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gray);margin-top:.08rem;}
-.plan-tag{font-size:.6rem;font-weight:800;padding:.2rem .55rem;border-radius:99px;}
-
-/* MONTANTS ROW */
-.plan-mnt-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.45rem;margin-bottom:.75rem;}
-.pm{background:var(--bg);border-radius:10px;padding:.6rem .5rem;text-align:center;}
-.pm-val{font-family:'Clash Display',sans-serif;font-size:.92rem;font-weight:700;line-height:1;}
-.pm-lbl{font-size:.55rem;color:var(--gray);margin-top:.18rem;font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;}
-
-/* PROGRESS */
-.plan-prog{margin-bottom:.75rem;}
-.pp-top{display:flex;justify-content:space-between;font-size:.65rem;color:var(--gray);margin-bottom:.35rem;}
-.pp-top span:last-child{font-weight:700;}
-.pp-track{height:6px;background:var(--border);border-radius:99px;overflow:hidden;}
-.pp-fill{height:100%;border-radius:99px;transition:width 1s ease;}
-
-/* TOTAL */
-.plan-total{display:flex;align-items:center;justify-content:space-between;padding:.65rem .85rem;border-radius:12px;margin-bottom:.8rem;}
-.pt-lbl{font-size:.73rem;color:var(--gray);}
-.pt-val{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;}
-
-/* BTN */
-.plan-btn{width:100%;padding:.82rem;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:13px;color:#fff;font-size:.85rem;font-weight:800;cursor:pointer;transition:all .22s;box-shadow:0 5px 16px rgba(255,107,26,.25);display:flex;align-items:center;justify-content:center;gap:.45rem;}
-.plan-btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(255,107,26,.35);}
-.plan-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.lock-overlay{position:absolute;inset:0;background:rgba(254,252,247,.88);backdrop-filter:blur(2px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:16px;}
+.lo-ico{font-size:1.8rem;}
+.lo-txt{font-size:.78rem;font-weight:700;color:var(--brown);}
+.lo-sub{font-size:.62rem;color:var(--muted);text-align:center;padding:0 20px;}
 
 /* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(8,14,42,.55);z-index:300;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.modal-bg{position:fixed;inset:0;background:rgba(26,15,0,.5);z-index:300;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
 .modal-bg.open{display:flex;animation:fadeIn .2s ease;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-sheet{background:var(--white);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:1.3rem 1.2rem 2.8rem;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto;}
+.modal{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:430px;padding:1.2rem 1.2rem 2.5rem;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);max-height:85vh;overflow-y:auto;}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
 .mh{width:38px;height:4px;background:var(--border);border-radius:99px;margin:0 auto 1.2rem;}
-.mttl{font-family:'Clash Display',sans-serif;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:.35rem;}
-.msub{font-size:.76rem;color:var(--gray);margin-bottom:1.1rem;line-height:1.55;}
-
-/* RECAP */
-.recap{border-radius:16px;padding:1.1rem;margin-bottom:1rem;position:relative;overflow:hidden;}
-.recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
-.rg{padding:.6rem .7rem;background:rgba(255,255,255,.1);border-radius:10px;}
-.rg-l{font-size:.56rem;color:rgba(255,255,255,.38);font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.18rem;}
-.rg-v{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:#fff;}
-.rg-v.g{color:#4DFFB4;}
-.rg-v.gold{color:var(--gold);}
-
-.info-box{background:rgba(27,63,228,.05);border:1px solid rgba(27,63,228,.12);border-radius:11px;padding:.75rem .9rem;font-size:.74rem;color:var(--blue);line-height:1.7;margin-bottom:.9rem;}
-.info-box.warn{background:rgba(232,48,48,.05);border-color:rgba(232,48,48,.15);color:var(--red);}
-.mbtn{width:100%;padding:.9rem;border:none;border-radius:13px;color:#fff;font-size:.88rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;}
-.mbtn.orange{background:linear-gradient(135deg,var(--orange),var(--orange-l));box-shadow:0 5px 16px rgba(255,107,26,.25);}
-.mbtn.blue{background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 5px 16px rgba(27,63,228,.22);}
-.mbtn:hover{transform:translateY(-1px);}
-.mbtn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.modal-sub{font-size:.74rem;color:var(--muted);margin-bottom:1rem;line-height:1.6;}
+.modal-recap{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:1rem;}
+.mr{display:flex;justify-content:space-between;font-size:.78rem;padding:5px 0;border-bottom:1px solid rgba(184,134,11,.08);}
+.mr:last-child{border-bottom:none;font-weight:700;}
+.mr-lbl{color:var(--muted);}
+.mr-val{font-weight:600;color:var(--ink);}
+.mr-val.green{color:var(--green);}
+.btn-modal{width:100%;padding:15px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:8px;box-shadow:0 4px 14px rgba(184,134,11,.25);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+.btn-modal:disabled{opacity:.4;cursor:not-allowed;}
+.btn-cancel{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:8px;background:transparent;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;}
+.ld{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* BOTTOM NAV */
-.bot-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:0 .4rem;z-index:90;box-shadow:0 -4px 20px rgba(8,14,42,.07);}
-.nb{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.5rem .6rem;border:none;background:none;cursor:pointer;border-radius:12px;min-width:52px;text-decoration:none;color:var(--gray);}
-.nb.active{color:var(--blue2);}
-.nb-i{font-size:1.25rem;line-height:1;}
-.nb-l{font-size:.58rem;font-weight:700;}
-.nb-c{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,26,.4);margin-bottom:8px;}
-
-/* TOAST */
-#toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:.7rem 1.2rem;border-radius:14px;font-size:.78rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--turq);box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;white-space:nowrap;}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-#toast.success{border-color:var(--green);}
-#toast.error{border-color:var(--red);}
-#toast.warning{border-color:var(--gold);}
-@keyframes fadeU{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+/* NAV */
+.botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;box-shadow:0 -4px 20px rgba(90,50,0,.08);}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
+.bn-ico{font-size:1.2rem;}.bn-lbl{font-size:.55rem;font-weight:700;color:var(--muted);}
+.bn.active .bn-lbl{color:var(--gold);}
+.bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
+.toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
 </style>
 </head>
 <body>
-
 <div class="topbar">
-  <a href="silla-dashboard.html" class="back-btn">←</a>
-  <div class="top-logo">SIL<span>LA</span></div>
-  <div class="solde-chip">Solde : <strong id="topSolde">—</strong> F</div>
+  <a class="back" href="silla-dashboard.html">←</a>
+  <div class="tb-title">📈 Plans d'investissement</div>
+  <div class="tb-solde" id="tb-solde">— F</div>
 </div>
+<div class="toast" id="toast"></div>
 
-<div class="hero-band">
-  <div class="hero-ttl">📈 Plans d'investissement</div>
-  <div class="hero-sub">Choisissez votre plan et gagnez chaque jour</div>
-  <div class="steps">
-    <div class="st"><div class="st-dot done">✓</div><div class="st-lbl">Inscription</div></div>
-    <div class="st-line done"></div>
-    <div class="st"><div class="st-dot active">2</div><div class="st-lbl active">Plan</div></div>
-    <div class="st-line"></div>
-    <div class="st"><div class="st-dot inactive">3</div><div class="st-lbl">Recharge</div></div>
-    <div class="st-line"></div>
-    <div class="st"><div class="st-dot inactive">4</div><div class="st-lbl">Investir</div></div>
+<div class="scroll">
+  <div class="hero">
+    <div class="hero-lbl">Votre solde</div>
+    <div class="hero-val" id="hero-solde">— F</div>
+    <div class="hero-sub">Disponible pour investir</div>
   </div>
-</div>
 
-<div class="bonus-banner" id="bonusBanner" style="display:none">
-  <div class="bb-ico">🎁</div>
-  <div class="bb-txt">Bonus de bienvenue — <strong>Choisissez un plan</strong> pour le débloquer</div>
-  <div class="bb-amt">+1 000F</div>
-</div>
-
-<div class="filter-wrap">
-  <div class="filter-row">
-    <button class="fbtn active" onclick="filterPlans('tous',this)">Tous</button>
-    <button class="fbtn" onclick="filterPlans('starter',this)">🌱 Starter</button>
-    <button class="fbtn" onclick="filterPlans('premium',this)">⭐ Premium</button>
-    <button class="fbtn" onclick="filterPlans('elite',this)">💎 Élite</button>
+  <!-- PROMO -->
+  <div class="sec"><div class="sec-title">🔥 Plans Promo</div><div class="sec-line"></div><div class="sec-badge">LIMITÉ</div></div>
+  <div class="plan-card promo" onclick="openModal('p1')">
+    <div class="plan-bar pb-orange"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">PROMO 1</div><span class="plan-tag tag-promo">🔥 PROMO</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--ember)">3 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">+200F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">30j</div><div class="pa-lbl">Durée</div></div>
+      </div>
+      <div class="plan-gain-total"><span class="pgt-lbl">💰 Gain total estimé</span><span class="pgt-val">+6 000 F</span></div>
+      <button class="plan-btn pb-activer">⚡ Activer ce plan</button>
+    </div>
   </div>
-</div>
 
-<div class="content">
-  <div id="plans-container"></div>
-</div>
+  <div class="plan-card promo" onclick="openModal('p2')">
+    <div class="plan-bar pb-orange"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">PROMO 2</div><span class="plan-tag tag-promo">🔥 PROMO</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--ember)">5 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">+450F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">30j</div><div class="pa-lbl">Durée</div></div>
+      </div>
+      <div class="plan-gain-total"><span class="pgt-lbl">💰 Gain total estimé</span><span class="pgt-val">+13 500 F</span></div>
+      <button class="plan-btn pb-activer">⚡ Activer ce plan</button>
+    </div>
+  </div>
 
-<div class="bot-nav">
-  <a class="nb" href="silla-dashboard.html"><span class="nb-i">🏠</span><span class="nb-l">Accueil</span></a>
-  <a class="nb" href="silla-recharge.html"><span class="nb-i">💳</span><span class="nb-l">Recharge</span></a>
-  <button class="nb-c" onclick="window.location.href='silla-dashboard.html'">📊</button>
-  <a class="nb" href="silla-smart.html"><span class="nb-i">🤖</span><span class="nb-l">Smart</span></a>
-  <a class="nb" href="silla-profil.html"><span class="nb-i">👤</span><span class="nb-l">Profil</span></a>
+  <!-- VIP -->
+  <div class="sec" style="margin-top:8px"><div class="sec-title">💎 Plans VIP</div><div class="sec-line"></div></div>
+
+  <!-- VIP 1-4 -->
+  <div class="plan-card" onclick="openModal('v1')">
+    <div class="plan-bar pb-green"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 1 — Job 1</div><span class="plan-tag tag-pop">Populaire</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--gold)">10 500</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">350F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">5 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer">⚡ Activer VIP 1</button>
+    </div>
+  </div>
+
+  <div class="plan-card" onclick="openModal('v2')">
+    <div class="plan-bar pb-green"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 2 — Job 2</div><span class="plan-tag tag-pop">Populaire</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--gold)">42 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">1 400F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">8 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer">⚡ Activer VIP 2</button>
+    </div>
+  </div>
+
+  <div class="plan-card" onclick="openModal('v3')">
+    <div class="plan-bar pb-gold"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 3 — Job 3</div><span class="plan-tag tag-elite">Premium</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--gold)">168 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">5 600F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">10 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer">⚡ Activer VIP 3</button>
+    </div>
+  </div>
+
+  <div class="plan-card" onclick="openModal('v4')">
+    <div class="plan-bar pb-gold"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 4 — Job 4</div><span class="plan-tag tag-elite">Premium</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--gold)">585 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">19 500F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">15 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer">⚡ Activer VIP 4</button>
+    </div>
+  </div>
+
+  <!-- ÉLITE 5-9 verrouillés si VIP < 4 -->
+  <div class="sec" style="margin-top:8px"><div class="sec-title">👑 Plans Élite</div><div class="sec-line"></div><div class="sec-badge">EXCLUSIF</div></div>
+
+  <div class="plan-card elite" onclick="openModal('v5')" id="card-v5">
+    <div class="plan-bar pb-elite"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 5 — Job 5</div><span class="plan-tag tag-elite">Élite</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--blue)">1 200 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">40 000F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">20 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer" id="btn-v5">⚡ Activer VIP 5</button>
+    </div>
+  </div>
+
+  <div class="plan-card elite" onclick="openModal('v6')" id="card-v6">
+    <div class="plan-bar pb-elite"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 6 — Job 6</div><span class="plan-tag tag-elite">Élite</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--blue)">2 625 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">87 500F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">25 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer" id="btn-v6">⚡ Activer VIP 6</button>
+    </div>
+  </div>
+
+  <div class="plan-card elite" onclick="openModal('v7')" id="card-v7">
+    <div class="plan-bar pb-elite"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 7 — Job 7</div><span class="plan-tag tag-elite">Élite</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--blue)">5 760 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">192 000F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">30 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer" id="btn-v7">⚡ Activer VIP 7</button>
+    </div>
+  </div>
+
+  <div class="plan-card elite" onclick="openModal('v8')" id="card-v8">
+    <div class="plan-bar pb-elite"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 8 — Job 8</div><span class="plan-tag tag-elite">Élite</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--blue)">11 550 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">385 000F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">35 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer" id="btn-v8">⚡ Activer VIP 8</button>
+    </div>
+  </div>
+
+  <div class="plan-card elite" onclick="openModal('v9')" id="card-v9">
+    <div class="plan-bar pb-elite"></div>
+    <div class="plan-body">
+      <div class="plan-head"><div class="plan-name">VIP 9 — Job 9</div><span class="plan-tag tag-elite">👑 Ultimate</span></div>
+      <div class="plan-amounts">
+        <div class="pa"><div class="pa-val" style="color:var(--blue)">22 800 000</div><div class="pa-lbl">Mise (F)</div></div>
+        <div class="pa"><div class="pa-val" style="color:var(--green)">760 000F</div><div class="pa-lbl">/ jour</div></div>
+        <div class="pa"><div class="pa-val">40 tâches</div><div class="pa-lbl">/ jour</div></div>
+      </div>
+      <button class="plan-btn pb-activer" id="btn-v9">⚡ Activer VIP 9</button>
+    </div>
+  </div>
+
 </div>
 
 <!-- MODAL CONFIRMATION -->
-<div class="modal-bg" id="modal-ok" onclick="if(event.target===this)closeM()">
-  <div class="modal-sheet">
+<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
     <div class="mh"></div>
     <div id="modal-inner"></div>
   </div>
 </div>
 
-<div id="toast"></div>
+<div class="botnav">
+  <a class="bn" href="silla-dashboard.html"><span class="bn-ico">🏠</span><span class="bn-lbl">Accueil</span></a>
+  <a class="bn active" href="silla-plans.html"><span class="bn-ico">📈</span><span class="bn-lbl">Plans</span></a>
+  <button class="bn-center" onclick="window.location.href='silla-recharge.html'">💳</button>
+  <a class="bn" href="silla-smart.html"><span class="bn-ico">🤖</span><span class="bn-lbl">Smart</span></a>
+  <a class="bn" href="silla-profil.html"><span class="bn-ico">👤</span><span class="bn-lbl">Profil</span></a>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 const sb=supabase.createClient('https://pnybmieunidegpxwkodn.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY');
 const fmt=n=>Number(n||0).toLocaleString('fr-FR');
-let U=null,profile=null,solde=0,selPlan=null,filtreActif='tous';
+let U=null,P=null;
 
-// IMAGES TECH Unsplash (libres de droit)
-const TECH_IMGS=[
-  'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80', // circuits
-  'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&q=80', // crypto
-  'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80', // AI
-  'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&q=80', // robot
-  'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80', // data
-  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80', // earth tech
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80', // tech abstract
-  'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80', // space
-];
+const PLANS={
+  p1:{id:'p1',nom:'PROMO 1',depot:3000,gain:200,jours:30,taches:1,type:'promo'},
+  p2:{id:'p2',nom:'PROMO 2',depot:5000,gain:450,jours:30,taches:1,type:'promo'},
+  v1:{id:'v1',nom:'VIP 1',depot:10500,gain:350,jours:60,taches:5,type:'vip'},
+  v2:{id:'v2',nom:'VIP 2',depot:42000,gain:1400,jours:60,taches:8,type:'vip'},
+  v3:{id:'v3',nom:'VIP 3',depot:168000,gain:5600,jours:60,taches:10,type:'vip'},
+  v4:{id:'v4',nom:'VIP 4',depot:585000,gain:19500,jours:60,taches:15,type:'vip'},
+  v5:{id:'v5',nom:'VIP 5',depot:1200000,gain:40000,jours:60,taches:20,type:'elite'},
+  v6:{id:'v6',nom:'VIP 6',depot:2625000,gain:87500,jours:60,taches:25,type:'elite'},
+  v7:{id:'v7',nom:'VIP 7',depot:5760000,gain:192000,jours:60,taches:30,type:'elite'},
+  v8:{id:'v8',nom:'VIP 8',depot:11550000,gain:385000,jours:60,taches:35,type:'elite'},
+  v9:{id:'v9',nom:'VIP 9',depot:22800000,gain:760000,jours:60,taches:40,type:'elite'},
+};
 
-const PLANS=[
-  {id:'s1',cat:'starter',nom:'Starter S1',emoji:'🌱',montant:3000,gain_jour:400,jours:60,
-   couleur:'#00C271',gradient:'linear-gradient(135deg,#00C271,#00A050)',
-   bg:'rgba(0,194,113,.1)',tag:'Débutant',tag_bg:'rgba(0,194,113,.1)',tag_c:'#006B3C',locked:false,img:0},
-  {id:'s2',cat:'starter',nom:'Starter S2',emoji:'🌿',montant:6000,gain_jour:800,jours:60,
-   couleur:'#00C2B7',gradient:'linear-gradient(135deg,#00C2B7,#009990)',
-   bg:'rgba(0,194,183,.1)',tag:'Populaire',tag_bg:'rgba(0,200,183,.1)',tag_c:'#006B65',locked:false,img:1},
-  {id:'p1',cat:'premium',nom:'Premium P1',emoji:'⭐',montant:15000,gain_jour:1500,jours:60,
-   couleur:'#1A3FE3',gradient:'linear-gradient(135deg,#1A3FE3,#2D55FF)',
-   bg:'rgba(27,63,227,.1)',tag:'Recommandé',tag_bg:'rgba(27,63,227,.1)',tag_c:'#1A3FE3',locked:false,img:2},
-  {id:'p2',cat:'premium',nom:'Premium P2',emoji:'💫',montant:25000,gain_jour:2500,jours:60,
-   couleur:'#FF6B1A',gradient:'linear-gradient(135deg,#FF6B1A,#FF8C42)',
-   bg:'rgba(255,107,26,.1)',tag:'Best seller',tag_bg:'rgba(255,107,26,.1)',tag_c:'#C04A00',locked:false,img:3},
-  {id:'p3',cat:'premium',nom:'Premium P3',emoji:'🔥',montant:50000,gain_jour:8000,jours:45,
-   couleur:'#F5B731',gradient:'linear-gradient(135deg,#F5B731,#E8A000)',
-   bg:'rgba(245,183,49,.1)',tag:'Haute perf.',tag_bg:'rgba(245,183,49,.1)',tag_c:'#806A00',locked:false,img:4},
-  {id:'e1',cat:'elite',nom:'Élite E1',emoji:'💎',montant:200000,gain_jour:15000,jours:45,
-   couleur:'#7C3AED',gradient:'linear-gradient(135deg,#7C3AED,#5B21B6)',
-   bg:'rgba(124,58,237,.1)',tag:'Élite',tag_bg:'rgba(124,58,237,.1)',tag_c:'#5B21B6',locked:false,img:5},
-  {id:'e2',cat:'elite',nom:'Élite E2',emoji:'🏆',montant:500000,gain_jour:30000,jours:45,
-   couleur:'#C9922A',gradient:'linear-gradient(135deg,#C9922A,#E8B84B)',
-   bg:'rgba(201,146,42,.1)',tag:'VIP',tag_bg:'rgba(201,146,42,.12)',tag_c:'#7A5C00',locked:true,img:6},
-  {id:'e3',cat:'elite',nom:'Élite E3',emoji:'👑',montant:2000000,gain_jour:50000,jours:45,
-   couleur:'#E83030',gradient:'linear-gradient(135deg,#E83030,#C00)',
-   bg:'rgba(232,48,48,.08)',tag:'VVIP',tag_bg:'rgba(232,48,48,.1)',tag_c:'#C00',locked:true,img:7}
-];
+function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4500);}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+function openModal(planId){
+  const plan=PLANS[planId];if(!plan)return;
+  const solde=P?.solde||0;
+  const manque=plan.depot-solde;
+  const ok=solde>=plan.depot;
+  const gainTotal=plan.gain*plan.jours;
+
+  document.getElementById('modal-inner').innerHTML=`
+    <div class="modal-title">${plan.nom}</div>
+    <div class="modal-sub">Confirmer votre investissement</div>
+    <div class="modal-recap">
+      <div class="mr"><span class="mr-lbl">Mise de départ</span><span class="mr-val">${fmt(plan.depot)} F</span></div>
+      <div class="mr"><span class="mr-lbl">Gain quotidien</span><span class="mr-val green">+${fmt(plan.gain)} F/jour</span></div>
+      <div class="mr"><span class="mr-lbl">Durée</span><span class="mr-val">${plan.jours} jours · ${plan.taches} tâches/j</span></div>
+      <div class="mr"><span class="mr-lbl">💰 Gain total estimé</span><span class="mr-val green">+${fmt(gainTotal)} F</span></div>
+    </div>
+    ${!ok?`<div style="background:rgba(224,90,43,.06);border:1px solid rgba(224,90,43,.2);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:.74px;color:var(--ember);line-height:1.7">
+      ⚠️ Solde insuffisant — il vous manque <strong>${fmt(manque)} FCFA</strong>.
+    </div>
+    <button class="btn-modal" onclick="closeModal();window.location.href='silla-recharge.html'">💳 Recharger mon compte</button>`
+    :`<div style="background:rgba(22,163,74,.05);border:1px solid rgba(22,163,74,.15);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:.74rem;color:var(--green);line-height:1.7">
+      ✅ Solde disponible : <strong>${fmt(solde)} F</strong> · Investissement possible
+    </div>
+    <button class="btn-modal" id="btn-confirm-${planId}" onclick="activerPlan('${planId}')">⚡ Confirmer l'investissement</button>`}
+    <button class="btn-cancel" onclick="closeModal()">Annuler</button>`;
+  document.getElementById('modal').classList.add('open');
+}
+
+async function activerPlan(planId){
+  const plan=PLANS[planId];
+  if(!plan||!P)return;
+  if(P.solde<plan.depot){toast('⚠️ Solde insuffisant','err');return;}
+  const btn=document.getElementById('btn-confirm-'+planId);
+  if(btn){btn.disabled=true;btn.innerHTML='<div class="ld"></div> Activation...';}
+  try{
+    const now=new Date();
+    const fin=new Date(now.getTime()+plan.jours*24*3600000);
+    const nvSolde=P.solde-plan.depot;
+    await sb.from('utilisateurs').update({solde:nvSolde,bonus_utilise:true}).eq('id',U.id);
+    await sb.from('investissements').insert({
+      user_id:U.id,plan_type:plan.id,montant:plan.depot,
+      taux:Math.round(plan.gain/plan.depot*100),
+      gain_attendu:plan.gain,gain_total:plan.gain*plan.jours,
+      duree_jours:plan.jours,statut:'actif',
+      date_debut:now.toISOString(),date_fin:fin.toISOString()
+    });
+    await sb.from('transactions').insert({user_id:U.id,type:'investissement',montant:plan.depot,description:plan.nom+' activé'});
+    P.solde=nvSolde;
+    document.getElementById('tb-solde').textContent=fmt(nvSolde)+' F';
+    document.getElementById('hero-solde').textContent=fmt(nvSolde)+' F';
+    closeModal();
+    toast('✅ '+plan.nom+' activé ! Gains débloqués','ok');
+  }catch(e){
+    if(btn){btn.disabled=false;btn.innerHTML='⚡ Confirmer l\'investissement';}
+    toast('❌ '+e.message,'err');
+  }
+}
 
 async function init(){
   const{data}=await sb.auth.getSession();
   if(!data?.session){window.location.href='silla-login.html';return;}
   U=data.session.user;
   const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
-  if(p){profile=p;solde=p.solde||0;}
-  document.getElementById('topSolde').textContent=fmt(solde);
-  if(p&&!p.bonus_utilise)document.getElementById('bonusBanner').style.display='flex';
-  renderPlans();
+  if(p){P=p;document.getElementById('tb-solde').textContent=fmt(p.solde||0)+' F';document.getElementById('hero-solde').textContent=fmt(p.solde||0)+' F';}
 }
-
-function filterPlans(cat,btn){
-  filtreActif=cat;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderPlans();
-}
-
-function renderPlans(){
-  const filtered=filtreActif==='tous'?PLANS:PLANS.filter(p=>p.cat===filtreActif);
-  const cats={starter:'🌱 Plans Starter',premium:'⭐ Plans Premium',elite:'💎 Plans Élite'};
-  let html='',lastCat='';
-
-  filtered.forEach((plan,i)=>{
-    if(plan.cat!==lastCat){
-      html+=`<div class="sec-lbl" style="animation-delay:${i*.05}s">${cats[plan.cat]||''}</div>`;
-      lastCat=plan.cat;
-    }
-    const totalGain=plan.gain_jour*plan.jours;
-    const pct=Math.round(plan.gain_jour/plan.montant*100);
-
-    html+=`
-    <div class="plan-card ${plan.locked?'locked':''}" style="animation:fadeU .4s ${i*.07}s ease both" onclick="${plan.locked?'showLocked()':'openConfirm(\''+plan.id+'\')'}">
-      ${plan.locked?`<div class="lock-ov"><div class="l-ico">🔒</div><div class="l-txt">Plan Bloqué</div><div class="l-sub">Bientôt disponible</div></div>`:''}
-      
-      <div class="plan-img">
-        <img src="${TECH_IMGS[plan.img]}" alt="${plan.nom}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80'"/>
-        <div class="plan-img-overlay"></div>
-        <div class="plan-img-badge">${plan.emoji} ${plan.nom}</div>
-        <div class="plan-img-gain">+${fmt(plan.gain_jour)} F/j</div>
-        <div class="plan-img-fav">🤍</div>
-      </div>
-
-      <div class="plan-body">
-        <div class="plan-head">
-          <div class="plan-title-row">
-            <div class="plan-ico" style="background:${plan.bg}">${plan.emoji}</div>
-            <div>
-              <div class="plan-name">${plan.nom}</div>
-              <div class="plan-dur-lbl">⏱ ${plan.jours} jours · Gain quotidien</div>
-            </div>
-          </div>
-          <span class="plan-tag" style="background:${plan.tag_bg};color:${plan.tag_c}">${plan.tag}</span>
-        </div>
-
-        <div class="plan-mnt-row">
-          <div class="pm">
-            <div class="pm-val" style="color:${plan.couleur}">${fmt(plan.montant)}</div>
-            <div class="pm-lbl">Mise (F)</div>
-          </div>
-          <div class="pm">
-            <div class="pm-val" style="color:var(--green)">+${fmt(plan.gain_jour)}</div>
-            <div class="pm-lbl">/ Jour (F)</div>
-          </div>
-          <div class="pm">
-            <div class="pm-val" style="color:var(--dark)">${plan.jours}j</div>
-            <div class="pm-lbl">Durée</div>
-          </div>
-        </div>
-
-        <div class="plan-prog">
-          <div class="pp-top"><span>Rendement journalier</span><span style="color:${plan.couleur}">+${pct}% / jour</span></div>
-          <div class="pp-track"><div class="pp-fill" style="width:${Math.min(pct*4,100)}%;background:${plan.gradient}"></div></div>
-        </div>
-
-        <div class="plan-total" style="background:${plan.bg}">
-          <div class="pt-lbl">💰 Gain total sur ${plan.jours} jours</div>
-          <div class="pt-val" style="color:${plan.couleur}">+${fmt(totalGain)} F</div>
-        </div>
-
-        ${!plan.locked?`
-        <button class="plan-btn" onclick="event.stopPropagation();openConfirm('${plan.id}')">🚀 Choisir ce plan</button>
-        `:`
-        <button class="plan-btn" style="background:rgba(8,14,42,.15);box-shadow:none;cursor:not-allowed" disabled>🔒 Plan bloqué</button>
-        `}
-      </div>
-    </div>`;
-  });
-  document.getElementById('plans-container').innerHTML=html;
-}
-
-function openConfirm(planId){
-  selPlan=PLANS.find(p=>p.id===planId);
-  if(!selPlan||selPlan.locked)return;
-  const totalGain=selPlan.gain_jour*selPlan.jours;
-  const manque=selPlan.montant-solde;
-  const soldeOk=solde>=selPlan.montant;
-
-  document.getElementById('modal-inner').innerHTML=`
-    <div class="mttl">${selPlan.emoji} ${selPlan.nom}</div>
-    <div class="msub">Confirmez votre investissement</div>
-
-    <div class="recap" style="background:${selPlan.gradient}">
-      <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:.5rem">Récapitulatif</div>
-      <div class="recap-grid">
-        <div class="rg"><div class="rg-l">Investissement</div><div class="rg-v">${fmt(selPlan.montant)} F</div></div>
-        <div class="rg"><div class="rg-l">Gain/Jour</div><div class="rg-v g">+${fmt(selPlan.gain_jour)} F</div></div>
-        <div class="rg"><div class="rg-l">Durée</div><div class="rg-v">${selPlan.jours} jours</div></div>
-        <div class="rg"><div class="rg-l">Gain total</div><div class="rg-v gold">+${fmt(totalGain)} F</div></div>
-      </div>
-    </div>
-
-    ${!soldeOk?`
-    <div class="info-box warn">
-      ⚠️ Solde insuffisant. Il vous manque <strong>${fmt(manque)} FCFA</strong>.<br>
-      Rechargez votre compte pour continuer.
-    </div>
-    <button class="mbtn orange" onclick="closeM();window.location.href='silla-recharge.html'">💳 Recharger mon compte</button>
-    `:`
-    <div class="info-box">
-      ✅ Solde disponible : <strong>${fmt(solde)} FCFA</strong><br>
-      Après investissement : <strong>${fmt(solde-selPlan.montant)} FCFA</strong> restants.<br>
-      Votre 1er gain de <strong>+${fmt(selPlan.gain_jour)} F</strong> sera disponible dans <strong>24h</strong>.
-    </div>
-    <button class="mbtn orange" id="conf-btn" onclick="confirmer()">🚀 Confirmer et investir</button>
-    `}
-    <button style="width:100%;margin-top:.6rem;padding:.8rem;background:transparent;border:1.5px solid var(--border);border-radius:13px;color:var(--gray);font-size:.82rem;font-weight:700;cursor:pointer;" onclick="closeM()">Annuler</button>
-  `;
-  document.getElementById('modal-ok').classList.add('open');
-}
-
-function closeM(){document.getElementById('modal-ok').classList.remove('open');}
-function showLocked(){showToast('🔒 Ce plan sera disponible prochainement','warning');}
-
-async function confirmer(){
-  if(!selPlan||solde<selPlan.montant)return;
-  const btn=document.getElementById('conf-btn');
-  if(!btn)return;
-  btn.disabled=true;
-  btn.innerHTML='<div class="spin"></div><span>Traitement…</span>';
-
-  try{
-    const now=new Date();
-    const fin=new Date(now.getTime()+24*3600000);
-    const nvSolde=solde-selPlan.montant;
-
-    await sb.from('utilisateurs').update({
-      solde:nvSolde,
-      total_investi:(profile?.total_investi||0)+selPlan.montant,
-      bonus_utilise:true
-    }).eq('id',U.id);
-
-    await sb.from('investissements').insert({
-      user_id:U.id,plan_type:selPlan.id,montant:selPlan.montant,
-      taux:selPlan.gain_jour/selPlan.montant*100,
-      gain_attendu:selPlan.gain_jour,duree_jours:selPlan.jours,
-      statut:'actif',date_debut:now.toISOString(),date_fin:fin.toISOString()
-    });
-
-    await sb.from('transactions').insert({
-      user_id:U.id,type:'investissement',montant:selPlan.montant,
-      description:`Plan ${selPlan.nom} · +${fmt(selPlan.gain_jour)} F/jour × ${selPlan.jours} jours`
-    });
-
-    await sb.from('notifications').insert({
-      user_id:U.id,titre:'📈 Plan activé !',
-      message:`Plan ${selPlan.nom} activé. +${fmt(selPlan.gain_jour)} FCFA disponibles dans 24h.`,type:'gain'
-    });
-
-    solde=nvSolde;
-    closeM();
-    showToast(`✅ Plan ${selPlan.nom} activé !`,'success');
-    setTimeout(()=>window.location.href='silla-dashboard.html',1600);
-  }catch(e){
-    if(btn){btn.disabled=false;btn.innerHTML='🚀 Confirmer et investir';}
-    showToast('❌ '+e.message,'error');
-  }
-}
-
-function showToast(msg,type='info'){
-  const el=document.getElementById('toast');
-  el.textContent=msg;el.className='show '+(type||'');
-  clearTimeout(showToast._t);
-  showToast._t=setTimeout(()=>el.className='',4000);
-}
-
 init();
 </script>
 </body>
