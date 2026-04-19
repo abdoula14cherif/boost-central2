@@ -3,320 +3,413 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>SILLA — Inscription</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<title>SILLA — Rejoindre l'élite</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --blue:#1B3FE4;--blue2:#2D55FF;--orange:#FF6B1A;--orange-l:#FF8C42;
-  --turq:#00C2B7;--green:#00C271;--bg:#F2F5FF;--dark:#080E2A;
-  --gray:#8892A8;--border:#E4E9F8;--card:#fff;--red:#E83030;
-  --gold:#F5B731;
+  --void:#000000;
+  --abyss:#030508;
+  --deep:#070D16;
+  --surface:#0C1520;
+  --lift:#111E2E;
+  --gold:#C9922A;
+  --gold-l:#E8B84B;
+  --gold-ll:#F5D47A;
+  --gold-dim:rgba(201,146,42,.15);
+  --ember:#FF4D1C;
+  --ice:#A8C8FF;
+  --txt:#EEF2FF;
+  --muted:rgba(238,242,255,.38);
+  --line:rgba(201,146,42,.18);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
-body{display:flex;flex-direction:column;min-height:100vh;}
+html{background:var(--void);overflow-x:hidden;}
+body{
+  min-height:100vh;background:var(--abyss);
+  font-family:'Outfit',sans-serif;color:var(--txt);
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;overflow-x:hidden;
+}
+
+/* ── CANVAS CINÉMA ── */
+#cinema-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+}
+
+/* GRAIN overlay */
+body::before{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.55;
+}
+
+/* CINEMATIC BARS */
+body::after{
+  content:'';position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:
+    linear-gradient(to bottom, #000 0%, transparent 12%),
+    linear-gradient(to top,    #000 0%, transparent 12%);
+}
+
+/* GLOW orb */
+.orb{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  filter:blur(80px);animation:orb-drift 12s ease-in-out infinite alternate;
+}
+.orb-1{width:400px;height:400px;background:radial-gradient(circle,rgba(201,146,42,.12),transparent 70%);top:-100px;right:-100px;}
+.orb-2{width:300px;height:300px;background:radial-gradient(circle,rgba(168,200,255,.06),transparent 70%);bottom:100px;left:-80px;animation-delay:-6s;}
+@keyframes orb-drift{
+  from{transform:translate(0,0) scale(1);}
+  to{transform:translate(30px,40px) scale(1.1);}
+}
+
+/* ── WRAPPER ── */
+.wrapper{
+  position:relative;z-index:10;width:100%;max-width:420px;
+  min-height:100vh;display:flex;flex-direction:column;
+  padding:0 0 40px;
+}
 
 /* ── HEADER ── */
 .header{
-  background:linear-gradient(135deg,var(--dark) 0%,#0D1E6B 100%);
-  padding:0 1.2rem;height:62px;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px rgba(8,14,42,.3);
-  position:sticky;top:0;z-index:50;
+  padding:52px 28px 32px;text-align:center;
+  animation:reveal-down .9s cubic-bezier(.22,1,.36,1) both;
 }
-.logo{font-family:'Clash Display',sans-serif;font-size:1.8rem;font-weight:700;letter-spacing:2px;}
-.logo .s1{color:var(--turq);}
-.logo .s2{color:var(--orange);}
-.logo-sub{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-top:-2px;}
+.logo-frame{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:3px;margin-bottom:24px;position:relative;
+}
+.logo-frame::before{
+  content:'';position:absolute;inset:-8px -16px;
+  border:1px solid var(--line);border-radius:4px;
+}
+.logo-word{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:700;letter-spacing:.35em;
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-ll) 50%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200% 100%;animation:shimmer 4s linear infinite;
+}
+.logo-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--ember);margin-bottom:16px;flex-shrink:0;
+  box-shadow:0 0 12px var(--ember);
+}
+@keyframes shimmer{
+  0%{background-position:200% 0;}
+  100%{background-position:-200% 0;}
+}
+.tagline{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1rem;color:var(--muted);letter-spacing:.08em;
+  line-height:1.7;
+}
+.tagline strong{color:var(--gold-l);font-style:normal;font-weight:600;}
 
-/* ── HERO BAND ── */
-.hero-band{
-  background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 50%,var(--turq) 100%);
-  padding:1.4rem 1.2rem 1.2rem;text-align:center;color:white;
+/* ── DIVIDER ── */
+.divider{
+  display:flex;align-items:center;gap:12px;padding:0 28px;margin-bottom:28px;
+  animation:reveal-up .8s .2s cubic-bezier(.22,1,.36,1) both;
 }
-.hero-band h2{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem;}
-.hero-band p{font-size:.78rem;opacity:.8;line-height:1.6;}
+.div-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);}
+.div-text{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;}
 
 /* ── FORM CARD ── */
-.form-wrap{flex:1;padding:1.2rem 1rem 2rem;max-width:480px;margin:0 auto;width:100%;}
-
-.card{background:white;border-radius:20px;padding:1.4rem 1.2rem;box-shadow:0 4px 24px rgba(27,63,228,.08);border:1px solid var(--border);margin-bottom:1rem;}
-
-.card-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
-
-/* ── FIELDS ── */
-.field{margin-bottom:.85rem;}
-.field label{display:block;font-size:.72rem;font-weight:700;color:var(--dark);margin-bottom:.32rem;letter-spacing:.04em;text-transform:uppercase;}
-.input-wrap{position:relative;}
-.input-ico{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;}
-.inp{
-  width:100%;padding:.75rem .9rem .75rem 2.6rem;
-  border:1.5px solid var(--border);border-radius:12px;
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;
-  color:var(--dark);background:#FAFBFF;outline:none;
-  transition:border-color .2s,box-shadow .2s;
+.form-card{
+  margin:0 16px;background:var(--surface);
+  border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;position:relative;
+  animation:reveal-up .9s .15s cubic-bezier(.22,1,.36,1) both;
 }
-.inp:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(45,85,255,.09);background:white;}
-.inp.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,48,48,.08);}
-.inp.ok{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,194,113,.08);}
-.inp::placeholder{color:#B8C0D4;}
-.inp-no-ico{padding-left:.9rem;}
-.field-err{font-size:.68rem;color:var(--red);margin-top:.28rem;display:none;align-items:center;gap:.3rem;}
-.field-err.show{display:flex;}
-.eye-btn{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--gray);padding:.2rem;}
-
-/* ── PHONE ROW ── */
-.phone-row{display:flex;gap:.5rem;}
-.country-sel{
-  width:110px;flex-shrink:0;padding:.75rem .5rem .75rem .85rem;
-  border:1.5px solid var(--border);border-radius:12px;
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;
-  color:var(--dark);background:#FAFBFF;outline:none;cursor:pointer;
-  -webkit-appearance:none;transition:border-color .2s;
+.form-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
-.country-sel:focus{border-color:var(--blue2);}
-.phone-inp{flex:1;}
+.form-inner{padding:32px 24px;}
 
-/* ── PASSWORD STRENGTH ── */
-.pwd-strength{margin-top:.5rem;}
-.pwd-bars{display:flex;gap:3px;margin-bottom:.3rem;}
-.pwd-bar{flex:1;height:4px;border-radius:99px;background:#E4E9F8;transition:background .3s;}
-.pwd-bar.w{background:var(--red);}
-.pwd-bar.m{background:var(--gold);}
-.pwd-bar.s{background:var(--green);}
-.pwd-txt{font-size:.68rem;color:var(--gray);}
+/* FIELD */
+.field{margin-bottom:20px;}
+.field-label{
+  display:flex;align-items:center;gap:8px;
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px;
+}
+.field-label::after{content:'';flex:1;height:1px;background:var(--line);}
+.field-input{
+  width:100%;padding:14px 16px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(201,146,42,.2);
+  border-radius:2px;
+  font-family:'Outfit',sans-serif;font-size:.95rem;
+  color:var(--txt);outline:none;
+  transition:all .25s;
+  -webkit-appearance:none;
+}
+.field-input:focus{
+  border-color:var(--gold);
+  background:rgba(201,146,42,.04);
+  box-shadow:0 0 0 3px rgba(201,146,42,.08);
+}
+.field-input::placeholder{color:rgba(238,242,255,.2);}
+.field-input.error{border-color:var(--ember);box-shadow:0 0 0 3px rgba(255,77,28,.08);}
+.field-hint{font-size:.65rem;color:var(--ember);margin-top:5px;display:none;}
+.field-hint.show{display:block;}
 
-/* ── CONDITIONS ── */
-.cgu-row{display:flex;align-items:flex-start;gap:.75rem;padding:.9rem;background:#F7F9FF;border-radius:12px;border:1.5px solid var(--border);cursor:pointer;transition:border-color .2s;margin-bottom:.85rem;}
-.cgu-row:hover{border-color:var(--blue2);}
-.custom-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;}
-.custom-check.checked{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:var(--blue2);}
-.custom-check.checked::after{content:'✓';color:white;font-size:.78rem;font-weight:800;}
-.cgu-txt{font-size:.78rem;color:var(--gray);line-height:1.55;}
-.cgu-txt a{color:var(--blue2);font-weight:700;text-decoration:none;}
-.cgu-txt a:hover{text-decoration:underline;}
+/* SELECT */
+select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23C9922A' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
+select.field-input option{background:var(--deep);color:var(--txt);}
 
-/* ── SUBMIT BTN ── */
+/* ROW */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* PARRAIN */
+.parrain-field{
+  background:rgba(201,146,42,.04);border:1px solid var(--line);
+  border-radius:2px;padding:14px 16px;
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  transition:all .2s;margin-bottom:20px;
+}
+.parrain-field:hover{border-color:var(--gold);}
+.parrain-ico{font-size:1rem;flex-shrink:0;}
+.parrain-txt{font-size:.78rem;color:var(--muted);}
+.parrain-txt strong{color:var(--gold-l);display:block;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.08em;}
+
+/* CGU */
+.cgu-row{
+  display:flex;align-items:flex-start;gap:12px;
+  margin-bottom:24px;cursor:pointer;
+}
+.cgu-box{
+  width:18px;height:18px;border:1px solid rgba(201,146,42,.4);
+  border-radius:2px;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.cgu-box.checked{background:var(--gold);border-color:var(--gold);}
+.cgu-box.checked::after{content:'✓';color:#000;font-size:.7rem;font-weight:900;}
+.cgu-text{font-size:.75rem;color:var(--muted);line-height:1.6;}
+.cgu-text a{color:var(--gold-l);text-decoration:none;border-bottom:1px solid rgba(232,184,75,.3);}
+
+/* BTN SUBMIT */
 .btn-submit{
-  width:100%;padding:1rem;
-  background:linear-gradient(135deg,var(--orange),var(--orange-l));
-  border:none;border-radius:14px;color:white;
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;
-  cursor:pointer;transition:all .25s;letter-spacing:.02em;
-  box-shadow:0 6px 20px rgba(255,107,26,.35);
-  display:flex;align-items:center;justify-content:center;gap:.6rem;
-  position:relative;overflow:hidden;
+  width:100%;padding:17px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#8B6514,var(--gold),#E8B84B);
+  background-size:200% 100%;background-position:100% 0;
+  color:#000;font-family:'Outfit',sans-serif;
+  font-size:.92rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  border-radius:2px;position:relative;overflow:hidden;
+  transition:all .4s cubic-bezier(.22,1,.36,1);
 }
-.btn-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--blue),var(--blue2));opacity:0;transition:opacity .3s;}
-.btn-submit:hover::before{opacity:1;}
-.btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(27,63,228,.35);}
-.btn-submit:active{transform:scale(.97);}
-.btn-submit:disabled{opacity:.55;cursor:not-allowed;transform:none;}
-.btn-submit span{position:relative;z-index:1;}
-.spin{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;position:relative;z-index:1;}
+.btn-submit::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent,rgba(255,255,255,.1),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.btn-submit:hover::before{transform:translateX(100%);}
+.btn-submit:hover{background-position:0 0;box-shadow:0 8px 32px rgba(201,146,42,.4);}
+.btn-submit:active{transform:scale(.98);}
+.btn-submit:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-submit.loading{pointer-events:none;}
+.ld{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* ── LOGIN LINK ── */
-.login-link{text-align:center;margin-top:.9rem;font-size:.8rem;color:var(--gray);}
-.login-link a{color:var(--blue2);font-weight:700;text-decoration:none;}
-
-/* ── AVANTAGES ── */
-.avantages{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;}
-.av-item{background:white;border-radius:14px;padding:.85rem .8rem;border:1px solid var(--border);text-align:center;}
-.av-ico{font-size:1.4rem;margin-bottom:.3rem;}
-.av-txt{font-size:.7rem;font-weight:700;color:var(--dark);}
-.av-sub{font-size:.62rem;color:var(--gray);margin-top:.1rem;}
-
-/* ── TOAST ── */
-#toast{
-  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--dark);color:white;padding:.75rem 1.3rem;border-radius:14px;
-  font-size:.82rem;font-weight:600;opacity:0;transition:all .35s;
-  pointer-events:none;z-index:999;border-left:3px solid var(--turq);
-  box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;
+/* ── BOTTOM LINK ── */
+.bottom-link{
+  text-align:center;padding:24px 28px 0;
+  font-size:.8rem;color:var(--muted);
+  animation:reveal-up .8s .4s cubic-bezier(.22,1,.36,1) both;
 }
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-#toast.error{border-color:var(--red);}
-#toast.success{border-color:var(--green);}
+.bottom-link a{color:var(--gold-l);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s;}
+.bottom-link a:hover{border-bottom-color:var(--gold-l);}
 
-/* ── PROGRESS STEPS ── */
-.steps{display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.9rem 0;margin-bottom:.5rem;}
-.step{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
-.step-dot{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(255,107,26,.3);}
-.step-dot.inactive{background:#E4E9F8;color:var(--gray);box-shadow:none;}
-.step-lbl{font-size:.6rem;font-weight:600;color:var(--dark);}
-.step-lbl.inactive{color:var(--gray);}
-.step-line{width:32px;height:2px;background:#E4E9F8;border-radius:2px;margin-bottom:14px;}
-.step-line.done{background:linear-gradient(90deg,var(--orange),var(--orange-l));}
+/* ── STATS BAND ── */
+.stats-band{
+  margin:28px 16px 0;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--line);border-radius:2px;overflow:hidden;
+  animation:reveal-up .8s .35s cubic-bezier(.22,1,.36,1) both;
+}
+.stat{
+  padding:16px 10px;text-align:center;
+  border-right:1px solid var(--line);
+  background:rgba(201,146,42,.02);
+}
+.stat:last-child{border-right:none;}
+.stat-val{
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;
+  font-weight:700;color:var(--gold-l);line-height:1;margin-bottom:4px;
+}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
 
-@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-.fade-in{animation:fadeIn .4s ease both;}
+/* ── RÉVÉLATIONS ── */
+@keyframes reveal-down{
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes reveal-up{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* TOAST */
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);
+  background:var(--surface);border:1px solid var(--line);
+  padding:12px 24px;border-radius:2px;
+  font-size:.78rem;font-weight:600;color:var(--txt);
+  z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;box-shadow:0 16px 48px rgba(0,0,0,.6);
+  pointer-events:none;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:rgba(0,194,113,.4);color:#4ADE80;}
+.toast.err{border-color:rgba(255,77,28,.4);color:#FF8A6A;}
+
+/* PARTICULES */
+.particle{
+  position:fixed;pointer-events:none;z-index:3;
+  width:2px;height:2px;border-radius:50%;
+  background:var(--gold);opacity:0;
+  animation:particle-float linear infinite;
+}
+@keyframes particle-float{
+  0%{opacity:0;transform:translateY(100vh) translateX(0);}
+  10%{opacity:.6;}
+  90%{opacity:.2;}
+  100%{opacity:0;transform:translateY(-10vh) translateX(var(--dx));}
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div>
-    <div class="logo"><span class="s1">SIL</span><span class="s2">LA</span></div>
-    <div class="logo-sub">Plateforme d'investissement</div>
-  </div>
-</div>
+<!-- ORBS -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-<!-- HERO -->
-<div class="hero-band">
-  <h2>🚀 Rejoignez SILLA</h2>
-  <p>Créez votre compte gratuitement et commencez à investir dès aujourd'hui</p>
-</div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
-<div class="form-wrap">
+<div class="wrapper">
 
-  <!-- ÉTAPES -->
-  <div class="steps fade-in">
-    <div class="step">
-      <div class="step-dot">1</div>
-      <div class="step-lbl">Inscription</div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-frame">
+      <div class="logo-word">SILLA</div>
+      <div class="logo-dot"></div>
     </div>
-    <div class="step-line done"></div>
-    <div class="step">
-      <div class="step-dot inactive">2</div>
-      <div class="step-lbl inactive">Plan</div>
-    </div>
-    <div class="step-line"></div>
-    <div class="step">
-      <div class="step-dot inactive">3</div>
-      <div class="step-lbl inactive">Recharge</div>
-    </div>
-    <div class="step-line"></div>
-    <div class="step">
-      <div class="step-dot inactive">4</div>
-      <div class="step-lbl inactive">Investir</div>
+    <div class="tagline">
+      La plateforme d'investissement<br>
+      <strong>réservée aux ambitieux</strong>
     </div>
   </div>
 
-  <!-- AVANTAGES -->
-  <div class="avantages fade-in">
-    <div class="av-item">
-      <div class="av-ico">📈</div>
-      <div class="av-txt">Rendements</div>
-      <div class="av-sub">Jusqu'à +40%</div>
-    </div>
-    <div class="av-item">
-      <div class="av-ico">🔒</div>
-      <div class="av-txt">100% Sécurisé</div>
-      <div class="av-sub">Fonds protégés</div>
-    </div>
-    <div class="av-item">
-      <div class="av-ico">💳</div>
-      <div class="av-txt">Mobile Money</div>
-      <div class="av-sub">MTN · Orange</div>
-    </div>
-    <div class="av-item">
-      <div class="av-ico">👥</div>
-      <div class="av-txt">Parrainage</div>
-      <div class="av-sub">Gagnez plus</div>
-    </div>
+  <!-- DIVIDER -->
+  <div class="divider">
+    <div class="div-line"></div>
+    <div class="div-text">Créer votre accès</div>
+    <div class="div-line"></div>
   </div>
 
-  <!-- FORMULAIRE -->
-  <div class="card fade-in">
-    <div class="card-title">👤 Créer votre compte</div>
+  <!-- FORM -->
+  <div class="form-card">
+    <div class="form-inner">
 
-    <!-- NOM COMPLET -->
-    <div class="field">
-      <label>Nom complet *</label>
-      <div class="input-wrap">
-        <span class="input-ico">👤</span>
-        <input id="f-nom" class="inp" type="text" placeholder="Ex: Jean Dupont" autocomplete="name"/>
+      <div class="field">
+        <div class="field-label">Identité</div>
+        <input class="field-input" id="f-nom" type="text" placeholder="Nom complet" autocomplete="name" oninput="clearErr(this)"/>
+        <div class="field-hint" id="h-nom">Entrez votre nom complet</div>
       </div>
-      <div class="field-err" id="err-nom">⚠️ Veuillez entrer votre nom complet</div>
-    </div>
 
-    <!-- NUMÉRO DE TÉLÉPHONE -->
-    <div class="field">
-      <label>Numéro de téléphone *</label>
-      <div class="phone-row">
-        <select class="country-sel" id="f-pays">
-          <option value="+237">🇨🇲 +237</option>
-          <option value="+225">🇨🇮 +225</option>
-          <option value="+221">🇸🇳 +221</option>
-          <option value="+233">🇬🇭 +233</option>
-          <option value="+234">🇳🇬 +234</option>
-          <option value="+243">🇨🇩 +243</option>
-          <option value="+242">🇨🇬 +242</option>
-          <option value="+241">🇬🇦 +241</option>
-          <option value="+33">🇫🇷 +33</option>
-          <option value="+32">🇧🇪 +32</option>
-        </select>
-        <div class="input-wrap" style="flex:1">
-          <span class="input-ico">📱</span>
-          <input id="f-tel" class="inp phone-inp" type="tel" placeholder="6XX XX XX XX" inputmode="tel" autocomplete="tel"/>
+      <div class="field">
+        <div class="field-label">Adresse email</div>
+        <input class="field-input" id="f-email" type="email" placeholder="votre@email.com" autocomplete="email" oninput="clearErr(this)"/>
+        <div class="field-hint" id="h-email">Email invalide</div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Pays</div>
+          <select class="field-input" id="f-pays" onchange="updateIndicatif()">
+            <option value="CM">🇨🇲 Cameroun</option>
+            <option value="CI">🇨🇮 Côte d'Ivoire</option>
+            <option value="BF">🇧🇫 Burkina Faso</option>
+            <option value="SN">🇸🇳 Sénégal</option>
+            <option value="BJ">🇧🇯 Bénin</option>
+            <option value="TG">🇹🇬 Togo</option>
+            <option value="ML">🇲🇱 Mali</option>
+            <option value="GN">🇬🇳 Guinée</option>
+            <option value="OTHER">🌍 Autre</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Téléphone</div>
+          <input class="field-input" id="f-tel" type="tel" placeholder="6XX XXX XXX" inputmode="tel" oninput="clearErr(this)"/>
+          <div class="field-hint" id="h-tel">Numéro invalide</div>
         </div>
       </div>
-      <div class="field-err" id="err-tel">⚠️ Numéro invalide (min. 8 chiffres)</div>
-    </div>
 
-    <!-- EMAIL -->
-    <div class="field">
-      <label>Adresse email *</label>
-      <div class="input-wrap">
-        <span class="input-ico">✉️</span>
-        <input id="f-email" class="inp" type="email" placeholder="votre@email.com" autocomplete="email"/>
-      </div>
-      <div class="field-err" id="err-email">⚠️ Email invalide</div>
-    </div>
-
-    <!-- MOT DE PASSE -->
-    <div class="field">
-      <label>Mot de passe *</label>
-      <div class="input-wrap">
-        <span class="input-ico">🔒</span>
-        <input id="f-pwd" class="inp" type="password" placeholder="Minimum 8 caractères" autocomplete="new-password" oninput="checkPwd(this.value)"/>
-        <button class="eye-btn" type="button" onclick="togglePwd('f-pwd','eye1')" id="eye1">👁</button>
-      </div>
-      <div class="pwd-strength">
-        <div class="pwd-bars">
-          <div class="pwd-bar" id="bar1"></div>
-          <div class="pwd-bar" id="bar2"></div>
-          <div class="pwd-bar" id="bar3"></div>
-          <div class="pwd-bar" id="bar4"></div>
+      <div class="field">
+        <div class="field-label">Mot de passe</div>
+        <input class="field-input" id="f-pwd" type="password" placeholder="Minimum 8 caractères" autocomplete="new-password" oninput="checkPwdStrength(this.value)"/>
+        <div class="field-hint" id="h-pwd">Minimum 8 caractères requis</div>
+        <!-- Barre force -->
+        <div style="display:flex;gap:4px;margin-top:8px" id="pwd-bars">
+          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar1"></div>
+          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar2"></div>
+          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar3"></div>
+          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar4"></div>
         </div>
-        <div class="pwd-txt" id="pwd-txt">Entrez un mot de passe</div>
       </div>
-      <div class="field-err" id="err-pwd">⚠️ Minimum 8 caractères requis</div>
-    </div>
 
-    <!-- CONFIRMATION MOT DE PASSE -->
-    <div class="field" style="margin-bottom:1rem">
-      <label>Confirmer le mot de passe *</label>
-      <div class="input-wrap">
-        <span class="input-ico">🔐</span>
-        <input id="f-pwd2" class="inp" type="password" placeholder="Répétez votre mot de passe" autocomplete="new-password"/>
-        <button class="eye-btn" type="button" onclick="togglePwd('f-pwd2','eye2')" id="eye2">👁</button>
+      <!-- PARRAIN TOGGLE -->
+      <div class="parrain-field" id="parrain-toggle" onclick="toggleParrain()">
+        <div class="parrain-ico">👑</div>
+        <div class="parrain-txt">
+          <strong>CODE PARRAINAGE (optionnel)</strong>
+          Avez-vous un code parrain ?
+        </div>
+        <div style="margin-left:auto;color:var(--gold);font-size:.8rem" id="parrain-arrow">▼</div>
       </div>
-      <div class="field-err" id="err-pwd2">⚠️ Les mots de passe ne correspondent pas</div>
-    </div>
-
-    <!-- CGU -->
-    <div class="cgu-row" id="cgu-row" onclick="toggleCGU()">
-      <div class="custom-check" id="cgu-check"></div>
-      <div class="cgu-txt">
-        J'ai lu et j'accepte les <a href="silla-cgu.html" onclick="event.stopPropagation()">Conditions Générales d'Utilisation</a> et la <a href="silla-privacy.html" onclick="event.stopPropagation()">Politique de Confidentialité</a> de SILLA. Je confirme avoir au moins 18 ans.
+      <div id="parrain-field" style="display:none;margin-bottom:20px">
+        <input class="field-input" id="f-parrain" type="text" placeholder="Ex: SLA-XXXXXX" style="text-transform:uppercase;letter-spacing:.1em" oninput="this.value=this.value.toUpperCase()"/>
       </div>
+
+      <!-- CGU -->
+      <div class="cgu-row" onclick="toggleCgu()">
+        <div class="cgu-box" id="cgu-box"></div>
+        <div class="cgu-text">
+          J'accepte les <a href="silla-cgu.html" onclick="event.stopPropagation()">conditions générales d'utilisation</a> et confirme avoir lu la politique de confidentialité de SILLA.
+        </div>
+      </div>
+
+      <button class="btn-submit" id="btn-submit" onclick="inscrire()">
+        Rejoindre l'élite →
+      </button>
     </div>
-    <div class="field-err" id="err-cgu" style="margin-bottom:.8rem">⚠️ Vous devez accepter les conditions</div>
+  </div>
 
-    <!-- BOUTON -->
-    <button class="btn-submit" id="btn-submit" onclick="inscrire()">
-      <span>🚀 Créer mon compte SILLA</span>
-    </button>
+  <!-- STATS -->
+  <div class="stats-band">
+    <div class="stat">
+      <div class="stat-val">12K+</div>
+      <div class="stat-lbl">Membres</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">98%</div>
+      <div class="stat-lbl">Satisfaction</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">+35%</div>
+      <div class="stat-lbl">Rendement</div>
+    </div>
+  </div>
 
-    <div class="login-link">Déjà membre ? <a href="silla-login.html">Se connecter →</a></div>
+  <div class="bottom-link">
+    Déjà membre ? <a href="silla-login.html">Connectez-vous →</a>
   </div>
 
 </div>
-
-<div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
@@ -325,186 +418,161 @@ const sb = supabase.createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
 );
 
-let cguAccepted = false;
+let cguChecked = false;
+let parrainOpen = false;
 
-// ── TOGGLE PASSWORD ──
-function togglePwd(id, btnId) {
-  const inp = document.getElementById(id);
-  const btn = document.getElementById(btnId);
-  if(inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-  else { inp.type = 'password'; btn.textContent = '👁'; }
-}
-
-// ── FORCE MOT DE PASSE ──
-function checkPwd(val) {
-  const bars = ['bar1','bar2','bar3','bar4'];
-  const txt  = document.getElementById('pwd-txt');
-  let score  = 0;
-  if(val.length >= 8)  score++;
-  if(/[A-Z]/.test(val)) score++;
-  if(/[0-9]/.test(val)) score++;
-  if(/[^A-Za-z0-9]/.test(val)) score++;
-
-  bars.forEach((b,i) => {
-    const el = document.getElementById(b);
-    el.className = 'pwd-bar';
-    if(i < score) {
-      if(score === 1) el.classList.add('w');
-      else if(score <= 2) el.classList.add('m');
-      else el.classList.add('s');
-    }
-  });
-
-  const labels = ['','Faible','Moyen','Fort','Très fort'];
-  const colors = ['var(--gray)','var(--red)','var(--gold)','var(--green)','var(--green)'];
-  txt.textContent = score > 0 ? labels[score] : 'Entrez un mot de passe';
-  txt.style.color = colors[score] || 'var(--gray)';
-}
-
-// ── TOGGLE CGU ──
-function toggleCGU() {
-  cguAccepted = !cguAccepted;
-  const el = document.getElementById('cgu-check');
-  el.className = 'custom-check' + (cguAccepted ? ' checked' : '');
-  if(cguAccepted) hideErr('cgu');
-}
-
-// ── VALIDATION ──
-function showErr(id, show=true) {
-  const el = document.getElementById('err-'+id);
-  if(el) el.classList.toggle('show', show);
-  const inp = document.getElementById('f-'+id);
-  if(inp) inp.classList.toggle('error', show);
-}
-function hideErr(id) { showErr(id, false); }
-function markOk(id) {
-  const inp = document.getElementById('f-'+id);
-  if(inp) { inp.classList.remove('error'); inp.classList.add('ok'); }
-}
-
-function validate() {
-  let ok = true;
-  const nom   = document.getElementById('f-nom').value.trim();
-  const tel   = document.getElementById('f-tel').value.replace(/\s/g,'');
-  const email = document.getElementById('f-email').value.trim();
-  const pwd   = document.getElementById('f-pwd').value;
-  const pwd2  = document.getElementById('f-pwd2').value;
-
-  if(nom.length < 2)     { showErr('nom');   ok=false; } else { hideErr('nom');   markOk('nom');   }
-  if(tel.length < 8)     { showErr('tel');   ok=false; } else { hideErr('tel');   markOk('tel');   }
-  if(!email.includes('@')){ showErr('email'); ok=false; } else { hideErr('email'); markOk('email'); }
-  if(pwd.length < 8)     { showErr('pwd');   ok=false; } else { hideErr('pwd');   markOk('pwd');   }
-  if(pwd !== pwd2)       { showErr('pwd2');  ok=false; } else { hideErr('pwd2');  markOk('pwd2');  }
-  if(!cguAccepted)       { showErr('cgu');   ok=false; }
-
-  return ok;
-}
-
-// ── INSCRIPTION ──
-async function inscrire() {
-  if(!validate()) {
-    showToast('⚠️ Vérifiez les champs en rouge','error');
-    return;
+// Particules
+function spawnParticles(){
+  for(let i=0;i<18;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.cssText=`
+      left:${Math.random()*100}vw;
+      --dx:${(Math.random()-0.5)*80}px;
+      animation-duration:${8+Math.random()*14}s;
+      animation-delay:${Math.random()*12}s;
+      width:${1+Math.random()*2}px;
+      height:${1+Math.random()*2}px;
+      opacity:${0.2+Math.random()*0.4};
+    `;
+    document.body.appendChild(p);
   }
+}
+spawnParticles();
 
-  const btn   = document.getElementById('btn-submit');
+// Indicatif pays
+const INDICATIFS = {CM:'+237',CI:'+225',BF:'+226',SN:'+221',BJ:'+229',TG:'+228',ML:'+223',GN:'+224',OTHER:'+'};
+function updateIndicatif(){
+  const pays = document.getElementById('f-pays').value;
+  const tel  = document.getElementById('f-tel');
+  tel.placeholder = (INDICATIFS[pays]||'+') + ' XXX XXX XXX';
+}
+
+// Force mot de passe
+function checkPwdStrength(v){
+  const bars = [document.getElementById('bar1'),document.getElementById('bar2'),document.getElementById('bar3'),document.getElementById('bar4')];
+  const colors = ['#EF4444','#F97316','#EAB308','#22C55E'];
+  let score = 0;
+  if(v.length>=8) score++;
+  if(/[A-Z]/.test(v)) score++;
+  if(/[0-9]/.test(v)) score++;
+  if(/[^A-Za-z0-9]/.test(v)) score++;
+  bars.forEach((b,i)=>{b.style.background = i<score ? colors[score-1] : 'var(--line)';});
+}
+
+// Toggle parrain
+function toggleParrain(){
+  parrainOpen = !parrainOpen;
+  document.getElementById('parrain-field').style.display = parrainOpen ? 'block' : 'none';
+  document.getElementById('parrain-arrow').textContent = parrainOpen ? '▲' : '▼';
+}
+
+// CGU
+function toggleCgu(){
+  cguChecked = !cguChecked;
+  document.getElementById('cgu-box').className = 'cgu-box' + (cguChecked ? ' checked' : '');
+}
+
+// Erreurs
+function clearErr(el){ el.classList.remove('error'); }
+function showErr(id,hintId,msg){
+  document.getElementById(id).classList.add('error');
+  const h=document.getElementById(hintId);
+  if(h){h.textContent=msg||h.textContent;h.classList.add('show');}
+  document.getElementById(id).focus();
+}
+function hideHint(hintId){ document.getElementById(hintId)?.classList.remove('show'); }
+
+// Toast
+function toast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast show'+(type?' '+type:'');
+  clearTimeout(toast._t);
+  toast._t=setTimeout(()=>el.className='toast',4500);
+}
+
+// INSCRIPTION
+async function inscrire(){
   const nom   = document.getElementById('f-nom').value.trim();
+  const email = document.getElementById('f-email').value.trim();
   const pays  = document.getElementById('f-pays').value;
-  const tel   = pays + document.getElementById('f-tel').value.replace(/\s/g,'');
-  const email = document.getElementById('f-email').value.trim().toLowerCase();
+  const tel   = document.getElementById('f-tel').value.trim();
   const pwd   = document.getElementById('f-pwd').value;
+  const code  = document.getElementById('f-parrain').value.trim().toUpperCase();
 
-  btn.disabled = true;
-  btn.innerHTML = '<div class="spin"></div><span>Création du compte…</span>';
+  // Validation
+  let valid = true;
+  ['h-nom','h-email','h-tel','h-pwd'].forEach(h=>document.getElementById(h)?.classList.remove('show'));
+  ['f-nom','f-email','f-tel','f-pwd'].forEach(f=>document.getElementById(f)?.classList.remove('error'));
 
-  try {
-    // Inscription Supabase Auth
+  if(!nom){ showErr('f-nom','h-nom','Votre nom est requis'); valid=false; }
+  else if(!email||!/\S+@\S+\.\S+/.test(email)){ showErr('f-email','h-email','Email invalide'); valid=false; }
+  else if(!tel||tel.length<8){ showErr('f-tel','h-tel','Numéro invalide'); valid=false; }
+  else if(pwd.length<8){ showErr('f-pwd','h-pwd','Minimum 8 caractères'); valid=false; }
+  else if(!cguChecked){ toast('⚠️ Acceptez les CGU pour continuer','err'); valid=false; }
+  if(!valid) return;
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled=true; btn.innerHTML='<div class="ld"></div> Création en cours...'; btn.classList.add('loading');
+
+  try{
+    // Vérifier le code parrain
+    let parrainId = null;
+    if(code){
+      const { data: parrain } = await sb.from('utilisateurs').select('id').eq('code_parrainage',code).maybeSingle();
+      if(!parrain){ toast('⚠️ Code parrain invalide — inscription sans parrain','err'); }
+      else parrainId = parrain.id;
+    }
+
+    // Créer le compte auth
     const { data, error } = await sb.auth.signUp({
-      email,
-      password: pwd,
-      options: {
-        data: {
-          full_name:    nom,
-          telephone:    tel,
-          nom_complet:  nom,
-        }
-      }
+      email, password: pwd,
+      options: { data: { full_name: nom } }
     });
-
     if(error) throw error;
 
-    // Sauvegarder profil dans la table users
-    const uid = data.user?.id;
-    if(uid) {
-      await sb.from('utilisateurs').upsert({
-        id:          uid,
-        nom:         nom,
-        email:       email,
-        telephone:   tel,
-        statut:      'actif',
-        solde:       0,
-        created_at:  new Date().toISOString()
-      }, { onConflict: 'id' });
-    }
+    const uid = data?.user?.id;
+    if(!uid) throw new Error('Erreur création compte');
 
-    showToast('🎉 Compte créé avec succès !', 'success');
+    // Générer code parrainage unique
+    const codeParrain = 'SLA-' + uid.slice(0,6).toUpperCase();
 
-    btn.innerHTML = '<span>✅ Compte créé !</span>';
-    btn.style.background = 'linear-gradient(135deg,var(--green),#00A050)';
+    // Profil en base
+    await sb.from('utilisateurs').upsert({
+      id: uid, nom, email, telephone: tel, pays,
+      solde: 1000, // bonus inscription
+      code_parrainage: codeParrain,
+      parrain_id: parrainId,
+      statut: 'actif',
+      is_admin: false,
+      created_at: new Date().toISOString()
+    }, { onConflict: 'id' });
 
-    // Rediriger vers la page de plans après 1.5s
-    setTimeout(() => {
-      window.location.href = 'silla-plans.html';
-    }, 1500);
+    // Transaction bonus
+    await sb.from('transactions').insert({
+      user_id: uid, type: 'bonus_inscription',
+      montant: 1000, description: '🎁 Bonus de bienvenue SILLA'
+    });
 
-  } catch(e) {
-    btn.disabled = false;
-    btn.innerHTML = '<span>🚀 Créer mon compte SILLA</span>';
+    toast('✅ Compte créé ! Bonus 1 000F crédité 🎉','ok');
+    setTimeout(()=>{ window.location.href='silla-dashboard.html'; },1800);
 
-    const msg = e.message || '';
-    if(msg.includes('already registered') || msg.includes('already been registered')) {
-      showToast('❌ Cet email est déjà utilisé', 'error');
-      showErr('email');
-    } else if(msg.includes('Password')) {
-      showToast('❌ Mot de passe trop simple', 'error');
-      showErr('pwd');
-    } else {
-      showToast('❌ ' + (msg || 'Erreur de connexion'), 'error');
-    }
+  }catch(e){
+    btn.disabled=false;
+    btn.innerHTML='Rejoindre l\'élite →';
+    btn.classList.remove('loading');
+    const msg = e.message?.includes('already registered') ? 'Email déjà utilisé — connectez-vous'
+              : e.message?.includes('weak') ? 'Mot de passe trop faible'
+              : e.message || 'Erreur. Réessayez.';
+    toast('❌ '+msg,'err');
   }
 }
 
-// ── TOAST ──
-let _tt = null;
-function showToast(msg, type='info') {
-  const el = document.getElementById('toast');
-  if(!el) return;
-  el.textContent = msg;
-  el.className = 'show ' + type;
-  clearTimeout(_tt);
-  _tt = setTimeout(() => { el.className = ''; }, 4000);
-}
-
-// ── LIVE VALIDATION ──
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('f-nom')?.addEventListener('blur', () => {
-    const v = document.getElementById('f-nom').value.trim();
-    if(v.length >= 2) markOk('nom'); else if(v) showErr('nom');
-  });
-  document.getElementById('f-email')?.addEventListener('blur', () => {
-    const v = document.getElementById('f-email').value.trim();
-    if(v.includes('@') && v.includes('.')) markOk('email'); else if(v) showErr('email');
-  });
-  document.getElementById('f-pwd2')?.addEventListener('input', () => {
-    const p1 = document.getElementById('f-pwd').value;
-    const p2 = document.getElementById('f-pwd2').value;
-    if(p2 && p1 !== p2) showErr('pwd2'); else if(p2) { hideErr('pwd2'); markOk('pwd2'); }
-  });
-  // Enter key
-  document.querySelectorAll('.inp').forEach(inp => {
-    inp.addEventListener('keydown', e => { if(e.key === 'Enter') inscrire(); });
-  });
-});
+// Vérifier si déjà connecté
+(async()=>{
+  const { data } = await sb.auth.getSession();
+  if(data?.session) window.location.replace('silla-dashboard.html');
+})();
 </script>
 </body>
 </html>
