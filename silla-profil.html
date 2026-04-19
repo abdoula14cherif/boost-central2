@@ -13,7 +13,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
 .back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
 .tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
-.scroll{padding:16px 16px calc(var(--nav)+20px);}
+.scroll{padding:16px 16px calc(var(--nav)+36px);}
 
 /* PROFIL HERO */
 .profil-hero{background:linear-gradient(135deg,#1A0F00,#3D2200);border-radius:16px;padding:28px 20px;margin-bottom:16px;text-align:center;box-shadow:0 6px 24px rgba(90,50,0,.2);}
@@ -87,13 +87,21 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     </div>
   </div>
 
-  <!-- CODE PARRAIN -->
+  <!-- CODE PARRAIN + LIEN DIRECT -->
   <div class="code-wrap" onclick="copyCode()">
     <div class="cw-left">
       <div class="cw-label">👑 Mon code parrain</div>
       <div class="cw-code" id="cw-code">SLA-——</div>
     </div>
     <div class="cw-copy" id="copy-btn">📋 Copier</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+    <button onclick="copyLien()" style="padding:12px 8px;background:var(--gold-dim);border:1px solid var(--border);border-radius:10px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px">
+      🔗 Copier le lien
+    </button>
+    <button onclick="shareWhatsApp()" style="padding:12px 8px;background:#25D36608;border:1px solid #25D36630;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;color:#128C7E;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px">
+      📱 WhatsApp
+    </button>
   </div>
 
   <!-- MENU COMPTE -->
@@ -171,6 +179,32 @@ function copyCode(){
   const b=document.getElementById('copy-btn');b.textContent='✅ Copié !';b.className='cw-copy done';
   setTimeout(()=>{b.textContent='📋 Copier';b.className='cw-copy';},2500);
   toast('✅ Code copié !','ok');
+}
+
+function getLien(){
+  // Lien d'inscription avec code parrain pré-rempli
+  const base = window.location.origin + '/silla-inscription.html';
+  return base + '?ref=' + encodeURIComponent(code);
+}
+
+function copyLien(){
+  if(!code){toast('⚠️ Code parrain non disponible','err');return;}
+  const lien = getLien();
+  navigator.clipboard?.writeText(lien);
+  toast('✅ Lien copié ! Partagez-le à vos amis','ok');
+}
+
+function shareWhatsApp(){
+  if(!code){toast('⚠️ Code parrain non disponible','err');return;}
+  const lien = getLien();
+  const msg = encodeURIComponent(
+    '🚀 Rejoins SILLA et commence à investir !\n\n' +
+    '💰 Plans à partir de 3 000F\n' +
+    '📈 Jusqu'à +50 000F/jour\n' +
+    '🎁 Bonus 1 000F à l'inscription\n\n' +
+    '👉 Clique ici pour t'inscrire avec mon code :\n' + lien
+  );
+  window.open('https://wa.me/?text=' + msg, '_blank');
 }
 
 async function logout(){
