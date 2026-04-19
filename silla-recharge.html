@@ -265,8 +265,12 @@ async function soumettreRecharge(){
       num_expediteur:exp,statut:'en_attente',type:'mobile_money',
       created_at:new Date().toISOString()
     });
-    await sb.from('notifications').insert({user_id:U.id,titre:'💳 Recharge en attente',message:`Votre recharge de ${fmt(montant)} F via ${op} est en cours de vérification.`,type:'info'});
-    toast('✅ Recharge soumise ! En attente de validation par l\'admin','ok');
+    // Notifier l'utilisateur
+    await sb.from('notifications').insert({user_id:U.id,titre:'💳 Recharge soumise',message:'Votre recharge de '+fmt(montant)+' F via '+op+' est en cours de validation.',type:'info'});
+    // Notifier l'admin
+    const{data:adm}=await sb.from('utilisateurs').select('id').eq('email','abdoula13cherif@gmail.com').maybeSingle();
+    if(adm){await sb.from('notifications').insert({user_id:adm.id,titre:'📥 Nouvelle recharge à valider',message:'Montant: '+fmt(montant)+' F via '+op+' - Ref: '+ref+' - Expediteur: '+exp,type:'admin'});}
+    toast('Recharge soumise - En attente de validation','ok');
     document.getElementById('f-montant').value='';
     document.getElementById('f-ref').value='';
     document.getElementById('f-expediteur').value='';
