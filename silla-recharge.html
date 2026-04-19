@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Recharger</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
+  --orange:#FF6B1A;--orange-l:#FF8C42;--turq:#00C2B7;--green:#00C271;
+  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;--gray:#8892A8;
+  --border:#DDE3F5;--red:#E83030;--gold:#F5B731;--nav-h:70px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
+body{display:flex;flex-direction:column;}
+
+.topbar{background:var(--blue-dark);height:58px;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:80;box-shadow:0 2px 16px rgba(8,14,42,.3);}
+.back-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:1.1rem;text-decoration:none;}
+.top-logo{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:#fff;}
+.top-logo span{color:var(--orange);}
+.solde-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:.28rem .8rem;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.6);}
+.solde-chip strong{color:var(--gold);}
+
+.hero-band{background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 55%,var(--turq) 100%);padding:1.3rem 1.2rem 1.1rem;position:relative;overflow:hidden;}
+.hero-band::after{content:'💳';position:absolute;right:10px;top:-8px;font-size:4.5rem;opacity:.09;}
+.hero-ttl{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
+.hero-sub{font-size:.74rem;color:rgba(255,255,255,.7);}
+
+.content{flex:1;padding:1rem;max-width:480px;margin:0 auto;width:100%;padding-bottom:calc(var(--nav-h)+1rem);}
+
+/* MÉTHODE TABS */
+.method-tabs{display:flex;gap:.5rem;margin-bottom:1.1rem;}
+.mtab{flex:1;padding:.8rem .5rem;border-radius:14px;border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all .22s;text-align:center;}
+.mtab:hover{border-color:var(--blue2);}
+.mtab.active{border-color:var(--orange);background:rgba(255,107,26,.04);}
+.mtab-ico{font-size:1.5rem;margin-bottom:.3rem;}
+.mtab-name{font-size:.72rem;font-weight:800;color:var(--dark);}
+.mtab-sub{font-size:.6rem;color:var(--gray);margin-top:.05rem;}
+
+/* SECTIONS */
+.section{background:var(--white);border-radius:20px;border:1px solid var(--border);padding:1.2rem;margin-bottom:1rem;box-shadow:0 3px 12px rgba(27,63,228,.05);display:none;}
+.section.active{display:block;}
+.sec-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:.3rem;}
+.sec-sub{font-size:.74rem;color:var(--gray);margin-bottom:1rem;line-height:1.55;}
+
+/* OPERATEUR MOBILE MONEY */
+.op-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;}
+.op-card{border-radius:14px;border:2px solid var(--border);background:#FAFBFF;padding:.85rem .7rem;cursor:pointer;transition:all .2s;text-align:center;}
+.op-card:hover{border-color:var(--blue2);}
+.op-card.sel{border-color:var(--orange);background:rgba(255,107,26,.04);}
+.op-ico{font-size:1.6rem;margin-bottom:.3rem;}
+.op-name{font-size:.8rem;font-weight:800;color:var(--dark);}
+.op-num{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--orange);margin-top:.15rem;}
+.op-owner{font-size:.6rem;color:var(--gray);}
+
+/* CHAMP */
+.field{margin-bottom:.9rem;}
+.field label{display:block;font-size:.67rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--dark);margin-bottom:.35rem;}
+.inp{width:100%;padding:.78rem .9rem;border:1.5px solid var(--border);border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--dark);background:#FAFBFF;outline:none;transition:all .2s;}
+.inp:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(45,85,255,.08);background:#fff;}
+.inp::placeholder{color:#C0C8DC;}
+textarea.inp{resize:none;height:70px;line-height:1.5;}
+
+/* ADRESSES CRYPTO */
+.crypto-addr{background:var(--bg);border-radius:12px;border:1px solid var(--border);padding:.85rem 1rem;margin-bottom:.8rem;}
+.ca-coin{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;}
+.ca-ico{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;flex-shrink:0;}
+.ca-name{font-size:.82rem;font-weight:800;color:var(--dark);}
+.ca-network{font-size:.62rem;color:var(--gray);font-family:'DM Mono',monospace;}
+.ca-addr-wrap{display:flex;align-items:center;gap:.5rem;}
+.ca-addr{flex:1;font-family:'DM Mono',monospace;font-size:.62rem;color:var(--blue2);background:var(--white);border:1px solid var(--border);border-radius:8px;padding:.5rem .7rem;word-break:break-all;line-height:1.5;}
+.ca-copy{width:32px;height:32px;border-radius:8px;background:rgba(27,63,228,.08);border:1px solid rgba(27,63,228,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;flex-shrink:0;transition:all .2s;}
+.ca-copy:hover{background:rgba(27,63,228,.15);}
+.ca-copy.done{background:rgba(0,194,113,.1);border-color:rgba(0,194,113,.2);}
+
+/* INFO BOX */
+.info-box{border-radius:11px;padding:.75rem .9rem;font-size:.74rem;line-height:1.7;margin-bottom:.9rem;}
+.ib-blue{background:rgba(27,63,228,.05);border:1px solid rgba(27,63,228,.12);color:var(--blue);}
+.ib-orange{background:rgba(255,107,26,.05);border:1px solid rgba(255,107,26,.15);color:var(--orange);}
+.ib-green{background:rgba(0,194,113,.05);border:1px solid rgba(0,194,113,.15);color:#006B3C;}
+
+/* BTN */
+.btn-submit{width:100%;padding:.92rem;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:14px;color:#fff;font-size:.9rem;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(255,107,26,.28);display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(255,107,26,.38);}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* SUCCESS */
+.success-panel{text-align:center;padding:1.5rem 1rem;display:none;}
+.success-panel.show{display:block;}
+.sp-ico{font-size:3rem;margin-bottom:.7rem;}
+.sp-title{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green);margin-bottom:.4rem;}
+.sp-txt{font-size:.78rem;color:var(--gray);line-height:1.7;margin-bottom:1.2rem;}
+
+/* BOT NAV */
+.bot-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:0 .4rem;z-index:90;box-shadow:0 -4px 20px rgba(8,14,42,.07);}
+.nb{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.5rem .6rem;border:none;background:none;cursor:pointer;border-radius:12px;min-width:52px;text-decoration:none;color:var(--gray);}
+.nb.active{color:var(--blue2);}
+.nb-i{font-size:1.25rem;line-height:1;}
+.nb-l{font-size:.58rem;font-weight:700;}
+.nb-c{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,26,.4);margin-bottom:8px;}
+
+#toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:.7rem 1.2rem;border-radius:14px;font-size:.78rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--turq);box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{border-color:var(--green);}
+#toast.error{border-color:var(--red);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="silla-dashboard.html" class="back-btn">←</a>
+  <div class="top-logo">SIL<span>LA</span></div>
+  <div class="solde-chip">Solde : <strong id="topSolde">—</strong> F</div>
+</div>
+
+<div class="hero-band">
+  <div class="hero-ttl">💳 Recharger mon compte</div>
+  <div class="hero-sub">Choisissez votre méthode de paiement</div>
+</div>
+
+<div class="content">
+
+  <!-- MÉTHODES -->
+  <div class="method-tabs">
+    <div class="mtab active" id="tab-mm" onclick="switchMethod('mm')">
+      <div class="mtab-ico">📱</div>
+      <div class="mtab-name">Mobile Money</div>
+      <div class="mtab-sub">Cameroun</div>
+    </div>
+    <div class="mtab" id="tab-crypto" onclick="switchMethod('crypto')">
+      <div class="mtab-ico">₿</div>
+      <div class="mtab-name">Crypto</div>
+      <div class="mtab-sub">International</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION MOBILE MONEY ── -->
+  <div class="section active" id="sec-mm">
+    <div class="sec-title">📱 Paiement Mobile Money</div>
+    <div class="sec-sub">Réservé aux utilisateurs au Cameroun. Effectuez un transfert vers le numéro de votre opérateur puis remplissez le formulaire.</div>
+
+    <!-- OPÉRATEURS -->
+    <div class="op-grid">
+      <div class="op-card" id="op-mtn" onclick="selOp('mtn')">
+        <div class="op-ico">📱</div>
+        <div class="op-name">MTN MoMo</div>
+        <div class="op-num">651 46 17 77</div>
+        <div class="op-owner">Jean Jacques Rousseau</div>
+      </div>
+      <div class="op-card" id="op-orange" onclick="selOp('orange')">
+        <div class="op-ico">🍊</div>
+        <div class="op-name">Orange Money</div>
+        <div class="op-num">658 03 36 90</div>
+        <div class="op-owner">Alirou Moun</div>
+      </div>
+    </div>
+
+    <div class="info-box ib-orange">
+      📌 <strong>Étapes :</strong><br>
+      1️⃣ Transférez le montant sur le numéro choisi<br>
+      2️⃣ Remplissez le formulaire ci-dessous<br>
+      3️⃣ L'admin validera sous <strong>24h max</strong>
+    </div>
+
+    <div class="field">
+      <label>Votre nom complet *</label>
+      <input class="inp" id="mm-nom" type="text" placeholder="Ex: Jean Dupont"/>
+    </div>
+    <div class="field">
+      <label>Votre numéro Mobile Money *</label>
+      <input class="inp" id="mm-phone" type="tel" placeholder="6XX XX XX XX" inputmode="tel"/>
+    </div>
+    <div class="field">
+      <label>Montant envoyé (FCFA) *</label>
+      <input class="inp" id="mm-amount" type="number" placeholder="Minimum 3 000 FCFA" inputmode="numeric"/>
+    </div>
+    <div class="field">
+      <label>ID / Numéro de transaction *</label>
+      <input class="inp" id="mm-txid" type="text" placeholder="Ex: CI240418.1234.A56789"/>
+    </div>
+    <div class="field">
+      <label>Message (optionnel)</label>
+      <textarea class="inp" id="mm-msg" placeholder="Informations supplémentaires…"></textarea>
+    </div>
+
+    <div id="mm-success" class="success-panel">
+      <div class="sp-ico">✅</div>
+      <div class="sp-title">Demande envoyée !</div>
+      <div class="sp-txt">Votre demande de recharge a été soumise avec succès.<br>L'administrateur la validera dans les <strong>24h</strong>.</div>
+      <button class="btn-submit" onclick="window.location.href='silla-dashboard.html'">🏠 Retour au tableau de bord</button>
+    </div>
+
+    <div id="mm-form-btn">
+      <button class="btn-submit" id="mm-btn" onclick="submitMM()">
+        <span>📨 Soumettre la demande</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── SECTION CRYPTO ── -->
+  <div class="section" id="sec-crypto">
+    <div class="sec-title">₿ Paiement en Crypto</div>
+    <div class="sec-sub">Pour les utilisateurs en dehors du Cameroun. Envoyez le montant équivalent sur l'adresse correspondante.</div>
+
+    <!-- USDT BSC -->
+    <div class="crypto-addr">
+      <div class="ca-coin">
+        <div class="ca-ico" style="background:rgba(38,161,123,.12);color:#26A17B">₮</div>
+        <div>
+          <div class="ca-name">USDT</div>
+          <div class="ca-network">BNB Smart Chain (BSC)</div>
+        </div>
+      </div>
+      <div class="ca-addr-wrap">
+        <div class="ca-addr" id="addr-usdt">0x44C9170272c7eA2c99f5dC28d955AdFE8b4AA3CB</div>
+        <div class="ca-copy" onclick="copyAddr('addr-usdt',this)" title="Copier">📋</div>
+      </div>
+    </div>
+
+    <!-- SOL -->
+    <div class="crypto-addr">
+      <div class="ca-coin">
+        <div class="ca-ico" style="background:rgba(153,69,255,.12);color:#9945FF">◎</div>
+        <div>
+          <div class="ca-name">SOL</div>
+          <div class="ca-network">Solana Network</div>
+        </div>
+      </div>
+      <div class="ca-addr-wrap">
+        <div class="ca-addr" id="addr-sol">JBe5kePCCj3tG5RciCaNCEaJjtziycdrtKwz64Csx2VJ</div>
+        <div class="ca-copy" onclick="copyAddr('addr-sol',this)" title="Copier">📋</div>
+      </div>
+    </div>
+
+    <!-- BTC -->
+    <div class="crypto-addr">
+      <div class="ca-coin">
+        <div class="ca-ico" style="background:rgba(247,147,26,.12);color:#F7931A">₿</div>
+        <div>
+          <div class="ca-name">BTC</div>
+          <div class="ca-network">Bitcoin Network</div>
+        </div>
+      </div>
+      <div class="ca-addr-wrap">
+        <div class="ca-addr" id="addr-btc">bc1pygygqdjmj60mph9yrn05extn3n4h22fv5ynt3w72hjd7arx64l4qdkp32x</div>
+        <div class="ca-copy" onclick="copyAddr('addr-btc',this)" title="Copier">📋</div>
+      </div>
+    </div>
+
+    <div class="info-box ib-blue">
+      ℹ️ <strong>Instructions :</strong><br>
+      1️⃣ Copiez l'adresse de la crypto choisie<br>
+      2️⃣ Envoyez le montant équivalent<br>
+      3️⃣ Remplissez le formulaire avec le hash de transaction<br>
+      4️⃣ L'admin crédite votre compte sous <strong>24h</strong>
+    </div>
+
+    <div class="field">
+      <label>Votre nom complet *</label>
+      <input class="inp" id="cr-nom" type="text" placeholder="Ex: Jean Dupont"/>
+    </div>
+    <div class="field">
+      <label>Crypto utilisée *</label>
+      <select class="inp" id="cr-coin">
+        <option value="">Sélectionnez...</option>
+        <option value="USDT-BSC">USDT (BNB Smart Chain)</option>
+        <option value="SOL">SOL (Solana)</option>
+        <option value="BTC">BTC (Bitcoin)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Montant envoyé *</label>
+      <input class="inp" id="cr-amount" type="text" placeholder="Ex: 10 USDT ou 0.0003 BTC"/>
+    </div>
+    <div class="field">
+      <label>Hash / ID de transaction *</label>
+      <input class="inp" id="cr-txid" type="text" placeholder="0x... ou hash complet"/>
+    </div>
+    <div class="field">
+      <label>Message (optionnel)</label>
+      <textarea class="inp" id="cr-msg" placeholder="Informations supplémentaires…"></textarea>
+    </div>
+
+    <div id="cr-success" class="success-panel">
+      <div class="sp-ico">✅</div>
+      <div class="sp-title">Demande envoyée !</div>
+      <div class="sp-txt">Votre transaction crypto a été soumise.<br>Après vérification, votre compte sera crédité sous <strong>24h</strong>.</div>
+      <button class="btn-submit" onclick="window.location.href='silla-dashboard.html'">🏠 Retour au tableau de bord</button>
+    </div>
+
+    <div id="cr-form-btn">
+      <button class="btn-submit" id="cr-btn" onclick="submitCrypto()">
+        <span>📨 Soumettre la transaction</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div class="bot-nav">
+  <a class="nb" href="silla-dashboard.html"><span class="nb-i">🏠</span><span class="nb-l">Accueil</span></a>
+  <a class="nb active" href="silla-recharge.html"><span class="nb-i">💳</span><span class="nb-l">Recharge</span></a>
+  <button class="nb-c" onclick="window.location.href='silla-dashboard.html'">📊</button>
+  <a class="nb" href="silla-plans.html"><span class="nb-i">📈</span><span class="nb-l">Plans</span></a>
+  <a class="nb" href="silla-profil.html"><span class="nb-i">👤</span><span class="nb-l">Profil</span></a>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb=supabase.createClient('https://pnybmieunidegpxwkodn.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY');
+const fmt=n=>Number(n||0).toLocaleString('fr-FR');
+let U=null,opSel='';
+
+async function init(){
+  const{data}=await sb.auth.getSession();
+  if(!data?.session){window.location.href='silla-login.html';return;}
+  U=data.session.user;
+  const{data:p}=await sb.from('utilisateurs').select('solde').eq('id',U.id).maybeSingle();
+  if(p)document.getElementById('topSolde').textContent=fmt(p.solde||0);
+}
+
+function switchMethod(m){
+  document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tab-'+m).classList.add('active');
+  document.getElementById('sec-'+m).classList.add('active');
+}
+
+function selOp(op){
+  opSel=op;
+  document.getElementById('op-mtn').classList.toggle('sel',op==='mtn');
+  document.getElementById('op-orange').classList.toggle('sel',op==='orange');
+}
+
+function copyAddr(id,btn){
+  const txt=document.getElementById(id).textContent;
+  navigator.clipboard?.writeText(txt);
+  btn.textContent='✅';btn.classList.add('done');
+  setTimeout(()=>{btn.textContent='📋';btn.classList.remove('done');},2500);
+  showToast('✅ Adresse copiée !','success');
+}
+
+async function submitMM(){
+  const nom=document.getElementById('mm-nom').value.trim();
+  const phone=document.getElementById('mm-phone').value.replace(/\s/g,'');
+  const amount=parseInt(document.getElementById('mm-amount').value)||0;
+  const txid=document.getElementById('mm-txid').value.trim();
+  const msg=document.getElementById('mm-msg').value.trim();
+
+  if(!opSel){showToast('⚠️ Sélectionnez un opérateur','warning');return;}
+  if(!nom){showToast('⚠️ Votre nom est requis','warning');return;}
+  if(phone.length<8){showToast('⚠️ Numéro invalide','warning');return;}
+  if(amount<3000){showToast('⚠️ Minimum 3 000 FCFA','warning');return;}
+  if(!txid){showToast('⚠️ ID de transaction requis','warning');return;}
+
+  const btn=document.getElementById('mm-btn');
+  btn.disabled=true;
+  btn.innerHTML='<div class="spin"></div><span>Envoi…</span>';
+
+  try{
+    await sb.from('recharges').insert({
+      user_id:U.id,montant:amount,operateur:opSel,
+      telephone:phone,statut:'en_attente',
+      ref_paiement:txid,
+      created_at:new Date().toISOString()
+    });
+
+    // Notification admin (stocker en notifications avec type spécial)
+    await sb.from('notifications').insert({
+      user_id:U.id,
+      titre:'💳 Recharge Mobile Money soumise',
+      message:`Nom: ${nom} | Opérateur: ${opSel.toUpperCase()} | Montant: ${fmt(amount)} FCFA | TX: ${txid}${msg?` | Note: ${msg}`:''}`,
+      type:'recharge'
+    });
+
+    document.getElementById('mm-form-btn').style.display='none';
+    document.getElementById('mm-success').classList.add('show');
+    showToast('✅ Demande envoyée !','success');
+  }catch(e){
+    btn.disabled=false;
+    btn.innerHTML='<span>📨 Soumettre la demande</span>';
+    showToast('❌ '+e.message,'error');
+  }
+}
+
+async function submitCrypto(){
+  const nom=document.getElementById('cr-nom').value.trim();
+  const coin=document.getElementById('cr-coin').value;
+  const amount=document.getElementById('cr-amount').value.trim();
+  const txid=document.getElementById('cr-txid').value.trim();
+  const msg=document.getElementById('cr-msg').value.trim();
+
+  if(!nom){showToast('⚠️ Votre nom est requis','warning');return;}
+  if(!coin){showToast('⚠️ Sélectionnez la crypto','warning');return;}
+  if(!amount){showToast('⚠️ Montant requis','warning');return;}
+  if(!txid){showToast('⚠️ Hash de transaction requis','warning');return;}
+
+  const btn=document.getElementById('cr-btn');
+  btn.disabled=true;
+  btn.innerHTML='<div class="spin"></div><span>Envoi…</span>';
+
+  try{
+    await sb.from('recharges').insert({
+      user_id:U.id,montant:0,operateur:'crypto_'+coin.toLowerCase(),
+      telephone:txid,statut:'en_attente',
+      ref_paiement:txid,
+      created_at:new Date().toISOString()
+    });
+
+    await sb.from('notifications').insert({
+      user_id:U.id,
+      titre:'₿ Recharge Crypto soumise',
+      message:`Nom: ${nom} | Crypto: ${coin} | Montant: ${amount} | Hash: ${txid}${msg?` | Note: ${msg}`:''}`,
+      type:'recharge'
+    });
+
+    document.getElementById('cr-form-btn').style.display='none';
+    document.getElementById('cr-success').classList.add('show');
+    showToast('✅ Transaction soumise !','success');
+  }catch(e){
+    btn.disabled=false;
+    btn.innerHTML='<span>📨 Soumettre la transaction</span>';
+    showToast('❌ '+e.message,'error');
+  }
+}
+
+function showToast(msg,type='info'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='show '+(type||'');
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>el.className='',4000);
+}
+
+init();
+</script>
+</body>
+</html>
