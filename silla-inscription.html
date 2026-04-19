@@ -3,334 +3,284 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>SILLA — Rejoindre l'élite</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<title>SILLA — Inscription</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --void:#000000;
-  --abyss:#030508;
-  --deep:#070D16;
-  --surface:#0C1520;
-  --lift:#111E2E;
-  --gold:#C9922A;
-  --gold-l:#E8B84B;
-  --gold-ll:#F5D47A;
-  --gold-dim:rgba(201,146,42,.15);
-  --ember:#FF4D1C;
-  --ice:#A8C8FF;
-  --txt:#EEF2FF;
-  --muted:rgba(238,242,255,.38);
-  --line:rgba(201,146,42,.18);
+  --cream:#FEFCF7;
+  --warm:#FDF6E9;
+  --parchment:#F5EDD6;
+  --gold:#B8860B;
+  --gold-l:#D4A017;
+  --gold-ll:#E8C060;
+  --gold-dim:rgba(184,134,11,.1);
+  --ember:#E05A2B;
+  --deep:#1A0F00;
+  --ink:#2D1F00;
+  --brown:#6B4C1E;
+  --muted:#9A8060;
+  --line:rgba(184,134,11,.2);
+  --border:rgba(184,134,11,.15);
+  --shadow:rgba(90,50,0,.12);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{background:var(--void);overflow-x:hidden;}
+html{background:var(--cream);overflow-x:hidden;}
 body{
-  min-height:100vh;background:var(--abyss);
-  font-family:'Outfit',sans-serif;color:var(--txt);
+  min-height:100vh;
+  background:linear-gradient(160deg,#FEFCF7 0%,#FDF6E9 40%,#FAF0D8 100%);
+  font-family:'Outfit',sans-serif;color:var(--ink);
   display:flex;flex-direction:column;align-items:center;
   position:relative;overflow-x:hidden;
 }
 
-/* ── CANVAS CINÉMA ── */
-#cinema-bg{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-}
-
-/* GRAIN overlay */
+/* FOND TEXTURE PAPIER */
 body::before{
-  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity:.55;
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle at 80% 10%,rgba(212,160,23,.07) 0%,transparent 50%),
+    radial-gradient(circle at 10% 80%,rgba(224,90,43,.04) 0%,transparent 45%),
+    radial-gradient(circle at 50% 50%,rgba(184,134,11,.03) 0%,transparent 60%);
 }
 
-/* CINEMATIC BARS */
-body::after{
-  content:'';position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:
-    linear-gradient(to bottom, #000 0%, transparent 12%),
-    linear-gradient(to top,    #000 0%, transparent 12%);
+/* LIGNES DÉCORATIVES */
+.deco-line-top{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:100;
+  background:linear-gradient(90deg,transparent,var(--gold-l),var(--gold-ll),var(--gold-l),transparent);
 }
 
-/* GLOW orb */
-.orb{
-  position:fixed;border-radius:50%;pointer-events:none;z-index:0;
-  filter:blur(80px);animation:orb-drift 12s ease-in-out infinite alternate;
-}
-.orb-1{width:400px;height:400px;background:radial-gradient(circle,rgba(201,146,42,.12),transparent 70%);top:-100px;right:-100px;}
-.orb-2{width:300px;height:300px;background:radial-gradient(circle,rgba(168,200,255,.06),transparent 70%);bottom:100px;left:-80px;animation-delay:-6s;}
-@keyframes orb-drift{
-  from{transform:translate(0,0) scale(1);}
-  to{transform:translate(30px,40px) scale(1.1);}
-}
-
-/* ── WRAPPER ── */
 .wrapper{
-  position:relative;z-index:10;width:100%;max-width:420px;
+  position:relative;z-index:10;width:100%;max-width:430px;
   min-height:100vh;display:flex;flex-direction:column;
-  padding:0 0 40px;
+  padding-bottom:48px;
 }
 
 /* ── HEADER ── */
 .header{
-  padding:52px 28px 32px;text-align:center;
-  animation:reveal-down .9s cubic-bezier(.22,1,.36,1) both;
+  padding:52px 28px 28px;text-align:center;
+  animation:fade-down .8s cubic-bezier(.22,1,.36,1) both;
 }
-.logo-frame{
-  display:inline-flex;align-items:center;justify-content:center;
-  gap:3px;margin-bottom:24px;position:relative;
+.logo-wrap{
+  display:inline-block;position:relative;margin-bottom:18px;
 }
-.logo-frame::before{
-  content:'';position:absolute;inset:-8px -16px;
-  border:1px solid var(--line);border-radius:4px;
+.logo-corner{
+  position:absolute;width:10px;height:10px;border-color:var(--gold);border-style:solid;
 }
-.logo-word{
-  font-family:'Cormorant Garamond',serif;
-  font-size:2.8rem;font-weight:700;letter-spacing:.35em;
-  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-ll) 50%,var(--gold) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  background-size:200% 100%;animation:shimmer 4s linear infinite;
+.logo-corner.tl{top:-4px;left:-8px;border-width:1.5px 0 0 1.5px;}
+.logo-corner.tr{top:-4px;right:-8px;border-width:1.5px 1.5px 0 0;}
+.logo-corner.bl{bottom:-4px;left:-8px;border-width:0 0 1.5px 1.5px;}
+.logo-corner.br{bottom:-4px;right:-8px;border-width:0 1.5px 1.5px 0;}
+.logo{
+  font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;
+  letter-spacing:.4em;color:var(--gold);padding:0 12px;
+  text-shadow:0 2px 20px rgba(184,134,11,.2);
 }
-.logo-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--ember);margin-bottom:16px;flex-shrink:0;
-  box-shadow:0 0 12px var(--ember);
-}
-@keyframes shimmer{
-  0%{background-position:200% 0;}
-  100%{background-position:-200% 0;}
+.logo-badge{
+  display:inline-block;font-family:'DM Mono',monospace;font-size:.52rem;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--gold-l);
+  background:var(--gold-dim);border:1px solid var(--border);
+  border-radius:2px;padding:3px 10px;margin-bottom:14px;
 }
 .tagline{
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:1rem;color:var(--muted);letter-spacing:.08em;
-  line-height:1.7;
+  font-family:'Cormorant Garamond',serif;font-size:1.1rem;
+  color:var(--brown);line-height:1.7;
 }
-.tagline strong{color:var(--gold-l);font-style:normal;font-weight:600;}
+.tagline em{color:var(--gold);font-style:italic;}
 
-/* ── DIVIDER ── */
-.divider{
-  display:flex;align-items:center;gap:12px;padding:0 28px;margin-bottom:28px;
-  animation:reveal-up .8s .2s cubic-bezier(.22,1,.36,1) both;
+/* ── SÉPARATEUR ── */
+.sep{
+  display:flex;align-items:center;gap:10px;
+  padding:0 28px;margin-bottom:24px;
+  animation:fade-up .7s .15s cubic-bezier(.22,1,.36,1) both;
 }
-.div-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);}
-.div-text{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;}
+.sep-line{flex:1;height:1px;background:var(--line);}
+.sep-diamond{
+  width:6px;height:6px;background:var(--gold-l);
+  transform:rotate(45deg);flex-shrink:0;
+}
+.sep-txt{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;}
 
-/* ── FORM CARD ── */
-.form-card{
-  margin:0 16px;background:var(--surface);
-  border:1px solid var(--line);border-radius:3px;
+/* ── CARTE FORMULAIRE ── */
+.card{
+  margin:0 16px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:4px;
+  box-shadow:0 4px 32px var(--shadow),0 1px 4px rgba(184,134,11,.08);
   overflow:hidden;position:relative;
-  animation:reveal-up .9s .15s cubic-bezier(.22,1,.36,1) both;
+  animation:fade-up .85s .1s cubic-bezier(.22,1,.36,1) both;
 }
-.form-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+.card::before{
+  content:'';position:absolute;top:0;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-l),transparent);
 }
-.form-inner{padding:32px 24px;}
+.card-body{padding:32px 24px 28px;}
 
 /* FIELD */
 .field{margin-bottom:20px;}
-.field-label{
-  display:flex;align-items:center;gap:8px;
-  font-family:'DM Mono',monospace;font-size:.6rem;
-  letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:8px;
+.lbl{
+  font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:8px;margin-bottom:8px;
 }
-.field-label::after{content:'';flex:1;height:1px;background:var(--line);}
-.field-input{
-  width:100%;padding:14px 16px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(201,146,42,.2);
-  border-radius:2px;
-  font-family:'Outfit',sans-serif;font-size:.95rem;
-  color:var(--txt);outline:none;
-  transition:all .25s;
-  -webkit-appearance:none;
+.lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+.inp{
+  width:100%;padding:13px 16px;
+  background:var(--warm);
+  border:1.5px solid var(--border);border-radius:3px;
+  font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);
+  outline:none;transition:all .22s;-webkit-appearance:none;
 }
-.field-input:focus{
-  border-color:var(--gold);
-  background:rgba(201,146,42,.04);
-  box-shadow:0 0 0 3px rgba(201,146,42,.08);
+.inp:focus{
+  border-color:var(--gold-l);background:#fff;
+  box-shadow:0 0 0 3px rgba(184,134,11,.08);
 }
-.field-input::placeholder{color:rgba(238,242,255,.2);}
-.field-input.error{border-color:var(--ember);box-shadow:0 0 0 3px rgba(255,77,28,.08);}
-.field-hint{font-size:.65rem;color:var(--ember);margin-top:5px;display:none;}
-.field-hint.show{display:block;}
+.inp::placeholder{color:rgba(45,31,0,.28);}
+.inp.err{border-color:var(--ember);}
+.err-msg{font-size:.65rem;color:var(--ember);margin-top:5px;display:none;}
+.err-msg.on{display:block;}
 
-/* SELECT */
-select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23C9922A' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
-select.field-input option{background:var(--deep);color:var(--txt);}
+select.inp{cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23B8860B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  background-color:var(--warm);padding-right:36px;
+}
+select.inp option{background:#fff;color:var(--ink);}
 
-/* ROW */
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* FORCE PWD */
+.pwd-bars{display:flex;gap:4px;margin-top:7px;}
+.pwd-bar{height:2px;flex:1;border-radius:1px;background:var(--border);transition:background .25s;}
 
 /* PARRAIN */
-.parrain-field{
-  background:rgba(201,146,42,.04);border:1px solid var(--line);
-  border-radius:2px;padding:14px 16px;
-  display:flex;align-items:center;gap:10px;cursor:pointer;
-  transition:all .2s;margin-bottom:20px;
+.parrain-toggle{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;background:var(--warm);
+  border:1.5px dashed var(--border);border-radius:3px;
+  cursor:pointer;margin-bottom:18px;transition:all .2s;
 }
-.parrain-field:hover{border-color:var(--gold);}
-.parrain-ico{font-size:1rem;flex-shrink:0;}
-.parrain-txt{font-size:.78rem;color:var(--muted);}
-.parrain-txt strong{color:var(--gold-l);display:block;font-size:.68rem;font-family:'DM Mono',monospace;letter-spacing:.08em;}
+.parrain-toggle:hover{border-color:var(--gold-l);background:#FFF9EE;}
+.pt-icon{font-size:.95rem;flex-shrink:0;}
+.pt-text{flex:1;}
+.pt-title{font-size:.78rem;font-weight:600;color:var(--gold);}
+.pt-sub{font-size:.65rem;color:var(--muted);margin-top:2px;}
+.pt-arrow{color:var(--gold);font-size:.8rem;transition:transform .2s;}
+.pt-arrow.open{transform:rotate(180deg);}
 
 /* CGU */
-.cgu-row{
-  display:flex;align-items:flex-start;gap:12px;
-  margin-bottom:24px;cursor:pointer;
+.cgu-row{display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin-bottom:22px;}
+.checkbox{
+  width:18px;height:18px;border:1.5px solid var(--border);border-radius:2px;
+  flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;
+  background:var(--warm);transition:all .2s;
 }
-.cgu-box{
-  width:18px;height:18px;border:1px solid rgba(201,146,42,.4);
-  border-radius:2px;flex-shrink:0;margin-top:1px;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s;
-}
-.cgu-box.checked{background:var(--gold);border-color:var(--gold);}
-.cgu-box.checked::after{content:'✓';color:#000;font-size:.7rem;font-weight:900;}
-.cgu-text{font-size:.75rem;color:var(--muted);line-height:1.6;}
-.cgu-text a{color:var(--gold-l);text-decoration:none;border-bottom:1px solid rgba(232,184,75,.3);}
+.checkbox.on{background:var(--gold);border-color:var(--gold);}
+.checkbox.on::after{content:'✓';color:#fff;font-size:.7rem;font-weight:900;}
+.cgu-txt{font-size:.74rem;color:var(--brown);line-height:1.65;}
+.cgu-txt a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(184,134,11,.3);}
 
-/* BTN SUBMIT */
-.btn-submit{
-  width:100%;padding:17px;border:none;cursor:pointer;
-  background:linear-gradient(135deg,#8B6514,var(--gold),#E8B84B);
+/* BTN */
+.btn{
+  width:100%;padding:16px;border:none;cursor:pointer;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-l) 50%,var(--gold) 100%);
   background-size:200% 100%;background-position:100% 0;
-  color:#000;font-family:'Outfit',sans-serif;
-  font-size:.92rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  border-radius:2px;position:relative;overflow:hidden;
-  transition:all .4s cubic-bezier(.22,1,.36,1);
+  color:#fff;font-family:'Outfit',sans-serif;
+  font-size:.9rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  border-radius:3px;transition:all .4s cubic-bezier(.22,1,.36,1);
+  text-shadow:0 1px 3px rgba(0,0,0,.2);
+  box-shadow:0 4px 16px rgba(184,134,11,.25);
 }
-.btn-submit::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,transparent,rgba(255,255,255,.1),transparent);
-  transform:translateX(-100%);transition:transform .5s;
-}
-.btn-submit:hover::before{transform:translateX(100%);}
-.btn-submit:hover{background-position:0 0;box-shadow:0 8px 32px rgba(201,146,42,.4);}
-.btn-submit:active{transform:scale(.98);}
-.btn-submit:disabled{opacity:.4;cursor:not-allowed;transform:none;}
-.btn-submit.loading{pointer-events:none;}
-.ld{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px;}
+.btn:hover{background-position:0 0;box-shadow:0 6px 24px rgba(184,134,11,.4);transform:translateY(-1px);}
+.btn:active{transform:scale(.98);}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.ld{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* ── BOTTOM LINK ── */
-.bottom-link{
-  text-align:center;padding:24px 28px 0;
-  font-size:.8rem;color:var(--muted);
-  animation:reveal-up .8s .4s cubic-bezier(.22,1,.36,1) both;
-}
-.bottom-link a{color:var(--gold-l);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s;}
-.bottom-link a:hover{border-bottom-color:var(--gold-l);}
-
-/* ── STATS BAND ── */
-.stats-band{
-  margin:28px 16px 0;
+/* STATS */
+.stats{
+  margin:20px 16px 0;
   display:grid;grid-template-columns:repeat(3,1fr);
-  border:1px solid var(--line);border-radius:2px;overflow:hidden;
-  animation:reveal-up .8s .35s cubic-bezier(.22,1,.36,1) both;
+  border:1px solid var(--border);border-radius:4px;overflow:hidden;
+  background:#fff;box-shadow:0 2px 12px var(--shadow);
+  animation:fade-up .75s .3s cubic-bezier(.22,1,.36,1) both;
 }
-.stat{
-  padding:16px 10px;text-align:center;
-  border-right:1px solid var(--line);
-  background:rgba(201,146,42,.02);
-}
+.stat{padding:16px 8px;text-align:center;border-right:1px solid var(--border);}
 .stat:last-child{border-right:none;}
-.stat-val{
-  font-family:'Cormorant Garamond',serif;font-size:1.5rem;
-  font-weight:700;color:var(--gold-l);line-height:1;margin-bottom:4px;
-}
-.stat-lbl{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+.sv{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;color:var(--gold);line-height:1;}
+.sl{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
-/* ── RÉVÉLATIONS ── */
-@keyframes reveal-down{
-  from{opacity:0;transform:translateY(-20px);}
-  to{opacity:1;transform:translateY(0);}
+/* BOTTOM */
+.bottom{
+  text-align:center;padding:22px 28px 0;font-size:.8rem;color:var(--brown);
+  animation:fade-up .7s .4s cubic-bezier(.22,1,.36,1) both;
 }
-@keyframes reveal-up{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;transform:translateY(0);}
-}
+.bottom a{color:var(--gold);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s;}
+.bottom a:hover{border-bottom-color:var(--gold);}
+
+/* ANIMATIONS */
+@keyframes fade-down{from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fade-up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 
 /* TOAST */
 .toast{
   position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);
-  background:var(--surface);border:1px solid var(--line);
-  padding:12px 24px;border-radius:2px;
-  font-size:.78rem;font-weight:600;color:var(--txt);
+  background:#fff;border:1.5px solid var(--border);border-radius:4px;
+  padding:11px 22px;font-size:.78rem;font-weight:600;color:var(--ink);
   z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);
-  white-space:nowrap;box-shadow:0 16px 48px rgba(0,0,0,.6);
-  pointer-events:none;
+  white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;
 }
 .toast.show{transform:translateX(-50%) translateY(0);}
-.toast.ok{border-color:rgba(0,194,113,.4);color:#4ADE80;}
-.toast.err{border-color:rgba(255,77,28,.4);color:#FF8A6A;}
-
-/* PARTICULES */
-.particle{
-  position:fixed;pointer-events:none;z-index:3;
-  width:2px;height:2px;border-radius:50%;
-  background:var(--gold);opacity:0;
-  animation:particle-float linear infinite;
-}
-@keyframes particle-float{
-  0%{opacity:0;transform:translateY(100vh) translateX(0);}
-  10%{opacity:.6;}
-  90%{opacity:.2;}
-  100%{opacity:0;transform:translateY(-10vh) translateX(var(--dx));}
-}
+.toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
+.toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
 </style>
 </head>
 <body>
-
-<!-- ORBS -->
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-
-<!-- TOAST -->
+<div class="deco-line-top"></div>
 <div class="toast" id="toast"></div>
 
 <div class="wrapper">
 
-  <!-- HEADER -->
   <div class="header">
-    <div class="logo-frame">
-      <div class="logo-word">SILLA</div>
-      <div class="logo-dot"></div>
+    <div class="logo-wrap">
+      <div class="logo-corner tl"></div>
+      <div class="logo-corner tr"></div>
+      <div class="logo-corner bl"></div>
+      <div class="logo-corner br"></div>
+      <div class="logo">SILLA</div>
     </div>
+    <div class="logo-badge">Plateforme d'investissement</div>
     <div class="tagline">
-      La plateforme d'investissement<br>
-      <strong>réservée aux ambitieux</strong>
+      Rejoignez <em>l'élite financière</em><br>et faites fructifier votre argent
     </div>
   </div>
 
-  <!-- DIVIDER -->
-  <div class="divider">
-    <div class="div-line"></div>
-    <div class="div-text">Créer votre accès</div>
-    <div class="div-line"></div>
+  <div class="sep">
+    <div class="sep-line"></div>
+    <div class="sep-diamond"></div>
+    <div class="sep-txt">Créer votre compte</div>
+    <div class="sep-diamond"></div>
+    <div class="sep-line"></div>
   </div>
 
-  <!-- FORM -->
-  <div class="form-card">
-    <div class="form-inner">
+  <div class="card">
+    <div class="card-body">
 
       <div class="field">
-        <div class="field-label">Identité</div>
-        <input class="field-input" id="f-nom" type="text" placeholder="Nom complet" autocomplete="name" oninput="clearErr(this)"/>
-        <div class="field-hint" id="h-nom">Entrez votre nom complet</div>
+        <div class="lbl">Nom complet</div>
+        <input class="inp" id="f-nom" type="text" placeholder="Votre nom complet" autocomplete="name" oninput="clearE(this)"/>
+        <div class="err-msg" id="h-nom">Nom requis</div>
       </div>
 
       <div class="field">
-        <div class="field-label">Adresse email</div>
-        <input class="field-input" id="f-email" type="email" placeholder="votre@email.com" autocomplete="email" oninput="clearErr(this)"/>
-        <div class="field-hint" id="h-email">Email invalide</div>
+        <div class="lbl">Email</div>
+        <input class="inp" id="f-email" type="email" placeholder="votre@email.com" autocomplete="email" inputmode="email" oninput="clearE(this)"/>
+        <div class="err-msg" id="h-email">Email invalide</div>
       </div>
 
-      <div class="field-row">
+      <div class="row2">
         <div class="field">
-          <div class="field-label">Pays</div>
-          <select class="field-input" id="f-pays" onchange="updateIndicatif()">
+          <div class="lbl">Pays</div>
+          <select class="inp" id="f-pays">
             <option value="CM">🇨🇲 Cameroun</option>
             <option value="CI">🇨🇮 Côte d'Ivoire</option>
             <option value="BF">🇧🇫 Burkina Faso</option>
@@ -343,70 +293,60 @@ select.field-input option{background:var(--deep);color:var(--txt);}
           </select>
         </div>
         <div class="field">
-          <div class="field-label">Téléphone</div>
-          <input class="field-input" id="f-tel" type="tel" placeholder="6XX XXX XXX" inputmode="tel" oninput="clearErr(this)"/>
-          <div class="field-hint" id="h-tel">Numéro invalide</div>
+          <div class="lbl">Téléphone</div>
+          <input class="inp" id="f-tel" type="tel" placeholder="6XX XXX XXX" inputmode="tel" oninput="clearE(this)"/>
+          <div class="err-msg" id="h-tel">Numéro invalide</div>
         </div>
       </div>
 
       <div class="field">
-        <div class="field-label">Mot de passe</div>
-        <input class="field-input" id="f-pwd" type="password" placeholder="Minimum 8 caractères" autocomplete="new-password" oninput="checkPwdStrength(this.value)"/>
-        <div class="field-hint" id="h-pwd">Minimum 8 caractères requis</div>
-        <!-- Barre force -->
-        <div style="display:flex;gap:4px;margin-top:8px" id="pwd-bars">
-          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar1"></div>
-          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar2"></div>
-          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar3"></div>
-          <div style="height:2px;flex:1;border-radius:1px;background:var(--line);transition:background .3s" id="bar4"></div>
+        <div class="lbl">Mot de passe</div>
+        <input class="inp" id="f-pwd" type="password" placeholder="Minimum 8 caractères" autocomplete="new-password" oninput="pwdStrength(this.value)"/>
+        <div class="err-msg" id="h-pwd">Minimum 8 caractères</div>
+        <div class="pwd-bars">
+          <div class="pwd-bar" id="b1"></div>
+          <div class="pwd-bar" id="b2"></div>
+          <div class="pwd-bar" id="b3"></div>
+          <div class="pwd-bar" id="b4"></div>
         </div>
       </div>
 
-      <!-- PARRAIN TOGGLE -->
-      <div class="parrain-field" id="parrain-toggle" onclick="toggleParrain()">
-        <div class="parrain-ico">👑</div>
-        <div class="parrain-txt">
-          <strong>CODE PARRAINAGE (optionnel)</strong>
-          Avez-vous un code parrain ?
+      <!-- CODE PARRAIN -->
+      <div class="parrain-toggle" id="pt" onclick="toggleParrain()">
+        <div class="pt-icon">👑</div>
+        <div class="pt-text">
+          <div class="pt-title">Code parrain (optionnel)</div>
+          <div class="pt-sub">Entrez un code si vous avez été parrainé</div>
         </div>
-        <div style="margin-left:auto;color:var(--gold);font-size:.8rem" id="parrain-arrow">▼</div>
+        <div class="pt-arrow" id="pt-arrow">▼</div>
       </div>
-      <div id="parrain-field" style="display:none;margin-bottom:20px">
-        <input class="field-input" id="f-parrain" type="text" placeholder="Ex: SLA-XXXXXX" style="text-transform:uppercase;letter-spacing:.1em" oninput="this.value=this.value.toUpperCase()"/>
+      <div id="parrain-wrap" style="display:none;margin-bottom:18px">
+        <input class="inp" id="f-parrain" type="text" placeholder="Ex: SLA-XXXXXX" style="text-transform:uppercase;letter-spacing:.08em" oninput="this.value=this.value.toUpperCase()"/>
       </div>
 
       <!-- CGU -->
       <div class="cgu-row" onclick="toggleCgu()">
-        <div class="cgu-box" id="cgu-box"></div>
-        <div class="cgu-text">
-          J'accepte les <a href="silla-cgu.html" onclick="event.stopPropagation()">conditions générales d'utilisation</a> et confirme avoir lu la politique de confidentialité de SILLA.
+        <div class="checkbox" id="cgu-box"></div>
+        <div class="cgu-txt">
+          J'accepte les <a href="silla-cgu.html" onclick="event.stopPropagation()">conditions générales</a> et la politique de confidentialité de SILLA.
         </div>
       </div>
 
-      <button class="btn-submit" id="btn-submit" onclick="inscrire()">
-        Rejoindre l'élite →
+      <button class="btn" id="btn-sub" onclick="inscrire()">
+        Rejoindre SILLA →
       </button>
+
     </div>
   </div>
 
-  <!-- STATS -->
-  <div class="stats-band">
-    <div class="stat">
-      <div class="stat-val">12K+</div>
-      <div class="stat-lbl">Membres</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val">98%</div>
-      <div class="stat-lbl">Satisfaction</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val">+35%</div>
-      <div class="stat-lbl">Rendement</div>
-    </div>
+  <div class="stats">
+    <div class="stat"><div class="sv">12K+</div><div class="sl">Membres</div></div>
+    <div class="stat"><div class="sv">98%</div><div class="sl">Satisfaction</div></div>
+    <div class="stat"><div class="sv">+35%</div><div class="sl">Rendement</div></div>
   </div>
 
-  <div class="bottom-link">
-    Déjà membre ? <a href="silla-login.html">Connectez-vous →</a>
+  <div class="bottom">
+    Déjà membre ? <a href="silla-login.html">Se connecter →</a>
   </div>
 
 </div>
@@ -418,80 +358,38 @@ const sb = supabase.createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
 );
 
-let cguChecked = false;
-let parrainOpen = false;
+let cguOk = false, parrainOpen = false;
 
-// Particules
-function spawnParticles(){
-  for(let i=0;i<18;i++){
-    const p=document.createElement('div');
-    p.className='particle';
-    p.style.cssText=`
-      left:${Math.random()*100}vw;
-      --dx:${(Math.random()-0.5)*80}px;
-      animation-duration:${8+Math.random()*14}s;
-      animation-delay:${Math.random()*12}s;
-      width:${1+Math.random()*2}px;
-      height:${1+Math.random()*2}px;
-      opacity:${0.2+Math.random()*0.4};
-    `;
-    document.body.appendChild(p);
-  }
-}
-spawnParticles();
-
-// Indicatif pays
-const INDICATIFS = {CM:'+237',CI:'+225',BF:'+226',SN:'+221',BJ:'+229',TG:'+228',ML:'+223',GN:'+224',OTHER:'+'};
-function updateIndicatif(){
-  const pays = document.getElementById('f-pays').value;
-  const tel  = document.getElementById('f-tel');
-  tel.placeholder = (INDICATIFS[pays]||'+') + ' XXX XXX XXX';
-}
-
-// Force mot de passe
-function checkPwdStrength(v){
-  const bars = [document.getElementById('bar1'),document.getElementById('bar2'),document.getElementById('bar3'),document.getElementById('bar4')];
-  const colors = ['#EF4444','#F97316','#EAB308','#22C55E'];
-  let score = 0;
-  if(v.length>=8) score++;
-  if(/[A-Z]/.test(v)) score++;
-  if(/[0-9]/.test(v)) score++;
-  if(/[^A-Za-z0-9]/.test(v)) score++;
-  bars.forEach((b,i)=>{b.style.background = i<score ? colors[score-1] : 'var(--line)';});
-}
-
-// Toggle parrain
-function toggleParrain(){
-  parrainOpen = !parrainOpen;
-  document.getElementById('parrain-field').style.display = parrainOpen ? 'block' : 'none';
-  document.getElementById('parrain-arrow').textContent = parrainOpen ? '▲' : '▼';
-}
-
-// CGU
-function toggleCgu(){
-  cguChecked = !cguChecked;
-  document.getElementById('cgu-box').className = 'cgu-box' + (cguChecked ? ' checked' : '');
-}
-
-// Erreurs
-function clearErr(el){ el.classList.remove('error'); }
-function showErr(id,hintId,msg){
-  document.getElementById(id).classList.add('error');
-  const h=document.getElementById(hintId);
-  if(h){h.textContent=msg||h.textContent;h.classList.add('show');}
-  document.getElementById(id).focus();
-}
-function hideHint(hintId){ document.getElementById(hintId)?.classList.remove('show'); }
-
-// Toast
-function toast(msg,type=''){
+function toast(m,t=''){
   const el=document.getElementById('toast');
-  el.textContent=msg; el.className='toast show'+(type?' '+type:'');
-  clearTimeout(toast._t);
-  toast._t=setTimeout(()=>el.className='toast',4500);
+  el.textContent=m; el.className='toast show'+(t?' '+t:'');
+  clearTimeout(toast._t); toast._t=setTimeout(()=>el.className='toast',4500);
 }
 
-// INSCRIPTION
+function clearE(el){ el.classList.remove('err'); }
+
+function pwdStrength(v){
+  const bars=['b1','b2','b3','b4'];
+  const cols={1:'#EF4444',2:'#F97316',3:'#EAB308',4:'#16A34A'};
+  let s=0;
+  if(v.length>=8) s++;
+  if(/[A-Z]/.test(v)) s++;
+  if(/[0-9]/.test(v)) s++;
+  if(/[^A-Za-z0-9]/.test(v)) s++;
+  bars.forEach((id,i)=>{ document.getElementById(id).style.background = i<s ? cols[s] : 'var(--border)'; });
+}
+
+function toggleParrain(){
+  parrainOpen=!parrainOpen;
+  document.getElementById('parrain-wrap').style.display=parrainOpen?'block':'none';
+  document.getElementById('pt-arrow').className='pt-arrow'+(parrainOpen?' open':'');
+}
+
+function toggleCgu(){
+  cguOk=!cguOk;
+  document.getElementById('cgu-box').className='checkbox'+(cguOk?' on':'');
+}
+
 async function inscrire(){
   const nom   = document.getElementById('f-nom').value.trim();
   const email = document.getElementById('f-email').value.trim();
@@ -501,78 +399,68 @@ async function inscrire(){
   const code  = document.getElementById('f-parrain').value.trim().toUpperCase();
 
   // Validation
-  let valid = true;
-  ['h-nom','h-email','h-tel','h-pwd'].forEach(h=>document.getElementById(h)?.classList.remove('show'));
-  ['f-nom','f-email','f-tel','f-pwd'].forEach(f=>document.getElementById(f)?.classList.remove('error'));
+  if(!nom){ showE('f-nom','h-nom','Nom requis'); return; }
+  if(!email||!/\S+@\S+\.\S+/.test(email)){ showE('f-email','h-email','Email invalide'); return; }
+  if(!tel||tel.replace(/\D/g,'').length<8){ showE('f-tel','h-tel','Numéro trop court'); return; }
+  if(pwd.length<8){ showE('f-pwd','h-pwd','Minimum 8 caractères'); return; }
+  if(!cguOk){ toast('⚠️ Acceptez les conditions d\'utilisation','err'); return; }
 
-  if(!nom){ showErr('f-nom','h-nom','Votre nom est requis'); valid=false; }
-  else if(!email||!/\S+@\S+\.\S+/.test(email)){ showErr('f-email','h-email','Email invalide'); valid=false; }
-  else if(!tel||tel.length<8){ showErr('f-tel','h-tel','Numéro invalide'); valid=false; }
-  else if(pwd.length<8){ showErr('f-pwd','h-pwd','Minimum 8 caractères'); valid=false; }
-  else if(!cguChecked){ toast('⚠️ Acceptez les CGU pour continuer','err'); valid=false; }
-  if(!valid) return;
-
-  const btn = document.getElementById('btn-submit');
-  btn.disabled=true; btn.innerHTML='<div class="ld"></div> Création en cours...'; btn.classList.add('loading');
+  const btn=document.getElementById('btn-sub');
+  btn.disabled=true; btn.innerHTML='<div class="ld"></div> Création du compte...';
 
   try{
-    // Vérifier le code parrain
-    let parrainId = null;
+    // Vérifier code parrain
+    let parrainId=null;
     if(code){
-      const { data: parrain } = await sb.from('utilisateurs').select('id').eq('code_parrainage',code).maybeSingle();
-      if(!parrain){ toast('⚠️ Code parrain invalide — inscription sans parrain','err'); }
-      else parrainId = parrain.id;
+      const{data:pp}=await sb.from('utilisateurs').select('id').eq('code_parrainage',code).maybeSingle();
+      if(pp) parrainId=pp.id;
+      else toast('⚠️ Code parrain inconnu — inscription sans parrain','err');
     }
 
-    // Créer le compte auth
-    const { data, error } = await sb.auth.signUp({
-      email, password: pwd,
-      options: { data: { full_name: nom } }
+    // Créer compte
+    const{data,error}=await sb.auth.signUp({
+      email, password:pwd,
+      options:{data:{full_name:nom}}
     });
     if(error) throw error;
-
-    const uid = data?.user?.id;
+    const uid=data?.user?.id;
     if(!uid) throw new Error('Erreur création compte');
 
-    // Générer code parrainage unique
-    const codeParrain = 'SLA-' + uid.slice(0,6).toUpperCase();
+    const codeParrain='SLA-'+uid.slice(0,6).toUpperCase();
 
-    // Profil en base
     await sb.from('utilisateurs').upsert({
-      id: uid, nom, email, telephone: tel, pays,
-      solde: 1000, // bonus inscription
-      code_parrainage: codeParrain,
-      parrain_id: parrainId,
-      statut: 'actif',
-      is_admin: false,
-      created_at: new Date().toISOString()
-    }, { onConflict: 'id' });
+      id:uid, nom, email, telephone:tel, pays,
+      solde:1000, code_parrainage:codeParrain,
+      parrain_id:parrainId, statut:'actif', is_admin:false,
+      created_at:new Date().toISOString()
+    },{onConflict:'id'});
 
-    // Transaction bonus
     await sb.from('transactions').insert({
-      user_id: uid, type: 'bonus_inscription',
-      montant: 1000, description: '🎁 Bonus de bienvenue SILLA'
+      user_id:uid, type:'bonus_inscription',
+      montant:1000, description:'🎁 Bonus de bienvenue SILLA'
     });
 
-    toast('✅ Compte créé ! Bonus 1 000F crédité 🎉','ok');
-    setTimeout(()=>{ window.location.href='silla-dashboard.html'; },1800);
+    toast('✅ Compte créé ! Bonus 1 000 F crédité 🎉','ok');
+    setTimeout(()=>window.location.href='silla-login.html',2000);
 
   }catch(e){
-    btn.disabled=false;
-    btn.innerHTML='Rejoindre l\'élite →';
-    btn.classList.remove('loading');
-    const msg = e.message?.includes('already registered') ? 'Email déjà utilisé — connectez-vous'
-              : e.message?.includes('weak') ? 'Mot de passe trop faible'
-              : e.message || 'Erreur. Réessayez.';
-    toast('❌ '+msg,'err');
+    btn.disabled=false; btn.innerHTML='Rejoindre SILLA →';
+    const m = e.message?.includes('already registered')||e.message?.includes('already been registered')
+      ? 'Email déjà utilisé — connectez-vous'
+      : e.message?.includes('weak') ? 'Mot de passe trop faible'
+      : e.message || 'Erreur. Réessayez.';
+    toast('❌ '+m,'err');
   }
 }
 
-// Vérifier si déjà connecté
-(async()=>{
-  const { data } = await sb.auth.getSession();
-  if(data?.session) window.location.replace('silla-dashboard.html');
-})();
+function showE(fid,hid,msg){
+  document.getElementById(fid).classList.add('err');
+  const h=document.getElementById(hid);
+  if(h){h.textContent=msg;h.classList.add('on');}
+  document.getElementById(fid).focus();
+}
+
+// Pas de redirection automatique
 </script>
 </body>
 </html>
