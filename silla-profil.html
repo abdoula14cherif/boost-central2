@@ -6,65 +6,72 @@
 <title>SILLA — Profil</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
 <style>
-:root{--cream:#FEFCF7;--warm:#FDF6E9;--card:#FFFFFF;--gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);--ember:#E05A2B;--green:#16A34A;--ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;--border:rgba(184,134,11,.15);--shadow:rgba(90,50,0,.09);--nav:66px;}
+:root{--cream:#FEFCF7;--warm:#FDF6E9;--card:#fff;--gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);--ember:#E05A2B;--green:#16A34A;--ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;--border:rgba(184,134,11,.15);--shadow:rgba(90,50,0,.09);--nav:66px;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{background:var(--cream);}
 body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;}
 .topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
 .back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
 .tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
-.scroll{padding:16px 16px calc(var(--nav)+36px);}
+.scroll{padding:16px 16px calc(var(--nav)+40px);}
 
-/* PROFIL HERO */
 .profil-hero{background:linear-gradient(135deg,#1A0F00,#3D2200);border-radius:16px;padding:28px 20px;margin-bottom:16px;text-align:center;box-shadow:0 6px 24px rgba(90,50,0,.2);}
-.ph-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:#fff;margin:0 auto 14px;border:3px solid rgba(232,192,96,.3);}
+.ph-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:#fff;margin:0 auto 14px;border:3px solid rgba(232,192,96,.25);}
 .ph-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#E8C060;margin-bottom:4px;}
-.ph-email{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(232,192,96,.45);margin-bottom:14px;}
-.ph-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(232,192,96,.1);border:1px solid rgba(232,192,96,.2);border-radius:20px;padding:5px 14px;}
-.ph-badge-txt{font-size:.65rem;font-weight:600;color:#E8C060;letter-spacing:.06em;}
-.ph-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(232,192,96,.1);border-radius:10px;overflow:hidden;margin-top:18px;}
-.phs{padding:14px 6px;text-align:center;background:rgba(26,15,0,.5);}
-.phs-val{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:#E8C060;}
-.phs-lbl{font-size:.5rem;font-family:'DM Mono',monospace;letter-spacing:.1em;color:rgba(232,192,96,.45);text-transform:uppercase;margin-top:3px;}
+.ph-email{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(232,192,96,.4);margin-bottom:14px;word-break:break-all;}
+.ph-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(232,192,96,.1);border:1px solid rgba(232,192,96,.2);border-radius:20px;padding:5px 14px;margin-bottom:16px;}
+.ph-badge-txt{font-size:.65rem;font-weight:600;color:#E8C060;}
+.ph-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(232,192,96,.08);border-radius:10px;overflow:hidden;}
+.phs{padding:14px 6px;text-align:center;background:rgba(26,15,0,.4);}
+.phs-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#E8C060;}
+.phs-lbl{font-size:.5rem;font-family:'DM Mono',monospace;letter-spacing:.1em;color:rgba(232,192,96,.4);text-transform:uppercase;margin-top:3px;}
 
-/* MENU ITEMS */
+/* CODE PARRAIN */
+.code-wrap{background:var(--gold-dim);border:1.5px dashed var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s;}
+.code-wrap:hover{background:rgba(184,134,11,.12);}
+.cw-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.cw-code{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;color:var(--brown);letter-spacing:.12em;}
+.cw-copy{background:var(--gold);color:#fff;font-size:.65rem;font-weight:700;padding:6px 14px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;font-family:'Outfit',sans-serif;}
+.cw-copy.done{background:var(--green);}
+
+/* PARTAGE */
+.share-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.share-btn{padding:12px 8px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;border:none;}
+.sb-link{background:var(--gold-dim);border:1px solid var(--border)!important;color:var(--gold);}
+.sb-wa{background:#25D36612;border:1px solid #25D36630!important;color:#128C7E;}
+
+/* MENU */
 .menu-section{margin-bottom:16px;}
 .ms-title{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding:0 4px;margin-bottom:8px;}
 .menu-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);}
-.mi{display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid rgba(184,134,11,.08);cursor:pointer;text-decoration:none;color:var(--ink);transition:background .15s;}
+.mi{display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid rgba(184,134,11,.07);cursor:pointer;text-decoration:none;color:var(--ink);transition:background .15s;}
 .mi:last-child{border-bottom:none;}
-.mi:hover{background:var(--gold-dim);}
 .mi:active{background:var(--gold-dim);}
 .mi-ico{width:36px;height:36px;border-radius:10px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
 .mi-info{flex:1;}
 .mi-title{font-size:.82rem;font-weight:600;color:var(--ink);}
-.mi-sub{font-size:.63rem;color:var(--muted);margin-top:2px;}
-.mi-arrow{color:var(--muted);font-size:.8rem;}
-.mi-val{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--gold);font-weight:500;}
+.mi-sub{font-size:.62rem;color:var(--muted);margin-top:2px;}
+.mi-arrow{color:var(--muted);font-size:.9rem;}
+.mi-val{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--gold);}
 
-/* CODE PARRAIN */
-.code-wrap{background:var(--gold-dim);border:1.5px dashed var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s;}
-.code-wrap:hover{background:rgba(184,134,11,.12);}
-.cw-left{}
-.cw-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
-.cw-code{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;color:var(--brown);letter-spacing:.15em;}
-.cw-copy{background:var(--gold);color:#fff;font-size:.68rem;font-weight:700;padding:6px 14px;border-radius:20px;transition:background .2s;}
-.cw-copy.done{background:var(--green);}
+.logout-btn{width:100%;padding:15px;border:1.5px solid rgba(224,90,43,.25);border-radius:10px;background:rgba(224,90,43,.04);font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;color:var(--ember);cursor:pointer;transition:all .2s;margin-top:4px;}
+.logout-btn:active{background:rgba(224,90,43,.1);}
 
-/* LOGOUT */
-.logout-btn{width:100%;padding:15px;border:1.5px solid rgba(224,90,43,.3);border-radius:10px;background:rgba(224,90,43,.05);
-  font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;color:var(--ember);cursor:pointer;transition:all .2s;margin-top:8px;}
-.logout-btn:hover{background:rgba(224,90,43,.1);}
-
-.botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;box-shadow:0 -4px 20px rgba(90,50,0,.08);}
+.botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;box-shadow:0 -4px 20px rgba(90,50,0,.07);}
 .bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
 .bn-ico{font-size:1.2rem;}.bn-lbl{font-size:.55rem;font-weight:700;color:var(--muted);}
 .bn.active .bn-lbl{color:var(--gold);}
-.bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;}
+.bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;outline:none;}
+
 .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
 .toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
+
+/* LOADING */
+.loading{text-align:center;padding:40px 20px;color:var(--muted);}
+.ld{display:inline-block;width:22px;height:22px;border:2.5px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
@@ -73,88 +80,9 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
   <div class="tb-title">Mon Profil</div>
 </div>
 <div class="toast" id="toast"></div>
-<div class="scroll">
 
-  <div class="profil-hero">
-    <div class="ph-avatar" id="ph-av">?</div>
-    <div class="ph-name" id="ph-name">Chargement...</div>
-    <div class="ph-email" id="ph-email">—</div>
-    <div class="ph-badge"><span class="ph-badge-txt">✦ MEMBRE SILLA</span></div>
-    <div class="ph-stats">
-      <div class="phs"><div class="phs-val" id="ps-solde">—</div><div class="phs-lbl">Solde</div></div>
-      <div class="phs"><div class="phs-val" id="ps-invests">0</div><div class="phs-lbl">Plans</div></div>
-      <div class="phs"><div class="phs-val" id="ps-filleuls">0</div><div class="phs-lbl">Filleuls</div></div>
-    </div>
-  </div>
-
-  <!-- CODE PARRAIN + LIEN DIRECT -->
-  <div class="code-wrap" onclick="copyCode()">
-    <div class="cw-left">
-      <div class="cw-label">👑 Mon code parrain</div>
-      <div class="cw-code" id="cw-code">SLA-——</div>
-    </div>
-    <div class="cw-copy" id="copy-btn">📋 Copier</div>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
-    <button onclick="copyLien()" style="padding:12px 8px;background:var(--gold-dim);border:1px solid var(--border);border-radius:10px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px">
-      🔗 Copier le lien
-    </button>
-    <button onclick="shareWhatsApp()" style="padding:12px 8px;background:#25D36608;border:1px solid #25D36630;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;color:#128C7E;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px">
-      📱 WhatsApp
-    </button>
-  </div>
-
-  <!-- MENU COMPTE -->
-  <div class="menu-section">
-    <div class="ms-title">Mon compte</div>
-    <div class="menu-card">
-      <a class="mi" href="silla-parrain.html">
-        <div class="mi-ico">👑</div>
-        <div class="mi-info"><div class="mi-title">Programme parrainage</div><div class="mi-sub">Gagnez 5% sur chaque investissement filleul</div></div>
-        <div class="mi-arrow">›</div>
-      </a>
-      <a class="mi" href="silla-smart.html">
-        <div class="mi-ico">🤖</div>
-        <div class="mi-info"><div class="mi-title">Smart Invest</div><div class="mi-sub">Plans rapides et plans Prod</div></div>
-        <div class="mi-arrow">›</div>
-      </a>
-      <a class="mi" href="silla-retrait.html">
-        <div class="mi-ico">💸</div>
-        <div class="mi-info"><div class="mi-title">Mes retraits</div><div class="mi-sub">Historique et nouvelles demandes</div></div>
-        <div class="mi-arrow">›</div>
-      </a>
-      <a class="mi" href="silla-recharge.html">
-        <div class="mi-ico">💳</div>
-        <div class="mi-info"><div class="mi-title">Recharger</div><div class="mi-sub">Mobile Money · Crypto</div></div>
-        <div class="mi-arrow">›</div>
-      </a>
-    </div>
-  </div>
-
-  <!-- INFOS -->
-  <div class="menu-section">
-    <div class="ms-title">Informations</div>
-    <div class="menu-card">
-      <div class="mi">
-        <div class="mi-ico">📱</div>
-        <div class="mi-info"><div class="mi-title">Téléphone</div></div>
-        <div class="mi-val" id="mi-tel">—</div>
-      </div>
-      <div class="mi">
-        <div class="mi-ico">🌍</div>
-        <div class="mi-info"><div class="mi-title">Pays</div></div>
-        <div class="mi-val" id="mi-pays">—</div>
-      </div>
-      <div class="mi">
-        <div class="mi-ico">📅</div>
-        <div class="mi-info"><div class="mi-title">Membre depuis</div></div>
-        <div class="mi-val" id="mi-date">—</div>
-      </div>
-    </div>
-  </div>
-
-  <button class="logout-btn" onclick="logout()">🚪 Se déconnecter</button>
-
+<div class="scroll" id="scroll-content">
+  <div class="loading"><div class="ld"></div></div>
 </div>
 
 <div class="botnav">
@@ -167,76 +95,122 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const sb=supabase.createClient('https://pnybmieunidegpxwkodn.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY');
+const sb=supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
 const fmt=n=>Number(n||0).toLocaleString('fr-FR');
 const fmtK=n=>n>=1000?(n/1000).toFixed(0)+'k':fmt(n);
-let code='';
+let codeParrain='';
+
 function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4000);}
 
-function copyCode(){
-  if(!code)return;
-  navigator.clipboard?.writeText(code);
-  const b=document.getElementById('copy-btn');b.textContent='✅ Copié !';b.className='cw-copy done';
-  setTimeout(()=>{b.textContent='📋 Copier';b.className='cw-copy';},2500);
-  toast('✅ Code copié !','ok');
-}
-
 function getLien(){
-  // Lien d'inscription avec code parrain pré-rempli
-  const base = window.location.origin + '/silla-inscription.html';
-  return base + '?ref=' + encodeURIComponent(code);
+  return window.location.origin+'/silla-inscription.html?ref='+encodeURIComponent(codeParrain);
 }
-
+function copyCode(){
+  if(!codeParrain){toast('Code non disponible','err');return;}
+  navigator.clipboard.writeText(codeParrain).then(()=>{
+    toast('✅ Code copié !','ok');
+    const b=document.getElementById('copy-btn');
+    if(b){b.textContent='✅ Copié';b.className='cw-copy done';setTimeout(()=>{b.textContent='📋 Copier';b.className='cw-copy';},2500);}
+  }).catch(()=>toast('Code : '+codeParrain,'ok'));
+}
 function copyLien(){
-  if(!code){toast('⚠️ Code parrain non disponible','err');return;}
-  const lien = getLien();
-  navigator.clipboard?.writeText(lien);
-  toast('✅ Lien copié ! Partagez-le à vos amis','ok');
+  if(!codeParrain){toast('Code non disponible','err');return;}
+  navigator.clipboard.writeText(getLien()).then(()=>toast('✅ Lien copié !','ok')).catch(()=>toast('Lien : '+getLien(),'ok'));
 }
-
-function shareWhatsApp(){
-  if(!code){toast('⚠️ Code parrain non disponible','err');return;}
-  const lien = getLien();
-  const msg = encodeURIComponent(
-    '🚀 Rejoins SILLA et commence à investir !\n\n' +
-    '💰 Plans à partir de 3 000F\n' +
-    '📈 Jusqu'à +50 000F/jour\n' +
-    '🎁 Bonus 1 000F à l'inscription\n\n' +
-    '👉 Clique ici pour t'inscrire avec mon code :\n' + lien
-  );
-  window.open('https://wa.me/?text=' + msg, '_blank');
+function shareWA(){
+  if(!codeParrain)return;
+  const msg=encodeURIComponent('Rejoins SILLA et gagne de l\'argent !\nPlans à partir de 3 000F · Bonus 1 000F\n'+getLien());
+  window.open('https://wa.me/?text='+msg,'_blank');
 }
-
 async function logout(){
   await sb.auth.signOut();
   window.location.href='silla-login.html';
 }
 
-const pays_map={CM:'🇨🇲 Cameroun',CI:'🇨🇮 Côte d\'Ivoire',BF:'🇧🇫 Burkina Faso',SN:'🇸🇳 Sénégal',BJ:'🇧🇯 Bénin',TG:'🇹🇬 Togo',ML:'🇲🇱 Mali',GN:'🇬🇳 Guinée'};
+const PAYS={CM:'🇨🇲 Cameroun',CI:'🇨🇮 Côte d\'Ivoire',BF:'🇧🇫 Burkina Faso',SN:'🇸🇳 Sénégal',BJ:'🇧🇯 Bénin',TG:'🇹🇬 Togo',ML:'🇲🇱 Mali',GN:'🇬🇳 Guinée'};
+
+function renderPage(p, nInvests, nFilleuls){
+  const prenom=p.nom?.split(' ')[0]||'Membre';
+  const dateMembre=p.created_at?new Date(p.created_at).toLocaleDateString('fr-FR',{month:'long',year:'numeric'}):'—';
+  codeParrain=p.code_parrainage||'';
+
+  document.getElementById('scroll-content').innerHTML=`
+    <div class="profil-hero">
+      <div class="ph-avatar">${prenom[0]?.toUpperCase()||'M'}</div>
+      <div class="ph-name">${p.nom||'Membre'}</div>
+      <div class="ph-email">${p.email||''}</div>
+      <div class="ph-badge"><span class="ph-badge-txt">✦ MEMBRE SILLA</span></div>
+      <div class="ph-stats">
+        <div class="phs"><div class="phs-val">${fmtK(p.solde||0)}F</div><div class="phs-lbl">Solde</div></div>
+        <div class="phs"><div class="phs-val">${nInvests}</div><div class="phs-lbl">Plans</div></div>
+        <div class="phs"><div class="phs-val">${nFilleuls}</div><div class="phs-lbl">Filleuls</div></div>
+      </div>
+    </div>
+
+    <div class="code-wrap" onclick="copyCode()">
+      <div>
+        <div class="cw-label">👑 Mon code parrain</div>
+        <div class="cw-code">${codeParrain||'SLA-——'}</div>
+      </div>
+      <button class="cw-copy" id="copy-btn" onclick="event.stopPropagation();copyCode()">📋 Copier</button>
+    </div>
+
+    <div class="share-grid">
+      <button class="share-btn sb-link" onclick="copyLien()">🔗 Copier le lien</button>
+      <button class="share-btn sb-wa" onclick="shareWA()">📱 WhatsApp</button>
+    </div>
+
+    <div class="menu-section">
+      <div class="ms-title">Mon compte</div>
+      <div class="menu-card">
+        <a class="mi" href="silla-parrain.html"><div class="mi-ico">👑</div><div class="mi-info"><div class="mi-title">Programme parrainage</div><div class="mi-sub">5% sur chaque investissement filleul</div></div><span class="mi-arrow">›</span></a>
+        <a class="mi" href="silla-smart.html"><div class="mi-ico">🤖</div><div class="mi-info"><div class="mi-title">Smart Invest</div><div class="mi-sub">Plans rapides et Prod</div></div><span class="mi-arrow">›</span></a>
+        <a class="mi" href="silla-retrait.html"><div class="mi-ico">💸</div><div class="mi-info"><div class="mi-title">Mes retraits</div><div class="mi-sub">Historique et nouvelles demandes</div></div><span class="mi-arrow">›</span></a>
+        <a class="mi" href="silla-recharge.html"><div class="mi-ico">💳</div><div class="mi-info"><div class="mi-title">Recharger</div><div class="mi-sub">Mobile Money · Crypto</div></div><span class="mi-arrow">›</span></a>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="ms-title">Informations</div>
+      <div class="menu-card">
+        <div class="mi"><div class="mi-ico">📱</div><div class="mi-info"><div class="mi-title">Téléphone</div></div><div class="mi-val">${p.telephone||'—'}</div></div>
+        <div class="mi"><div class="mi-ico">🌍</div><div class="mi-info"><div class="mi-title">Pays</div></div><div class="mi-val">${PAYS[p.pays]||p.pays||'—'}</div></div>
+        <div class="mi"><div class="mi-ico">📅</div><div class="mi-info"><div class="mi-title">Membre depuis</div></div><div class="mi-val">${dateMembre}</div></div>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="ms-title">Aide</div>
+      <div class="menu-card">
+        <a class="mi" href="silla-faq.html"><div class="mi-ico">❓</div><div class="mi-info"><div class="mi-title">FAQ</div><div class="mi-sub">Questions fréquentes</div></div><span class="mi-arrow">›</span></a>
+        <a class="mi" href="silla-support.html"><div class="mi-ico">🎧</div><div class="mi-info"><div class="mi-title">Support</div><div class="mi-sub">Contacter l'équipe</div></div><span class="mi-arrow">›</span></a>
+        <a class="mi" href="silla-cgu.html"><div class="mi-ico">📄</div><div class="mi-info"><div class="mi-title">CGU</div><div class="mi-sub">Conditions d'utilisation</div></div><span class="mi-arrow">›</span></a>
+      </div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">🚪 Se déconnecter</button>
+  `;
+}
 
 async function init(){
-  const{data}=await sb.auth.getSession();
-  if(!data?.session){window.location.href='silla-login.html';return;}
-  const U=data.session.user;
-  const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
-  if(!p)return;
-  const prenom=p.nom?.split(' ')[0]||'?';
-  document.getElementById('ph-av').textContent=prenom[0]?.toUpperCase()||'?';
-  document.getElementById('ph-name').textContent=p.nom||'Membre';
-  document.getElementById('ph-email').textContent=p.email||'';
-  document.getElementById('ps-solde').textContent=fmtK(p.solde||0)+'F';
-  document.getElementById('mi-tel').textContent=p.telephone||'—';
-  document.getElementById('mi-pays').textContent=pays_map[p.pays]||p.pays||'—';
-  document.getElementById('mi-date').textContent=new Date(p.created_at).toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
-  code=p.code_parrainage||'';
-  document.getElementById('cw-code').textContent=code||'SLA-——';
+  const{data:sd}=await sb.auth.getSession();
+  if(!sd?.session){window.location.href='silla-login.html';return;}
+  const U=sd.session.user;
 
-  const[r1,r2]=await Promise.all([
-    sb.from('investissements').select('*',{count:'exact',head:true}).eq('user_id',U.id).in('statut',['actif','gain_dispo']),
-    sb.from('utilisateurs').select('*',{count:'exact',head:true}).eq('parrain_id',U.id),
+  const[{data:p},{count:nInv},{count:nFil}]=await Promise.all([
+    sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle(),
+    sb.from('investissements').select('id',{count:'exact',head:true}).eq('user_id',U.id).in('statut',['actif','gain_dispo']),
+    sb.from('utilisateurs').select('id',{count:'exact',head:true}).eq('parrain_id',U.id),
   ]);
-  document.getElementById('ps-invests').textContent=r1.count||0;
-  document.getElementById('ps-filleuls').textContent=r2.count||0;
+
+  if(!p){
+    document.getElementById('scroll-content').innerHTML='<div class="loading" style="color:var(--ember)">Profil introuvable. <a href="silla-dashboard.html">Retour</a></div>';
+    return;
+  }
+  renderPage(p, nInv||0, nFil||0);
 }
 init();
 </script>
