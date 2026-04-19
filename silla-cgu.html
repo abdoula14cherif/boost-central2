@@ -3,259 +3,194 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>SILLA — Conditions d'Utilisation</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<title>SILLA — CGU</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
-  --orange:#FF6B1A;--turq:#00C2B7;--green:#00C271;
-  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;
-  --gray:#8892A8;--border:#DDE3F5;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
-body{display:flex;flex-direction:column;}
-
-.header{background:var(--blue-dark);padding:0 1.2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(8,14,42,.25);}
-.logo{font-family:'Clash Display',sans-serif;font-size:1.7rem;font-weight:700;letter-spacing:2px;color:#fff;text-decoration:none;display:block;}
-.logo span{color:var(--orange);}
-.logo-sub{font-size:.52rem;color:rgba(255,255,255,.3);letter-spacing:.2em;text-transform:uppercase;margin-top:1px;}
-.back-btn{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.55);text-decoration:none;border:1px solid rgba(255,255,255,.15);padding:.38rem .85rem;border-radius:8px;transition:all .2s;}
-.back-btn:hover{color:#fff;border-color:rgba(255,255,255,.4);}
-
-.hero-band{background:linear-gradient(135deg,var(--blue-dark) 0%,#1A3FE3 100%);padding:1.6rem 1.2rem;text-align:center;color:white;border-bottom:1px solid rgba(255,255,255,.06);}
-.hero-band h1{font-family:'Clash Display',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:.3rem;}
-.hero-band p{font-size:.75rem;opacity:.5;letter-spacing:.05em;}
-
-.content{max-width:680px;margin:0 auto;padding:1.5rem 1rem 4rem;width:100%;}
-
-/* TABLE DES MATIÈRES */
-.toc{background:var(--white);border-radius:16px;padding:1.2rem 1.4rem;margin-bottom:1.4rem;border:1px solid var(--border);box-shadow:0 2px 8px rgba(27,63,228,.05);}
-.toc-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:.8rem;}
-.toc-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
-.toc-list a{font-size:.8rem;color:var(--blue2);text-decoration:none;display:flex;align-items:center;gap:.4rem;font-weight:500;}
-.toc-list a:hover{text-decoration:underline;}
-.toc-list a::before{content:'→';font-size:.65rem;opacity:.5;}
-
-/* SECTIONS */
-.section{background:var(--white);border-radius:16px;padding:1.4rem;margin-bottom:1rem;border:1px solid var(--border);box-shadow:0 2px 8px rgba(27,63,228,.04);}
-.section-num{font-family:'Clash Display',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--orange);margin-bottom:.3rem;}
-.section h2{font-family:'Clash Display',sans-serif;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem;}
-.section p{font-size:.82rem;color:#4A5568;line-height:1.85;margin-bottom:.75rem;}
-.section p:last-child{margin-bottom:0;}
-.section ul{padding-left:1.2rem;margin:.5rem 0;}
-.section ul li{font-size:.82rem;color:#4A5568;line-height:1.8;margin-bottom:.3rem;}
-.section ul li::marker{color:var(--orange);}
-.section strong{color:var(--dark);font-weight:700;}
-
-/* HIGHLIGHT BOX */
-.hl-box{border-radius:10px;padding:.85rem 1rem;margin:.8rem 0;font-size:.8rem;line-height:1.7;}
-.hl-blue{background:rgba(27,63,228,.05);border-left:3px solid var(--blue2);color:var(--blue);}
-.hl-orange{background:rgba(255,107,26,.05);border-left:3px solid var(--orange);color:#C04A00;}
-.hl-green{background:rgba(0,194,113,.05);border-left:3px solid var(--green);color:#006B3C;}
-.hl-red{background:rgba(232,48,48,.05);border-left:3px solid #E83030;color:#C00;}
-
-/* TAUX TABLE */
-.taux-table{width:100%;border-collapse:collapse;margin:.8rem 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
-.taux-table th{background:var(--blue-dark);color:white;padding:.7rem .9rem;font-size:.72rem;font-weight:700;text-align:left;letter-spacing:.04em;}
-.taux-table td{padding:.65rem .9rem;font-size:.78rem;border-bottom:1px solid var(--border);color:var(--dark);}
-.taux-table tr:last-child td{border-bottom:none;}
-.taux-table tr:nth-child(even) td{background:#F7F9FF;}
-.tag{display:inline-block;padding:.18rem .55rem;border-radius:6px;font-size:.65rem;font-weight:700;}
-.tag-b{background:rgba(205,127,50,.12);color:#7B4A10;}
-.tag-a{background:rgba(192,192,192,.2);color:#555;}
-.tag-o{background:rgba(255,215,0,.15);color:#806A00;}
-.tag-p{background:rgba(167,139,250,.15);color:#5B3DB5;}
-
-/* DATE BADGE */
-.date-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--gray);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.28rem .75rem;margin-bottom:1.2rem;}
-
-/* BTN ACCEPT */
-.btn-accept{display:block;width:100%;padding:1rem;background:linear-gradient(135deg,var(--orange),#FF8C42);border:none;border-radius:14px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .25s;box-shadow:0 6px 20px rgba(255,107,26,.3);text-align:center;text-decoration:none;margin-top:1.4rem;}
-.btn-accept:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,107,26,.4);}
+:root{--cream:#FEFCF7;--warm:#FDF6E9;--gold:#B8860B;--gold-l:#D4A017;--gold-dim:rgba(184,134,11,.08);--ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;--border:rgba(184,134,11,.15);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;padding-bottom:40px;}
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
+.hero{background:linear-gradient(135deg,#1A0F00,#3D2200);padding:22px 20px;margin:16px;border-radius:14px;text-align:center;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#E8C060;margin-bottom:6px;}
+.hero-sub{font-size:.7rem;color:rgba(232,192,96,.5);line-height:1.6;}
+.content{padding:0 16px;}
+.article{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px;box-shadow:0 2px 8px rgba(90,50,0,.07);}
+.art-head{padding:14px 18px;background:var(--warm);border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
+.art-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--ink);}
+.art-arrow{color:var(--gold);font-size:.9rem;transition:transform .25s;}
+.art-arrow.open{transform:rotate(180deg);}
+.art-body{padding:16px 18px;display:none;font-size:.78rem;color:var(--brown);line-height:1.8;}
+.art-body.open{display:block;}
+.art-body p{margin-bottom:10px;}
+.art-body p:last-child{margin-bottom:0;}
+.art-body strong{color:var(--ink);}
+.art-body ul{padding-left:16px;margin:8px 0;}
+.art-body ul li{margin-bottom:5px;}
+.accept-box{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin:0 16px 20px;text-align:center;box-shadow:0 2px 8px rgba(90,50,0,.07);}
+.ab-text{font-size:.78rem;color:var(--brown);margin-bottom:14px;line-height:1.6;}
+.ab-btn{display:inline-block;padding:13px 28px;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:700;border-radius:8px;text-decoration:none;box-shadow:0 4px 14px rgba(184,134,11,.25);}
+.date{text-align:center;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:var(--muted);margin:16px 0;}
 </style>
 </head>
 <body>
-
-<div class="header">
-  <a href="index.html" style="text-decoration:none">
-    <div class="logo">SIL<span>LA</span></div>
-    <div class="logo-sub">Plateforme d'investissement</div>
-  </a>
-  <a href="javascript:history.back()" class="back-btn">← Retour</a>
+<div class="topbar">
+  <a class="back" href="javascript:history.back()">←</a>
+  <div class="tb-title">Conditions Générales</div>
 </div>
 
-<div class="hero-band">
-  <h1>📋 Conditions Générales d'Utilisation</h1>
-  <p>Veuillez lire attentivement avant de vous inscrire</p>
+<div class="hero">
+  <div class="hero-title">Conditions Générales d'Utilisation</div>
+  <div class="hero-sub">Plateforme SILLA — Investissement & Épargne</div>
 </div>
+
+<div class="date">Version 1.0 — Avril 2026</div>
 
 <div class="content">
 
-  <div class="date-badge">📅 Dernière mise à jour : Avril 2025 · Version 1.0</div>
-
-  <!-- TABLE DES MATIÈRES -->
-  <div class="toc">
-    <div class="toc-title">📑 Sommaire</div>
-    <ul class="toc-list">
-      <li><a href="#art1">1. Présentation de SILLA</a></li>
-      <li><a href="#art2">2. Conditions d'accès</a></li>
-      <li><a href="#art3">3. Inscription et compte</a></li>
-      <li><a href="#art4">4. Plans d'investissement</a></li>
-      <li><a href="#art5">5. Dépôts et retraits</a></li>
-      <li><a href="#art6">6. Programme de parrainage</a></li>
-      <li><a href="#art7">7. Responsabilités</a></li>
-      <li><a href="#art8">8. Interdictions</a></li>
-      <li><a href="#art9">9. Résiliation</a></li>
-      <li><a href="#art10">10. Contact</a></li>
-    </ul>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">1. Présentation de SILLA</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>SILLA est une plateforme numérique d'investissement et d'épargne accessible depuis les appareils mobiles et ordinateurs. Elle permet à ses membres de placer des fonds dans différents plans d'investissement et de percevoir des gains en retour.</p>
+      <p>En utilisant SILLA, vous acceptez pleinement les présentes conditions générales d'utilisation.</p>
+    </div>
   </div>
 
-  <!-- ARTICLE 1 -->
-  <div class="section" id="art1">
-    <div class="section-num">Article 01</div>
-    <h2>🏢 Présentation de SILLA</h2>
-    <p><strong>SILLA</strong> est une plateforme numérique d'investissement permettant à ses membres de placer des fonds et de bénéficier de rendements selon des plans définis.</p>
-    <p>La plateforme est accessible via le site web et accepte les dépôts en FCFA via Mobile Money (MTN MoMo, Orange Money).</p>
-    <div class="hl-blue">ℹ️ En créant un compte sur SILLA, vous acceptez l'intégralité des présentes Conditions Générales d'Utilisation sans réserve.</div>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">2. Inscription et compte</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>Pour accéder aux services de SILLA, vous devez :</p>
+      <ul>
+        <li>Avoir au moins 18 ans</li>
+        <li>Fournir des informations exactes lors de l'inscription</li>
+        <li>Maintenir la confidentialité de vos identifiants</li>
+        <li>Ne créer qu'un seul compte par personne</li>
+      </ul>
+      <p>SILLA se réserve le droit de suspendre ou supprimer tout compte utilisant de fausses informations ou tentant de fraude.</p>
+    </div>
   </div>
 
-  <!-- ARTICLE 2 -->
-  <div class="section" id="art2">
-    <div class="section-num">Article 02</div>
-    <h2>✅ Conditions d'accès</h2>
-    <p>Pour utiliser SILLA, vous devez :</p>
-    <ul>
-      <li>Être âgé d'au moins <strong>18 ans</strong></li>
-      <li>Disposer d'un numéro de téléphone valide et d'une adresse email active</li>
-      <li>Disposer d'un compte Mobile Money actif (MTN ou Orange)</li>
-      <li>Résider dans un pays où l'utilisation de la plateforme est légalement autorisée</li>
-    </ul>
-    <div class="hl-orange">⚠️ SILLA se réserve le droit de refuser ou de suspendre tout compte ne respectant pas ces conditions.</div>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">3. Plans d'investissement</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>SILLA propose plusieurs plans d'investissement avec des rendements variables. <strong>Les gains indiqués sont des estimations basées sur les performances passées et ne constituent pas une garantie de rendement futur.</strong></p>
+      <p>L'utilisateur reconnaît que tout investissement comporte des risques et que SILLA ne peut être tenu responsable de pertes éventuelles dans des cas de force majeure.</p>
+    </div>
   </div>
 
-  <!-- ARTICLE 3 -->
-  <div class="section" id="art3">
-    <div class="section-num">Article 03</div>
-    <h2>👤 Inscription et compte</h2>
-    <p>Chaque utilisateur ne peut posséder qu'<strong>un seul compte</strong>. La création de comptes multiples est strictement interdite et entraîne la suspension immédiate.</p>
-    <p>Vous êtes responsable de la confidentialité de vos identifiants de connexion. Toute activité effectuée depuis votre compte vous est imputable.</p>
-    <p>Les informations fournies lors de l'inscription doivent être <strong>exactes, complètes et à jour</strong>. Toute fausse déclaration peut entraîner la clôture du compte.</p>
-    <div class="hl-green">✅ SILLA s'engage à protéger vos données personnelles conformément à sa Politique de Confidentialité.</div>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">4. Dépôts et retraits</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p><strong>Dépôts :</strong> Les recharges sont effectuées via Mobile Money (MTN, Orange) ou cryptomonnaie. Tout dépôt est définitif après validation par l'administration.</p>
+      <p><strong>Retraits :</strong></p>
+      <ul>
+        <li>Montant minimum : <strong>1 000 FCFA</strong></li>
+        <li>Un seul retrait par jour autorisé</li>
+        <li>Retraits disponibles de <strong>8h00 à 18h00</strong> uniquement</li>
+        <li>Le retrait n'est possible qu'après avoir réalisé au moins un investissement réel</li>
+        <li>Le bonus de bienvenue ne peut pas être retiré sans investissement préalable</li>
+      </ul>
+    </div>
   </div>
 
-  <!-- ARTICLE 4 -->
-  <div class="section" id="art4">
-    <div class="section-num">Article 04</div>
-    <h2>📈 Plans d'investissement</h2>
-    <p>SILLA propose quatre plans d'investissement avec les caractéristiques suivantes :</p>
-
-    <table class="taux-table">
-      <thead>
-        <tr><th>Plan</th><th>Durée</th><th>Taux de rendement</th><th>Investissement min.</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><span class="tag tag-b">🥉 Bronze</span></td><td>1 jour</td><td>+3%</td><td>500 FCFA</td></tr>
-        <tr><td><span class="tag tag-a">🥈 Argent</span></td><td>7 jours</td><td>+10%</td><td>1 000 FCFA</td></tr>
-        <tr><td><span class="tag tag-o">🥇 Or</span></td><td>14 jours</td><td>+20%</td><td>5 000 FCFA</td></tr>
-        <tr><td><span class="tag tag-p">💎 Platine</span></td><td>30 jours</td><td>+40%</td><td>10 000 FCFA</td></tr>
-      </tbody>
-    </table>
-
-    <p>Les rendements sont calculés sur le montant investi et versés automatiquement à l'échéance du plan. Un investissement en cours ne peut pas être annulé avant son terme.</p>
-    <div class="hl-orange">⚠️ Les rendements affichés sont garantis sous réserve du respect des présentes conditions. SILLA ne peut être tenu responsable en cas de force majeure.</div>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">5. Programme de parrainage</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>SILLA offre un programme de parrainage permettant aux membres de gagner <strong>5% du montant investi</strong> par chaque personne qu'ils ont parrainée.</p>
+      <p>La commission est créditée automatiquement sur votre solde dès que votre filleul effectue un investissement. Il n'y a pas de limite au nombre de filleuls ni au montant total des commissions.</p>
+    </div>
   </div>
 
-  <!-- ARTICLE 5 -->
-  <div class="section" id="art5">
-    <div class="section-num">Article 05</div>
-    <h2>💳 Dépôts et retraits</h2>
-    <p><strong>Dépôts :</strong> Les dépôts sont effectués exclusivement via Mobile Money (MTN MoMo ou Orange Money). Tout dépôt est définitif et ne peut être remboursé une fois l'investissement activé.</p>
-    <p><strong>Retraits :</strong> Les retraits sont disponibles une fois le plan arrivé à terme. Le montant minimum de retrait est de <strong>500 FCFA</strong>. Les fonds sont transférés sur votre numéro Mobile Money sous <strong>24 à 72 heures</strong> ouvrables.</p>
-    <ul>
-      <li>Aucun frais de retrait n'est appliqué par SILLA</li>
-      <li>Les frais d'opérateur Mobile Money restent à la charge de l'utilisateur</li>
-      <li>SILLA se réserve le droit de suspendre les retraits en cas de suspicion de fraude</li>
-    </ul>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">6. Bonus de bienvenue</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>Un bonus de <strong>1 000 FCFA</strong> est crédité automatiquement à l'inscription. Ce bonus est destiné à vous permettre de découvrir la plateforme.</p>
+      <p><strong>Ce bonus ne peut pas être retiré directement.</strong> Il sera utilisable après que vous ayez effectué votre premier investissement réel.</p>
+    </div>
   </div>
 
-  <!-- ARTICLE 6 -->
-  <div class="section" id="art6">
-    <div class="section-num">Article 06</div>
-    <h2>👥 Programme de parrainage</h2>
-    <p>SILLA propose un programme de parrainage permettant aux membres de gagner des commissions en invitant de nouvelles personnes à rejoindre la plateforme.</p>
-    <ul>
-      <li><strong>Niveau 1</strong> — Parrainage direct : commission sur les investissements de vos filleuls directs</li>
-      <li><strong>Niveau 2</strong> — Commission réduite sur les filleuls de vos filleuls</li>
-      <li><strong>Niveau 3</strong> — Commission additionnelle sur le 3ème niveau</li>
-    </ul>
-    <div class="hl-blue">ℹ️ Les commissions de parrainage sont créditées automatiquement sur votre solde SILLA et peuvent être retirées selon les conditions de retrait standard.</div>
-    <p>Toute tentative de manipulation du système de parrainage (faux comptes, auto-parrainage) entraîne la suspension immédiate et la confiscation des gains.</p>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">7. Responsabilités</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>SILLA met tout en œuvre pour assurer la disponibilité et la sécurité de la plateforme. Cependant, SILLA ne peut être tenu responsable :</p>
+      <ul>
+        <li>Des interruptions de service dues à des maintenances</li>
+        <li>Des pertes résultant d'une mauvaise utilisation du compte</li>
+        <li>Des fluctuations des marchés affectant les rendements</li>
+      </ul>
+    </div>
   </div>
 
-  <!-- ARTICLE 7 -->
-  <div class="section" id="art7">
-    <div class="section-num">Article 07</div>
-    <h2>⚖️ Responsabilités</h2>
-    <p>L'utilisateur reconnaît que tout investissement comporte des risques et qu'il investit en connaissance de cause.</p>
-    <p>SILLA s'engage à :</p>
-    <ul>
-      <li>Respecter les taux de rendement annoncés pour chaque plan</li>
-      <li>Traiter les demandes de retrait dans les délais indiqués</li>
-      <li>Protéger les données personnelles des membres</li>
-      <li>Maintenir la plateforme disponible 24h/24 et 7j/7</li>
-    </ul>
-    <div class="hl-red">⛔ SILLA ne peut être tenu responsable des pertes dues à une utilisation incorrecte de la plateforme, à des problèmes techniques indépendants de sa volonté, ou à des cas de force majeure.</div>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">8. Données personnelles</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>Les données collectées (nom, email, téléphone) sont utilisées uniquement pour la gestion de votre compte SILLA. Elles ne sont jamais vendues ni partagées avec des tiers sans votre consentement.</p>
+      <p>Vous pouvez demander la suppression de votre compte et de vos données en contactant le support.</p>
+    </div>
   </div>
 
-  <!-- ARTICLE 8 -->
-  <div class="section" id="art8">
-    <div class="section-num">Article 08</div>
-    <h2>🚫 Utilisations interdites</h2>
-    <p>Il est strictement interdit de :</p>
-    <ul>
-      <li>Créer plusieurs comptes pour bénéficier de bonus ou commissions frauduleux</li>
-      <li>Utiliser la plateforme à des fins de blanchiment d'argent ou d'activités illégales</li>
-      <li>Tenter de pirater, modifier ou perturber le fonctionnement de SILLA</li>
-      <li>Partager ses identifiants avec des tiers</li>
-      <li>Faire de fausses déclarations lors de l'inscription ou des retraits</li>
-      <li>Harceler ou nuire aux autres membres de la communauté</li>
-    </ul>
-    <div class="hl-red">⛔ Toute violation entraîne la suspension immédiate du compte, la confiscation du solde et des poursuites légales si nécessaire.</div>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">9. Modifications des CGU</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>SILLA se réserve le droit de modifier les présentes CGU à tout moment. Les utilisateurs seront notifiés des changements importants via la plateforme. La continuité d'utilisation après notification vaut acceptation des nouvelles conditions.</p>
+    </div>
   </div>
 
-  <!-- ARTICLE 9 -->
-  <div class="section" id="art9">
-    <div class="section-num">Article 09</div>
-    <h2>🚪 Résiliation et clôture</h2>
-    <p>L'utilisateur peut demander la clôture de son compte à tout moment, sous réserve qu'aucun investissement ne soit en cours.</p>
-    <p>SILLA peut résilier un compte sans préavis en cas de :</p>
-    <ul>
-      <li>Violation des présentes CGU</li>
-      <li>Suspicion de fraude ou d'activité illicite</li>
-      <li>Fausses informations lors de l'inscription</li>
-      <li>Inactivité prolongée de plus de 12 mois</li>
-    </ul>
-    <p>En cas de résiliation pour violation des CGU, les fonds bloqués peuvent être confisqués.</p>
+  <div class="article">
+    <div class="art-head" onclick="toggleArt(this)">
+      <div class="art-title">10. Contact et support</div>
+      <div class="art-arrow">▼</div>
+    </div>
+    <div class="art-body">
+      <p>Pour toute question relative aux présentes CGU ou à l'utilisation de la plateforme, contactez notre équipe via la section Support de l'application.</p>
+      <p>Nous nous engageons à répondre dans les <strong>48 heures ouvrables</strong>.</p>
+    </div>
   </div>
-
-  <!-- ARTICLE 10 -->
-  <div class="section" id="art10">
-    <div class="section-num">Article 10</div>
-    <h2>📞 Contact et support</h2>
-    <p>Pour toute question relative aux présentes Conditions Générales d'Utilisation ou au fonctionnement de la plateforme, vous pouvez contacter notre équipe support :</p>
-    <ul>
-      <li>📧 Email : <strong>support@silla-invest.com</strong></li>
-      <li>💬 WhatsApp : disponible via l'application</li>
-      <li>🕐 Disponibilité : 7j/7 de 8h à 22h (heure de Douala)</li>
-    </ul>
-    <div class="hl-green">✅ SILLA s'engage à répondre à toute demande de support dans un délai maximum de 24 heures.</div>
-  </div>
-
-  <!-- BOUTON ACCEPTER -->
-  <a href="index.html" class="btn-accept">✅ J'ai lu et j'accepte les CGU — Créer mon compte</a>
 
 </div>
 
+<div class="accept-box">
+  <div class="ab-text">En créant votre compte SILLA, vous déclarez avoir lu et accepté l'intégralité des présentes conditions.</div>
+  <a class="ab-btn" href="javascript:history.back()">✓ J'ai compris</a>
+</div>
+
+<script>
+function toggleArt(head){
+  const arrow=head.querySelector('.art-arrow');
+  const body=head.nextElementSibling;
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  arrow.classList.toggle('open',!isOpen);
+}
+</script>
 </body>
 </html>
