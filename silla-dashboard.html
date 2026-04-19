@@ -585,18 +585,71 @@ const PLANS={
 };
 
 // ─────────────────────────────────────
-// INIT
+// INIT — attend la session Supabase
 // ─────────────────────────────────────
 async function init(){
-  const{data}=await sb.auth.getSession();
-  if(!data?.session){window.location.href='silla-login.html';return;}
-  U=data.session.user;
+  // Attendre que Supabase initialise la session (évite boucle de redirection)
+  let session = null;
+  // Essai 1 : session déjà disponible
+  const { data: d1 } = await sb.auth.getSession();
+  session = d1?.session;
 
-  // Charger profil
-  const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
-  if(!p){window.location.href='silla-login.html';return;}
+  // Essai 2 : attendre onAuthStateChange si pas encore chargé
+  if(!session) {
+    session = await new Promise(resolve => {
+      const { data: { subscription } } = sb.auth.onAuthStateChange((event, s) => {
+        subscription.unsubscribe();
+        resolve(s);
+      });
+      // Timeout 3s max
+      setTimeout(() => resolve(null), 3000);
+    });
+  }
+
+  if(!session) { window.location.href='silla-login.html'; return; }
+  U = session.user;
+
+  // Charger profil avec retry
+  let p = null;
+  for(let retry=0; retry<3; retry++){
+    try{
+      const{data,error}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+      if(error) throw error;
+      if(data){ p=data; break; }
+      // Profil pas encore créé → attendre trigger
+      await new Promise(r=>setTimeout(r,1500));
+    }catch(e){
+      console.warn('Retry',retry,e.message);
+      await new Promise(r=>setTimeout(r,1500));
+    }
+  }
+
+  if(!p){
+    // Créer profil manuellement si trigger n'a pas fonctionné
+    try{
+      const{data:np}=await sb.from('utilisateurs').upsert({
+        id:U.id, nom:U.user_metadata?.full_name||'Utilisateur',
+        email:U.email, telephone:U.user_metadata?.telephone||'',
+        statut:'actif', solde:1000,
+        code_parrainage:'SLA-'+Math.random().toString(36).slice(2,8).toUpperCase(),
+        bonus_inscription:true, bonus_utilise:false,
+        created_at:new Date().toISOString()
+      },{onConflict:'id'}).select().single();
+      p = np;
+    }catch(e){
+      console.error('Impossible de créer profil:',e);
+      showToast('⚠️ Erreur de chargement — réessayez','error');
+      setTimeout(()=>window.location.href='silla-login.html',3000);
+      return;
+    }
+  }
+
   profile=p; solde=p.solde||0;
+  return initWithProfile(p);
+}
 
+async function initWithProfile(p){
+  solde = p.solde||0;
   // UI
   const nom=(p.nom||'Utilisateur').split(' ')[0];
   const ini=nom[0].toUpperCase();
@@ -921,8 +974,11 @@ function toggleMenu(){
 function goPage(p){window.location.href='silla-'+p+'.html';}
 function goNotifs(){showToast('ℹ️ Notifications bientôt disponibles','info');}
 async function logout(){
-  await sb.auth.signOut();
-  window.location.href='silla-login.html';
+  try{ await sb.auth.signOut(); }catch(e){}
+  // Vider le storage local pour éviter boucle
+  localStorage.removeItem('silla_email');
+  sessionStorage.clear();
+  window.location.replace('silla-login.html');
 }
 
 // ─────────────────────────────────────
