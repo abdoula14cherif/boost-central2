@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Inscription</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#1B3FE4;--blue2:#2D55FF;--orange:#FF6B1A;--orange-l:#FF8C42;
+  --turq:#00C2B7;--green:#00C271;--bg:#F2F5FF;--dark:#080E2A;
+  --gray:#8892A8;--border:#E4E9F8;--card:#fff;--red:#E83030;
+  --gold:#F5B731;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
+body{display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,var(--dark) 0%,#0D1E6B 100%);
+  padding:0 1.2rem;height:62px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(8,14,42,.3);
+  position:sticky;top:0;z-index:50;
+}
+.logo{font-family:'Clash Display',sans-serif;font-size:1.8rem;font-weight:700;letter-spacing:2px;}
+.logo .s1{color:var(--turq);}
+.logo .s2{color:var(--orange);}
+.logo-sub{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-top:-2px;}
+
+/* ── HERO BAND ── */
+.hero-band{
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 50%,var(--turq) 100%);
+  padding:1.4rem 1.2rem 1.2rem;text-align:center;color:white;
+}
+.hero-band h2{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem;}
+.hero-band p{font-size:.78rem;opacity:.8;line-height:1.6;}
+
+/* ── FORM CARD ── */
+.form-wrap{flex:1;padding:1.2rem 1rem 2rem;max-width:480px;margin:0 auto;width:100%;}
+
+.card{background:white;border-radius:20px;padding:1.4rem 1.2rem;box-shadow:0 4px 24px rgba(27,63,228,.08);border:1px solid var(--border);margin-bottom:1rem;}
+
+.card-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+
+/* ── FIELDS ── */
+.field{margin-bottom:.85rem;}
+.field label{display:block;font-size:.72rem;font-weight:700;color:var(--dark);margin-bottom:.32rem;letter-spacing:.04em;text-transform:uppercase;}
+.input-wrap{position:relative;}
+.input-ico{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;}
+.inp{
+  width:100%;padding:.75rem .9rem .75rem 2.6rem;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;
+  color:var(--dark);background:#FAFBFF;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.inp:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(45,85,255,.09);background:white;}
+.inp.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,48,48,.08);}
+.inp.ok{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,194,113,.08);}
+.inp::placeholder{color:#B8C0D4;}
+.inp-no-ico{padding-left:.9rem;}
+.field-err{font-size:.68rem;color:var(--red);margin-top:.28rem;display:none;align-items:center;gap:.3rem;}
+.field-err.show{display:flex;}
+.eye-btn{position:absolute;right:.85rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--gray);padding:.2rem;}
+
+/* ── PHONE ROW ── */
+.phone-row{display:flex;gap:.5rem;}
+.country-sel{
+  width:110px;flex-shrink:0;padding:.75rem .5rem .75rem .85rem;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;
+  color:var(--dark);background:#FAFBFF;outline:none;cursor:pointer;
+  -webkit-appearance:none;transition:border-color .2s;
+}
+.country-sel:focus{border-color:var(--blue2);}
+.phone-inp{flex:1;}
+
+/* ── PASSWORD STRENGTH ── */
+.pwd-strength{margin-top:.5rem;}
+.pwd-bars{display:flex;gap:3px;margin-bottom:.3rem;}
+.pwd-bar{flex:1;height:4px;border-radius:99px;background:#E4E9F8;transition:background .3s;}
+.pwd-bar.w{background:var(--red);}
+.pwd-bar.m{background:var(--gold);}
+.pwd-bar.s{background:var(--green);}
+.pwd-txt{font-size:.68rem;color:var(--gray);}
+
+/* ── CONDITIONS ── */
+.cgu-row{display:flex;align-items:flex-start;gap:.75rem;padding:.9rem;background:#F7F9FF;border-radius:12px;border:1.5px solid var(--border);cursor:pointer;transition:border-color .2s;margin-bottom:.85rem;}
+.cgu-row:hover{border-color:var(--blue2);}
+.custom-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;}
+.custom-check.checked{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:var(--blue2);}
+.custom-check.checked::after{content:'✓';color:white;font-size:.78rem;font-weight:800;}
+.cgu-txt{font-size:.78rem;color:var(--gray);line-height:1.55;}
+.cgu-txt a{color:var(--blue2);font-weight:700;text-decoration:none;}
+.cgu-txt a:hover{text-decoration:underline;}
+
+/* ── SUBMIT BTN ── */
+.btn-submit{
+  width:100%;padding:1rem;
+  background:linear-gradient(135deg,var(--orange),var(--orange-l));
+  border:none;border-radius:14px;color:white;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;
+  cursor:pointer;transition:all .25s;letter-spacing:.02em;
+  box-shadow:0 6px 20px rgba(255,107,26,.35);
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  position:relative;overflow:hidden;
+}
+.btn-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--blue),var(--blue2));opacity:0;transition:opacity .3s;}
+.btn-submit:hover::before{opacity:1;}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(27,63,228,.35);}
+.btn-submit:active{transform:scale(.97);}
+.btn-submit:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+.btn-submit span{position:relative;z-index:1;}
+.spin{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;position:relative;z-index:1;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── LOGIN LINK ── */
+.login-link{text-align:center;margin-top:.9rem;font-size:.8rem;color:var(--gray);}
+.login-link a{color:var(--blue2);font-weight:700;text-decoration:none;}
+
+/* ── AVANTAGES ── */
+.avantages{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;}
+.av-item{background:white;border-radius:14px;padding:.85rem .8rem;border:1px solid var(--border);text-align:center;}
+.av-ico{font-size:1.4rem;margin-bottom:.3rem;}
+.av-txt{font-size:.7rem;font-weight:700;color:var(--dark);}
+.av-sub{font-size:.62rem;color:var(--gray);margin-top:.1rem;}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--dark);color:white;padding:.75rem 1.3rem;border-radius:14px;
+  font-size:.82rem;font-weight:600;opacity:0;transition:all .35s;
+  pointer-events:none;z-index:999;border-left:3px solid var(--turq);
+  box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.error{border-color:var(--red);}
+#toast.success{border-color:var(--green);}
+
+/* ── PROGRESS STEPS ── */
+.steps{display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.9rem 0;margin-bottom:.5rem;}
+.step{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+.step-dot{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));color:white;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(255,107,26,.3);}
+.step-dot.inactive{background:#E4E9F8;color:var(--gray);box-shadow:none;}
+.step-lbl{font-size:.6rem;font-weight:600;color:var(--dark);}
+.step-lbl.inactive{color:var(--gray);}
+.step-line{width:32px;height:2px;background:#E4E9F8;border-radius:2px;margin-bottom:14px;}
+.step-line.done{background:linear-gradient(90deg,var(--orange),var(--orange-l));}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeIn .4s ease both;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="logo"><span class="s1">SIL</span><span class="s2">LA</span></div>
+    <div class="logo-sub">Plateforme d'investissement</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero-band">
+  <h2>🚀 Rejoignez SILLA</h2>
+  <p>Créez votre compte gratuitement et commencez à investir dès aujourd'hui</p>
+</div>
+
+<div class="form-wrap">
+
+  <!-- ÉTAPES -->
+  <div class="steps fade-in">
+    <div class="step">
+      <div class="step-dot">1</div>
+      <div class="step-lbl">Inscription</div>
+    </div>
+    <div class="step-line done"></div>
+    <div class="step">
+      <div class="step-dot inactive">2</div>
+      <div class="step-lbl inactive">Plan</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot inactive">3</div>
+      <div class="step-lbl inactive">Recharge</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-dot inactive">4</div>
+      <div class="step-lbl inactive">Investir</div>
+    </div>
+  </div>
+
+  <!-- AVANTAGES -->
+  <div class="avantages fade-in">
+    <div class="av-item">
+      <div class="av-ico">📈</div>
+      <div class="av-txt">Rendements</div>
+      <div class="av-sub">Jusqu'à +40%</div>
+    </div>
+    <div class="av-item">
+      <div class="av-ico">🔒</div>
+      <div class="av-txt">100% Sécurisé</div>
+      <div class="av-sub">Fonds protégés</div>
+    </div>
+    <div class="av-item">
+      <div class="av-ico">💳</div>
+      <div class="av-txt">Mobile Money</div>
+      <div class="av-sub">MTN · Orange</div>
+    </div>
+    <div class="av-item">
+      <div class="av-ico">👥</div>
+      <div class="av-txt">Parrainage</div>
+      <div class="av-sub">Gagnez plus</div>
+    </div>
+  </div>
+
+  <!-- FORMULAIRE -->
+  <div class="card fade-in">
+    <div class="card-title">👤 Créer votre compte</div>
+
+    <!-- NOM COMPLET -->
+    <div class="field">
+      <label>Nom complet *</label>
+      <div class="input-wrap">
+        <span class="input-ico">👤</span>
+        <input id="f-nom" class="inp" type="text" placeholder="Ex: Jean Dupont" autocomplete="name"/>
+      </div>
+      <div class="field-err" id="err-nom">⚠️ Veuillez entrer votre nom complet</div>
+    </div>
+
+    <!-- NUMÉRO DE TÉLÉPHONE -->
+    <div class="field">
+      <label>Numéro de téléphone *</label>
+      <div class="phone-row">
+        <select class="country-sel" id="f-pays">
+          <option value="+237">🇨🇲 +237</option>
+          <option value="+225">🇨🇮 +225</option>
+          <option value="+221">🇸🇳 +221</option>
+          <option value="+233">🇬🇭 +233</option>
+          <option value="+234">🇳🇬 +234</option>
+          <option value="+243">🇨🇩 +243</option>
+          <option value="+242">🇨🇬 +242</option>
+          <option value="+241">🇬🇦 +241</option>
+          <option value="+33">🇫🇷 +33</option>
+          <option value="+32">🇧🇪 +32</option>
+        </select>
+        <div class="input-wrap" style="flex:1">
+          <span class="input-ico">📱</span>
+          <input id="f-tel" class="inp phone-inp" type="tel" placeholder="6XX XX XX XX" inputmode="tel" autocomplete="tel"/>
+        </div>
+      </div>
+      <div class="field-err" id="err-tel">⚠️ Numéro invalide (min. 8 chiffres)</div>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="field">
+      <label>Adresse email *</label>
+      <div class="input-wrap">
+        <span class="input-ico">✉️</span>
+        <input id="f-email" class="inp" type="email" placeholder="votre@email.com" autocomplete="email"/>
+      </div>
+      <div class="field-err" id="err-email">⚠️ Email invalide</div>
+    </div>
+
+    <!-- MOT DE PASSE -->
+    <div class="field">
+      <label>Mot de passe *</label>
+      <div class="input-wrap">
+        <span class="input-ico">🔒</span>
+        <input id="f-pwd" class="inp" type="password" placeholder="Minimum 8 caractères" autocomplete="new-password" oninput="checkPwd(this.value)"/>
+        <button class="eye-btn" type="button" onclick="togglePwd('f-pwd','eye1')" id="eye1">👁</button>
+      </div>
+      <div class="pwd-strength">
+        <div class="pwd-bars">
+          <div class="pwd-bar" id="bar1"></div>
+          <div class="pwd-bar" id="bar2"></div>
+          <div class="pwd-bar" id="bar3"></div>
+          <div class="pwd-bar" id="bar4"></div>
+        </div>
+        <div class="pwd-txt" id="pwd-txt">Entrez un mot de passe</div>
+      </div>
+      <div class="field-err" id="err-pwd">⚠️ Minimum 8 caractères requis</div>
+    </div>
+
+    <!-- CONFIRMATION MOT DE PASSE -->
+    <div class="field" style="margin-bottom:1rem">
+      <label>Confirmer le mot de passe *</label>
+      <div class="input-wrap">
+        <span class="input-ico">🔐</span>
+        <input id="f-pwd2" class="inp" type="password" placeholder="Répétez votre mot de passe" autocomplete="new-password"/>
+        <button class="eye-btn" type="button" onclick="togglePwd('f-pwd2','eye2')" id="eye2">👁</button>
+      </div>
+      <div class="field-err" id="err-pwd2">⚠️ Les mots de passe ne correspondent pas</div>
+    </div>
+
+    <!-- CGU -->
+    <div class="cgu-row" id="cgu-row" onclick="toggleCGU()">
+      <div class="custom-check" id="cgu-check"></div>
+      <div class="cgu-txt">
+        J'ai lu et j'accepte les <a href="silla-cgu.html" onclick="event.stopPropagation()">Conditions Générales d'Utilisation</a> et la <a href="silla-privacy.html" onclick="event.stopPropagation()">Politique de Confidentialité</a> de SILLA. Je confirme avoir au moins 18 ans.
+      </div>
+    </div>
+    <div class="field-err" id="err-cgu" style="margin-bottom:.8rem">⚠️ Vous devez accepter les conditions</div>
+
+    <!-- BOUTON -->
+    <button class="btn-submit" id="btn-submit" onclick="inscrire()">
+      <span>🚀 Créer mon compte SILLA</span>
+    </button>
+
+    <div class="login-link">Déjà membre ? <a href="silla-login.html">Se connecter →</a></div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
+
+let cguAccepted = false;
+
+// ── TOGGLE PASSWORD ──
+function togglePwd(id, btnId) {
+  const inp = document.getElementById(id);
+  const btn = document.getElementById(btnId);
+  if(inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+// ── FORCE MOT DE PASSE ──
+function checkPwd(val) {
+  const bars = ['bar1','bar2','bar3','bar4'];
+  const txt  = document.getElementById('pwd-txt');
+  let score  = 0;
+  if(val.length >= 8)  score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+
+  bars.forEach((b,i) => {
+    const el = document.getElementById(b);
+    el.className = 'pwd-bar';
+    if(i < score) {
+      if(score === 1) el.classList.add('w');
+      else if(score <= 2) el.classList.add('m');
+      else el.classList.add('s');
+    }
+  });
+
+  const labels = ['','Faible','Moyen','Fort','Très fort'];
+  const colors = ['var(--gray)','var(--red)','var(--gold)','var(--green)','var(--green)'];
+  txt.textContent = score > 0 ? labels[score] : 'Entrez un mot de passe';
+  txt.style.color = colors[score] || 'var(--gray)';
+}
+
+// ── TOGGLE CGU ──
+function toggleCGU() {
+  cguAccepted = !cguAccepted;
+  const el = document.getElementById('cgu-check');
+  el.className = 'custom-check' + (cguAccepted ? ' checked' : '');
+  if(cguAccepted) hideErr('cgu');
+}
+
+// ── VALIDATION ──
+function showErr(id, show=true) {
+  const el = document.getElementById('err-'+id);
+  if(el) el.classList.toggle('show', show);
+  const inp = document.getElementById('f-'+id);
+  if(inp) inp.classList.toggle('error', show);
+}
+function hideErr(id) { showErr(id, false); }
+function markOk(id) {
+  const inp = document.getElementById('f-'+id);
+  if(inp) { inp.classList.remove('error'); inp.classList.add('ok'); }
+}
+
+function validate() {
+  let ok = true;
+  const nom   = document.getElementById('f-nom').value.trim();
+  const tel   = document.getElementById('f-tel').value.replace(/\s/g,'');
+  const email = document.getElementById('f-email').value.trim();
+  const pwd   = document.getElementById('f-pwd').value;
+  const pwd2  = document.getElementById('f-pwd2').value;
+
+  if(nom.length < 2)     { showErr('nom');   ok=false; } else { hideErr('nom');   markOk('nom');   }
+  if(tel.length < 8)     { showErr('tel');   ok=false; } else { hideErr('tel');   markOk('tel');   }
+  if(!email.includes('@')){ showErr('email'); ok=false; } else { hideErr('email'); markOk('email'); }
+  if(pwd.length < 8)     { showErr('pwd');   ok=false; } else { hideErr('pwd');   markOk('pwd');   }
+  if(pwd !== pwd2)       { showErr('pwd2');  ok=false; } else { hideErr('pwd2');  markOk('pwd2');  }
+  if(!cguAccepted)       { showErr('cgu');   ok=false; }
+
+  return ok;
+}
+
+// ── INSCRIPTION ──
+async function inscrire() {
+  if(!validate()) {
+    showToast('⚠️ Vérifiez les champs en rouge','error');
+    return;
+  }
+
+  const btn   = document.getElementById('btn-submit');
+  const nom   = document.getElementById('f-nom').value.trim();
+  const pays  = document.getElementById('f-pays').value;
+  const tel   = pays + document.getElementById('f-tel').value.replace(/\s/g,'');
+  const email = document.getElementById('f-email').value.trim().toLowerCase();
+  const pwd   = document.getElementById('f-pwd').value;
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin"></div><span>Création du compte…</span>';
+
+  try {
+    // Inscription Supabase Auth
+    const { data, error } = await sb.auth.signUp({
+      email,
+      password: pwd,
+      options: {
+        data: {
+          full_name:    nom,
+          telephone:    tel,
+          nom_complet:  nom,
+        }
+      }
+    });
+
+    if(error) throw error;
+
+    // Sauvegarder profil dans la table users
+    const uid = data.user?.id;
+    if(uid) {
+      await sb.from('utilisateurs').upsert({
+        id:          uid,
+        nom:         nom,
+        email:       email,
+        telephone:   tel,
+        statut:      'actif',
+        solde:       0,
+        created_at:  new Date().toISOString()
+      }, { onConflict: 'id' });
+    }
+
+    showToast('🎉 Compte créé avec succès !', 'success');
+
+    btn.innerHTML = '<span>✅ Compte créé !</span>';
+    btn.style.background = 'linear-gradient(135deg,var(--green),#00A050)';
+
+    // Rediriger vers la page de plans après 1.5s
+    setTimeout(() => {
+      window.location.href = 'silla-plans.html';
+    }, 1500);
+
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '<span>🚀 Créer mon compte SILLA</span>';
+
+    const msg = e.message || '';
+    if(msg.includes('already registered') || msg.includes('already been registered')) {
+      showToast('❌ Cet email est déjà utilisé', 'error');
+      showErr('email');
+    } else if(msg.includes('Password')) {
+      showToast('❌ Mot de passe trop simple', 'error');
+      showErr('pwd');
+    } else {
+      showToast('❌ ' + (msg || 'Erreur de connexion'), 'error');
+    }
+  }
+}
+
+// ── TOAST ──
+let _tt = null;
+function showToast(msg, type='info') {
+  const el = document.getElementById('toast');
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  clearTimeout(_tt);
+  _tt = setTimeout(() => { el.className = ''; }, 4000);
+}
+
+// ── LIVE VALIDATION ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('f-nom')?.addEventListener('blur', () => {
+    const v = document.getElementById('f-nom').value.trim();
+    if(v.length >= 2) markOk('nom'); else if(v) showErr('nom');
+  });
+  document.getElementById('f-email')?.addEventListener('blur', () => {
+    const v = document.getElementById('f-email').value.trim();
+    if(v.includes('@') && v.includes('.')) markOk('email'); else if(v) showErr('email');
+  });
+  document.getElementById('f-pwd2')?.addEventListener('input', () => {
+    const p1 = document.getElementById('f-pwd').value;
+    const p2 = document.getElementById('f-pwd2').value;
+    if(p2 && p1 !== p2) showErr('pwd2'); else if(p2) { hideErr('pwd2'); markOk('pwd2'); }
+  });
+  // Enter key
+  document.querySelectorAll('.inp').forEach(inp => {
+    inp.addEventListener('keydown', e => { if(e.key === 'Enter') inscrire(); });
+  });
+});
+</script>
+</body>
+</html>
