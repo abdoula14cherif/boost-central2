@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — FAQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#FEFCF7;--warm:#FDF6E9;--gold:#B8860B;--gold-l:#D4A017;--gold-dim:rgba(184,134,11,.08);--ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;--border:rgba(184,134,11,.15);--green:#16A34A;--ember:#E05A2B;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;padding-bottom:40px;}
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
+.hero{background:linear-gradient(135deg,#1A0F00,#3D2200);padding:22px 20px;margin:16px;border-radius:14px;text-align:center;}
+.hero-ico{font-size:2.2rem;margin-bottom:8px;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#E8C060;margin-bottom:6px;}
+.hero-sub{font-size:.7rem;color:rgba(232,192,96,.5);}
+
+/* SEARCH */
+.search-wrap{padding:0 16px 14px;}
+.search-inp{width:100%;padding:13px 16px;background:#fff;border:1.5px solid var(--border);border-radius:10px;font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--ink);outline:none;}
+.search-inp:focus{border-color:var(--gold-l);}
+.search-inp::placeholder{color:rgba(45,31,0,.28);}
+
+.cat-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding:0 16px;margin-bottom:8px;display:block;}
+
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:0 16px 8px;box-shadow:0 2px 6px rgba(90,50,0,.06);}
+.faq-q{padding:14px 18px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;user-select:none;}
+.faq-q:hover{background:var(--warm);}
+.faq-ico{width:30px;height:30px;border-radius:8px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;margin-top:1px;}
+.faq-question{flex:1;font-size:.82rem;font-weight:600;color:var(--ink);line-height:1.5;}
+.faq-arrow{color:var(--gold);font-size:.8rem;margin-top:2px;flex-shrink:0;transition:transform .22s;}
+.faq-arrow.open{transform:rotate(180deg);}
+.faq-answer{font-size:.76rem;color:var(--brown);line-height:1.8;padding:0 18px 15px 60px;display:none;}
+.faq-answer.open{display:block;}
+.faq-answer strong{color:var(--ink);}
+
+.contact-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;margin:16px;text-align:center;box-shadow:0 2px 8px rgba(90,50,0,.07);}
+.cc-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.cc-sub{font-size:.76rem;color:var(--muted);margin-bottom:16px;line-height:1.6;}
+.cc-btn{display:inline-block;padding:12px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;border-radius:8px;text-decoration:none;box-shadow:0 4px 12px rgba(184,134,11,.22);}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="javascript:history.back()">←</a>
+  <div class="tb-title">Questions fréquentes</div>
+</div>
+
+<div class="hero">
+  <div class="hero-ico">❓</div>
+  <div class="hero-title">FAQ SILLA</div>
+  <div class="hero-sub">Trouvez rapidement les réponses à vos questions</div>
+</div>
+
+<div class="search-wrap">
+  <input class="search-inp" id="search-faq" placeholder="🔍 Rechercher une question..." oninput="filterFaq()"/>
+</div>
+
+<span class="cat-label">💰 Investissements</span>
+
+<div class="faq-item" data-tags="investir plan comment debut">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">📈</div>
+    <div class="faq-question">Comment investir sur SILLA ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Rechargez votre solde via Mobile Money ou Crypto, puis allez dans <strong>Plans d'investissement</strong> ou <strong>Smart Invest</strong>. Choisissez un plan correspondant à votre budget et confirmez. L'investissement est activé instantanément.</div>
+</div>
+
+<div class="faq-item" data-tags="gain récupérer argent retrait dispo">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">💰</div>
+    <div class="faq-question">Quand puis-je récupérer mes gains ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Les gains des <strong>plans VIP et Premium</strong> sont disponibles chaque jour selon les taux indiqués. Pour les <strong>plans Smart Invest</strong>, les gains sont disponibles à la fin de la période. Vous verrez un badge <em>🔥 Dispo !</em> sur votre plan actif.</div>
+</div>
+
+<div class="faq-item" data-tags="plan vip starter premium elite difference">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">💎</div>
+    <div class="faq-question">Quelle différence entre Starter, Premium et Élite ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer"><strong>Starter</strong> (3 000F – 6 000F) : idéal pour débuter. <strong>Premium</strong> (15 000F – 50 000F) : meilleurs rendements sur 60 ou 45 jours. <strong>Élite</strong> (200 000F – 2 000 000F) : rendements maximaux pour les grands investisseurs.</div>
+</div>
+
+<div class="faq-item" data-tags="smart invest rapide prod différence">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">🤖</div>
+    <div class="faq-question">C'est quoi les plans Smart Invest ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer"><strong>Plans Rapides</strong> : gain fixe garanti (ex: 2 000F → 4 000F en 10 jours). Maximum 3 simultanément. <strong>Plans Prod</strong> : vous choisissez le montant et la durée (1 à 30 jours), avec un pourcentage allant de +3% à +40%. Illimités.</div>
+</div>
+
+<span class="cat-label" style="margin-top:8px">💸 Retraits & Dépôts</span>
+
+<div class="faq-item" data-tags="retrait minimum argent sortir">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">💸</div>
+    <div class="faq-question">Quel est le minimum de retrait ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Le montant minimum pour effectuer un retrait est de <strong>1 000 FCFA</strong>. Un seul retrait est autorisé par jour, uniquement de <strong>8h00 à 18h00</strong>.</div>
+</div>
+
+<div class="faq-item" data-tags="retrait bloqué investir bonus">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">🔒</div>
+    <div class="faq-question">Pourquoi je ne peux pas retirer avec le bonus ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Le bonus de bienvenue de <strong>1 000F</strong> est destiné à vous faire découvrir la plateforme. Pour activer les retraits, vous devez d'abord effectuer au moins un investissement réel (recharge + activation d'un plan).</div>
+</div>
+
+<div class="faq-item" data-tags="recharge dépôt mobile money orange mtn">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">📱</div>
+    <div class="faq-question">Comment recharger mon solde ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Allez dans <strong>Recharge</strong> et choisissez Mobile Money (Orange Money ou MTN) ou Crypto. Envoyez le montant sur le numéro indiqué, puis soumettez la confirmation avec la référence de transaction. Votre solde est crédité après validation.</div>
+</div>
+
+<div class="faq-item" data-tags="délai recharge combien temps validation">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">⏱</div>
+    <div class="faq-question">Combien de temps pour valider une recharge ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Les recharges Mobile Money sont validées en général sous <strong>15 à 30 minutes</strong> durant les heures ouvrables. Les recharges crypto peuvent prendre jusqu'à 24h selon le réseau utilisé.</div>
+</div>
+
+<span class="cat-label" style="margin-top:8px">👑 Parrainage</span>
+
+<div class="faq-item" data-tags="parrainage commission filleul 5%">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">👑</div>
+    <div class="faq-question">Comment fonctionne le parrainage ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Partagez votre lien ou code de parrainage. Quand votre filleul investit, vous recevez automatiquement <strong>5% du montant investi</strong> sur votre solde. Plus vos filleuls investissent, plus vous gagnez — sans limite !</div>
+</div>
+
+<div class="faq-item" data-tags="code parrain lien inscription référence">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">🔗</div>
+    <div class="faq-question">Comment partager mon lien de parrainage ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Dans votre <strong>Profil</strong> ou la section <strong>Parrainage</strong>, vous trouverez votre code et un lien unique. Partagez-le via WhatsApp, SMS ou copiez-le. Quand quelqu'un s'inscrit via votre lien, le code est détecté automatiquement.</div>
+</div>
+
+<span class="cat-label" style="margin-top:8px">🔐 Compte & Sécurité</span>
+
+<div class="faq-item" data-tags="mot de passe oublié reset email">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">🔑</div>
+    <div class="faq-question">J'ai oublié mon mot de passe</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Sur la page de connexion, cliquez sur <strong>Mot de passe oublié</strong>. Entrez votre email, vous recevrez un lien de réinitialisation. Vérifiez aussi vos spams si vous ne voyez pas l'email.</div>
+</div>
+
+<div class="faq-item" data-tags="supprimer compte désactivé suspendu">
+  <div class="faq-q" onclick="toggleFaq(this)">
+    <div class="faq-ico">🗑</div>
+    <div class="faq-question">Puis-je supprimer mon compte ?</div>
+    <div class="faq-arrow">▼</div>
+  </div>
+  <div class="faq-answer">Oui. Contactez le support SILLA via l'application. Toutes vos données seront supprimées sous 48h. Assurez-vous d'avoir retiré tous vos fonds disponibles avant de faire la demande.</div>
+</div>
+
+<div class="contact-card">
+  <div class="cc-title">Vous n'avez pas trouvé la réponse ?</div>
+  <div class="cc-sub">Notre équipe support est disponible pour répondre à toutes vos questions dans les 48h ouvrables.</div>
+  <a class="cc-btn" href="silla-support.html">📞 Contacter le support →</a>
+</div>
+
+<script>
+function toggleFaq(qEl){
+  const arrow=qEl.querySelector('.faq-arrow');
+  const answer=qEl.nextElementSibling;
+  const open=answer.classList.contains('open');
+  // Fermer tous les autres
+  document.querySelectorAll('.faq-answer.open').forEach(a=>{a.classList.remove('open');a.previousElementSibling.querySelector('.faq-arrow').classList.remove('open');});
+  if(!open){answer.classList.add('open');arrow.classList.add('open');}
+}
+
+function filterFaq(){
+  const q=document.getElementById('search-faq').value.toLowerCase().trim();
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const tags=item.dataset.tags||'';
+    const question=item.querySelector('.faq-question')?.textContent.toLowerCase()||'';
+    const answer=item.querySelector('.faq-answer')?.textContent.toLowerCase()||'';
+    item.style.display=(!q||tags.includes(q)||question.includes(q)||answer.includes(q))?'block':'none';
+  });
+  document.querySelectorAll('.cat-label').forEach(l=>l.style.display=q?'none':'block');
+}
+</script>
+</body>
+</html>
