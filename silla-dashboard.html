@@ -4,567 +4,246 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 <title>SILLA — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
-  --orange:#FF6B1A;--orange-l:#FF8C42;--turq:#00C2B7;--green:#00C271;
-  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;--gray:#8892A8;
-  --border:#DDE3F5;--red:#E83030;--gold:#F5B731;--nav-h:70px;
+  --cream:#FEFCF7;--warm:#FDF6E9;--card:#FFFFFF;
+  --gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);
+  --ember:#E05A2B;--green:#16A34A;--blue:#1D4ED8;
+  --ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;
+  --border:rgba(184,134,11,.15);--line:rgba(184,134,11,.12);
+  --shadow:rgba(90,50,0,.09);--nav:66px;
 }
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);overflow-x:hidden;}
-body{display:flex;flex-direction:column;min-height:100vh;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7 0%,#FDF6E9 100%);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;overflow-x:hidden;}
 
-/* ══ TOPBAR ══ */
-.topbar{
-  background:var(--blue-dark);height:58px;padding:0 1rem;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:80;box-shadow:0 2px 16px rgba(8,14,42,.3);
-  flex-shrink:0;
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;}
+.tb-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--gold);}
+.tb-right{display:flex;align-items:center;gap:10px;}
+.tb-notif{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;position:relative;}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--ember);border:1.5px solid var(--cream);}
+.tb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-ll));
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;cursor:pointer;}
+
+/* SCROLL */
+.scroll{padding:0 0 calc(var(--nav)+20px);}
+
+/* HERO SOLDE */
+.hero{
+  margin:16px 16px 0;border-radius:16px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,#1A0F00 0%,#3D2200 50%,#1A0F00 100%);
+  padding:28px 24px;box-shadow:0 8px 32px rgba(90,50,0,.25);
 }
-.burger{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:all .2s;}
-.burger:hover{background:rgba(255,255,255,.13);}
-.burger span{display:block;width:18px;height:2px;background:rgba(255,255,255,.8);border-radius:2px;transition:all .3s;}
-.burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
-.burger.open span:nth-child(2){opacity:0;transform:translateX(-8px);}
-.burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
-.top-logo{font-family:'Clash Display',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:2px;color:#fff;}
-.top-logo span{color:var(--orange);}
-.top-right{display:flex;align-items:center;gap:.6rem;}
-.notif-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;position:relative;}
-.notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);border-radius:50%;border:2px solid var(--blue-dark);}
-.user-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:800;color:#fff;cursor:pointer;border:2px solid rgba(255,255,255,.15);}
+.hero::before{content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9922A' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.25em;
+  color:rgba(232,192,96,.6);text-transform:uppercase;margin-bottom:8px;}
+.hero-solde{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;
+  color:#E8C060;line-height:1;margin-bottom:4px;}
+.hero-currency{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;
+  color:rgba(232,192,96,.5);margin-bottom:20px;}
+.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ha{padding:12px;border-radius:8px;text-align:center;cursor:pointer;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;border:none;font-family:'Outfit',sans-serif;}
+.ha.recharge{background:rgba(232,192,96,.15);border:1px solid rgba(232,192,96,.25);}
+.ha.retrait{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);}
+.ha:hover{transform:translateY(-1px);}
+.ha-ico{font-size:1.3rem;}
+.ha-lbl{font-size:.65rem;font-weight:600;letter-spacing:.05em;color:rgba(232,192,96,.8);}
+.hero-bonus{position:absolute;top:16px;right:16px;
+  background:rgba(224,90,43,.2);border:1px solid rgba(224,90,43,.35);
+  border-radius:20px;padding:4px 10px;font-size:.58rem;font-weight:700;
+  color:#F5A882;letter-spacing:.06em;}
 
-/* ══ BURGER MENU ══ */
-.menu-overlay{position:fixed;inset:0;background:rgba(8,14,42,.55);z-index:199;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);}
-.menu-overlay.open{opacity:1;pointer-events:all;}
-.side-menu{
-  position:fixed;left:0;top:0;bottom:0;width:78vw;max-width:300px;
-  background:var(--blue-dark);z-index:200;
-  display:flex;flex-direction:column;
-  transform:translateX(-100%);transition:transform .32s cubic-bezier(.4,0,.2,1);
-  box-shadow:6px 0 32px rgba(8,14,42,.4);
-}
-.side-menu.open{transform:translateX(0);}
-.sm-head{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid rgba(255,255,255,.07);}
-.sm-user-row{display:flex;align-items:center;gap:.85rem;margin-bottom:.5rem;}
-.sm-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#fff;border:2.5px solid rgba(255,255,255,.15);flex-shrink:0;}
-.sm-name{font-size:.92rem;font-weight:700;color:#fff;}
-.sm-email{font-size:.68rem;color:rgba(255,255,255,.35);margin-top:.1rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;}
-.sm-solde-row{display:flex;align-items:center;gap:.5rem;margin-top:.7rem;background:rgba(255,255,255,.05);border-radius:10px;padding:.55rem .8rem;}
-.sm-solde-lbl{font-size:.65rem;color:rgba(255,255,255,.35);font-family:'DM Mono',monospace;letter-spacing:.05em;}
-.sm-solde-val{font-family:'Clash Display',sans-serif;font-size:1.1rem;color:var(--gold);font-weight:700;margin-left:auto;}
-.sm-nav{flex:1;overflow-y:auto;padding:.7rem 0;}
-.sm-group{font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.2);padding:.7rem 1.2rem .3rem;}
-.sm-item{display:flex;align-items:center;gap:.9rem;padding:.72rem 1.2rem;cursor:pointer;transition:all .18s;text-decoration:none;color:rgba(255,255,255,.55);font-size:.85rem;font-weight:600;}
-.sm-item:hover,.sm-item.active{background:rgba(255,255,255,.06);color:#fff;}
-.sm-item.active{border-left:3px solid var(--orange);}
-.sm-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
-.sm-ico.or{background:rgba(255,107,26,.12);}
-.sm-ico.cy{background:rgba(0,194,113,.1);}
-.sm-ico.bl{background:rgba(27,63,228,.15);}
-.sm-ico.gy{background:rgba(255,255,255,.06);}
-.sm-ico.go{background:rgba(245,183,49,.1);}
-.sm-foot{padding:.9rem 1.2rem;border-top:1px solid rgba(255,255,255,.07);}
-.sm-logout{width:100%;padding:.65rem;border-radius:10px;background:rgba(232,48,48,.1);border:1px solid rgba(232,48,48,.2);color:rgba(255,100,100,.8);font-size:.8rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;}
-.sm-logout:hover{background:rgba(232,48,48,.2);color:#ff6b6b;}
+/* QUICK STATS */
+.qstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 16px 0;}
+.qs{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;
+  box-shadow:0 2px 8px var(--shadow);}
+.qs-val{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--gold);line-height:1;}
+.qs-lbl{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
-/* ══ MAIN SCROLL ══ */
-.main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--nav-h)+1.2rem);max-width:480px;margin:0 auto;width:100%;}
+/* SECTION TITLE */
+.sec{display:flex;align-items:center;gap:10px;padding:18px 16px 10px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);}
+.sec-line{flex:1;height:1px;background:var(--border);}
+.sec-more{font-size:.7rem;color:var(--gold);text-decoration:none;font-weight:600;white-space:nowrap;}
 
-/* ══ GREETING ══ */
-.greeting{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
-.greet-left h2{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;color:var(--dark);}
-.greet-left p{font-size:.72rem;color:var(--gray);margin-top:.15rem;}
-.greet-date{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--gray);text-align:right;}
-
-/* ══ CARTE SOLDE ══ */
-.balance-card{
-  background:linear-gradient(135deg,var(--blue-dark) 0%,#1A3A7A 50%,#0D2A5A 100%);
-  border-radius:22px;padding:1.4rem 1.3rem 1.2rem;margin-bottom:.9rem;
-  position:relative;overflow:hidden;
-  box-shadow:0 8px 32px rgba(26,63,227,.28);
-}
-.bc-pattern{position:absolute;inset:0;pointer-events:none;opacity:.06;
-  background-image:radial-gradient(circle at 20% 80%,rgba(255,255,255,1) 1px,transparent 1px),radial-gradient(circle at 80% 20%,rgba(255,255,255,1) 1px,transparent 1px);
-  background-size:28px 28px;}
-.bc-glow{position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(0,194,183,.18) 0%,transparent 70%);pointer-events:none;}
-.bc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.8rem;position:relative;z-index:1;}
-.bc-lbl{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.3rem;}
-.bc-val{font-family:'Clash Display',sans-serif;font-size:2.4rem;font-weight:700;color:#fff;letter-spacing:-.01em;line-height:1;}
-.bc-val span{font-size:1rem;color:rgba(255,255,255,.5);font-weight:400;margin-left:.2rem;}
-.bc-chip{background:rgba(0,194,113,.15);border:1px solid rgba(0,194,113,.3);border-radius:99px;padding:.28rem .75rem;font-size:.65rem;font-weight:700;color:#4DFFB4;display:flex;align-items:center;gap:.3rem;}
-.bc-chip.inactive{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4);}
-.bc-divider{height:1px;background:rgba(255,255,255,.08);margin:.8rem 0;position:relative;z-index:1;}
-.bc-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;position:relative;z-index:1;}
-.bc-stat{text-align:center;}
-.bc-stat-val{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:#fff;}
-.bc-stat-lbl{font-size:.58rem;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;letter-spacing:.06em;margin-top:.1rem;}
-
-/* ══ BONUS INSCRIPTION ══ */
-.bonus-card{
-  background:linear-gradient(135deg,#2A1A00,#3D2600);
-  border:1px solid rgba(245,183,49,.25);border-radius:16px;
-  padding:1rem 1.1rem;margin-bottom:.9rem;
-  display:flex;align-items:center;gap:.9rem;
-  position:relative;overflow:hidden;cursor:pointer;
-  box-shadow:0 4px 16px rgba(245,183,49,.1);
-  transition:all .25s;
-}
-.bonus-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,183,49,.18);}
-.bonus-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.bonus-ico{width:44px;height:44px;border-radius:12px;background:rgba(245,183,49,.15);border:1px solid rgba(245,183,49,.25);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
-.bonus-info{flex:1;}
-.bonus-title{font-size:.85rem;font-weight:800;color:var(--gold);}
-.bonus-sub{font-size:.7rem;color:rgba(245,183,49,.55);margin-top:.1rem;line-height:1.4;}
-.bonus-amt{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold);flex-shrink:0;}
-
-/* ══ GAINS EN COURS ══ */
-.gains-section{margin-bottom:.9rem;}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem;}
-.section-title{font-size:.82rem;font-weight:800;color:var(--dark);display:flex;align-items:center;gap:.4rem;}
-.see-all{font-size:.7rem;color:var(--blue2);font-weight:700;cursor:pointer;text-decoration:none;}
-
-.gain-card{
-  background:var(--white);border-radius:16px;padding:1rem 1.1rem;
-  border:1px solid var(--border);margin-bottom:.6rem;
-  box-shadow:0 2px 8px rgba(27,63,228,.05);
+/* PLANS ACTIFS */
+.plan-card{
+  margin:0 16px 10px;background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:16px;box-shadow:0 2px 12px var(--shadow);display:flex;align-items:center;gap:14px;
   position:relative;overflow:hidden;
 }
-.gain-card.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--green),var(--turq));}
-.gain-card.expired::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border);}
-.gc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
-.gc-plan{display:flex;align-items:center;gap:.5rem;}
-.gc-plan-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;}
-.gc-plan-name{font-size:.8rem;font-weight:800;color:var(--dark);}
-.gc-plan-dur{font-size:.62rem;color:var(--gray);margin-top:.05rem;}
-.gc-badge{font-size:.62rem;font-weight:700;padding:.2rem .6rem;border-radius:99px;}
-.gcb-active{background:rgba(0,194,113,.1);color:#006B3C;border:1px solid rgba(0,194,113,.2);}
-.gcb-ready{background:rgba(255,107,26,.1);color:var(--orange);border:1px solid rgba(255,107,26,.2);animation:pulse 1.5s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
-.gcb-expired{background:rgba(232,48,48,.07);color:var(--red);border:1px solid rgba(232,48,48,.15);}
-.gc-amounts{display:flex;align-items:flex-end;justify-content:space-between;}
-.gc-gain-lbl{font-size:.62rem;color:var(--gray);margin-bottom:.1rem;}
-.gc-gain-val{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green);}
-.gc-investi{font-size:.7rem;color:var(--gray);}
-.gc-investi span{color:var(--dark);font-weight:700;}
-.gc-progress{margin-top:.65rem;}
-.prog-bar{height:5px;background:var(--border);border-radius:99px;overflow:hidden;}
-.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--blue2));transition:width .8s ease;}
-.prog-fill.green{background:linear-gradient(90deg,var(--green),var(--turq));}
-.prog-fill.orange{background:linear-gradient(90deg,var(--orange),var(--orange-l));}
-.prog-txt{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gray);margin-top:.3rem;}
+.plan-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold),var(--gold-ll));}
+.pc-ico{width:42px;height:42px;border-radius:11px;background:var(--gold-dim);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.pc-info{flex:1;min-width:0;}
+.pc-name{font-size:.82rem;font-weight:700;color:var(--ink);}
+.pc-sub{font-size:.62rem;color:var(--muted);margin-top:2px;}
+.pc-right{text-align:right;flex-shrink:0;}
+.pc-gain{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--green);}
+.pc-status{font-size:.58rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-top:3px;display:inline-block;}
+.s-actif{background:rgba(22,163,74,.1);color:#15803D;}
+.s-dispo{background:rgba(224,90,43,.1);color:var(--ember);animation:pulse-badge 1.5s ease-in-out infinite;}
+@keyframes pulse-badge{0%,100%{opacity:1;}50%{opacity:.6;}}
 
-/* BOUTON RÉCUPÉRER */
-.btn-recover{
-  width:100%;margin-top:.7rem;padding:.7rem;
-  background:linear-gradient(135deg,var(--orange),var(--orange-l));
-  border:none;border-radius:10px;color:#fff;
-  font-size:.78rem;font-weight:800;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:.4rem;
-  transition:all .2s;box-shadow:0 4px 12px rgba(255,107,26,.25);
+/* PROGRESS */
+.prog-bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:8px;}
+.prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold-ll));transition:width .8s ease;}
+
+/* QUICK MENU */
+.qmenu{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 16px;}
+.qm{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 6px;
+  text-align:center;cursor:pointer;text-decoration:none;transition:all .2s;
+  box-shadow:0 2px 8px var(--shadow);}
+.qm:hover{transform:translateY(-2px);box-shadow:0 4px 16px var(--shadow);}
+.qm:active{transform:scale(.95);}
+.qm-ico{font-size:1.3rem;margin-bottom:5px;}
+.qm-lbl{font-size:.58rem;font-weight:700;color:var(--brown);}
+
+/* NOTIFICATIONS */
+.notif-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:14px 16px;border-bottom:1px solid var(--line);
 }
-.btn-recover:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,107,26,.35);}
-.btn-recover:disabled{opacity:.4;cursor:not-allowed;transform:none;}
-.btn-recover.expired-btn{background:linear-gradient(135deg,#E83030,#C00);box-shadow:0 4px 12px rgba(232,48,48,.2);}
+.notif-item:last-child{border-bottom:none;}
+.ni-ico{width:34px;height:34px;border-radius:10px;background:var(--gold-dim);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.ni-info{flex:1;}
+.ni-title{font-size:.78rem;font-weight:700;color:var(--ink);}
+.ni-sub{font-size:.63rem;color:var(--muted);margin-top:2px;line-height:1.5;}
+.ni-time{font-family:'DM Mono',monospace;font-size:.55rem;color:var(--muted);flex-shrink:0;}
 
-/* EMPTY GAINS */
-.empty-gains{text-align:center;padding:2rem 1rem;background:var(--white);border-radius:16px;border:1px solid var(--border);}
-.empty-ico{font-size:2.2rem;opacity:.3;margin-bottom:.5rem;}
-.empty-txt{font-size:.78rem;color:var(--gray);line-height:1.6;}
-.btn-invest-now{display:inline-flex;align-items:center;gap:.4rem;margin-top:.8rem;padding:.65rem 1.4rem;background:linear-gradient(135deg,var(--blue),var(--blue2));border:none;border-radius:10px;color:#fff;font-size:.78rem;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(27,63,227,.25);}
+/* EMPTY */
+.empty{text-align:center;padding:28px 20px;color:var(--muted);font-size:.78rem;}
+.empty-ico{font-size:2rem;opacity:.3;margin-bottom:8px;}
 
-/* ══ ACTIONS RAPIDES ══ */
-.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.9rem;}
-.qa{background:var(--white);border-radius:14px;padding:1rem .9rem;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:.5rem;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(27,63,228,.04);}
-.qa:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(27,63,228,.1);border-color:var(--blue2);}
-.qa-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
-.qa-ico.blue{background:rgba(27,63,228,.08);}
-.qa-ico.green{background:rgba(0,194,113,.1);}
-.qa-ico.orange{background:rgba(255,107,26,.1);}
-.qa-ico.gold{background:rgba(245,183,49,.1);}
-.qa-ttl{font-size:.78rem;font-weight:800;color:var(--dark);}
-.qa-sub{font-size:.62rem;color:var(--gray);}
-
-/* ══ STATS ══ */
-.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:.9rem;}
-.stat-box{background:var(--white);border-radius:14px;padding:.9rem .7rem;text-align:center;border:1px solid var(--border);box-shadow:0 2px 8px rgba(27,63,228,.04);}
-.stat-val{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;line-height:1;}
-.stat-lbl{font-size:.6rem;color:var(--gray);margin-top:.25rem;font-family:'DM Mono',monospace;letter-spacing:.05em;text-transform:uppercase;}
-.c-blue{color:var(--blue2);}
-.c-green{color:var(--green);}
-.c-orange{color:var(--orange);}
-
-/* ══ TRANSACTIONS ══ */
-.tx-item{display:flex;align-items:center;gap:.85rem;padding:.82rem 1rem;background:var(--white);border-radius:14px;margin-bottom:.6rem;border:1px solid var(--border);box-shadow:0 2px 6px rgba(27,63,228,.03);}
-.tx-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
-.tx-ico.in{background:rgba(0,194,113,.1);}
-.tx-ico.out{background:rgba(255,107,26,.1);}
-.tx-ico.gain{background:rgba(27,63,228,.08);}
-.tx-info{flex:1;min-width:0;}
-.tx-title{font-size:.8rem;font-weight:700;color:var(--dark);}
-.tx-date{font-size:.65rem;color:var(--gray);margin-top:.1rem;}
-.tx-amt{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;flex-shrink:0;}
-.tx-amt.pos{color:var(--green);}
-.tx-amt.neg{color:var(--red);}
-
-/* ══ BOTTOM NAV ══ */
-.bot-nav{
-  position:fixed;bottom:0;left:0;right:0;
-  height:var(--nav-h);background:var(--white);
+/* BOTTOM NAV */
+.botnav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;height:var(--nav);
+  background:rgba(254,252,247,.97);backdrop-filter:blur(12px);
   border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-around;
-  padding:0 .4rem;z-index:90;
-  box-shadow:0 -4px 20px rgba(8,14,42,.07);
+  display:flex;align-items:center;z-index:90;
+  box-shadow:0 -4px 20px rgba(90,50,0,.08);
 }
-.nav-btn{
-  display:flex;flex-direction:column;align-items:center;gap:.22rem;
-  padding:.5rem .6rem;border:none;background:none;cursor:pointer;
-  border-radius:12px;min-width:56px;transition:all .18s;
-  text-decoration:none;color:var(--gray);-webkit-tap-highlight-color:transparent;
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;
+  padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
+.bn-ico{font-size:1.2rem;line-height:1;}
+.bn-lbl{font-size:.55rem;font-weight:700;color:var(--muted);}
+.bn.active .bn-lbl{color:var(--gold);}
+.bn-center{
+  width:52px;height:52px;border-radius:50%;margin-bottom:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-ll));
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;
 }
-.nav-btn.active{color:var(--blue2);}
-.nav-btn:hover{background:rgba(27,63,228,.05);}
-.nav-ico{font-size:1.3rem;line-height:1;position:relative;}
-.nav-ico .badge{position:absolute;top:-5px;right:-7px;background:var(--red);color:#fff;font-size:.48rem;font-weight:800;min-width:14px;height:14px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid #fff;}
-.nav-lbl{font-size:.6rem;font-weight:700;}
-.nav-btn.active .nav-lbl{color:var(--blue2);}
-.nav-center{
-  width:52px;height:52px;border-radius:50%;
-  background:linear-gradient(135deg,var(--orange),var(--orange-l));
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;border:none;cursor:pointer;
-  box-shadow:0 4px 16px rgba(255,107,26,.4);
-  transition:all .2s;-webkit-tap-highlight-color:transparent;
-  margin-bottom:8px;flex-shrink:0;
-}
-.nav-center:hover{transform:scale(1.08);}
 
-/* ══ MODAL GÉNÉRIQUE ══ */
-.modal-bg{
-  position:fixed;inset:0;background:rgba(8,14,42,.5);z-index:300;
-  display:none;align-items:flex-end;justify-content:center;
-  backdrop-filter:blur(4px);
-}
-.modal-bg.open{display:flex;animation:fadeIn .2s ease;}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-sheet{
-  background:var(--white);border-radius:24px 24px 0 0;
-  width:100%;max-width:480px;
-  padding:1.4rem 1.2rem 2.5rem;
-  animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);
-  max-height:90vh;overflow-y:auto;
-}
-@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal-handle{width:38px;height:4px;background:var(--border);border-radius:99px;margin:0 auto 1.2rem;}
-.modal-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:.4rem;}
-.modal-sub{font-size:.78rem;color:var(--gray);margin-bottom:1.2rem;line-height:1.6;}
-.modal-field{margin-bottom:.9rem;}
-.modal-field label{display:block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--dark);margin-bottom:.32rem;}
-.modal-inp{width:100%;padding:.75rem .9rem;border:1.5px solid var(--border);border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--dark);background:#FAFBFF;outline:none;transition:all .2s;}
-.modal-inp:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(45,85,255,.08);}
-.modal-inp::placeholder{color:#C0C8DC;}
-.modal-btn{width:100%;padding:.92rem;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:13px;color:#fff;font-size:.9rem;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(255,107,26,.28);display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;}
-.modal-btn:hover{transform:translateY(-1px);}
-.modal-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.modal-btn.blue{background:linear-gradient(135deg,var(--blue),var(--blue2));box-shadow:0 5px 16px rgba(27,63,228,.25);}
-.modal-btn.green{background:linear-gradient(135deg,var(--green),#00A050);box-shadow:0 5px 16px rgba(0,194,113,.25);}
-.op-selector{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.9rem;}
-.op-btn{padding:.85rem;border-radius:12px;border:1.5px solid var(--border);background:#FAFBFF;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;}
-.op-btn.selected{border-color:var(--orange);background:rgba(255,107,26,.06);color:var(--orange);}
-.info-note{background:rgba(27,63,228,.05);border:1px solid rgba(27,63,228,.12);border-radius:10px;padding:.75rem .9rem;font-size:.74rem;color:var(--blue);line-height:1.7;margin-bottom:.9rem;}
-
-/* TOAST */
-#toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:.72rem 1.2rem;border-radius:14px;font-size:.8rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--turq);box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;white-space:nowrap;}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-#toast.success{border-color:var(--green);}
-#toast.error{border-color:var(--red);}
-#toast.warning{border-color:var(--gold);}
-
-.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
-@keyframes spin{to{transform:rotate(360deg);}}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);
+  background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;
+  font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
+  box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
+.toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
 </style>
 </head>
 <body>
 
-<!-- ══ TOPBAR ══ -->
+<!-- TOPBAR -->
 <div class="topbar">
-  <div class="burger" id="burgerBtn" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
-  <div class="top-logo">SIL<span>LA</span></div>
-  <div class="top-right">
-    <div class="notif-btn" onclick="goNotifs()">
-      🔔<div class="notif-dot" id="notifDot" style="display:none"></div>
-    </div>
-    <div class="user-av" id="userAv" onclick="goPage('profil')">?</div>
+  <div class="tb-logo">SILLA</div>
+  <div class="tb-right">
+    <div class="tb-notif" onclick="goNotifs()">🔔<div class="notif-dot" id="notif-dot" style="display:none"></div></div>
+    <div class="tb-avatar" id="tb-avatar">?</div>
   </div>
 </div>
 
-<!-- ══ MENU BURGER ══ -->
-<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-<div class="side-menu" id="sideMenu">
-  <div class="sm-head">
-    <div class="sm-user-row">
-      <div class="sm-av" id="smAv">?</div>
-      <div>
-        <div class="sm-name" id="smName">Chargement…</div>
-        <div class="sm-email" id="smEmail">—</div>
-      </div>
-    </div>
-    <div class="sm-solde-row">
-      <div>
-        <div class="sm-solde-lbl">SOLDE TOTAL</div>
-      </div>
-      <div class="sm-solde-val" id="smSolde">— F</div>
+<div class="toast" id="toast"></div>
+
+<div class="scroll">
+
+  <!-- HERO SOLDE -->
+  <div class="hero">
+    <div class="hero-bonus" id="hero-bonus" style="display:none">🎁 Bonus actif</div>
+    <div class="hero-eyebrow">Solde disponible</div>
+    <div class="hero-solde" id="hero-solde">— F</div>
+    <div class="hero-currency">FRANCS CFA · XAF</div>
+    <div class="hero-actions">
+      <a href="silla-recharge.html" class="ha recharge">
+        <div class="ha-ico">💳</div>
+        <div class="ha-lbl">Recharger</div>
+      </a>
+      <a href="silla-retrait.html" class="ha retrait">
+        <div class="ha-ico">💸</div>
+        <div class="ha-lbl">Retirer</div>
+      </a>
     </div>
   </div>
-  <nav class="sm-nav">
-    <div class="sm-group">Revenus</div>
-    <div class="sm-item" onclick="openModal('recharge');toggleMenu()">
-      <div class="sm-ico or">💳</div><span>Recharger mon compte</span>
+
+  <!-- STATS RAPIDES -->
+  <div class="qstats">
+    <div class="qs">
+      <div class="qs-val" id="qs-invests">0</div>
+      <div class="qs-lbl">Plans actifs</div>
     </div>
-    <div class="sm-item" onclick="openModal('retrait');toggleMenu()">
-      <div class="sm-ico cy">💸</div><span>Retirer mes gains</span>
+    <div class="qs">
+      <div class="qs-val" id="qs-gains">0F</div>
+      <div class="qs-lbl">Gains totaux</div>
     </div>
-    <div class="sm-group">Communauté</div>
-    <a href="silla-parrain.html" class="sm-item" onclick="toggleMenu()">
-      <div class="sm-ico go">👑</div><span>Mon code parrain</span>
-    </a>
-    <a href="silla-parrainage.html" class="sm-item" onclick="toggleMenu()">
-      <div class="sm-ico bl">👥</div><span>Mes filleuls</span>
-    </a>
-    <a href="silla-roue.html" class="sm-item" onclick="toggleMenu()">
-      <div class="sm-ico or">🎡</div><span>Roue de la fortune</span>
-    </a>
-    <div class="sm-group">Aide</div>
-    <a href="silla-support.html" class="sm-item" onclick="toggleMenu()">
-      <div class="sm-ico gy">🎧</div><span>Support client</span>
-    </a>
-    <a href="silla-faq.html" class="sm-item" onclick="toggleMenu()">
-      <div class="sm-ico gy">❓</div><span>FAQ</span>
-    </a>
-    <a href="silla-cgu.html" class="sm-item" onclick="toggleMenu()">
-      <div class="sm-ico gy">📋</div><span>Conditions d'utilisation</span>
-    </a>
-  </nav>
-  <div class="sm-foot">
-    <button class="sm-logout" onclick="logout()">🚪 Se déconnecter</button>
+    <div class="qs">
+      <div class="qs-val" id="qs-filleuls">0</div>
+      <div class="qs-lbl">Filleuls</div>
+    </div>
   </div>
+
+  <!-- MENU RAPIDE -->
+  <div class="sec"><div class="sec-title">Actions</div><div class="sec-line"></div></div>
+  <div class="qmenu">
+    <a class="qm" href="silla-plans.html"><div class="qm-ico">📈</div><div class="qm-lbl">Investir</div></a>
+    <a class="qm" href="silla-smart.html"><div class="qm-ico">🤖</div><div class="qm-lbl">Smart</div></a>
+    <a class="qm" href="silla-parrain.html"><div class="qm-ico">👑</div><div class="qm-lbl">Parrainer</div></a>
+    <a class="qm" href="silla-profil.html"><div class="qm-ico">👤</div><div class="qm-lbl">Profil</div></a>
+  </div>
+
+  <!-- PLANS ACTIFS -->
+  <div class="sec">
+    <div class="sec-title">Mes investissements</div>
+    <div class="sec-line"></div>
+    <a class="sec-more" href="silla-plans.html">Voir tout</a>
+  </div>
+  <div id="plans-list">
+    <div class="empty"><div class="empty-ico">📈</div>Aucun investissement actif</div>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="sec" id="notif-sec">
+    <div class="sec-title">Notifications</div>
+    <div class="sec-line"></div>
+  </div>
+  <div style="background:var(--card);margin:0 16px;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);margin-bottom:20px">
+    <div id="notif-list">
+      <div class="empty"><div class="empty-ico">🔔</div>Aucune notification</div>
+    </div>
+  </div>
+
 </div>
 
-<!-- ══ CONTENU PRINCIPAL ══ -->
-<div class="main" id="mainContent">
-
-  <!-- GREETING -->
-  <div class="greeting">
-    <div class="greet-left">
-      <h2>Bonjour 👋 <span id="greetName">—</span></h2>
-      <p>Votre portefeuille SILLA</p>
-    </div>
-    <div class="greet-date" id="greetDate">—</div>
-  </div>
-
-  <!-- CARTE SOLDE -->
-  <div class="balance-card">
-    <div class="bc-pattern"></div>
-    <div class="bc-glow"></div>
-    <div class="bc-top">
-      <div>
-        <div class="bc-lbl">Solde disponible</div>
-        <div class="bc-val"><span id="balanceFCFA">—</span><span>FCFA</span></div>
-      </div>
-      <div class="bc-chip" id="bcChip">● Actif</div>
-    </div>
-    <div class="bc-divider"></div>
-    <div class="bc-bottom">
-      <div class="bc-stat">
-        <div class="bc-stat-val" id="bcInvesti">0</div>
-        <div class="bc-stat-lbl">Investi</div>
-      </div>
-      <div class="bc-stat">
-        <div class="bc-stat-val" id="bcGains">0</div>
-        <div class="bc-stat-lbl">Gains total</div>
-      </div>
-      <div class="bc-stat">
-        <div class="bc-stat-val" id="bcFilleuls">0</div>
-        <div class="bc-stat-lbl">Filleuls</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BONUS INSCRIPTION -->
-  <div class="bonus-card" id="bonusCard" style="display:none" onclick="openBonusModal()">
-    <div class="bonus-ico">🎁</div>
-    <div class="bonus-info">
-      <div class="bonus-title">Bonus d'inscription débloqué !</div>
-      <div class="bonus-sub">Retirable après votre 1er investissement</div>
-    </div>
-    <div class="bonus-amt">+1 000F</div>
-  </div>
-
-  <!-- GAINS EN COURS -->
-  <div class="gains-section">
-    <div class="section-header">
-      <div class="section-title">⚡ Solde en cours</div>
-      <a href="silla-plans.html" class="see-all">+ Investir</a>
-    </div>
-    <div id="gainsList">
-      <div class="empty-gains">
-        <div class="empty-ico">📊</div>
-        <div class="empty-txt">Aucun investissement actif.<br>Choisissez un plan pour commencer.</div>
-        <button class="btn-invest-now" onclick="window.location.href='silla-plans.html'">📈 Choisir un plan →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ACTIONS RAPIDES -->
-  <div class="section-header">
-    <div class="section-title">🚀 Actions rapides</div>
-  </div>
-  <div class="quick-actions" style="margin-bottom:.9rem">
-    <div class="qa" onclick="openModal('recharge')">
-      <div class="qa-ico green">💳</div>
-      <div class="qa-ttl">Recharger</div>
-      <div class="qa-sub">Déposer des fonds</div>
-    </div>
-    <div class="qa" onclick="openModal('retrait')">
-      <div class="qa-ico orange">💸</div>
-      <div class="qa-ttl">Retirer</div>
-      <div class="qa-sub">Récupérer vos gains</div>
-    </div>
-    <div class="qa" onclick="window.location.href='silla-plans.html'">
-      <div class="qa-ico blue">📈</div>
-      <div class="qa-ttl">Investir</div>
-      <div class="qa-sub">Choisir un plan</div>
-    </div>
-    <div class="qa" onclick="window.location.href='silla-parrain.html'">
-      <div class="qa-ico gold">👥</div>
-      <div class="qa-ttl">Parrainer</div>
-      <div class="qa-sub">Inviter des amis</div>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="section-header">
-    <div class="section-title">📊 Statistiques</div>
-  </div>
-  <div class="stats-row" style="margin-bottom:.9rem">
-    <div class="stat-box">
-      <div class="stat-val c-blue" id="statInvests">0</div>
-      <div class="stat-lbl">Placements</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val c-green" id="statGains">0F</div>
-      <div class="stat-lbl">Gains</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val c-orange" id="statFilleuls">0</div>
-      <div class="stat-lbl">Filleuls</div>
-    </div>
-  </div>
-
-  <!-- DERNIÈRES TRANSACTIONS -->
-  <div class="section-header">
-    <div class="section-title">🔄 Dernières transactions</div>
-    <a href="silla-transactions.html" class="see-all">Tout voir</a>
-  </div>
-  <div id="txList">
-    <div style="text-align:center;padding:1.5rem;color:var(--gray);font-size:.78rem">Aucune transaction</div>
-  </div>
-
-  <div style="height:1rem"></div>
+<!-- BOTTOM NAV -->
+<div class="botnav">
+  <a class="bn active" href="silla-dashboard.html"><span class="bn-ico">🏠</span><span class="bn-lbl">Accueil</span></a>
+  <a class="bn" href="silla-plans.html"><span class="bn-ico">📈</span><span class="bn-lbl">Plans</span></a>
+  <button class="bn-center" onclick="window.location.href='silla-recharge.html'">💳</button>
+  <a class="bn" href="silla-smart.html"><span class="bn-ico">🤖</span><span class="bn-lbl">Smart</span></a>
+  <a class="bn" href="silla-profil.html"><span class="bn-ico">👤</span><span class="bn-lbl">Profil</span></a>
 </div>
-
-<!-- ══ BOTTOM NAV ══ -->
-<div class="bot-nav">
-  <button class="nav-btn" onclick="openModal('retrait')">
-    <span class="nav-ico">💸</span>
-    <span class="nav-lbl">Retrait</span>
-  </button>
-  <button class="nav-btn" onclick="openModal('recharge')">
-    <span class="nav-ico">💳</span>
-    <span class="nav-lbl">Recharge</span>
-  </button>
-  <button class="nav-center" onclick="window.location.href='silla-plans.html'" title="Investir">📈</button>
-  <a class="nav-btn" href="silla-smart.html">
-    <span class="nav-ico">🤖</span>
-    <span class="nav-lbl">Smart</span>
-  </a>
-  <a class="nav-btn" href="silla-profil.html">
-    <span class="nav-ico">👤</span>
-    <span class="nav-lbl">Profil</span>
-  </a>
-</div>
-
-<!-- ══ MODAL RECHARGE ══ -->
-<div class="modal-bg" id="modal-recharge" onclick="if(event.target===this)closeModal('recharge')">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-title">💳 Recharger mon compte</div>
-    <div class="modal-sub">Choisissez votre opérateur et entrez le montant</div>
-    <div class="op-selector">
-      <button class="op-btn" id="op-mtn" onclick="selectOp('mtn')">📱 MTN MoMo</button>
-      <button class="op-btn" id="op-orange" onclick="selectOp('orange')">🍊 Orange Money</button>
-    </div>
-    <div class="modal-field">
-      <label>Numéro Mobile Money</label>
-      <input class="modal-inp" id="rech-phone" type="tel" placeholder="6XX XX XX XX" inputmode="tel"/>
-    </div>
-    <div class="modal-field">
-      <label>Montant (FCFA)</label>
-      <input class="modal-inp" id="rech-amount" type="number" placeholder="Minimum 500 FCFA" inputmode="numeric"/>
-    </div>
-    <div class="info-note">ℹ️ Vous recevrez une demande de paiement sur votre téléphone. Confirmez avec votre code Mobile Money.</div>
-    <button class="modal-btn" id="rech-btn" onclick="doRecharge()">
-      <span>💳 Confirmer la recharge</span>
-    </button>
-  </div>
-</div>
-
-<!-- ══ MODAL RETRAIT ══ -->
-<div class="modal-bg" id="modal-retrait" onclick="if(event.target===this)closeModal('retrait')">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-title">💸 Retirer mes gains</div>
-    <div class="modal-sub">Transférez vos fonds sur votre Mobile Money</div>
-    <div class="op-selector">
-      <button class="op-btn" id="ret-mtn" onclick="selectRetOp('mtn')">📱 MTN MoMo</button>
-      <button class="op-btn" id="ret-orange" onclick="selectRetOp('orange')">🍊 Orange Money</button>
-    </div>
-    <div class="modal-field">
-      <label>Numéro Mobile Money</label>
-      <input class="modal-inp" id="ret-phone" type="tel" placeholder="6XX XX XX XX" inputmode="tel"/>
-    </div>
-    <div class="modal-field">
-      <label>Montant (FCFA)</label>
-      <input class="modal-inp" id="ret-amount" type="number" placeholder="Minimum 500 FCFA" inputmode="numeric"/>
-    </div>
-    <div class="info-note">ℹ️ Solde disponible : <strong id="retSoldeDisp">— FCFA</strong><br>Les retraits sont traités sous 24-72h ouvrables.</div>
-    <button class="modal-btn green" id="ret-btn" onclick="doRetrait()">
-      <span>💸 Confirmer le retrait</span>
-    </button>
-  </div>
-</div>
-
-<!-- ══ MODAL BONUS ══ -->
-<div class="modal-bg" id="modal-bonus" onclick="if(event.target===this)closeModal('bonus')">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div style="text-align:center;padding:1rem 0 .5rem">
-      <div style="font-size:3rem;margin-bottom:.7rem">🎁</div>
-      <div class="modal-title" style="margin-bottom:.4rem">Bonus d'inscription</div>
-      <div style="font-family:'Clash Display',sans-serif;font-size:2rem;color:var(--gold);font-weight:700;margin-bottom:.5rem">+1 000 FCFA</div>
-      <div class="modal-sub">Ce bonus est crédité sur votre compte mais ne peut être retiré qu'après avoir effectué votre <strong>premier investissement</strong>.</div>
-    </div>
-    <div class="info-note">💡 Investissez n'importe quel montant sur n'importe quel plan pour débloquer le retrait de votre bonus.</div>
-    <button class="modal-btn" onclick="closeModal('bonus');window.location.href='silla-plans.html'">📈 Choisir un plan maintenant</button>
-    <button style="width:100%;margin-top:.6rem;padding:.75rem;background:transparent;border:1.5px solid var(--border);border-radius:13px;color:var(--gray);font-size:.82rem;font-weight:700;cursor:pointer;" onclick="closeModal('bonus')">Plus tard</button>
-  </div>
-</div>
-
-<div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
@@ -572,432 +251,101 @@ const sb = supabase.createClient(
   'https://pnybmieunidegpxwkodn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
 );
-
 const fmt = n => Number(n||0).toLocaleString('fr-FR');
-const fmtK = n => n>=1000?Math.round(n/100)/10+'k':fmt(n);
-let U=null, profile=null, solde=0, selOp='', selRetOp='';
+const fmtK = n => n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed(0)+'k':fmt(n);
+let U=null,P=null;
 
-const PLANS={
-  bronze:{nom:'Bronze',ico:'🥉',taux:3,dur:1,bg:'rgba(205,127,50,.1)',clr:'#7B4A10'},
-  argent:{nom:'Argent',ico:'🥈',taux:10,dur:7,bg:'rgba(150,150,150,.1)',clr:'#555'},
-  or:{nom:'Or',ico:'🥇',taux:20,dur:14,bg:'rgba(255,215,0,.12)',clr:'#806A00'},
-  platine:{nom:'Platine',ico:'💎',taux:40,dur:30,bg:'rgba(167,139,250,.12)',clr:'#5B3DB5'}
-};
+function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4000);}
+function goNotifs(){document.getElementById('notif-sec').scrollIntoView({behavior:'smooth'});}
 
-// ─────────────────────────────────────
-// INIT — attend la session Supabase
-// ─────────────────────────────────────
 async function init(){
-  // Attendre que Supabase initialise la session (évite boucle de redirection)
-  let session = null;
-  // Essai 1 : session déjà disponible
-  const { data: d1 } = await sb.auth.getSession();
-  session = d1?.session;
-
-  // Essai 2 : attendre onAuthStateChange si pas encore chargé
-  if(!session) {
-    session = await new Promise(resolve => {
-      const { data: { subscription } } = sb.auth.onAuthStateChange((event, s) => {
-        subscription.unsubscribe();
-        resolve(s);
-      });
-      // Timeout 3s max
-      setTimeout(() => resolve(null), 3000);
-    });
-  }
-
-  if(!session) { window.location.href='silla-login.html'; return; }
-  U = session.user;
+  const{data}=await sb.auth.getSession();
+  if(!data?.session){window.location.href='silla-login.html';return;}
+  U=data.session.user;
 
   // Charger profil avec retry
-  let p = null;
-  for(let retry=0; retry<3; retry++){
-    try{
-      const{data,error}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
-      if(error) throw error;
-      if(data){ p=data; break; }
-      // Profil pas encore créé → attendre trigger
-      await new Promise(r=>setTimeout(r,1500));
-    }catch(e){
-      console.warn('Retry',retry,e.message);
-      await new Promise(r=>setTimeout(r,1500));
+  let tries=0;
+  while(tries<3){
+    const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+    if(p){P=p;break;}
+    await new Promise(r=>setTimeout(r,1200));
+    if(tries===2){
+      // Créer profil si absent
+      await sb.from('utilisateurs').upsert({id:U.id,nom:U.user_metadata?.full_name||'Membre',email:U.email,solde:1000,statut:'actif',is_admin:false,created_at:new Date().toISOString()},{onConflict:'id'});
+      const{data:pp}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+      P=pp||{solde:0,nom:'Membre'};
     }
+    tries++;
   }
 
-  if(!p){
-    // Créer profil manuellement si trigger n'a pas fonctionné
-    try{
-      const{data:np}=await sb.from('utilisateurs').upsert({
-        id:U.id, nom:U.user_metadata?.full_name||'Utilisateur',
-        email:U.email, telephone:U.user_metadata?.telephone||'',
-        statut:'actif', solde:1000,
-        code_parrainage:'SLA-'+Math.random().toString(36).slice(2,8).toUpperCase(),
-        bonus_inscription:true, bonus_utilise:false,
-        created_at:new Date().toISOString()
-      },{onConflict:'id'}).select().single();
-      p = np;
-    }catch(e){
-      console.error('Impossible de créer profil:',e);
-      showToast('⚠️ Erreur de chargement — réessayez','error');
-      setTimeout(()=>window.location.href='silla-login.html',3000);
-      return;
-    }
-  }
+  // Afficher infos
+  const prenom=(P?.nom||'').split(' ')[0]||'';
+  document.getElementById('tb-avatar').textContent=prenom[0]?.toUpperCase()||'?';
+  document.getElementById('hero-solde').textContent=fmt(P?.solde||0)+' F';
+  if(P?.solde===1000&&!P?.bonus_utilise) document.getElementById('hero-bonus').style.display='block';
 
-  profile=p; solde=p.solde||0;
-  return initWithProfile(p);
+  await Promise.all([loadInvests(),loadNotifs(),loadStats()]);
 }
 
-async function initWithProfile(p){
-  solde = p.solde||0;
-  // UI
-  const nom=(p.nom||'Utilisateur').split(' ')[0];
-  const ini=nom[0].toUpperCase();
-  document.getElementById('greetName').textContent=nom;
-  document.getElementById('userAv').textContent=ini;
-  document.getElementById('smAv').textContent=ini;
-  document.getElementById('smName').textContent=p.nom||'Utilisateur';
-  document.getElementById('smEmail').textContent=p.email||'—';
-  document.getElementById('balanceFCFA').textContent=fmt(solde);
-  document.getElementById('smSolde').textContent=fmt(solde)+' F';
-  document.getElementById('retSoldeDisp').textContent=fmt(solde)+' FCFA';
-
-  // Date
-  const now=new Date();
-  document.getElementById('greetDate').textContent=now.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'short'});
-
-  // Bonus inscription
-  if(!p.bonus_utilise && (p.solde||0)>=0){
-    document.getElementById('bonusCard').style.display='flex';
-  }
-
-  // Charger investissements
-  await loadInvestissements();
-  await loadStats();
-  await loadTransactions();
-  await verifierGainsExpires();
+async function loadStats(){
+  const[r1,r2,r3]=await Promise.all([
+    sb.from('investissements').select('*',{count:'exact',head:true}).eq('user_id',U.id).in('statut',['actif','gain_dispo']),
+    sb.from('transactions').select('montant').eq('user_id',U.id).eq('type','gain'),
+    sb.from('utilisateurs').select('*',{count:'exact',head:true}).eq('parrain_id',U.id),
+  ]);
+  document.getElementById('qs-invests').textContent=r1.count||0;
+  const totalGains=(r2.data||[]).reduce((s,t)=>s+(t.montant||0),0);
+  document.getElementById('qs-gains').textContent=fmtK(totalGains)+'F';
+  document.getElementById('qs-filleuls').textContent=r3.count||0;
 }
 
-// ─────────────────────────────────────
-// INVESTISSEMENTS EN COURS
-// ─────────────────────────────────────
-async function loadInvestissements(){
-  const{data:invs}=await sb.from('investissements')
-    .select('*').eq('user_id',U.id)
-    .in('statut',['actif','gain_dispo'])
-    .order('created_at',{ascending:false});
-
-  const list=document.getElementById('gainsList');
-  if(!invs||!invs.length){
-    list.innerHTML=`<div class="empty-gains">
-      <div class="empty-ico">📊</div>
-      <div class="empty-txt">Aucun investissement actif.<br>Choisissez un plan pour commencer.</div>
-      <button class="btn-invest-now" onclick="window.location.href='silla-plans.html'">📈 Choisir un plan →</button>
-    </div>`;
-    return;
-  }
-
+async function loadInvests(){
+  const{data}=await sb.from('investissements').select('*').eq('user_id',U.id).in('statut',['actif','gain_dispo']).order('created_at',{ascending:false}).limit(3);
+  const el=document.getElementById('plans-list');
+  if(!data?.length){el.innerHTML='<div class="empty"><div class="empty-ico">📈</div>Aucun plan actif — <a href="silla-plans.html" style="color:var(--gold)">Investir maintenant</a></div>';return;}
   const now=new Date();
-  list.innerHTML=invs.map(inv=>{
-    const plan=PLANS[inv.plan_type]||{nom:inv.plan_type,ico:'📈',taux:inv.taux||0,bg:'rgba(27,63,228,.08)',clr:'var(--blue)'};
-    const fin=new Date(inv.date_fin);
+  el.innerHTML=data.map(inv=>{
+    const fin=new Date(inv.date_fin||inv.created_at);
     const debut=new Date(inv.created_at);
-    const total_dur=fin-debut;
-    const elapsed=Math.min(now-debut,total_dur);
-    const pct=Math.round(elapsed/total_dur*100);
-    const restant=fin>now?Math.ceil((fin-now)/3600000):0;
-    const gainReady=inv.statut==='gain_dispo';
-    const gainMontant=Math.round(inv.montant*plan.taux/100);
-
-    // Vérifier si gain expiré (>48h après fin)
-    const expireAt=new Date(fin.getTime()+48*3600000);
-    const isExpired=now>expireAt;
-
-    let badge,btnHtml='';
-    if(isExpired){
-      badge='<div class="gc-badge gcb-expired">⏰ Expiré</div>';
-    }else if(gainReady){
-      badge='<div class="gc-badge gcb-ready">🔥 Gain prêt !</div>';
-      btnHtml=`<button class="btn-recover" onclick="recupererGain('${inv.id}',${gainMontant},${inv.montant})" data-inv="${inv.id}">
-        💰 Récupérer +${fmt(gainMontant)} FCFA
-      </button>`;
-    }else{
-      badge='<div class="gc-badge gcb-active">⚡ En cours</div>';
-    }
-
-    const progCls=gainReady?'orange':pct>80?'green':'';
-    const timeLeft=restant>=24?Math.ceil(restant/24)+'j':restant+'h';
-
-    return `<div class="gain-card ${isExpired?'expired':'active'}">
-      <div class="gc-top">
-        <div class="gc-plan">
-          <div class="gc-plan-ico" style="background:${plan.bg}">${plan.ico}</div>
-          <div>
-            <div class="gc-plan-name">Plan ${plan.nom}</div>
-            <div class="gc-plan-dur">+${plan.taux}% · ${plan.dur} jour${plan.dur>1?'s':''}</div>
-          </div>
-        </div>
-        ${badge}
+    const pct=Math.min(100,Math.round((now-debut)/(fin-debut)*100))||0;
+    const dispo=inv.statut==='gain_dispo';
+    return `<div class="plan-card">
+      <div class="pc-ico">${inv.plan_type?.startsWith('r')?'⚡':inv.plan_type?.startsWith('prod')?'🔬':'💎'}</div>
+      <div class="pc-info">
+        <div class="pc-name">${inv.plan_type?.toUpperCase()?.replace('_',' ')||'Plan'}</div>
+        <div class="pc-sub">${fmt(inv.montant)} F investi · ${inv.duree_jours}j</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
       </div>
-      <div class="gc-amounts">
-        <div>
-          <div class="gc-gain-lbl">${isExpired?'Gain expiré':'Gain attendu'}</div>
-          <div class="gc-gain-val" style="${isExpired?'color:var(--gray)':''}">+${fmt(gainMontant)} F</div>
-        </div>
-        <div class="gc-investi">Investi : <span>${fmt(inv.montant)} F</span></div>
+      <div class="pc-right">
+        <div class="pc-gain">+${fmt(inv.gain_attendu||0)} F</div>
+        <span class="pc-status ${dispo?'s-dispo':'s-actif'}">${dispo?'🔥 Dispo !':'En cours'}</span>
       </div>
-      <div class="gc-progress">
-        <div class="prog-bar"><div class="prog-fill ${progCls}" style="width:${Math.min(pct,100)}%"></div></div>
-        <div class="prog-txt"><span>${pct}% écoulé</span><span>${isExpired?'Expiré':gainReady?'Disponible !':timeLeft+' restant'}</span></div>
-      </div>
-      ${btnHtml}
-      ${isExpired?`<div style="margin-top:.6rem;font-size:.7rem;color:var(--red);font-weight:600;">⏰ Ce gain a expiré après 48h. Investissez à nouveau !</div>`:''}
     </div>`;
   }).join('');
 }
 
-// ─────────────────────────────────────
-// RÉCUPÉRER GAIN
-// ─────────────────────────────────────
-async function recupererGain(invId, gainMontant, capitalMontant){
-  const btn=document.querySelector(`[data-inv="${invId}"]`);
-  if(btn){btn.disabled=true;btn.innerHTML='<div class="spin"></div> Récupération…';}
-
-  try{
-    const total=gainMontant+capitalMontant;
-    // Créditer solde
-    const{data:u}=await sb.from('utilisateurs').select('solde').eq('id',U.id).maybeSingle();
-    const nvSolde=(u?.solde||0)+total;
-    await sb.from('utilisateurs').update({solde:nvSolde}).eq('id',U.id);
-
-    // Marquer investissement terminé
-    await sb.from('investissements').update({statut:'termine',verse:true,verse_le:new Date().toISOString()}).eq('id',invId);
-
-    // Transaction
-    await sb.from('transactions').insert({
-      user_id:U.id,type:'gain',montant:total,
-      description:`Retour investissement + gain de ${fmt(gainMontant)} FCFA`
-    });
-
-    solde=nvSolde;
-    document.getElementById('balanceFCFA').textContent=fmt(solde);
-    document.getElementById('smSolde').textContent=fmt(solde)+' F';
-    document.getElementById('retSoldeDisp').textContent=fmt(solde)+' FCFA';
-
-    showToast(`✅ +${fmt(total)} FCFA récupérés !`,'success');
-    await loadInvestissements();
-    await loadStats();
-
-  }catch(e){
-    if(btn){btn.disabled=false;btn.innerHTML=`💰 Récupérer +${fmt(gainMontant)} FCFA`;}
-    showToast('❌ Erreur : '+e.message,'error');
-  }
-}
-
-// ─────────────────────────────────────
-// VÉRIFIER GAINS DISPONIBLES (après 24h)
-// ─────────────────────────────────────
-async function verifierGainsExpires(){
-  const now=new Date().toISOString();
-  // Passer actif → gain_dispo si date_fin passée
-  await sb.from('investissements')
-    .update({statut:'gain_dispo'})
-    .eq('user_id',U.id).eq('statut','actif')
-    .lte('date_fin',now);
-
-  // Expirer les gains non récupérés après 48h
-  const expire=new Date(Date.now()-48*3600000).toISOString();
-  const{data:exps}=await sb.from('investissements')
-    .select('id,montant').eq('user_id',U.id)
-    .eq('statut','gain_dispo').lte('date_fin',expire);
-
-  for(const inv of(exps||[])){
-    // Rembourser seulement le capital (pas le gain)
-    const{data:u}=await sb.from('utilisateurs').select('solde').eq('id',U.id).maybeSingle();
-    await sb.from('utilisateurs').update({solde:(u?.solde||0)+inv.montant}).eq('id',inv.id);
-    await sb.from('investissements').update({statut:'expire'}).eq('id',inv.id);
-    await sb.from('transactions').insert({
-      user_id:U.id,type:'retour_capital',montant:inv.montant,
-      description:'Capital remboursé (gain expiré — non récupéré dans les 48h)'
-    });
-  }
-
-  await loadInvestissements();
-}
-
-// ─────────────────────────────────────
-// STATS
-// ─────────────────────────────────────
-async function loadStats(){
-  const[r1,r2,r3]=await Promise.all([
-    sb.from('investissements').select('*',{count:'exact',head:true}).eq('user_id',U.id),
-    sb.from('transactions').select('montant').eq('user_id',U.id).eq('type','gain'),
-    sb.from('utilisateurs').select('total_filleuls').eq('id',U.id).maybeSingle()
-  ]);
-  const totalGains=(r2.data||[]).reduce((s,t)=>s+t.montant,0);
-  const filleuls=r3.data?.total_filleuls||0;
-
-  document.getElementById('bcInvesti').textContent=fmtK(profile?.total_investi||0);
-  document.getElementById('bcGains').textContent=fmtK(totalGains);
-  document.getElementById('bcFilleuls').textContent=filleuls;
-  document.getElementById('statInvests').textContent=r1.count||0;
-  document.getElementById('statGains').textContent=fmtK(totalGains)+'F';
-  document.getElementById('statFilleuls').textContent=filleuls;
-}
-
-// ─────────────────────────────────────
-// TRANSACTIONS
-// ─────────────────────────────────────
-async function loadTransactions(){
-  const{data:txs}=await sb.from('transactions')
-    .select('*').eq('user_id',U.id)
-    .order('created_at',{ascending:false}).limit(5);
-
-  const list=document.getElementById('txList');
-  if(!txs||!txs.length){
-    list.innerHTML='<div style="text-align:center;padding:1.5rem;color:var(--gray);font-size:.78rem">Aucune transaction</div>';
-    return;
-  }
-  const icons={gain:'gain',retrait:'out',recharge:'in',investissement:'out',retour_capital:'in',retour_investissement:'in'};
-  const emos={gain:'💰',retrait:'💸',recharge:'💳',investissement:'📈',retour_capital:'🔄',retour_investissement:'✅'};
-  const labels={gain:'Gain récupéré',retrait:'Retrait',recharge:'Recharge',investissement:'Investissement',retour_capital:'Capital remboursé',retour_investissement:'Retour + Gain'};
-  const isPos=(t)=>['gain','recharge','retour_capital','retour_investissement'].includes(t);
-  const fdate=d=>new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-
-  list.innerHTML=txs.map(tx=>`
-    <div class="tx-item">
-      <div class="tx-ico ${icons[tx.type]||'gain'}">${emos[tx.type]||'💫'}</div>
-      <div class="tx-info">
-        <div class="tx-title">${labels[tx.type]||tx.type}</div>
-        <div class="tx-date">${fdate(tx.created_at)}</div>
+async function loadNotifs(){
+  const{data}=await sb.from('notifications').select('*').eq('user_id',U.id).order('created_at',{ascending:false}).limit(5);
+  const el=document.getElementById('notif-list');
+  const unread=(data||[]).filter(n=>!n.lu).length;
+  if(unread>0){document.getElementById('notif-dot').style.display='block';}
+  if(!data?.length){el.innerHTML='<div class="empty"><div class="empty-ico">🔔</div>Aucune notification</div>';return;}
+  const icons={gain:'💰',info:'📋',admin:'📣',bonus_inscription:'🎁',parrainage_gain:'👑'};
+  const dt=d=>new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  el.innerHTML=data.map(n=>`
+    <div class="notif-item">
+      <div class="ni-ico">${icons[n.type]||'🔔'}</div>
+      <div class="ni-info">
+        <div class="ni-title">${n.titre||'Notification'}</div>
+        <div class="ni-sub">${n.message||''}</div>
       </div>
-      <div class="tx-amt ${isPos(tx.type)?'pos':'neg'}">${isPos(tx.type)?'+':'-'}${fmt(tx.montant)} F</div>
+      <div class="ni-time">${dt(n.created_at)}</div>
     </div>`).join('');
+  // Marquer comme lues
+  await sb.from('notifications').update({lu:true}).eq('user_id',U.id).eq('lu',false);
 }
 
-// ─────────────────────────────────────
-// RECHARGE
-// ─────────────────────────────────────
-let selRechOp='';
-function selectOp(op){
-  selRechOp=op;
-  document.getElementById('op-mtn').className='op-btn'+(op==='mtn'?' selected':'');
-  document.getElementById('op-orange').className='op-btn'+(op==='orange'?' selected':'');
-}
-async function doRecharge(){
-  const phone=document.getElementById('rech-phone').value.replace(/\s/g,'');
-  const amount=parseInt(document.getElementById('rech-amount').value)||0;
-  if(!selRechOp){showToast('⚠️ Sélectionnez un opérateur','warning');return;}
-  if(phone.length<8){showToast('⚠️ Numéro invalide','warning');return;}
-  if(amount<500){showToast('⚠️ Minimum 500 FCFA','warning');return;}
-
-  const btn=document.getElementById('rech-btn');
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div><span>Traitement…</span>';
-
-  try{
-    // Créer une demande de recharge en attente
-    await sb.from('recharges').insert({
-      user_id:U.id,montant:amount,operateur:selRechOp,
-      telephone:phone,statut:'en_attente',
-      created_at:new Date().toISOString()
-    });
-    closeModal('recharge');
-    showToast('✅ Demande envoyée ! Validez sur votre téléphone','success');
-  }catch(e){
-    showToast('❌ Erreur : '+e.message,'error');
-  }finally{
-    btn.disabled=false;btn.innerHTML='<span>💳 Confirmer la recharge</span>';
-  }
-}
-
-// ─────────────────────────────────────
-// RETRAIT
-// ─────────────────────────────────────
-let selRetOp2='';
-function selectRetOp(op){
-  selRetOp2=op;
-  document.getElementById('ret-mtn').className='op-btn'+(op==='mtn'?' selected':'');
-  document.getElementById('ret-orange').className='op-btn'+(op==='orange'?' selected':'');
-}
-async function doRetrait(){
-  const phone=document.getElementById('ret-phone').value.replace(/\s/g,'');
-  const amount=parseInt(document.getElementById('ret-amount').value)||0;
-  if(!selRetOp2){showToast('⚠️ Sélectionnez un opérateur','warning');return;}
-  if(phone.length<8){showToast('⚠️ Numéro invalide','warning');return;}
-  if(amount<500){showToast('⚠️ Minimum 500 FCFA','warning');return;}
-  if(amount>solde){showToast('⚠️ Solde insuffisant','warning');return;}
-
-  const btn=document.getElementById('ret-btn');
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div><span>Traitement…</span>';
-
-  try{
-    // Débiter solde
-    await sb.from('utilisateurs').update({solde:solde-amount}).eq('id',U.id);
-    await sb.from('retraits').insert({
-      user_id:U.id,montant:amount,methode:selRetOp2,
-      numero_compte:phone,statut:'en_attente',
-      created_at:new Date().toISOString()
-    });
-    await sb.from('transactions').insert({
-      user_id:U.id,type:'retrait',montant:amount,
-      description:'Retrait via '+selRetOp2.toUpperCase()
-    });
-    solde-=amount;
-    document.getElementById('balanceFCFA').textContent=fmt(solde);
-    document.getElementById('smSolde').textContent=fmt(solde)+' F';
-    closeModal('retrait');
-    showToast('✅ Retrait en cours — traitement sous 24h','success');
-    await loadTransactions();
-  }catch(e){
-    // Rembourser si erreur
-    await sb.from('utilisateurs').update({solde:solde}).eq('id',U.id);
-    showToast('❌ Erreur : '+e.message,'error');
-  }finally{
-    btn.disabled=false;btn.innerHTML='<span>💸 Confirmer le retrait</span>';
-  }
-}
-
-// ─────────────────────────────────────
-// MODALS & MENU
-// ─────────────────────────────────────
-function openModal(id){document.getElementById('modal-'+id)?.classList.add('open');}
-function closeModal(id){document.getElementById('modal-'+id)?.classList.remove('open');}
-function openBonusModal(){openModal('bonus');}
-function toggleMenu(){
-  const menu=document.getElementById('sideMenu');
-  const overlay=document.getElementById('menuOverlay');
-  const burger=document.getElementById('burgerBtn');
-  const open=menu.classList.toggle('open');
-  overlay.classList.toggle('open',open);
-  burger.classList.toggle('open',open);
-}
-function goPage(p){window.location.href='silla-'+p+'.html';}
-function goNotifs(){showToast('ℹ️ Notifications bientôt disponibles','info');}
-async function logout(){
-  try{ await sb.auth.signOut(); }catch(e){}
-  // Vider le storage local pour éviter boucle
-  localStorage.removeItem('silla_email');
-  sessionStorage.clear();
-  window.location.replace('silla-login.html');
-}
-
-// ─────────────────────────────────────
-// TOAST
-// ─────────────────────────────────────
-function showToast(msg,type='info'){
-  const el=document.getElementById('toast');
-  el.textContent=msg;el.className='show '+(type||'');
-  clearTimeout(showToast._t);
-  showToast._t=setTimeout(()=>el.className='',4000);
-}
-
-// ─────────────────────────────────────
-// START
-// ─────────────────────────────────────
 init();
-
-// Actualiser toutes les minutes pour les gains
-setInterval(verifierGainsExpires, 60000);
 </script>
 </body>
 </html>
