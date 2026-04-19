@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Retrait</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#FEFCF7;--warm:#FDF6E9;--card:#FFFFFF;
+  --gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);
+  --ember:#E05A2B;--green:#16A34A;
+  --ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;
+  --border:rgba(184,134,11,.15);--shadow:rgba(90,50,0,.09);--nav:66px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;}
+
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:14px 18px;
+  display:flex;align-items:center;gap:14px;}
+.back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);flex:1;}
+.tb-solde{font-family:'DM Mono',monospace;font-size:.65rem;background:var(--gold-dim);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--gold);}
+
+.scroll{padding:16px 16px calc(var(--nav)+20px);}
+
+/* HORAIRES */
+.horaire-card{
+  border-radius:14px;padding:16px 18px;margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;
+}
+.horaire-card.open{background:rgba(22,163,74,.06);border:1.5px solid rgba(22,163,74,.2);}
+.horaire-card.closed{background:rgba(224,90,43,.06);border:1.5px solid rgba(224,90,43,.2);}
+.hc-ico{font-size:1.8rem;flex-shrink:0;}
+.hc-info{}
+.hc-status{font-size:.88rem;font-weight:700;}
+.open .hc-status{color:var(--green);}
+.closed .hc-status{color:var(--ember);}
+.hc-sub{font-size:.72rem;color:var(--muted);margin-top:3px;line-height:1.5;}
+
+/* SOLDE DISPO */
+.solde-hero{
+  background:linear-gradient(135deg,#1A0F00,#3D2200);border-radius:16px;
+  padding:22px 20px;margin-bottom:16px;text-align:center;
+  box-shadow:0 6px 24px rgba(90,50,0,.2);
+}
+.sh-lbl{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:rgba(232,192,96,.5);text-transform:uppercase;margin-bottom:6px;}
+.sh-val{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:#E8C060;}
+.sh-currency{font-family:'DM Mono',monospace;font-size:.58rem;color:rgba(232,192,96,.4);margin-top:4px;}
+.sh-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+.shi{background:rgba(232,192,96,.08);border:1px solid rgba(232,192,96,.15);border-radius:8px;padding:10px;}
+.shi-val{font-family:'DM Mono',monospace;font-size:.8rem;color:#E8C060;font-weight:500;}
+.shi-lbl{font-size:.58rem;color:rgba(232,192,96,.45);margin-top:2px;}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 12px var(--shadow);margin-bottom:14px;position:relative;}
+.card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold-l),transparent);}
+.card-body{padding:22px 20px;}
+
+.lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.lbl::after{content:'';flex:1;height:1px;background:rgba(184,134,11,.12);}
+
+.inp{width:100%;padding:13px 16px;background:var(--warm);border:1.5px solid var(--border);
+  border-radius:3px;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);
+  outline:none;transition:all .22s;margin-bottom:16px;-webkit-appearance:none;}
+.inp:focus{border-color:var(--gold-l);background:#fff;box-shadow:0 0 0 3px rgba(184,134,11,.08);}
+.inp::placeholder{color:rgba(45,31,0,.25);}
+.inp.err{border-color:var(--ember);}
+select.inp{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23B8860B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+select.inp option{background:#fff;}
+
+/* RÈGLES */
+.rules{background:var(--gold-dim);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:16px;}
+.rule{display:flex;align-items:flex-start;gap:8px;font-size:.74rem;color:var(--brown);line-height:1.6;margin-bottom:5px;}
+.rule:last-child{margin-bottom:0;}
+.rule-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px;}
+
+/* BTN */
+.btn{width:100%;padding:16px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold),var(--gold-l),var(--gold));background-size:200% 100%;background-position:100% 0;
+  color:#fff;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;border-radius:3px;
+  transition:all .4s cubic-bezier(.22,1,.36,1);text-shadow:0 1px 3px rgba(0,0,0,.2);
+  box-shadow:0 4px 16px rgba(184,134,11,.25);}
+.btn:hover{background-position:0 0;box-shadow:0 6px 24px rgba(184,134,11,.4);transform:translateY(-1px);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn.danger{background:linear-gradient(135deg,#9B1C1C,var(--ember));box-shadow:0 4px 16px rgba(224,90,43,.25);}
+
+.ld{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* HISTORIQUE */
+.hist-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(184,134,11,.08);}
+.hist-item:last-child{border-bottom:none;}
+.hi-ico{width:36px;height:36px;border-radius:10px;background:var(--gold-dim);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.hi-info{flex:1;min-width:0;}
+.hi-title{font-size:.78rem;font-weight:700;color:var(--ink);}
+.hi-sub{font-size:.62rem;color:var(--muted);margin-top:2px;}
+.hi-right{text-align:right;}
+.hi-amt{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:var(--ember);}
+.hi-stat{font-size:.57rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:3px;display:inline-block;}
+.sv{background:rgba(22,163,74,.1);color:#15803D;}
+.sw{background:rgba(184,134,11,.1);color:var(--gold);}
+.se{background:rgba(224,90,43,.1);color:var(--ember);}
+
+/* BOTNAV */
+.botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;
+  height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;
+  box-shadow:0 -4px 20px rgba(90,50,0,.08);}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
+.bn-ico{font-size:1.2rem;}.bn-lbl{font-size:.55rem;font-weight:700;color:var(--muted);}
+.bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;}
+
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
+.toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="silla-dashboard.html">←</a>
+  <div class="tb-title">💸 Retrait</div>
+  <div class="tb-solde" id="tb-solde">— F</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="scroll">
+
+  <!-- STATUT HORAIRES -->
+  <div class="horaire-card" id="horaire-card">
+    <div class="hc-ico" id="hc-ico">⏰</div>
+    <div class="hc-info">
+      <div class="hc-status" id="hc-status">Vérification...</div>
+      <div class="hc-sub" id="hc-sub">Horaires de retrait : 8h00 – 18h00</div>
+    </div>
+  </div>
+
+  <!-- SOLDE HERO -->
+  <div class="solde-hero">
+    <div class="sh-lbl">Solde disponible</div>
+    <div class="sh-val" id="sh-val">— F</div>
+    <div class="sh-currency">FRANCS CFA</div>
+    <div class="sh-info">
+      <div class="shi"><div class="shi-val" id="shi-min">1 000 F</div><div class="shi-lbl">Minimum retrait</div></div>
+      <div class="shi"><div class="shi-val" id="shi-daily">1/jour</div><div class="shi-lbl">Limite quotidienne</div></div>
+    </div>
+  </div>
+
+  <!-- RÈGLES -->
+  <div class="rules">
+    <div class="rule"><div class="rule-dot"></div>Minimum de retrait : <strong>1 000 FCFA</strong></div>
+    <div class="rule"><div class="rule-dot"></div>Un seul retrait par jour autorisé</div>
+    <div class="rule"><div class="rule-dot"></div>Retraits disponibles de <strong>8h00 à 18h00</strong> uniquement</div>
+    <div class="rule"><div class="rule-dot"></div>Traitement sous 24h ouvrables</div>
+  </div>
+
+  <!-- FORMULAIRE -->
+  <div class="card" id="form-card">
+    <div class="card-body">
+
+      <div class="lbl">Montant (FCFA)</div>
+      <input class="inp" id="f-montant" type="number" placeholder="Min. 1 000 FCFA" inputmode="numeric" oninput="checkMontant()"/>
+
+      <div class="lbl">Méthode</div>
+      <select class="inp" id="f-methode" onchange="updateMethode()">
+        <option value="">Choisir la méthode...</option>
+        <option value="MTN MoMo">📱 MTN Mobile Money</option>
+        <option value="Orange Money">🍊 Orange Money</option>
+        <option value="Wave">🌊 Wave</option>
+        <option value="Moov Money">💙 Moov Money</option>
+      </select>
+
+      <div id="numero-field">
+        <div class="lbl">Numéro de réception</div>
+        <input class="inp" id="f-numero" type="tel" placeholder="Ex: 6XX XXX XXX" inputmode="tel"/>
+      </div>
+
+      <div class="lbl">Nom du titulaire</div>
+      <input class="inp" id="f-titulaire" type="text" placeholder="Nom exact du compte Mobile Money"/>
+
+      <button class="btn" id="btn-retrait" onclick="demanderRetrait()">
+        Demander le retrait →
+      </button>
+    </div>
+  </div>
+
+  <!-- HISTORIQUE -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);">Historique</div>
+    <div style="flex:1;height:1px;background:var(--border);"></div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);margin-bottom:20px">
+    <div id="hist-list">
+      <div style="text-align:center;padding:24px;color:var(--muted);font-size:.78rem;">Aucun retrait effectué</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="botnav">
+  <a class="bn" href="silla-dashboard.html"><span class="bn-ico">🏠</span><span class="bn-lbl">Accueil</span></a>
+  <a class="bn" href="silla-plans.html"><span class="bn-ico">📈</span><span class="bn-lbl">Plans</span></a>
+  <button class="bn-center" onclick="window.location.href='silla-recharge.html'">💳</button>
+  <a class="bn" href="silla-smart.html"><span class="bn-ico">🤖</span><span class="bn-lbl">Smart</span></a>
+  <a class="bn" href="silla-profil.html"><span class="bn-ico">👤</span><span class="bn-lbl">Profil</span></a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
+const fmt=n=>Number(n||0).toLocaleString('fr-FR');
+let U=null,P=null,retraitOuvert=false;
+
+function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4500);}
+
+// ── VÉRIFIER HORAIRES ──
+function verifierHoraires(){
+  // Heure de Yaoundé/Afrique centrale (UTC+1)
+  const now=new Date();
+  const utc=now.getTime()+now.getTimezoneOffset()*60000;
+  const heure=new Date(utc+3600000); // UTC+1
+  const h=heure.getHours();
+  const m=heure.getMinutes();
+  const mins=h*60+m;
+  const ouvert=mins>=8*60&&mins<18*60;
+
+  retraitOuvert=ouvert;
+  const card=document.getElementById('horaire-card');
+  const ico=document.getElementById('hc-ico');
+  const status=document.getElementById('hc-status');
+  const sub=document.getElementById('hc-sub');
+  const btn=document.getElementById('btn-retrait');
+
+  if(ouvert){
+    card.className='horaire-card open';
+    ico.textContent='✅';
+    status.textContent='Retraits ouverts';
+    const restant=18*60-mins;
+    const rh=Math.floor(restant/60),rm=restant%60;
+    sub.textContent=`Fermeture dans ${rh}h${rm>0?rm+'min':''}. Profitez-en !`;
+    btn.disabled=false;
+  }else{
+    card.className='horaire-card closed';
+    ico.textContent='🔒';
+    status.textContent='Retraits fermés';
+    const ouverture=h<8?`dans ${8-h}h`:'demain à 8h00';
+    sub.textContent=`Les retraits rouvrent ${ouverture}. Horaires : 8h00 – 18h00`;
+    btn.disabled=true;
+    btn.innerHTML='🔒 Retraits fermés (8h-18h)';
+  }
+  return ouvert;
+}
+
+function checkMontant(){
+  const v=parseFloat(document.getElementById('f-montant').value)||0;
+  const btn=document.getElementById('btn-retrait');
+  if(retraitOuvert) btn.disabled=v<1000;
+}
+
+function updateMethode(){
+  const m=document.getElementById('f-methode').value;
+  document.getElementById('numero-field').style.display=m?'block':'none';
+}
+
+async function demanderRetrait(){
+  if(!retraitOuvert){toast('🔒 Retraits fermés — 8h00 à 18h00 uniquement','err');return;}
+
+  const montant=parseFloat(document.getElementById('f-montant').value)||0;
+  const methode=document.getElementById('f-methode').value;
+  const numero=document.getElementById('f-numero').value.trim();
+  const titulaire=document.getElementById('f-titulaire').value.trim();
+
+  if(montant<1000){toast('⚠️ Minimum 1 000 FCFA','err');return;}
+  if(!methode){toast('⚠️ Choisissez une méthode','err');return;}
+  if(!numero||numero.length<8){toast('⚠️ Numéro invalide','err');return;}
+  if(!titulaire){toast('⚠️ Entrez le nom du titulaire','err');return;}
+  if(montant>P.solde){toast('⚠️ Solde insuffisant','err');return;}
+
+  // Vérifier retrait du jour
+  const today=new Date();today.setHours(0,0,0,0);
+  const{data:existing}=await sb.from('retraits').select('id').eq('user_id',U.id).gte('created_at',today.toISOString()).neq('statut','rejete');
+  if(existing?.length>0){toast('⚠️ Un seul retrait par jour autorisé','err');return;}
+
+  const btn=document.getElementById('btn-retrait');
+  btn.disabled=true;btn.innerHTML='<div class="ld"></div> Traitement...';
+
+  try{
+    // Débiter solde
+    const nvSolde=P.solde-montant;
+    await sb.from('utilisateurs').update({solde:nvSolde}).eq('id',U.id);
+
+    // Créer demande
+    await sb.from('retraits').insert({
+      user_id:U.id,montant,methode,numero_compte:numero,
+      nom_titulaire:titulaire,statut:'en_attente',
+      created_at:new Date().toISOString()
+    });
+
+    await sb.from('transactions').insert({
+      user_id:U.id,type:'retrait',montant,
+      description:`Retrait ${methode} → ${numero}`
+    });
+
+    await sb.from('notifications').insert({
+      user_id:U.id,titre:'💸 Demande de retrait envoyée',
+      message:`Votre retrait de ${fmt(montant)} F via ${methode} est en cours de traitement.`,
+      type:'info'
+    });
+
+    P.solde=nvSolde;
+    document.getElementById('tb-solde').textContent=fmt(nvSolde)+' F';
+    document.getElementById('sh-val').textContent=fmt(nvSolde)+' F';
+
+    toast('✅ Demande envoyée ! Traitement sous 24h','ok');
+    document.getElementById('f-montant').value='';
+    document.getElementById('f-numero').value='';
+    document.getElementById('f-titulaire').value='';
+    document.getElementById('f-methode').value='';
+    await chargerHistorique();
+
+  }catch(e){
+    toast('❌ '+e.message,'err');
+  }finally{
+    btn.disabled=false;
+    btn.innerHTML='Demander le retrait →';
+    verifierHoraires();
+  }
+}
+
+async function chargerHistorique(){
+  const{data}=await sb.from('retraits').select('*').eq('user_id',U.id).order('created_at',{ascending:false}).limit(8);
+  const el=document.getElementById('hist-list');
+  if(!data?.length){el.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:.78rem;">Aucun retrait effectué</div>';return;}
+  const dt=d=>new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  const stm={valide:'sv',en_attente:'sw',rejete:'se'};
+  const stl={valide:'✅ Validé',en_attente:'⏳ En attente',rejete:'❌ Rejeté'};
+  const ico={MTN:'📱','MTN MoMo':'📱',Orange:'🍊','Orange Money':'🍊',Wave:'🌊',Moov:'💙','Moov Money':'💙'};
+  el.innerHTML=data.map(r=>`
+    <div class="hist-item">
+      <div class="hi-ico">${ico[r.methode]||'💸'}</div>
+      <div class="hi-info">
+        <div class="hi-title">${r.methode||'Retrait'}</div>
+        <div class="hi-sub">${r.numero_compte||''} · ${dt(r.created_at)}</div>
+      </div>
+      <div class="hi-right">
+        <div class="hi-amt">-${fmt(r.montant)} F</div>
+        <span class="hi-stat ${stm[r.statut]||'sw'}">${stl[r.statut]||r.statut}</span>
+      </div>
+    </div>`).join('');
+}
+
+async function init(){
+  const{data}=await sb.auth.getSession();
+  if(!data?.session){window.location.href='silla-login.html';return;}
+  U=data.session.user;
+  const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+  if(!p){window.location.href='silla-dashboard.html';return;}
+  P=p;
+  document.getElementById('tb-solde').textContent=fmt(p.solde||0)+' F';
+  document.getElementById('sh-val').textContent=fmt(p.solde||0)+' F';
+  verifierHoraires();
+  setInterval(verifierHoraires,60000);
+  await chargerHistorique();
+}
+init();
+</script>
+</body>
+</html>
