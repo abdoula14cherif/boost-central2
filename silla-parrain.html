@@ -3,449 +3,274 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>SILLA — Mon Parrainage</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>SILLA — Parrainage</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
 <style>
-:root{
-  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
-  --orange:#FF6B1A;--orange-l:#FF8C42;--turq:#00C2B7;--green:#00C271;
-  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;--gray:#8892A8;
-  --border:#DDE3F5;--red:#E83030;--gold:#F5B731;--gold-d:#C9922A;
-  --nav-h:70px;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
-body{display:flex;flex-direction:column;}
+:root{--cream:#FEFCF7;--warm:#FDF6E9;--card:#fff;--gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);--ember:#E05A2B;--green:#16A34A;--ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;--border:rgba(184,134,11,.15);--shadow:rgba(90,50,0,.09);--nav:66px;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
+.scroll{padding:16px 16px calc(var(--nav)+36px);}
 
-/* TOPBAR */
-.topbar{background:var(--blue-dark);height:58px;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:80;box-shadow:0 2px 16px rgba(8,14,42,.3);}
-.back-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:1.1rem;text-decoration:none;}
-.top-logo{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:#fff;}
-.top-logo span{color:var(--orange);}
-
-/* HERO PARRAIN */
-.hero{
-  background:linear-gradient(135deg,#1A0A00 0%,#2D1500 50%,#3D2200 100%);
-  padding:1.4rem 1.2rem 1.2rem;position:relative;overflow:hidden;
-}
-.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(245,183,49,.06);pointer-events:none;}
-.hero::after{content:'👑';position:absolute;right:16px;bottom:-8px;font-size:5rem;opacity:.08;}
-.hero-ttl{font-family:'Clash Display',sans-serif;font-size:1.25rem;font-weight:700;color:var(--gold);margin-bottom:.25rem;}
-.hero-sub{font-size:.75rem;color:rgba(245,183,49,.55);line-height:1.55;margin-bottom:1.1rem;}
-
-/* SOLDE GAINS */
-.gains-row{display:flex;align-items:center;gap:.9rem;}
-.gain-box{background:rgba(245,183,49,.1);border:1px solid rgba(245,183,49,.2);border-radius:14px;padding:.85rem 1rem;flex:1;}
-.gb-lbl{font-family:'DM Mono',monospace;font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,183,49,.5);margin-bottom:.3rem;}
-.gb-val{font-family:'Clash Display',sans-serif;font-size:1.5rem;font-weight:700;color:var(--gold);line-height:1;}
-.gb-sub{font-size:.62rem;color:rgba(245,183,49,.4);margin-top:.15rem;}
-
-/* CODE PARRAIN CARD */
-.code-card{background:var(--white);border-radius:20px;margin:1rem;box-shadow:0 4px 20px rgba(27,63,228,.08);border:1px solid var(--border);overflow:hidden;}
-.cc-head{background:linear-gradient(135deg,var(--blue-dark),#1A3A7A);padding:1rem 1.2rem;display:flex;align-items:center;gap:.75rem;}
-.cc-ico{width:42px;height:42px;border-radius:13px;background:rgba(245,183,49,.15);border:1px solid rgba(245,183,49,.25);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
-.cc-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:#fff;}
-.cc-sub{font-size:.68rem;color:rgba(255,255,255,.4);margin-top:.1rem;}
-.cc-body{padding:1.1rem 1.2rem;}
-.code-display{background:var(--bg);border:2px dashed var(--border);border-radius:14px;padding:1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;cursor:pointer;transition:all .2s;}
-.code-display:hover{border-color:var(--gold-d);background:rgba(245,183,49,.04);}
-.code-val{font-family:'Clash Display',sans-serif;font-size:1.6rem;font-weight:700;color:var(--gold-d);letter-spacing:.12em;}
-.code-copy-btn{background:rgba(245,183,49,.12);border:1px solid rgba(245,183,49,.25);border-radius:10px;padding:.45rem .9rem;font-size:.72rem;font-weight:700;color:var(--gold-d);cursor:pointer;transition:all .2s;white-space:nowrap;}
-.code-copy-btn:hover{background:rgba(245,183,49,.2);}
-.code-copy-btn.done{background:rgba(0,194,113,.1);border-color:rgba(0,194,113,.25);color:var(--green);}
-
-/* SHARE BUTTONS */
-.share-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
-.share-btn{padding:.75rem;border:none;border-radius:12px;font-size:.78rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:all .2s;}
-.share-btn:hover{transform:translateY(-1px);}
-.share-wa{background:#25D366;color:#fff;box-shadow:0 4px 12px rgba(37,211,102,.25);}
-.share-link{background:rgba(27,63,228,.08);color:var(--blue);border:1px solid rgba(27,63,228,.15);}
-
-/* COMMENT ÇA MARCHE */
-.how-card{background:var(--white);border-radius:20px;margin:0 1rem 1rem;padding:1.2rem;border:1px solid var(--border);box-shadow:0 3px 12px rgba(27,63,228,.05);}
-.how-title{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
-.how-step{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.85rem;}
-.how-step:last-child{margin-bottom:0;}
-.hs-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--dark);font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.hs-content{}
-.hs-title{font-size:.82rem;font-weight:700;color:var(--dark);margin-bottom:.1rem;}
-.hs-desc{font-size:.72rem;color:var(--gray);line-height:1.6;}
-
-/* TAUX CARD */
-.taux-card{background:linear-gradient(135deg,rgba(201,146,42,.08),rgba(245,183,49,.05));border:1px solid rgba(201,146,42,.2);border-radius:16px;padding:1rem 1.1rem;margin:0 1rem 1rem;display:flex;align-items:center;gap:1rem;}
-.tc-ico{font-size:2rem;flex-shrink:0;}
-.tc-info{}
-.tc-title{font-size:.85rem;font-weight:800;color:var(--dark);}
-.tc-sub{font-size:.72rem;color:var(--gray);margin-top:.15rem;line-height:1.6;}
-.tc-pct{font-family:'Clash Display',sans-serif;font-size:1.8rem;font-weight:700;color:var(--gold-d);flex-shrink:0;}
-
-/* EXEMPLE */
-.exemple-card{background:var(--white);border-radius:16px;margin:0 1rem 1rem;padding:1rem 1.1rem;border:1px solid var(--border);box-shadow:0 2px 8px rgba(27,63,228,.04);}
-.ex-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--gray);margin-bottom:.8rem;}
-.ex-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--border);font-size:.78rem;}
-.ex-row:last-child{border-bottom:none;}
-.ex-lbl{color:var(--gray);}
-.ex-val{font-weight:700;color:var(--dark);}
-.ex-val.green{color:var(--green);}
-.ex-val.gold{color:var(--gold-d);font-family:'Clash Display',sans-serif;font-size:.9rem;}
+/* HERO */
+.hero{background:linear-gradient(135deg,#1A0F00,#4A2800);border-radius:16px;padding:24px 20px;margin-bottom:16px;text-align:center;box-shadow:0 6px 24px rgba(90,50,0,.25);}
+.hero-crown{font-size:2.5rem;margin-bottom:10px;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:#E8C060;margin-bottom:6px;}
+.hero-sub{font-size:.74rem;color:rgba(232,192,96,.55);line-height:1.6;margin-bottom:20px;}
+.hero-taux{display:inline-flex;align-items:center;gap:8px;background:rgba(232,192,96,.12);border:1px solid rgba(232,192,96,.22);border-radius:24px;padding:8px 18px;}
+.ht-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#E8C060;line-height:1;}
+.ht-txt{font-size:.7rem;color:rgba(232,192,96,.6);text-align:left;line-height:1.4;}
 
 /* STATS */
-.stats-card{background:var(--white);border-radius:20px;margin:0 1rem 1rem;padding:1.2rem;border:1px solid var(--border);box-shadow:0 3px 12px rgba(27,63,228,.05);}
-.stats-title{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1rem;}
-.sg{background:var(--bg);border-radius:13px;padding:.85rem .7rem;text-align:center;}
-.sg-val{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;line-height:1;}
-.sg-lbl{font-size:.58rem;color:var(--gray);margin-top:.2rem;font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--shadow);}
+.sb-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--gold);}
+.sb-lbl{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
-/* FILLEULS LIST */
-.filleuls-title{font-size:.8rem;font-weight:800;color:var(--dark);margin-bottom:.7rem;display:flex;align-items:center;gap:.4rem;}
-.filleul-item{display:flex;align-items:center;gap:.85rem;padding:.75rem .9rem;background:var(--bg);border-radius:13px;margin-bottom:.5rem;border:1px solid var(--border);}
-.fi-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold-d),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:var(--dark);flex-shrink:0;}
+/* CODE + SHARE */
+.code-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);margin-bottom:14px;position:relative;}
+.code-card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--gold-l),transparent);}
+.code-body{padding:20px;}
+.code-lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.code-display{background:var(--warm);border:2px dashed var(--border);border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;cursor:pointer;transition:all .2s;}
+.code-display:hover{border-color:var(--gold-l);background:rgba(184,134,11,.06);}
+.code-val{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:500;color:var(--brown);letter-spacing:.14em;}
+.code-copy{background:var(--gold);color:#fff;font-size:.65rem;font-weight:700;padding:6px 14px;border-radius:20px;}
+.code-copy.done{background:var(--green);}
+
+.share-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.share-btn{padding:12px;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s;}
+.share-btn:hover{transform:translateY(-1px);}
+.sb-link{background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);}
+.sb-wa{background:#25D36608;border:1px solid #25D36630;color:#128C7E;}
+.sb-copy{background:rgba(29,78,216,.06);border:1px solid rgba(29,78,216,.15);color:#1D4ED8;}
+.sb-sms{background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.15);color:var(--green);}
+
+/* EXEMPLE */
+.exemple-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px var(--shadow);}
+.ex-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.ex-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(184,134,11,.08);font-size:.78rem;}
+.ex-row:last-child{border-bottom:none;font-weight:700;}
+.ex-lbl{color:var(--muted);}
+.ex-val{font-weight:700;color:var(--ink);}
+.ex-val.green{color:var(--green);}
+.ex-val.gold{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold);}
+
+/* FILLEULS */
+.filleul-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(184,134,11,.08);}
+.filleul-item:last-child{border-bottom:none;}
+.fi-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:700;color:#fff;flex-shrink:0;}
 .fi-info{flex:1;min-width:0;}
-.fi-name{font-size:.82rem;font-weight:700;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.fi-date{font-size:.63rem;color:var(--gray);margin-top:.08rem;}
+.fi-name{font-size:.82rem;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fi-date{font-size:.62rem;color:var(--muted);margin-top:2px;}
 .fi-right{text-align:right;flex-shrink:0;}
-.fi-gain{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--green);}
-.fi-invest{font-size:.62rem;color:var(--gray);margin-top:.05rem;}
-.fi-badge{font-size:.58rem;font-weight:700;padding:.15rem .5rem;border-radius:99px;background:rgba(0,194,113,.1);color:#006B3C;border:1px solid rgba(0,194,113,.2);margin-top:.2rem;}
+.fi-gain{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:var(--green);}
+.fi-badge{font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:3px;display:inline-block;background:rgba(22,163,74,.1);color:#15803D;}
 
-/* HISTORIQUE GAINS */
-.hist-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border);}
-.hist-item:last-child{border-bottom:none;}
-.hist-ico{width:34px;height:34px;border-radius:10px;background:rgba(245,183,49,.1);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
-.hist-info{flex:1;}
-.hist-desc{font-size:.78rem;font-weight:600;color:var(--dark);}
-.hist-date{font-size:.62rem;color:var(--gray);margin-top:.05rem;}
-.hist-amt{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--green);flex-shrink:0;}
+/* HIST GAINS */
+.gain-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(184,134,11,.08);}
+.gain-item:last-child{border-bottom:none;}
+.gi-ico{width:34px;height:34px;border-radius:10px;background:rgba(184,134,11,.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.gi-info{flex:1;}
+.gi-title{font-size:.78rem;font-weight:700;color:var(--ink);}
+.gi-sub{font-size:.62rem;color:var(--muted);margin-top:2px;}
+.gi-amt{font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:var(--green);}
 
-.empty-state{text-align:center;padding:1.8rem 1rem;}
-.empty-ico{font-size:2rem;opacity:.25;margin-bottom:.45rem;}
-.empty-txt{font-size:.78rem;color:var(--gray);line-height:1.6;}
+.sec{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sec-t{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);}
+.sec-l{flex:1;height:1px;background:var(--border);}
 
-/* BOT NAV */
-.bot-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:0 .4rem;z-index:90;box-shadow:0 -4px 20px rgba(8,14,42,.07);}
-.nb{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.5rem .6rem;border:none;background:none;cursor:pointer;border-radius:12px;min-width:52px;text-decoration:none;color:var(--gray);}
-.nb.active{color:var(--blue2);}
-.nb-i{font-size:1.25rem;line-height:1;}
-.nb-l{font-size:.58rem;font-weight:700;}
-.nb-c{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,26,.4);margin-bottom:8px;}
-
-#toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:.7rem 1.2rem;border-radius:14px;font-size:.78rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--turq);box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-#toast.success{border-color:var(--green);}
-#toast.error{border-color:var(--red);}
+.botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;box-shadow:0 -4px 20px rgba(90,50,0,.08);}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
+.bn-ico{font-size:1.2rem;}.bn-lbl{font-size:.55rem;font-weight:700;color:var(--muted);}
+.bn.active .bn-lbl{color:var(--gold);}
+.bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
+.toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
 </style>
 </head>
 <body>
-
-<!-- TOPBAR -->
 <div class="topbar">
-  <a href="silla-dashboard.html" class="back-btn">←</a>
-  <div class="top-logo">SIL<span>LA</span></div>
-  <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.4);letter-spacing:.1em;">PARRAINAGE</div>
+  <a class="back" href="silla-dashboard.html">←</a>
+  <div class="tb-title">👑 Parrainage</div>
 </div>
+<div class="toast" id="toast"></div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-ttl">👑 Programme Parrainage</div>
-  <div class="hero-sub">Gagnez 5% sur chaque investissement de vos filleuls. Sans limite !</div>
-  <div class="gains-row">
-    <div class="gain-box">
-      <div class="gb-lbl">Gains parrainage total</div>
-      <div class="gb-val" id="totalGains">0 F</div>
-      <div class="gb-sub">Crédités sur votre solde</div>
-    </div>
-    <div class="gain-box" style="flex:.7">
-      <div class="gb-lbl">Filleuls actifs</div>
-      <div class="gb-val" id="totalFilleuls">0</div>
-      <div class="gb-sub">Ont investi</div>
+<div class="scroll">
+  <div class="hero">
+    <div class="hero-crown">👑</div>
+    <div class="hero-title">Programme Parrainage</div>
+    <div class="hero-sub">Gagnez une commission sur chaque investissement de vos filleuls. Aucune limite !</div>
+    <div class="hero-taux">
+      <div class="ht-num">5%</div>
+      <div class="ht-txt">Commission sur<br>chaque investissement</div>
     </div>
   </div>
-</div>
 
-<!-- CODE PARRAIN -->
-<div class="code-card">
-  <div class="cc-head">
-    <div class="cc-ico">🔑</div>
-    <div>
-      <div class="cc-title">Votre code parrain</div>
-      <div class="cc-sub">Partagez-le pour gagner des commissions</div>
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="sb-val" id="st-gains">0 F</div>
+      <div class="sb-lbl">Gains total</div>
+    </div>
+    <div class="stat-box">
+      <div class="sb-val" id="st-filleuls">0</div>
+      <div class="sb-lbl">Filleuls actifs</div>
     </div>
   </div>
-  <div class="cc-body">
-    <div class="code-display" onclick="copyCode()">
-      <div class="code-val" id="codeParrain">SLA-——</div>
-      <button class="code-copy-btn" id="copyBtn">📋 Copier</button>
-    </div>
-    <div class="share-row">
-      <button class="share-btn share-wa" onclick="shareWhatsApp()">
-        📱 Partager WhatsApp
-      </button>
-      <button class="share-btn share-link" onclick="copyLink()">
-        🔗 Copier le lien
-      </button>
-    </div>
-  </div>
-</div>
 
-<!-- TAUX -->
-<div class="taux-card">
-  <div class="tc-ico">💰</div>
-  <div class="tc-info">
-    <div class="tc-title">Commission sur investissement</div>
-    <div class="tc-sub">Vous gagnez 5% du montant investi par chaque filleul, à chaque fois qu'il investit.</div>
+  <!-- CODE + PARTAGE -->
+  <div class="code-card">
+    <div class="code-body">
+      <div class="code-lbl">Mon code de parrainage</div>
+      <div class="code-display" onclick="copyCode()">
+        <div class="code-val" id="code-val">SLA-——</div>
+        <div class="code-copy" id="code-copy-btn">📋 Copier</div>
+      </div>
+      <div class="share-grid">
+        <button class="share-btn sb-link" onclick="copyLien()">🔗 Copier le lien</button>
+        <button class="share-btn sb-wa" onclick="shareWhatsApp()">📱 WhatsApp</button>
+        <button class="share-btn sb-copy" onclick="copyMessage()">📝 Copier message</button>
+        <button class="share-btn sb-sms" onclick="shareSMS()">💬 SMS</button>
+      </div>
+    </div>
   </div>
-  <div class="tc-pct">5%</div>
-</div>
 
-<!-- EXEMPLE -->
-<div class="exemple-card">
-  <div class="ex-title">📊 Exemple de calcul</div>
-  <div class="ex-row"><span class="ex-lbl">Filleul investit</span><span class="ex-val">5 000 F</span></div>
-  <div class="ex-row"><span class="ex-lbl">Votre commission (5%)</span><span class="ex-val green">+250 F</span></div>
-  <div class="ex-row"><span class="ex-lbl">Si 10 filleuls investissent 5 000F</span><span class="ex-val gold">+2 500 F</span></div>
-  <div class="ex-row"><span class="ex-lbl">Crédité automatiquement</span><span class="ex-val">Dès l'investissement</span></div>
-</div>
+  <!-- EXEMPLE -->
+  <div class="exemple-card">
+    <div class="ex-title">📊 Exemple de gains</div>
+    <div class="ex-row"><span class="ex-lbl">Filleul investit</span><span class="ex-val">5 000 F</span></div>
+    <div class="ex-row"><span class="ex-lbl">Votre commission (5%)</span><span class="ex-val green">+250 F</span></div>
+    <div class="ex-row"><span class="ex-lbl">10 filleuls × 5 000F</span><span class="ex-val gold">+2 500 F</span></div>
+    <div class="ex-row"><span class="ex-lbl">Commission créditée</span><span class="ex-val">Instantanément</span></div>
+  </div>
 
-<!-- COMMENT ÇA MARCHE -->
-<div class="how-card">
-  <div class="how-title">📋 Comment ça marche</div>
-  <div class="how-step">
-    <div class="hs-num">1</div>
-    <div class="hs-content">
-      <div class="hs-title">Partagez votre code</div>
-      <div class="hs-desc">Envoyez votre code ou lien de parrainage à vos amis via WhatsApp, SMS ou réseaux sociaux.</div>
-    </div>
+  <!-- FILLEULS -->
+  <div class="sec"><div class="sec-t">👥 Mes filleuls</div><div class="sec-l"></div></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);margin-bottom:14px" id="filleuls-list">
+    <div style="text-align:center;padding:24px;color:var(--muted);font-size:.78rem">Aucun filleul pour l'instant</div>
   </div>
-  <div class="how-step">
-    <div class="hs-num">2</div>
-    <div class="hs-content">
-      <div class="hs-title">Votre filleul s'inscrit</div>
-      <div class="hs-desc">Il entre votre code lors de son inscription sur SILLA.</div>
-    </div>
-  </div>
-  <div class="how-step">
-    <div class="hs-num">3</div>
-    <div class="hs-content">
-      <div class="hs-title">Il investit → vous gagnez</div>
-      <div class="hs-desc">Dès qu'il active un plan, <strong>5% du montant investi</strong> sont automatiquement crédités sur votre solde SILLA.</div>
-    </div>
-  </div>
-  <div class="how-step">
-    <div class="hs-num">4</div>
-    <div class="hs-content">
-      <div class="hs-title">Gagnez à chaque investissement</div>
-      <div class="hs-desc">Si votre filleul investit plusieurs fois, vous gagnez 5% à chaque fois. Sans limite !</div>
-    </div>
+
+  <!-- HISTORIQUE GAINS -->
+  <div class="sec"><div class="sec-t">💰 Historique commissions</div><div class="sec-l"></div></div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);margin-bottom:20px" id="gains-list">
+    <div style="text-align:center;padding:24px;color:var(--muted);font-size:.78rem">Aucune commission reçue</div>
   </div>
 </div>
 
-<!-- STATS + FILLEULS -->
-<div class="stats-card">
-  <div class="stats-title">📈 Mes statistiques</div>
-  <div class="stats-grid">
-    <div class="sg"><div class="sg-val" id="statNbFilleuls" style="color:var(--blue2)">0</div><div class="sg-lbl">Filleuls</div></div>
-    <div class="sg"><div class="sg-val" id="statGainsTotal" style="color:var(--green)">0F</div><div class="sg-lbl">Gains totaux</div></div>
-    <div class="sg"><div class="sg-val" id="statNbInvests" style="color:var(--orange)">0</div><div class="sg-lbl">Investissements</div></div>
-  </div>
-
-  <!-- FILLEULS LIST -->
-  <div class="filleuls-title">👥 Mes filleuls</div>
-  <div id="filleulsList">
-    <div class="empty-state">
-      <div class="empty-ico">👥</div>
-      <div class="empty-txt">Vous n'avez pas encore de filleuls.<br>Partagez votre code pour commencer !</div>
-    </div>
-  </div>
+<div class="botnav">
+  <a class="bn" href="silla-dashboard.html"><span class="bn-ico">🏠</span><span class="bn-lbl">Accueil</span></a>
+  <a class="bn" href="silla-plans.html"><span class="bn-ico">📈</span><span class="bn-lbl">Plans</span></a>
+  <button class="bn-center" onclick="window.location.href='silla-recharge.html'">💳</button>
+  <a class="bn" href="silla-smart.html"><span class="bn-ico">🤖</span><span class="bn-lbl">Smart</span></a>
+  <a class="bn" href="silla-profil.html"><span class="bn-ico">👤</span><span class="bn-lbl">Profil</span></a>
 </div>
-
-<!-- HISTORIQUE GAINS -->
-<div class="stats-card" style="margin-bottom:calc(var(--nav-h)+1rem)">
-  <div class="stats-title">💰 Historique des gains parrainage</div>
-  <div id="histGains">
-    <div class="empty-state">
-      <div class="empty-ico">💰</div>
-      <div class="empty-txt">Aucun gain parrainage pour l'instant.</div>
-    </div>
-  </div>
-</div>
-
-<!-- BOT NAV -->
-<div class="bot-nav">
-  <a class="nb" href="silla-dashboard.html"><span class="nb-i">🏠</span><span class="nb-l">Accueil</span></a>
-  <a class="nb" href="silla-recharge.html"><span class="nb-i">💳</span><span class="nb-l">Recharge</span></a>
-  <button class="nb-c" onclick="window.location.href='silla-plans.html'">📈</button>
-  <a class="nb" href="silla-smart.html"><span class="nb-i">🤖</span><span class="nb-l">Smart</span></a>
-  <a class="nb" href="silla-profil.html"><span class="nb-i">👤</span><span class="nb-l">Profil</span></a>
-</div>
-
-<div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const sb = supabase.createClient(
-  'https://pnybmieunidegpxwkodn.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
-);
+const sb=supabase.createClient('https://pnybmieunidegpxwkodn.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY');
+const fmt=n=>Number(n||0).toLocaleString('fr-FR');
+const fmtK=n=>n>=1000?(n/1000).toFixed(0)+'k':fmt(n);
+let U=null,code='';
 
-const fmt   = n => Number(n||0).toLocaleString('fr-FR');
-const fmtK  = n => n >= 1000 ? (Math.round(n/100)/10) + 'k' : fmt(n);
-const fdate = d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4000);}
 
-let U = null, profile = null, codeParrain = '';
-const TAUX_PARRAIN = 5; // 5% sur chaque investissement
+function getLien(){return window.location.origin+'/silla-inscription.html?ref='+encodeURIComponent(code);}
 
-async function init() {
-  const { data } = await sb.auth.getSession();
-  if (!data?.session) { window.location.href = 'silla-login.html'; return; }
-  U = data.session.user;
-
-  const { data: p } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
-  if (!p) return;
-  profile = p;
-  codeParrain = p.code_parrainage || 'SLA-——';
-  document.getElementById('codeParrain').textContent = codeParrain;
-
-  await Promise.all([loadStats(), loadFilleuls(), loadHistorique()]);
+function copyCode(){
+  if(!code)return;
+  navigator.clipboard?.writeText(code);
+  const b=document.getElementById('code-copy-btn');
+  b.textContent='✅ Copié !';b.className='code-copy done';
+  setTimeout(()=>{b.textContent='📋 Copier';b.className='code-copy';},2500);
+  toast('✅ Code copié !','ok');
 }
 
-// ── STATS ──
-async function loadStats() {
-  const { data: pg } = await sb.from('parrainage_gains')
-    .select('montant').eq('beneficiaire_id', U.id);
-
-  const totalGains = (pg || []).reduce((s, r) => s + (r.montant || 0), 0);
-
-  const { count: nbFilleuls } = await sb.from('utilisateurs')
-    .select('id', { count: 'exact', head: true })
-    .eq('parrain_id', U.id);
-
-  const { count: nbInvests } = await sb.from('parrainage_gains')
-    .select('id', { count: 'exact', head: true })
-    .eq('beneficiaire_id', U.id);
-
-  document.getElementById('totalGains').textContent   = fmt(totalGains) + ' F';
-  document.getElementById('totalFilleuls').textContent = nbFilleuls || 0;
-  document.getElementById('statNbFilleuls').textContent = nbFilleuls || 0;
-  document.getElementById('statGainsTotal').textContent = fmtK(totalGains) + 'F';
-  document.getElementById('statNbInvests').textContent  = nbInvests || 0;
+function copyLien(){
+  if(!code){toast('⚠️ Code non disponible','err');return;}
+  navigator.clipboard?.writeText(getLien());
+  toast('✅ Lien copié ! Partagez-le à vos amis','ok');
 }
 
-// ── FILLEULS ──
-async function loadFilleuls() {
-  const { data: filleuls } = await sb.from('utilisateurs')
-    .select('id, nom, email, created_at')
-    .eq('parrain_id', U.id)
-    .order('created_at', { ascending: false })
-    .limit(20);
+function copyMessage(){
+  if(!code){toast('⚠️ Code non disponible','err');return;}
+  const msg=`🚀 Rejoins SILLA et commence à investir !\n\n💰 Plans à partir de 3 000F\n📈 Gains jusqu'à +50 000F/jour\n🎁 Bonus 1 000F à l'inscription\n\nUtilise mon code : ${code}\n👉 ${getLien()}`;
+  navigator.clipboard?.writeText(msg);
+  toast('✅ Message copié !','ok');
+}
 
-  const el = document.getElementById('filleulsList');
+function shareWhatsApp(){
+  if(!code)return;
+  const msg=encodeURIComponent(`🚀 Rejoins SILLA et commence à investir !\n\n💰 Plans à partir de 3 000F\n📈 Gains jusqu'à +50 000F/jour\n🎁 Bonus 1 000F à l'inscription\n\nMon code parrain : *${code}*\n👉 ${getLien()}`);
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
 
-  if (!filleuls || !filleuls.length) {
-    el.innerHTML = `<div class="empty-state">
-      <div class="empty-ico">👥</div>
-      <div class="empty-txt">Vous n'avez pas encore de filleuls.<br>Partagez votre code pour commencer !</div>
-    </div>`;
-    return;
-  }
+function shareSMS(){
+  if(!code)return;
+  const msg=encodeURIComponent(`Rejoins SILLA et gagne de l'argent ! Mon code : ${code}. Inscription : ${getLien()}`);
+  window.location.href='sms:?body='+msg;
+}
 
-  // Pour chaque filleul, récupérer le total de ses investissements et les gains générés
-  const items = await Promise.all(filleuls.map(async f => {
-    const { data: invs } = await sb.from('investissements')
-      .select('montant').eq('user_id', f.id);
-    const totalInvesti = (invs || []).reduce((s, i) => s + (i.montant || 0), 0);
-    const gainGenere   = Math.round(totalInvesti * TAUX_PARRAIN / 100);
-    return { ...f, totalInvesti, gainGenere, nbInvests: (invs || []).length };
-  }));
+async function init(){
+  const{data}=await sb.auth.getSession();
+  if(!data?.session){window.location.href='silla-login.html';return;}
+  U=data.session.user;
+  const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+  if(!p)return;
+  code=p.code_parrainage||'';
+  document.getElementById('code-val').textContent=code||'SLA-——';
 
-  el.innerHTML = items.map(f => {
-    const ini = (f.nom || f.email || '?')[0].toUpperCase();
-    return `<div class="filleul-item">
-      <div class="fi-av">${ini}</div>
+  // Stats
+  const[r1,r2]=await Promise.all([
+    sb.from('parrainage_gains').select('montant').eq('beneficiaire_id',U.id),
+    sb.from('utilisateurs').select('id,nom,email,created_at').eq('parrain_id',U.id).order('created_at',{ascending:false}).limit(20),
+  ]);
+  const totalGains=(r1.data||[]).reduce((s,g)=>s+(g.montant||0),0);
+  document.getElementById('st-gains').textContent=fmt(totalGains)+' F';
+  document.getElementById('st-filleuls').textContent=r2.data?.length||0;
+
+  // Filleuls
+  const fel=document.getElementById('filleuls-list');
+  if(r2.data?.length){
+    const items=await Promise.all(r2.data.map(async f=>{
+      const{data:invs}=await sb.from('investissements').select('montant').eq('user_id',f.id);
+      const totalInv=(invs||[]).reduce((s,i)=>s+(i.montant||0),0);
+      const gain=Math.round(totalInv*0.05);
+      return {...f,totalInv,gain};
+    }));
+    fel.innerHTML=items.map(f=>`<div class="filleul-item">
+      <div class="fi-av">${(f.nom||f.email||'?')[0].toUpperCase()}</div>
       <div class="fi-info">
-        <div class="fi-name">${f.nom || 'Sans nom'}</div>
-        <div class="fi-date">Inscrit le ${fdate(f.created_at)}</div>
-        ${f.nbInvests > 0 ? `<div class="fi-badge">✅ ${f.nbInvests} investissement${f.nbInvests > 1 ? 's' : ''}</div>` : '<div style="font-size:.6rem;color:var(--gray);margin-top:.2rem">Pas encore investi</div>'}
+        <div class="fi-name">${f.nom||'Membre'}</div>
+        <div class="fi-date">Inscrit le ${new Date(f.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'})}</div>
+        ${f.totalInv>0?`<span class="fi-badge">✅ Investi ${fmt(f.totalInv)} F</span>`:'<span style="font-size:.6rem;color:var(--muted)">Pas encore investi</span>'}
       </div>
       <div class="fi-right">
-        <div class="fi-gain">${f.gainGenere > 0 ? '+' + fmt(f.gainGenere) + ' F' : '—'}</div>
-        <div class="fi-invest">${f.totalInvesti > 0 ? 'Investi : ' + fmt(f.totalInvesti) + ' F' : 'Aucun invest.'}</div>
+        <div class="fi-gain">${f.gain>0?'+'+fmt(f.gain)+' F':'—'}</div>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:2px">commission</div>
       </div>
-    </div>`;
-  }).join('');
-}
-
-// ── HISTORIQUE GAINS ──
-async function loadHistorique() {
-  const { data: gains } = await sb.from('parrainage_gains')
-    .select('*, source:source_id(nom)')
-    .eq('beneficiaire_id', U.id)
-    .order('created_at', { ascending: false })
-    .limit(20);
-
-  const el = document.getElementById('histGains');
-  if (!gains || !gains.length) {
-    el.innerHTML = `<div class="empty-state">
-      <div class="empty-ico">💰</div>
-      <div class="empty-txt">Aucun gain parrainage pour l'instant.</div>
-    </div>`;
-    return;
+    </div>`).join('');
   }
 
-  el.innerHTML = gains.map(g => {
-    const nomFilleul = g.source?.nom || 'Filleul';
-    const dateStr    = new Date(g.created_at).toLocaleDateString('fr-FR', {
-      day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
-    });
-    return `<div class="hist-item">
-      <div class="hist-ico">💰</div>
-      <div class="hist-info">
-        <div class="hist-desc">Commission — ${nomFilleul}</div>
-        <div class="hist-date">${dateStr} · 5% investissement</div>
+  // Historique gains
+  const{data:gains}=await sb.from('parrainage_gains').select('*,src:source_id(nom)').eq('beneficiaire_id',U.id).order('created_at',{ascending:false}).limit(15);
+  const gel=document.getElementById('gains-list');
+  if(gains?.length){
+    gel.innerHTML=gains.map(g=>`<div class="gain-item">
+      <div class="gi-ico">💰</div>
+      <div class="gi-info">
+        <div class="gi-title">Commission — ${g.src?.nom||'Filleul'}</div>
+        <div class="gi-sub">${new Date(g.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
       </div>
-      <div class="hist-amt">+${fmt(g.montant)} F</div>
-    </div>`;
-  }).join('');
+      <div class="gi-amt">+${fmt(g.montant)} F</div>
+    </div>`).join('');
+  }
 }
-
-// ── COPIER CODE ──
-function copyCode() {
-  navigator.clipboard?.writeText(codeParrain);
-  const btn = document.getElementById('copyBtn');
-  btn.textContent = '✅ Copié !';
-  btn.classList.add('done');
-  setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('done'); }, 2500);
-  showToast('✅ Code copié !', 'success');
-}
-
-// ── COPIER LIEN ──
-function copyLink() {
-  const url = `https://silla-invest.vercel.app?ref=${codeParrain}`;
-  const msg = `🚀 Rejoins SILLA et commence à investir avec moi !\nUtilise mon code parrain : *${codeParrain}*\n👉 ${url}`;
-  navigator.clipboard?.writeText(msg);
-  showToast('✅ Lien copié !', 'success');
-}
-
-// ── PARTAGER WHATSAPP ──
-function shareWhatsApp() {
-  const url   = `https://silla-invest.vercel.app?ref=${codeParrain}`;
-  const msg   = encodeURIComponent(
-    `🚀 Rejoins SILLA et commence à investir !\n\n` +
-    `💰 Plans à partir de 2 000F\n` +
-    `📈 Jusqu'à +40% de rendement\n` +
-    `🎁 Bonus 1 000F à l'inscription\n\n` +
-    `Utilise mon code parrain : *${codeParrain}*\n👉 ${url}`
-  );
-  window.open(`https://wa.me/?text=${msg}`, '_blank');
-}
-
-function showToast(msg, type = 'info') {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.className = 'show ' + (type || '');
-  clearTimeout(showToast._t);
-  showToast._t = setTimeout(() => el.className = '', 4000);
-}
-
 init();
 </script>
 </body>
