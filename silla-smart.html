@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Smart Invest</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
+  --orange:#FF6B1A;--orange-l:#FF8C42;--turq:#00C2B7;--green:#00C271;
+  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;--gray:#8892A8;
+  --border:#DDE3F5;--red:#E83030;--gold:#F5B731;--purple:#7C3AED;
+  --nav-h:70px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
+body{display:flex;flex-direction:column;}
+
+/* TOPBAR */
+.topbar{background:var(--blue-dark);height:58px;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:80;box-shadow:0 2px 16px rgba(8,14,42,.3);}
+.back-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:1.1rem;text-decoration:none;}
+.top-logo{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:#fff;}
+.top-logo span{color:var(--orange);}
+.solde-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:.28rem .8rem;font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.6);}
+.solde-chip strong{color:var(--gold);}
+
+/* HERO */
+.hero-band{background:linear-gradient(135deg,var(--purple) 0%,#5B21B6 55%,var(--blue) 100%);padding:1.3rem 1.2rem 1.1rem;position:relative;overflow:hidden;}
+.hero-band::after{content:'🤖';position:absolute;right:10px;top:-5px;font-size:4.5rem;opacity:.1;}
+.hero-ttl{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
+.hero-sub{font-size:.74rem;color:rgba(255,255,255,.7);line-height:1.55;}
+
+/* TABS */
+.tab-wrap{background:var(--white);border-bottom:1px solid var(--border);padding:.7rem 1rem;}
+.tabs{display:flex;gap:.5rem;background:var(--bg);border-radius:12px;padding:3px;}
+.tab{flex:1;padding:.7rem;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:.78rem;font-weight:700;color:var(--gray);cursor:pointer;border-radius:10px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.35rem;}
+.tab.active{background:var(--white);color:var(--dark);box-shadow:0 2px 8px rgba(8,14,42,.08);}
+.tab.active.rapid{color:var(--orange);}
+.tab.active.prod{color:var(--purple);}
+
+/* CONTENT */
+.content{flex:1;padding:.9rem 1rem calc(var(--nav-h)+1rem);max-width:480px;margin:0 auto;width:100%;}
+
+/* SECTION HEADERS */
+.sec-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.85rem;}
+.sec-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.sec-title{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);}
+.sec-sub{font-size:.68rem;color:var(--gray);margin-top:.08rem;}
+
+/* ALERTE SLOTS */
+.slots-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,107,26,.06);border:1px solid rgba(255,107,26,.15);border-radius:10px;padding:.65rem .9rem;margin-bottom:.9rem;font-size:.74rem;color:var(--orange);}
+.slots-badge strong{font-weight:800;}
+
+/* ── PLAN RAPIDE CARD ── */
+.rapid-card{
+  background:var(--white);border-radius:20px;border:1.5px solid var(--border);
+  margin-bottom:.8rem;overflow:hidden;
+  box-shadow:0 3px 14px rgba(255,107,26,.07);
+  cursor:pointer;transition:all .25s;position:relative;
+}
+.rapid-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,26,.14);}
+.rapid-card.selected{border-color:var(--orange);}
+.rapid-card.disabled{opacity:.45;cursor:not-allowed;}
+.rapid-card.disabled:hover{transform:none;}
+
+/* TOP BAR COULEUR */
+.rc-bar{height:4px;width:100%;}
+
+/* LOCKED OVERLAY */
+.lock-ov{position:absolute;inset:0;background:rgba(8,14,42,.6);backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;border-radius:18px;z-index:5;}
+.lock-ov .l-ico{font-size:2rem;}
+.lock-ov .l-txt{font-size:.82rem;font-weight:800;color:#fff;}
+.lock-ov .l-sub{font-size:.68rem;color:rgba(255,255,255,.55);}
+
+.rc-body{padding:.9rem 1rem;}
+.rc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
+.rc-left{display:flex;align-items:center;gap:.6rem;}
+.rc-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.rc-name{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--dark);}
+.rc-dur{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gray);margin-top:.05rem;}
+.rc-tag{font-size:.6rem;font-weight:800;padding:.2rem .55rem;border-radius:99px;}
+
+/* MONTANTS */
+.rc-amounts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.45rem;margin-bottom:.7rem;}
+.rca{background:var(--bg);border-radius:10px;padding:.6rem .5rem;text-align:center;}
+.rca-val{font-family:'Clash Display',sans-serif;font-size:.92rem;font-weight:700;line-height:1;}
+.rca-lbl{font-size:.55rem;color:var(--gray);margin-top:.18rem;font-family:'DM Mono',monospace;letter-spacing:.06em;text-transform:uppercase;}
+
+/* GAIN TOTAL */
+.rc-total{display:flex;align-items:center;justify-content:space-between;padding:.6rem .85rem;border-radius:12px;margin-bottom:.8rem;}
+.rt-lbl{font-size:.73rem;color:var(--gray);}
+.rt-val{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;}
+
+/* BTN RAPIDE */
+.rc-btn{width:100%;padding:.82rem;border:none;border-radius:13px;color:#fff;font-size:.85rem;font-weight:800;cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:.45rem;}
+.rc-btn:hover:not(:disabled){transform:translateY(-1px);}
+.rc-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* ── PLAN PROD ── */
+.prod-section{background:var(--white);border-radius:20px;border:1.5px solid var(--border);overflow:hidden;box-shadow:0 3px 14px rgba(124,58,237,.07);margin-bottom:.9rem;}
+.prod-header{background:linear-gradient(135deg,var(--purple),#5B21B6);padding:1rem 1.1rem;color:#fff;}
+.prod-h-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.25rem;}
+.prod-h-sub{font-size:.72rem;opacity:.75;line-height:1.5;}
+
+/* TAUX GRID */
+.taux-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.9rem;border-bottom:1px solid var(--border);}
+.taux-card{background:var(--bg);border-radius:12px;padding:.75rem .7rem;cursor:pointer;border:2px solid transparent;transition:all .2s;text-align:center;}
+.taux-card:hover{border-color:var(--purple);}
+.taux-card.sel{border-color:var(--purple);background:rgba(124,58,237,.06);}
+.tc-jours{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--gray);text-transform:uppercase;margin-bottom:.25rem;}
+.tc-pct{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;color:var(--purple);}
+.tc-label{font-size:.6rem;color:var(--gray);margin-top:.15rem;}
+
+/* FORM PROD */
+.prod-form{padding:.9rem;}
+.pf-field{margin-bottom:.85rem;}
+.pf-field label{display:block;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--dark);margin-bottom:.32rem;}
+.pf-inp{width:100%;padding:.75rem .9rem;border:1.5px solid var(--border);border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--dark);background:#FAFBFF;outline:none;transition:all .2s;}
+.pf-inp:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,.08);}
+.pf-inp::placeholder{color:#C0C8DC;}
+
+/* SIMULATION */
+.simu-box{background:rgba(124,58,237,.05);border:1px solid rgba(124,58,237,.15);border-radius:12px;padding:.85rem;margin-bottom:.9rem;display:none;}
+.simu-box.show{display:block;}
+.simu-row{display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.3rem;}
+.simu-row:last-child{margin-bottom:0;padding-top:.35rem;border-top:1px solid rgba(124,58,237,.12);}
+.simu-row .label{color:var(--gray);}
+.simu-row .value{font-weight:700;color:var(--dark);}
+.simu-row.total .value{color:var(--purple);font-family:'Clash Display',sans-serif;font-size:.95rem;}
+
+.prod-btn{width:100%;padding:.9rem;background:linear-gradient(135deg,var(--purple),#5B21B6);border:none;border-radius:13px;color:#fff;font-size:.88rem;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(124,58,237,.3);display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;}
+.prod-btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(124,58,237,.4);}
+.prod-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* ACTIFS */
+.actifs-section{margin-bottom:.9rem;}
+.actif-item{background:var(--white);border-radius:16px;border:1px solid var(--border);padding:.9rem 1rem;margin-bottom:.6rem;box-shadow:0 2px 8px rgba(8,14,42,.04);position:relative;overflow:hidden;}
+.actif-item.rapid::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--orange),var(--orange-l));}
+.actif-item.prod::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--purple),var(--blue));}
+.ai-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem;}
+.ai-name{font-size:.82rem;font-weight:800;color:var(--dark);}
+.ai-date{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--gray);}
+.ai-badge{font-size:.6rem;font-weight:700;padding:.2rem .55rem;border-radius:99px;}
+.badge-actif{background:rgba(0,194,113,.1);color:#006B3C;border:1px solid rgba(0,194,113,.2);}
+.badge-ready{background:rgba(255,107,26,.1);color:var(--orange);border:1px solid rgba(255,107,26,.2);animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+.badge-exp{background:rgba(232,48,48,.07);color:var(--red);border:1px solid rgba(232,48,48,.15);}
+.ai-amounts{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:.55rem;}
+.ai-gain{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;color:var(--green);}
+.ai-invest{font-size:.7rem;color:var(--gray);}
+.ai-invest span{color:var(--dark);font-weight:700;}
+.prog-bar{height:5px;background:var(--border);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;transition:width .8s ease;}
+.prog-orange{background:linear-gradient(90deg,var(--orange),var(--orange-l));}
+.prog-purple{background:linear-gradient(90deg,var(--purple),var(--blue));}
+.prog-green{background:linear-gradient(90deg,var(--green),var(--turq));}
+.prog-txt{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.56rem;color:var(--gray);margin-top:.28rem;}
+
+.btn-recover{width:100%;margin-top:.65rem;padding:.65rem;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:10px;color:#fff;font-size:.75rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;transition:all .2s;box-shadow:0 3px 10px rgba(255,107,26,.22);}
+.btn-recover.purple{background:linear-gradient(135deg,var(--purple),var(--blue));box-shadow:0 3px 10px rgba(124,58,237,.22);}
+.btn-recover:hover{transform:translateY(-1px);}
+.btn-recover:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+.empty-state{text-align:center;padding:2rem 1rem;background:var(--white);border-radius:16px;border:1px solid var(--border);}
+.empty-ico{font-size:2rem;opacity:.25;margin-bottom:.5rem;}
+.empty-txt{font-size:.78rem;color:var(--gray);line-height:1.6;}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(8,14,42,.55);z-index:300;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.modal-bg.open{display:flex;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-sheet{background:var(--white);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:1.3rem 1.2rem 2.8rem;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto;}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mh{width:38px;height:4px;background:var(--border);border-radius:99px;margin:0 auto 1.2rem;}
+
+/* BOT NAV */
+.bot-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:0 .4rem;z-index:90;box-shadow:0 -4px 20px rgba(8,14,42,.07);}
+.nb{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.5rem .6rem;border:none;background:none;cursor:pointer;border-radius:12px;min-width:52px;text-decoration:none;color:var(--gray);}
+.nb.active{color:var(--blue2);}
+.nb-i{font-size:1.25rem;line-height:1;}
+.nb-l{font-size:.58rem;font-weight:700;}
+.nb-c{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,26,.4);margin-bottom:8px;}
+
+#toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:.7rem 1.2rem;border-radius:14px;font-size:.78rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--turq);box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{border-color:var(--green);}
+#toast.error{border-color:var(--red);}
+#toast.warning{border-color:var(--gold);}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes fadeU{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="silla-dashboard.html" class="back-btn">←</a>
+  <div class="top-logo">SIL<span>LA</span> <span style="font-size:.8rem;font-weight:500;color:rgba(255,255,255,.4);letter-spacing:.05em">Smart</span></div>
+  <div class="solde-chip">Solde : <strong id="topSolde">—</strong> F</div>
+</div>
+
+<div class="hero-band">
+  <div class="hero-ttl">🤖 Smart Invest</div>
+  <div class="hero-sub">Plans intelligents pour maximiser vos gains</div>
+</div>
+
+<!-- TABS -->
+<div class="tab-wrap">
+  <div class="tabs">
+    <button class="tab rapid active" id="tab-rapid" onclick="switchTab('rapid')">⚡ Plans Rapides</button>
+    <button class="tab prod" id="tab-prod" onclick="switchTab('prod')">🔬 Plans Prod</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ══ SECTION RAPIDE ══ -->
+  <div id="sec-rapid">
+    <div class="sec-head">
+      <div class="sec-ico" style="background:rgba(255,107,26,.1)">⚡</div>
+      <div>
+        <div class="sec-title">Plans Rapides</div>
+        <div class="sec-sub">Gains fixes garantis · Maximum 3 plans actifs</div>
+      </div>
+    </div>
+
+    <!-- COMPTEUR SLOTS -->
+    <div class="slots-badge">
+      <span>🎰</span>
+      <span>Slots utilisés : <strong id="slotsUsed">0</strong>/3 — Il vous reste <strong id="slotsLeft">3</strong> place(s)</span>
+    </div>
+
+    <!-- PLAN R1 -->
+    <div class="rapid-card" id="rcard-1" onclick="openRapide(1)">
+      <div class="rc-bar" style="background:linear-gradient(90deg,#00C271,#00A050)"></div>
+      <div class="rc-body">
+        <div class="rc-head">
+          <div class="rc-left">
+            <div class="rc-ico" style="background:rgba(0,194,113,.1)">🌱</div>
+            <div>
+              <div class="rc-name">Plan Rapide R1</div>
+              <div class="rc-dur">⏱ 10 jours · Gain fixe</div>
+            </div>
+          </div>
+          <span class="rc-tag" style="background:rgba(0,194,113,.1);color:#006B3C">Starter</span>
+        </div>
+        <div class="rc-amounts">
+          <div class="rca"><div class="rca-val" style="color:#00C271">2 000</div><div class="rca-lbl">Mise (F)</div></div>
+          <div class="rca"><div class="rca-val" style="color:var(--green)">+4 000</div><div class="rca-lbl">Retour (F)</div></div>
+          <div class="rca"><div class="rca-val" style="color:var(--dark)">10j</div><div class="rca-lbl">Durée</div></div>
+        </div>
+        <div class="rc-total" style="background:rgba(0,194,113,.06)">
+          <div class="rt-lbl">💰 Bénéfice net</div>
+          <div class="rt-val" style="color:#00C271">+2 000 F</div>
+        </div>
+        <button class="rc-btn" style="background:linear-gradient(135deg,#00C271,#00A050);box-shadow:0 5px 16px rgba(0,194,113,.3)">
+          ⚡ Activer R1
+        </button>
+      </div>
+    </div>
+
+    <!-- PLAN R2 -->
+    <div class="rapid-card" id="rcard-2" onclick="openRapide(2)">
+      <div class="rc-bar" style="background:linear-gradient(90deg,var(--orange),var(--orange-l))"></div>
+      <div class="rc-body">
+        <div class="rc-head">
+          <div class="rc-left">
+            <div class="rc-ico" style="background:rgba(255,107,26,.1)">🔥</div>
+            <div>
+              <div class="rc-name">Plan Rapide R2</div>
+              <div class="rc-dur">⏱ 15 jours · Gain fixe</div>
+            </div>
+          </div>
+          <span class="rc-tag" style="background:rgba(255,107,26,.1);color:#C04A00">Populaire</span>
+        </div>
+        <div class="rc-amounts">
+          <div class="rca"><div class="rca-val" style="color:var(--orange)">5 000</div><div class="rca-lbl">Mise (F)</div></div>
+          <div class="rca"><div class="rca-val" style="color:var(--green)">+15 000</div><div class="rca-lbl">Retour (F)</div></div>
+          <div class="rca"><div class="rca-val" style="color:var(--dark)">15j</div><div class="rca-lbl">Durée</div></div>
+        </div>
+        <div class="rc-total" style="background:rgba(255,107,26,.06)">
+          <div class="rt-lbl">💰 Bénéfice net</div>
+          <div class="rt-val" style="color:var(--orange)">+10 000 F</div>
+        </div>
+        <button class="rc-btn" style="background:linear-gradient(135deg,var(--orange),var(--orange-l));box-shadow:0 5px 16px rgba(255,107,26,.3)">
+          ⚡ Activer R2
+        </button>
+      </div>
+    </div>
+
+    <!-- PLAN R3 -->
+    <div class="rapid-card" id="rcard-3" onclick="openRapide(3)">
+      <div class="rc-bar" style="background:linear-gradient(90deg,var(--gold),#E8A000)"></div>
+      <div class="rc-body">
+        <div class="rc-head">
+          <div class="rc-left">
+            <div class="rc-ico" style="background:rgba(245,183,49,.1)">👑</div>
+            <div>
+              <div class="rc-name">Plan Rapide R3</div>
+              <div class="rc-dur">⏱ 30 jours · Gain fixe</div>
+            </div>
+          </div>
+          <span class="rc-tag" style="background:rgba(245,183,49,.12);color:#806A00">Premium</span>
+        </div>
+        <div class="rc-amounts">
+          <div class="rca"><div class="rca-val" style="color:var(--gold)">30 000</div><div class="rca-lbl">Mise (F)</div></div>
+          <div class="rca"><div class="rca-val" style="color:var(--green)">+65 000</div><div class="rca-lbl">Retour (F)</div></div>
+          <div class="rca"><div class="rca-val" style="color:var(--dark)">30j</div><div class="rca-lbl">Durée</div></div>
+        </div>
+        <div class="rc-total" style="background:rgba(245,183,49,.07)">
+          <div class="rt-lbl">💰 Bénéfice net</div>
+          <div class="rt-val" style="color:var(--gold)">+35 000 F</div>
+        </div>
+        <button class="rc-btn" style="background:linear-gradient(135deg,var(--gold),#E8A000);box-shadow:0 5px 16px rgba(245,183,49,.3);color:var(--dark)">
+          ⚡ Activer R3
+        </button>
+      </div>
+    </div>
+
+    <!-- ACTIFS RAPIDES -->
+    <div class="sec-head" style="margin-top:1rem">
+      <div class="sec-ico" style="background:rgba(255,107,26,.1)">📊</div>
+      <div>
+        <div class="sec-title">Mes plans rapides actifs</div>
+        <div class="sec-sub">Récupérez vos gains à temps !</div>
+      </div>
+    </div>
+    <div id="actifs-rapide">
+      <div class="empty-state"><div class="empty-ico">⚡</div><div class="empty-txt">Aucun plan rapide actif</div></div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION PROD ══ -->
+  <div id="sec-prod" style="display:none">
+    <div class="sec-head">
+      <div class="sec-ico" style="background:rgba(124,58,237,.1)">🔬</div>
+      <div>
+        <div class="sec-title">Plans Prod</div>
+        <div class="sec-sub">Montant libre · Plusieurs simultanés · % selon durée</div>
+      </div>
+    </div>
+
+    <!-- TAUX -->
+    <div class="prod-section">
+      <div class="prod-header">
+        <div class="prod-h-title">Choisissez votre durée</div>
+        <div class="prod-h-sub">Plus la durée est longue, plus le rendement est élevé</div>
+      </div>
+      <div class="taux-grid">
+        <div class="taux-card sel" id="taux-1" onclick="selTaux(1)">
+          <div class="tc-jours">1 jour</div>
+          <div class="tc-pct">+3%</div>
+          <div class="tc-label">Court terme</div>
+        </div>
+        <div class="taux-card" id="taux-7" onclick="selTaux(7)">
+          <div class="tc-jours">7 jours</div>
+          <div class="tc-pct">+10%</div>
+          <div class="tc-label">Semaine</div>
+        </div>
+        <div class="taux-card" id="taux-14" onclick="selTaux(14)">
+          <div class="tc-jours">14 jours</div>
+          <div class="tc-pct">+20%</div>
+          <div class="tc-label">2 semaines</div>
+        </div>
+        <div class="taux-card" id="taux-30" onclick="selTaux(30)">
+          <div class="tc-jours">30 jours</div>
+          <div class="tc-pct">+40%</div>
+          <div class="tc-label">Long terme</div>
+        </div>
+      </div>
+
+      <div class="prod-form">
+        <div class="pf-field">
+          <label>Montant à investir (FCFA)</label>
+          <input class="pf-inp" id="prod-amount" type="number" placeholder="Ex: 10000" inputmode="numeric" oninput="calcProd()"/>
+        </div>
+
+        <!-- SIMULATION -->
+        <div class="simu-box" id="simu-box">
+          <div class="simu-row">
+            <span class="label">Montant investi</span>
+            <span class="value" id="simu-invest">—</span>
+          </div>
+          <div class="simu-row">
+            <span class="label">Durée</span>
+            <span class="value" id="simu-dur">—</span>
+          </div>
+          <div class="simu-row">
+            <span class="label">Taux</span>
+            <span class="value" id="simu-taux">—</span>
+          </div>
+          <div class="simu-row">
+            <span class="label">Gain</span>
+            <span class="value" style="color:var(--green)" id="simu-gain">—</span>
+          </div>
+          <div class="simu-row total">
+            <span class="label">💰 Total reçu</span>
+            <span class="value" id="simu-total">—</span>
+          </div>
+        </div>
+
+        <button class="prod-btn" id="prod-btn" onclick="lancerProd()">
+          <span>🔬 Lancer le plan Prod</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ACTIFS PROD -->
+    <div class="sec-head">
+      <div class="sec-ico" style="background:rgba(124,58,237,.1)">📈</div>
+      <div>
+        <div class="sec-title">Mes plans Prod actifs</div>
+        <div class="sec-sub">Vous pouvez en lancer plusieurs simultanément</div>
+      </div>
+    </div>
+    <div id="actifs-prod">
+      <div class="empty-state"><div class="empty-ico">🔬</div><div class="empty-txt">Aucun plan Prod actif</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOT NAV -->
+<div class="bot-nav">
+  <a class="nb" href="silla-dashboard.html"><span class="nb-i">🏠</span><span class="nb-l">Accueil</span></a>
+  <a class="nb" href="silla-recharge.html"><span class="nb-i">💳</span><span class="nb-l">Recharge</span></a>
+  <button class="nb-c" onclick="window.location.href='silla-plans.html'">📈</button>
+  <a class="nb active" href="silla-smart.html"><span class="nb-i">🤖</span><span class="nb-l">Smart</span></a>
+  <a class="nb" href="silla-profil.html"><span class="nb-i">👤</span><span class="nb-l">Profil</span></a>
+</div>
+
+<!-- MODAL CONFIRMATION RAPIDE -->
+<div class="modal-bg" id="modal-rapid" onclick="if(event.target===this)closeModal('rapid')">
+  <div class="modal-sheet">
+    <div class="mh"></div>
+    <div id="modal-rapid-inner"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
+
+const fmt = n => Number(n||0).toLocaleString('fr-FR');
+let U = null, profile = null, solde = 0;
+let selJours = 1;
+let slotsUsed = 0;
+
+// Plans Rapides
+const RAPIDES = {
+  1: { id:'r1', nom:'Plan Rapide R1', mise:2000,  retour:4000,  jours:10, color:'#00C271', grad:'linear-gradient(135deg,#00C271,#00A050)' },
+  2: { id:'r2', nom:'Plan Rapide R2', mise:5000,  retour:15000, jours:15, color:'var(--orange)', grad:'linear-gradient(135deg,#FF6B1A,#FF8C42)' },
+  3: { id:'r3', nom:'Plan Rapide R3', mise:30000, retour:65000, jours:30, color:'var(--gold)', grad:'linear-gradient(135deg,#F5B731,#E8A000)' },
+};
+
+// Taux Prod
+const TAUX_PROD = { 1:3, 7:10, 14:20, 30:40 };
+
+async function init() {
+  const { data } = await sb.auth.getSession();
+  if (!data?.session) { window.location.href = 'silla-login.html'; return; }
+  U = data.session.user;
+  const { data: p } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
+  if (p) { profile = p; solde = p.solde || 0; }
+  document.getElementById('topSolde').textContent = fmt(solde);
+  await loadActifs();
+}
+
+// ── TABS ──
+function switchTab(t) {
+  document.getElementById('sec-rapid').style.display = t === 'rapid' ? 'block' : 'none';
+  document.getElementById('sec-prod').style.display  = t === 'prod'  ? 'block' : 'none';
+  document.getElementById('tab-rapid').className = 'tab rapid' + (t === 'rapid' ? ' active' : '');
+  document.getElementById('tab-prod').className  = 'tab prod'  + (t === 'prod'  ? ' active' : '');
+}
+
+// ── TAUX PROD ──
+function selTaux(j) {
+  selJours = j;
+  [1, 7, 14, 30].forEach(d => {
+    document.getElementById('taux-' + d).className = 'taux-card' + (d === j ? ' sel' : '');
+  });
+  calcProd();
+}
+
+// ── SIMULATION PROD ──
+function calcProd() {
+  const amount = parseInt(document.getElementById('prod-amount').value) || 0;
+  const simu = document.getElementById('simu-box');
+  if (amount < 100) { simu.classList.remove('show'); return; }
+
+  const taux   = TAUX_PROD[selJours];
+  const gain   = Math.round(amount * taux / 100);
+  const total  = amount + gain;
+
+  document.getElementById('simu-invest').textContent = fmt(amount) + ' F';
+  document.getElementById('simu-dur').textContent    = selJours + ' jour' + (selJours > 1 ? 's' : '');
+  document.getElementById('simu-taux').textContent   = '+' + taux + '%';
+  document.getElementById('simu-gain').textContent   = '+' + fmt(gain) + ' F';
+  document.getElementById('simu-total').textContent  = fmt(total) + ' F';
+  simu.classList.add('show');
+}
+
+// ── OUVRIR MODAL RAPIDE ──
+function openRapide(n) {
+  if (slotsUsed >= 3) {
+    showToast('⚠️ Maximum 3 plans rapides simultanés', 'warning');
+    return;
+  }
+  const plan = RAPIDES[n];
+  const manque = plan.mise - solde;
+  const soldeOk = solde >= plan.mise;
+
+  document.getElementById('modal-rapid-inner').innerHTML = `
+    <div style="font-family:'Clash Display',sans-serif;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:1rem;">
+      ${n === 1 ? '🌱' : n === 2 ? '🔥' : '👑'} ${plan.nom}
+    </div>
+
+    <div style="background:${plan.grad};border-radius:16px;padding:1.1rem;margin-bottom:1rem;color:#fff;position:relative;overflow:hidden;">
+      <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:.5rem">Récapitulatif</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;">
+        <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:.6rem .7rem;">
+          <div style="font-size:.55rem;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:.2rem">Mise</div>
+          <div style="font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:#fff;">${fmt(plan.mise)} F</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:.6rem .7rem;">
+          <div style="font-size:.55rem;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:.2rem">Retour garanti</div>
+          <div style="font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:#fff;">+${fmt(plan.retour)} F</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:.6rem .7rem;">
+          <div style="font-size:.55rem;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:.2rem">Durée</div>
+          <div style="font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:#fff;">${plan.jours} jours</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:.6rem .7rem;">
+          <div style="font-size:.55rem;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:.2rem">Bénéfice net</div>
+          <div style="font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:#fff;">+${fmt(plan.retour - plan.mise)} F</div>
+        </div>
+      </div>
+    </div>
+
+    ${!soldeOk ? `
+    <div style="background:rgba(232,48,48,.05);border:1px solid rgba(232,48,48,.15);border-radius:11px;padding:.75rem .9rem;margin-bottom:.9rem;font-size:.78rem;color:var(--red);line-height:1.7;">
+      ⚠️ Solde insuffisant. Il vous manque <strong>${fmt(manque)} FCFA</strong>.
+    </div>
+    <button onclick="closeModal('rapid');window.location.href='silla-recharge.html'" style="width:100%;padding:.9rem;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:13px;color:#fff;font-size:.88rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;">
+      💳 Recharger mon compte
+    </button>
+    ` : `
+    <div style="background:rgba(27,63,228,.05);border:1px solid rgba(27,63,228,.12);border-radius:11px;padding:.75rem .9rem;margin-bottom:.9rem;font-size:.74rem;color:var(--blue);line-height:1.7;">
+      ✅ Solde disponible : <strong>${fmt(solde)} FCFA</strong><br>
+      Vous recevrez <strong>+${fmt(plan.retour)} FCFA</strong> dans <strong>${plan.jours} jours</strong>.
+    </div>
+    <button onclick="confirmerRapide(${n})" id="btn-conf-rapid" style="width:100%;padding:.9rem;background:${plan.grad};border:none;border-radius:13px;color:${n===3?'var(--dark)':'#fff'};font-size:.88rem;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;gap:.5rem;">
+      ⚡ Confirmer et activer
+    </button>
+    `}
+    <button onclick="closeModal('rapid')" style="width:100%;margin-top:.6rem;padding:.8rem;background:transparent;border:1.5px solid var(--border);border-radius:13px;color:var(--gray);font-size:.82rem;font-weight:700;cursor:pointer;">Annuler</button>
+  `;
+  document.getElementById('modal-rapid').classList.add('open');
+}
+
+// ── CONFIRMER RAPIDE ──
+async function confirmerRapide(n) {
+  if (slotsUsed >= 3) { showToast('⚠️ Maximum 3 slots atteint', 'warning'); return; }
+  const plan = RAPIDES[n];
+  if (solde < plan.mise) { showToast('⚠️ Solde insuffisant', 'error'); return; }
+
+  const btn = document.getElementById('btn-conf-rapid');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<div class="spin"></div><span>Activation…</span>'; }
+
+  try {
+    const now = new Date();
+    const fin = new Date(now.getTime() + plan.jours * 24 * 3600 * 1000);
+    const nvSolde = solde - plan.mise;
+
+    await sb.from('utilisateurs').update({ solde: nvSolde, bonus_utilise: true }).eq('id', U.id);
+    await sb.from('investissements').insert({
+      user_id: U.id, plan_type: plan.id, montant: plan.mise,
+      taux: Math.round((plan.retour - plan.mise) / plan.mise * 100),
+      gain_attendu: plan.retour,
+      duree_jours: plan.jours, statut: 'actif',
+      date_debut: now.toISOString(), date_fin: fin.toISOString()
+    });
+    await sb.from('transactions').insert({
+      user_id: U.id, type: 'investissement', montant: plan.mise,
+      description: `${plan.nom} · Retour garanti ${fmt(plan.retour)} F dans ${plan.jours} jours`
+    });
+
+    solde = nvSolde;
+    slotsUsed++;
+    document.getElementById('topSolde').textContent = fmt(solde);
+    closeModal('rapid');
+    showToast(`✅ ${plan.nom} activé ! +${fmt(plan.retour - plan.mise)} F dans ${plan.jours}j`, 'success');
+    await loadActifs();
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.innerHTML = '⚡ Confirmer et activer'; }
+    showToast('❌ ' + e.message, 'error');
+  }
+}
+
+// ── LANCER PROD ──
+async function lancerProd() {
+  const amount = parseInt(document.getElementById('prod-amount').value) || 0;
+  if (amount < 100) { showToast('⚠️ Minimum 100 FCFA', 'warning'); return; }
+  if (solde < amount) { showToast('⚠️ Solde insuffisant — rechargez', 'error'); return; }
+
+  const taux  = TAUX_PROD[selJours];
+  const gain  = Math.round(amount * taux / 100);
+  const total = amount + gain;
+  const btn   = document.getElementById('prod-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin"></div><span>Activation…</span>';
+
+  try {
+    const now = new Date();
+    const fin = new Date(now.getTime() + selJours * 24 * 3600 * 1000);
+    const nvSolde = solde - amount;
+
+    await sb.from('utilisateurs').update({ solde: nvSolde, bonus_utilise: true }).eq('id', U.id);
+    await sb.from('investissements').insert({
+      user_id: U.id, plan_type: 'prod_' + selJours + 'j',
+      montant: amount, taux, gain_attendu: gain,
+      duree_jours: selJours, statut: 'actif',
+      date_debut: now.toISOString(), date_fin: fin.toISOString()
+    });
+    await sb.from('transactions').insert({
+      user_id: U.id, type: 'investissement', montant: amount,
+      description: `Plan Prod ${selJours}j +${taux}% · Retour ${fmt(total)} F`
+    });
+
+    solde = nvSolde;
+    document.getElementById('topSolde').textContent = fmt(solde);
+    document.getElementById('prod-amount').value = '';
+    document.getElementById('simu-box').classList.remove('show');
+    showToast(`✅ Plan Prod ${selJours}j lancé ! +${fmt(gain)} F dans ${selJours}j`, 'success');
+    await loadActifs();
+  } catch(e) {
+    showToast('❌ ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>🔬 Lancer le plan Prod</span>';
+  }
+}
+
+// ── CHARGER ACTIFS ──
+async function loadActifs() {
+  const { data: invs } = await sb.from('investissements')
+    .select('*').eq('user_id', U.id)
+    .in('statut', ['actif', 'gain_dispo'])
+    .order('created_at', { ascending: false });
+
+  const rapides = (invs || []).filter(i => i.plan_type?.startsWith('r'));
+  const prods   = (invs || []).filter(i => i.plan_type?.startsWith('prod'));
+
+  slotsUsed = rapides.length;
+  document.getElementById('slotsUsed').textContent = slotsUsed;
+  document.getElementById('slotsLeft').textContent = Math.max(0, 3 - slotsUsed);
+
+  renderActifs(rapides, 'actifs-rapide', 'rapid');
+  renderActifs(prods,   'actifs-prod',   'prod');
+}
+
+function renderActifs(list, containerId, type) {
+  const el = document.getElementById(containerId);
+  if (!list.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-ico">${type==='rapid'?'⚡':'🔬'}</div><div class="empty-txt">Aucun plan ${type==='rapid'?'rapide':'Prod'} actif</div></div>`;
+    return;
+  }
+  const now = new Date();
+  el.innerHTML = list.map(inv => {
+    const fin   = new Date(inv.date_fin);
+    const debut = new Date(inv.created_at);
+    const pct   = Math.min(100, Math.round((now - debut) / (fin - debut) * 100));
+    const ready = inv.statut === 'gain_dispo';
+    const exp48 = now > new Date(fin.getTime() + 48 * 3600000);
+    const restH = fin > now ? Math.ceil((fin - now) / 3600000) : 0;
+    const timeLeft = restH >= 24 ? Math.ceil(restH/24)+'j' : restH+'h';
+    const gain = inv.gain_attendu || 0;
+    const isRapid = type === 'rapid';
+
+    let badge = ready
+      ? `<span class="ai-badge badge-ready">🔥 Prêt !</span>`
+      : exp48 ? `<span class="ai-badge badge-exp">⏰ Expiré</span>`
+      : `<span class="ai-badge badge-actif">⚡ En cours</span>`;
+
+    let btnHtml = '';
+    if (ready && !exp48) {
+      const total = isRapid ? inv.gain_attendu : inv.montant + gain;
+      btnHtml = `<button class="btn-recover${isRapid?'':' purple'}" onclick="recuperer('${inv.id}',${total},${inv.montant},'${type}')" data-inv="${inv.id}">
+        💰 Récupérer ${fmt(total)} F
+      </button>`;
+    }
+
+    return `<div class="actif-item ${type}">
+      <div class="ai-top">
+        <div><div class="ai-name">${inv.plan_type?.toUpperCase()?.replace('_',' ')}</div><div class="ai-date">${new Date(inv.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</div></div>
+        ${badge}
+      </div>
+      <div class="ai-amounts">
+        <div><div style="font-size:.6rem;color:var(--gray);margin-bottom:.1rem">${exp48?'Expiré':'Retour attendu'}</div><div class="ai-gain" style="${exp48?'color:var(--gray)':''}">+${fmt(isRapid?gain:gain)} F</div></div>
+        <div class="ai-invest">Investi : <span>${fmt(inv.montant)} F</span></div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill ${ready?'prog-green':isRapid?'prog-orange':'prog-purple'}" style="width:${pct}%"></div></div>
+      <div class="prog-txt"><span>${pct}%</span><span>${exp48?'Expiré':ready?'Disponible !':timeLeft+' restant'}</span></div>
+      ${btnHtml}
+    </div>`;
+  }).join('');
+}
+
+// ── RÉCUPÉRER ──
+async function recuperer(invId, total, capital, type) {
+  const btn = document.querySelector(`[data-inv="${invId}"]`);
+  if (btn) { btn.disabled = true; btn.innerHTML = '<div class="spin"></div>'; }
+  try {
+    const { data: u } = await sb.from('utilisateurs').select('solde').eq('id', U.id).maybeSingle();
+    const nvSolde = (u?.solde || 0) + total;
+    await sb.from('utilisateurs').update({ solde: nvSolde }).eq('id', U.id);
+    await sb.from('investissements').update({ statut: 'termine', verse: true, verse_le: new Date().toISOString() }).eq('id', invId);
+    await sb.from('transactions').insert({ user_id: U.id, type: 'gain', montant: total, description: 'Récupération Smart Invest' });
+    solde = nvSolde;
+    document.getElementById('topSolde').textContent = fmt(solde);
+    showToast(`✅ +${fmt(total)} F récupérés !`, 'success');
+    if (type === 'rapid') slotsUsed = Math.max(0, slotsUsed - 1);
+    await loadActifs();
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.innerHTML = '💰 Récupérer'; }
+    showToast('❌ ' + e.message, 'error');
+  }
+}
+
+function closeModal(id) { document.getElementById('modal-' + id)?.classList.remove('open'); }
+
+function showToast(msg, type = 'info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show ' + (type || '');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => el.className = '', 4500);
+}
+
+init();
+setInterval(loadActifs, 60000);
+</script>
+</body>
+</html>
