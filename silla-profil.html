@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Mon Profil</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
+  --orange:#FF6B1A;--orange-l:#FF8C42;--turq:#00C2B7;--green:#00C271;
+  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;--gray:#8892A8;
+  --border:#DDE3F5;--red:#E83030;--gold:#F5B731;--nav-h:70px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
+body{display:flex;flex-direction:column;}
+
+/* TOPBAR */
+.topbar{background:var(--blue-dark);height:58px;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:80;box-shadow:0 2px 16px rgba(8,14,42,.3);}
+.back-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:1.1rem;text-decoration:none;}
+.top-logo{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:#fff;}
+.top-logo span{color:var(--orange);}
+.logout-btn{background:rgba(232,48,48,.15);border:1px solid rgba(232,48,48,.25);border-radius:9px;padding:.35rem .75rem;font-size:.7rem;font-weight:700;color:#FF8080;cursor:pointer;}
+
+/* HERO PROFIL */
+.hero-profil{
+  background:linear-gradient(135deg,var(--blue-dark) 0%,#1A3A7A 100%);
+  padding:1.5rem 1rem 2rem;text-align:center;position:relative;overflow:hidden;
+}
+.hero-profil::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.03);}
+.hero-profil::after{content:'';position:absolute;bottom:-30px;left:-30px;width:140px;height:140px;border-radius:50%;background:rgba(0,194,183,.06);}
+.avatar-wrap{position:relative;display:inline-block;margin-bottom:.9rem;z-index:1;}
+.avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,.2);margin:0 auto;}
+.avatar-edit{position:absolute;bottom:0;right:0;width:26px;height:26px;border-radius:50%;background:var(--orange);border:2px solid var(--blue-dark);display:flex;align-items:center;justify-content:center;font-size:.7rem;cursor:pointer;}
+.profil-name{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.2rem;z-index:1;position:relative;}
+.profil-email{font-size:.75rem;color:rgba(255,255,255,.45);margin-bottom:.6rem;font-family:'DM Mono',monospace;z-index:1;position:relative;}
+.profil-badges{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;z-index:1;position:relative;}
+.badge{padding:.22rem .65rem;border-radius:99px;font-size:.62rem;font-weight:700;}
+.badge-actif{background:rgba(0,194,113,.15);color:#4DFFB4;border:1px solid rgba(0,194,113,.25);}
+.badge-code{background:rgba(245,183,49,.12);color:var(--gold);border:1px solid rgba(245,183,49,.2);font-family:'DM Mono',monospace;letter-spacing:.05em;}
+
+/* STATS ROW */
+.stats-band{background:var(--white);border-bottom:1px solid var(--border);padding:.9rem 1rem;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;max-width:480px;margin:0 auto;}
+.sg-item{text-align:center;}
+.sg-val{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;line-height:1;}
+.sg-lbl{font-size:.57rem;color:var(--gray);margin-top:.2rem;font-family:'DM Mono',monospace;letter-spacing:.05em;text-transform:uppercase;}
+.c-blue{color:var(--blue2);}
+.c-green{color:var(--green);}
+.c-orange{color:var(--orange);}
+.c-gold{color:var(--gold);}
+
+/* CONTENT */
+.content{flex:1;padding:1rem;max-width:480px;margin:0 auto;width:100%;padding-bottom:calc(var(--nav-h)+1rem);}
+
+/* CARD */
+.card{background:var(--white);border-radius:18px;border:1px solid var(--border);margin-bottom:.85rem;overflow:hidden;box-shadow:0 3px 12px rgba(27,63,228,.05);}
+.card-head{padding:.9rem 1rem .6rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.card-title{font-family:'Clash Display',sans-serif;font-size:.9rem;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:.45rem;}
+.card-edit{font-size:.72rem;font-weight:700;color:var(--blue2);cursor:pointer;background:rgba(27,63,228,.06);border:1px solid rgba(27,63,228,.12);padding:.22rem .65rem;border-radius:8px;}
+
+/* INFO ITEMS */
+.info-item{display:flex;align-items:center;gap:.85rem;padding:.82rem 1rem;border-bottom:1px solid var(--border);}
+.info-item:last-child{border-bottom:none;}
+.ii-ico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.ii-ico.blue{background:rgba(27,63,228,.08);}
+.ii-ico.green{background:rgba(0,194,113,.08);}
+.ii-ico.orange{background:rgba(255,107,26,.08);}
+.ii-ico.gold{background:rgba(245,183,49,.08);}
+.ii-ico.gray{background:var(--bg);}
+.ii-content{flex:1;min-width:0;}
+.ii-label{font-size:.65rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.12rem;}
+.ii-val{font-size:.85rem;font-weight:600;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ii-val.mono{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--blue2);}
+.ii-copy{width:28px;height:28px;border-radius:8px;background:rgba(27,63,228,.06);border:1px solid rgba(27,63,228,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.78rem;flex-shrink:0;transition:all .2s;}
+.ii-copy:hover{background:rgba(27,63,228,.12);}
+
+/* EDIT FIELDS */
+.edit-form{padding:1rem;display:none;}
+.edit-form.open{display:block;}
+.field{margin-bottom:.85rem;}
+.field label{display:block;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--dark);margin-bottom:.3rem;}
+.inp{width:100%;padding:.75rem .9rem;border:1.5px solid var(--border);border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--dark);background:#FAFBFF;outline:none;transition:all .2s;}
+.inp:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(45,85,255,.08);background:#fff;}
+.inp::placeholder{color:#C0C8DC;}
+.btn-save{width:100%;padding:.82rem;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:12px;color:#fff;font-size:.88rem;font-weight:800;cursor:pointer;box-shadow:0 5px 14px rgba(255,107,26,.25);display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;}
+.btn-save:hover{transform:translateY(-1px);}
+.btn-save:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* MENU ITEMS */
+.menu-item{display:flex;align-items:center;gap:.85rem;padding:.88rem 1rem;cursor:pointer;transition:all .18s;text-decoration:none;color:var(--dark);}
+.menu-item:hover{background:var(--bg);}
+.menu-item:active{background:var(--border);}
+.mi-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.mi-content{flex:1;}
+.mi-title{font-size:.85rem;font-weight:700;}
+.mi-sub{font-size:.65rem;color:var(--gray);margin-top:.08rem;}
+.mi-arrow{color:var(--border);font-size:.9rem;}
+.divider-item{height:1px;background:var(--border);margin:0 1rem;}
+
+/* PARRAINAGE */
+.parrain-card{background:linear-gradient(135deg,#1A0A00,#3D2600);border-radius:18px;border:1px solid rgba(245,183,49,.2);padding:1.1rem;margin-bottom:.85rem;box-shadow:0 4px 16px rgba(245,183,49,.1);}
+.pc-top{display:flex;align-items:center;gap:.75rem;margin-bottom:.9rem;}
+.pc-ico{width:42px;height:42px;border-radius:13px;background:rgba(245,183,49,.12);border:1px solid rgba(245,183,49,.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.pc-title{font-family:'Clash Display',sans-serif;font-size:.95rem;font-weight:700;color:var(--gold);}
+.pc-sub{font-size:.68rem;color:rgba(245,183,49,.5);margin-top:.1rem;}
+.code-box{background:rgba(255,255,255,.05);border:1px solid rgba(245,183,49,.2);border-radius:12px;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;}
+.code-val{font-family:'Clash Display',sans-serif;font-size:1.2rem;font-weight:700;color:var(--gold);letter-spacing:.08em;}
+.code-copy{background:rgba(245,183,49,.12);border:1px solid rgba(245,183,49,.2);border-radius:8px;padding:.35rem .75rem;font-size:.7rem;font-weight:700;color:var(--gold);cursor:pointer;transition:all .2s;}
+.code-copy:hover{background:rgba(245,183,49,.2);}
+.parrain-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;}
+.ps{background:rgba(255,255,255,.04);border-radius:10px;padding:.6rem .5rem;text-align:center;}
+.ps-val{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--gold);}
+.ps-lbl{font-size:.58rem;color:rgba(245,183,49,.4);margin-top:.15rem;}
+
+/* DANGER ZONE */
+.danger-card{background:rgba(232,48,48,.04);border-radius:18px;border:1px solid rgba(232,48,48,.12);overflow:hidden;margin-bottom:.85rem;}
+.danger-item{display:flex;align-items:center;gap:.85rem;padding:.88rem 1rem;cursor:pointer;transition:all .18s;}
+.danger-item:hover{background:rgba(232,48,48,.06);}
+
+/* BOT NAV */
+.bot-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:0 .4rem;z-index:90;box-shadow:0 -4px 20px rgba(8,14,42,.07);}
+.nb{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.5rem .6rem;border:none;background:none;cursor:pointer;border-radius:12px;min-width:52px;text-decoration:none;color:var(--gray);}
+.nb.active{color:var(--blue2);}
+.nb-i{font-size:1.25rem;line-height:1;}
+.nb-l{font-size:.58rem;font-weight:700;}
+.nb-c{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--orange-l));display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,26,.4);margin-bottom:8px;}
+
+/* TOAST */
+#toast{position:fixed;bottom:calc(var(--nav-h)+12px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:.7rem 1.2rem;border-radius:14px;font-size:.78rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--turq);box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{border-color:var(--green);}
+#toast.error{border-color:var(--red);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="silla-dashboard.html" class="back-btn">←</a>
+  <div class="top-logo">SIL<span>LA</span></div>
+  <button class="logout-btn" onclick="logout()">🚪 Déco.</button>
+</div>
+
+<!-- HERO -->
+<div class="hero-profil">
+  <div class="avatar-wrap">
+    <div class="avatar" id="avatarEl">?</div>
+    <div class="avatar-edit">✏️</div>
+  </div>
+  <div class="profil-name" id="profilName">Chargement…</div>
+  <div class="profil-email" id="profilEmail">—</div>
+  <div class="profil-badges">
+    <span class="badge badge-actif">● Actif</span>
+    <span class="badge badge-code" id="profilCode">SLA-——</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-grid">
+    <div class="sg-item">
+      <div class="sg-val c-blue" id="stSolde">0</div>
+      <div class="sg-lbl">Solde</div>
+    </div>
+    <div class="sg-item">
+      <div class="sg-val c-orange" id="stInvesti">0</div>
+      <div class="sg-lbl">Investi</div>
+    </div>
+    <div class="sg-item">
+      <div class="sg-val c-green" id="stGains">0</div>
+      <div class="sg-lbl">Gains</div>
+    </div>
+    <div class="sg-item">
+      <div class="sg-val c-gold" id="stFilleuls">0</div>
+      <div class="sg-lbl">Filleuls</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- PARRAINAGE -->
+  <div class="parrain-card" id="parrainCard">
+    <div class="pc-top">
+      <div class="pc-ico">👑</div>
+      <div>
+        <div class="pc-title">Programme Parrainage</div>
+        <div class="pc-sub">Gagnez 500F · 300F · 200F sur 3 niveaux</div>
+      </div>
+    </div>
+    <div class="code-box">
+      <div class="code-val" id="codeParrain">—</div>
+      <div class="code-copy" onclick="copyCode()">📋 Copier</div>
+    </div>
+    <div class="parrain-stats">
+      <div class="ps"><div class="ps-val" id="ps1">0</div><div class="ps-lbl">Filleuls N1</div></div>
+      <div class="ps"><div class="ps-val" id="ps2">0</div><div class="ps-lbl">Filleuls N2</div></div>
+      <div class="ps"><div class="ps-val" id="ps3">0</div><div class="ps-lbl">Gains parr.</div></div>
+    </div>
+  </div>
+
+  <!-- INFOS PERSONNELLES -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">👤 Informations personnelles</div>
+      <div class="card-edit" onclick="toggleEdit()">✏️ Modifier</div>
+    </div>
+    <div class="info-item">
+      <div class="ii-ico blue">👤</div>
+      <div class="ii-content">
+        <div class="ii-label">Nom complet</div>
+        <div class="ii-val" id="infoNom">—</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="ii-ico orange">✉️</div>
+      <div class="ii-content">
+        <div class="ii-label">Adresse email</div>
+        <div class="ii-val" id="infoEmail">—</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="ii-ico green">📱</div>
+      <div class="ii-content">
+        <div class="ii-label">Téléphone</div>
+        <div class="ii-val" id="infoPhone">—</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="ii-ico gold">📅</div>
+      <div class="ii-content">
+        <div class="ii-label">Membre depuis</div>
+        <div class="ii-val" id="infoDate">—</div>
+      </div>
+    </div>
+
+    <!-- FORMULAIRE ÉDITION -->
+    <div class="edit-form" id="editForm">
+      <div style="height:.5rem"></div>
+      <div class="field">
+        <label>Nom complet</label>
+        <input class="inp" id="edit-nom" type="text" placeholder="Votre nom complet"/>
+      </div>
+      <div class="field">
+        <label>Téléphone</label>
+        <input class="inp" id="edit-phone" type="tel" placeholder="+ indicatif + numéro"/>
+      </div>
+      <button class="btn-save" id="save-btn" onclick="saveProfile()">
+        <span>💾 Sauvegarder</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SÉCURITÉ -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">🔒 Sécurité</div>
+    </div>
+    <div class="info-item">
+      <div class="ii-ico blue">🔒</div>
+      <div class="ii-content">
+        <div class="ii-label">Mot de passe</div>
+        <div class="ii-val">••••••••</div>
+      </div>
+      <div class="ii-copy" onclick="changePwd()">✏️</div>
+    </div>
+    <div class="info-item">
+      <div class="ii-ico green">✉️</div>
+      <div class="ii-content">
+        <div class="ii-label">Email vérifié</div>
+        <div class="ii-val" style="color:var(--green)">✅ Vérifié</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION RAPIDE -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">⚡ Navigation rapide</div>
+    </div>
+    <a class="menu-item" href="silla-dashboard.html">
+      <div class="mi-ico" style="background:rgba(27,63,228,.08)">🏠</div>
+      <div class="mi-content"><div class="mi-title">Dashboard</div><div class="mi-sub">Tableau de bord principal</div></div>
+      <div class="mi-arrow">›</div>
+    </a>
+    <div class="divider-item"></div>
+    <a class="menu-item" href="silla-plans.html">
+      <div class="mi-ico" style="background:rgba(0,194,113,.08)">📈</div>
+      <div class="mi-content"><div class="mi-title">Plans d'investissement</div><div class="mi-sub">Voir tous les plans</div></div>
+      <div class="mi-arrow">›</div>
+    </a>
+    <div class="divider-item"></div>
+    <a class="menu-item" href="silla-recharge.html">
+      <div class="mi-ico" style="background:rgba(255,107,26,.08)">💳</div>
+      <div class="mi-content"><div class="mi-title">Recharger</div><div class="mi-sub">Mobile Money ou Crypto</div></div>
+      <div class="mi-arrow">›</div>
+    </a>
+    <div class="divider-item"></div>
+    <a class="menu-item" href="silla-parrain.html">
+      <div class="mi-ico" style="background:rgba(245,183,49,.08)">👥</div>
+      <div class="mi-content"><div class="mi-title">Mes filleuls</div><div class="mi-sub">Programme de parrainage</div></div>
+      <div class="mi-arrow">›</div>
+    </a>
+    <div class="divider-item"></div>
+    <a class="menu-item" href="silla-faq.html">
+      <div class="mi-ico" style="background:rgba(124,58,237,.08)">❓</div>
+      <div class="mi-content"><div class="mi-title">FAQ</div><div class="mi-sub">Questions fréquentes</div></div>
+      <div class="mi-arrow">›</div>
+    </a>
+    <div class="divider-item"></div>
+    <a class="menu-item" href="silla-support.html">
+      <div class="mi-ico" style="background:rgba(0,194,183,.08)">🎧</div>
+      <div class="mi-content"><div class="mi-title">Support</div><div class="mi-sub">Contacter l'équipe</div></div>
+      <div class="mi-arrow">›</div>
+    </a>
+    <div class="divider-item"></div>
+    <a class="menu-item" href="silla-cgu.html">
+      <div class="mi-ico" style="background:var(--bg)">📋</div>
+      <div class="mi-content"><div class="mi-title">Conditions d'utilisation</div><div class="mi-sub">CGU SILLA</div></div>
+      <div class="mi-arrow">›</div>
+    </a>
+  </div>
+
+  <!-- ZONE DANGER -->
+  <div class="danger-card">
+    <div class="danger-item" onclick="logout()">
+      <div class="mi-ico" style="background:rgba(232,48,48,.08);width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center">🚪</div>
+      <div class="mi-content"><div class="mi-title" style="color:var(--red)">Se déconnecter</div><div class="mi-sub" style="color:rgba(232,48,48,.5)">Quitter votre session</div></div>
+    </div>
+  </div>
+
+  <div style="height:.5rem"></div>
+</div>
+
+<div class="bot-nav">
+  <a class="nb" href="silla-dashboard.html"><span class="nb-i">🏠</span><span class="nb-l">Accueil</span></a>
+  <a class="nb" href="silla-recharge.html"><span class="nb-i">💳</span><span class="nb-l">Recharge</span></a>
+  <button class="nb-c" onclick="window.location.href='silla-plans.html'">📈</button>
+  <a class="nb" href="silla-smart.html"><span class="nb-i">🤖</span><span class="nb-l">Smart</span></a>
+  <a class="nb active" href="silla-profil.html"><span class="nb-i">👤</span><span class="nb-l">Profil</span></a>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb=supabase.createClient('https://pnybmieunidegpxwkodn.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY');
+const fmt=n=>Number(n||0).toLocaleString('fr-FR');
+const fmtK=n=>n>=1000?Math.round(n/100)/10+'k':fmt(n);
+let U=null,profile=null,editOpen=false;
+
+async function init(){
+  const{data}=await sb.auth.getSession();
+  if(!data?.session){window.location.href='silla-login.html';return;}
+  U=data.session.user;
+
+  const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+  if(!p){window.location.href='silla-login.html';return;}
+  profile=p;
+  renderProfile(p);
+  await loadStats();
+  await loadParrainStats();
+}
+
+function renderProfile(p){
+  const nom=p.nom||'Utilisateur';
+  const ini=nom.slice(0,2).toUpperCase();
+  document.getElementById('avatarEl').textContent=ini;
+  document.getElementById('profilName').textContent=nom;
+  document.getElementById('profilEmail').textContent=p.email||'—';
+  document.getElementById('profilCode').textContent=p.code_parrainage||'SLA-——';
+  document.getElementById('codeParrain').textContent=p.code_parrainage||'—';
+  document.getElementById('infoNom').textContent=nom;
+  document.getElementById('infoEmail').textContent=p.email||'—';
+  document.getElementById('infoPhone').textContent=p.telephone||'Non renseigné';
+  document.getElementById('edit-nom').value=nom;
+  document.getElementById('edit-phone').value=p.telephone||'';
+  const d=new Date(p.created_at);
+  document.getElementById('infoDate').textContent=d.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+}
+
+async function loadStats(){
+  const{data:p}=await sb.from('utilisateurs').select('solde,total_investi,total_filleuls').eq('id',U.id).maybeSingle();
+  const{data:tx}=await sb.from('transactions').select('montant').eq('user_id',U.id).eq('type','gain');
+  const totalGains=(tx||[]).reduce((s,t)=>s+t.montant,0);
+  document.getElementById('stSolde').textContent=fmtK(p?.solde||0)+'F';
+  document.getElementById('stInvesti').textContent=fmtK(p?.total_investi||0)+'F';
+  document.getElementById('stGains').textContent=fmtK(totalGains)+'F';
+  document.getElementById('stFilleuls').textContent=p?.total_filleuls||0;
+}
+
+async function loadParrainStats(){
+  const{data:pg,count}=await sb.from('parrainage_gains').select('montant,niveau',{count:'exact'}).eq('beneficiaire_id',U.id);
+  const totalParrain=(pg||[]).reduce((s,r)=>s+r.montant,0);
+  const n1=(pg||[]).filter(r=>r.niveau===1).length;
+  const n2=(pg||[]).filter(r=>r.niveau===2).length;
+  document.getElementById('ps1').textContent=n1;
+  document.getElementById('ps2').textContent=n2;
+  document.getElementById('ps3').textContent=fmtK(totalParrain)+'F';
+}
+
+function toggleEdit(){
+  editOpen=!editOpen;
+  document.getElementById('editForm').classList.toggle('open',editOpen);
+}
+
+async function saveProfile(){
+  const nom=document.getElementById('edit-nom').value.trim();
+  const phone=document.getElementById('edit-phone').value.trim();
+  if(!nom){showToast('⚠️ Le nom est requis','warning');return;}
+  const btn=document.getElementById('save-btn');
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div><span>Sauvegarde…</span>';
+  try{
+    await sb.from('utilisateurs').update({nom,telephone:phone,updated_at:new Date().toISOString()}).eq('id',U.id);
+    document.getElementById('profilName').textContent=nom;
+    document.getElementById('infoNom').textContent=nom;
+    document.getElementById('infoPhone').textContent=phone||'Non renseigné';
+    document.getElementById('avatarEl').textContent=nom.slice(0,2).toUpperCase();
+    showToast('✅ Profil mis à jour !','success');
+    toggleEdit();
+  }catch(e){showToast('❌ '+e.message,'error');}
+  finally{btn.disabled=false;btn.innerHTML='<span>💾 Sauvegarder</span>';}
+}
+
+function copyCode(){
+  const code=document.getElementById('codeParrain').textContent;
+  navigator.clipboard?.writeText('Rejoins SILLA et investis avec moi ! Utilise mon code parrainage : '+code+' → https://silla-invest.vercel.app');
+  showToast('✅ Code copié avec le lien !','success');
+}
+
+function changePwd(){
+  window.location.href='silla-forgot.html';
+}
+
+async function logout(){
+  try{await sb.auth.signOut();}catch(e){}
+  localStorage.removeItem('silla_email');
+  sessionStorage.clear();
+  window.location.replace('silla-login.html');
+}
+
+function showToast(msg,type='info'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='show '+(type||'');
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>el.className='',4000);
+}
+
+init();
+</script>
+</body>
+</html>
