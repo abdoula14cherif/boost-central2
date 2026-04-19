@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#FEFCF7;--warm:#FDF6E9;--card:#fff;--gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);--ember:#E05A2B;--green:#16A34A;--ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;--border:rgba(184,134,11,.15);--shadow:rgba(90,50,0,.09);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;padding-bottom:40px;}
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);}
+.scroll{padding:16px;}
+
+.hero{background:linear-gradient(135deg,#1A0F00,#3D2200);border-radius:14px;padding:22px 20px;margin-bottom:16px;text-align:center;}
+.hero-ico{font-size:2rem;margin-bottom:8px;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:#E8C060;margin-bottom:6px;}
+.hero-sub{font-size:.7rem;color:rgba(232,192,96,.5);line-height:1.6;}
+
+/* CONTACTS RAPIDES */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.contact-btn{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px var(--shadow);}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px var(--shadow);}
+.cb-ico{font-size:1.6rem;margin-bottom:6px;}
+.cb-name{font-size:.82rem;font-weight:700;color:var(--ink);}
+.cb-sub{font-size:.62rem;color:var(--muted);margin-top:3px;}
+.contact-btn.wa{border-color:#25D36630;}
+.contact-btn.tel{border-color:rgba(22,163,74,.2);}
+
+/* FORMULAIRE */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);margin-bottom:16px;position:relative;}
+.card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--gold-l),transparent);}
+.cb2{padding:22px 20px;}
+.lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.lbl::after{content:'';flex:1;height:1px;background:rgba(184,134,11,.1);}
+.inp{width:100%;padding:13px 16px;background:var(--warm);border:1.5px solid var(--border);border-radius:3px;font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--ink);outline:none;transition:all .22s;margin-bottom:14px;-webkit-appearance:none;}
+.inp:focus{border-color:var(--gold-l);background:#fff;box-shadow:0 0 0 3px rgba(184,134,11,.08);}
+.inp::placeholder{color:rgba(45,31,0,.25);}
+select.inp{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23B8860B' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+textarea.inp{resize:none;height:100px;line-height:1.6;}
+.btn{width:100%;padding:15px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;box-shadow:0 4px 14px rgba(184,134,11,.22);transition:all .4s;}
+.btn:hover{box-shadow:0 6px 20px rgba(184,134,11,.35);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.ld{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.faq-link{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px 18px;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:16px;box-shadow:0 2px 8px var(--shadow);}
+.faq-link:hover{background:var(--warm);}
+.fl-ico{width:38px;height:38px;border-radius:10px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.fl-info{flex:1;}
+.fl-title{font-size:.82rem;font-weight:700;color:var(--ink);}
+.fl-sub{font-size:.65rem;color:var(--muted);margin-top:2px;}
+.fl-arrow{color:var(--gold);font-size:.9rem;}
+
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
+.toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="javascript:history.back()">←</a>
+  <div class="tb-title">Support SILLA</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<div class="scroll">
+  <div class="hero">
+    <div class="hero-ico">🎧</div>
+    <div class="hero-title">Support & Assistance</div>
+    <div class="hero-sub">Notre équipe vous répond sous 48h ouvrables</div>
+  </div>
+
+  <!-- CONTACTS RAPIDES -->
+  <div class="contact-grid">
+    <a class="contact-btn wa" href="https://wa.me/237651461777" target="_blank">
+      <div class="cb-ico">📱</div>
+      <div class="cb-name">WhatsApp</div>
+      <div class="cb-sub">Réponse rapide</div>
+    </a>
+    <a class="contact-btn tel" href="tel:+237651461777">
+      <div class="cb-ico">📞</div>
+      <div class="cb-name">Téléphone</div>
+      <div class="cb-sub">+237 651 461 777</div>
+    </a>
+  </div>
+
+  <!-- FAQ LINK -->
+  <a class="faq-link" href="silla-faq.html">
+    <div class="fl-ico">❓</div>
+    <div class="fl-info">
+      <div class="fl-title">Consultez la FAQ</div>
+      <div class="fl-sub">Trouvez rapidement des réponses aux questions fréquentes</div>
+    </div>
+    <div class="fl-arrow">›</div>
+  </a>
+
+  <!-- FORMULAIRE -->
+  <div class="card">
+    <div class="cb2">
+      <div class="lbl">Envoyer un message</div>
+      <select class="inp" id="f-sujet">
+        <option value="">Choisir le sujet...</option>
+        <option value="Problème de recharge">💳 Problème de recharge</option>
+        <option value="Problème de retrait">💸 Problème de retrait</option>
+        <option value="Plan d'investissement">📈 Plan d'investissement</option>
+        <option value="Compte suspendu">🔒 Compte suspendu</option>
+        <option value="Parrainage">👑 Parrainage</option>
+        <option value="Autre">📋 Autre</option>
+      </select>
+      <div class="lbl">Message</div>
+      <textarea class="inp" id="f-message" placeholder="Décrivez votre problème en détail..."></textarea>
+      <button class="btn" onclick="envoyerMessage()">📤 Envoyer au support</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb=supabase.createClient('https://pnybmieunidegpxwkodn.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY');
+let U=null;
+
+function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4500);}
+
+async function envoyerMessage(){
+  const sujet=document.getElementById('f-sujet').value;
+  const message=document.getElementById('f-message').value.trim();
+  if(!sujet){toast('⚠️ Choisissez un sujet','err');return;}
+  if(message.length<10){toast('⚠️ Message trop court (min 10 caractères)','err');return;}
+  const btn=document.querySelector('.btn');
+  btn.disabled=true;btn.innerHTML='<div class="ld"></div> Envoi...';
+  try{
+    // Envoyer vers notifications admin
+    const adminId = 'abdoula13cherif@gmail.com';
+    const{data:admin}=await sb.from('utilisateurs').select('id').eq('email',adminId).maybeSingle();
+    if(admin){
+      await sb.from('notifications').insert({
+        user_id:admin.id,
+        titre:'📨 Nouveau message support',
+        message:`De: ${U?.email||'Utilisateur'}\nSujet: ${sujet}\n\n${message}`,
+        type:'admin'
+      });
+    }
+    // Notification de confirmation à l'utilisateur
+    if(U){
+      await sb.from('notifications').insert({
+        user_id:U.id,
+        titre:'✅ Message envoyé au support',
+        message:`Votre message "${sujet}" a été envoyé. Réponse sous 48h.`,
+        type:'info'
+      });
+    }
+    document.getElementById('f-message').value='';
+    document.getElementById('f-sujet').value='';
+    toast('✅ Message envoyé ! Réponse sous 48h','ok');
+  }catch(e){toast('❌ '+e.message,'err');}
+  finally{btn.disabled=false;btn.innerHTML='📤 Envoyer au support';}
+}
+
+(async()=>{
+  const{data}=await sb.auth.getSession();
+  if(data?.session) U=data.session.user;
+})();
+</script>
+</body>
+</html>
