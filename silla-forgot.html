@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Mot de passe oublié</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#1A3FE3;--blue2:#2D55FF;--blue-dark:#0B1225;
+  --orange:#FF6B1A;--orange-l:#FF8C42;--turq:#00C2B7;--green:#00C271;
+  --bg:#F0F4FF;--white:#fff;--dark:#080E2A;
+  --gray:#8892A8;--border:#DDE3F5;--red:#E83030;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--dark);}
+body{display:flex;flex-direction:column;min-height:100vh;}
+
+.header{background:var(--blue-dark);padding:0 1.2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(8,14,42,.25);}
+.logo{font-family:'Clash Display',sans-serif;font-size:1.7rem;font-weight:700;letter-spacing:2px;color:#fff;text-decoration:none;display:block;}
+.logo span{color:var(--orange);}
+.logo-sub{font-size:.52rem;color:rgba(255,255,255,.3);letter-spacing:.2em;text-transform:uppercase;margin-top:1px;}
+.header-link{font-size:.72rem;font-weight:600;color:rgba(255,255,255,.55);text-decoration:none;border:1px solid rgba(255,255,255,.15);padding:.38rem .85rem;border-radius:8px;transition:all .2s;}
+.header-link:hover{color:#fff;border-color:rgba(255,255,255,.4);}
+
+.hero-band{background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 55%,var(--turq) 100%);padding:1.5rem 1.2rem 1.3rem;text-align:center;color:white;}
+.hero-band h2{font-family:'Clash Display',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:.4rem;}
+.hero-band p{font-size:.8rem;opacity:.82;line-height:1.65;}
+
+.page-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:1.8rem 1rem 3rem;}
+
+/* STEPS */
+.steps-wrap{width:100%;max-width:420px;margin-bottom:1.4rem;}
+.steps{display:flex;align-items:center;justify-content:center;}
+.st{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+.st-dot{width:30px;height:30px;border-radius:50%;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.st-dot.active{background:linear-gradient(135deg,var(--orange),var(--orange-l));color:#fff;box-shadow:0 3px 12px rgba(255,107,26,.3);}
+.st-dot.done{background:linear-gradient(135deg,var(--green),#00A050);color:#fff;}
+.st-dot.inactive{background:var(--border);color:var(--gray);}
+.st-lbl{font-size:.6rem;font-weight:700;color:var(--dark);}
+.st-lbl.inactive{color:var(--gray);}
+.st-line{width:40px;height:2px;background:var(--border);margin-bottom:16px;}
+.st-line.done{background:linear-gradient(90deg,var(--green),var(--green));}
+.st-line.active{background:linear-gradient(90deg,var(--orange),var(--orange-l));}
+
+.card{background:var(--white);border-radius:20px;padding:1.8rem 1.4rem;width:100%;max-width:420px;box-shadow:0 4px 20px rgba(27,63,228,.08);border:1px solid var(--border);}
+.card-ico{width:56px;height:56px;background:linear-gradient(135deg,rgba(255,107,26,.1),rgba(255,107,26,.05));border:1.5px solid rgba(255,107,26,.2);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .9rem;}
+.card-title{font-family:'Clash Display',sans-serif;font-size:1.3rem;font-weight:700;color:var(--dark);text-align:center;margin-bottom:.3rem;}
+.card-sub{font-size:.78rem;color:var(--gray);text-align:center;margin-bottom:1.6rem;line-height:1.65;}
+
+.field{margin-bottom:1rem;}
+.field label{display:block;font-size:.68rem;font-weight:800;color:var(--dark);margin-bottom:.35rem;letter-spacing:.04em;text-transform:uppercase;}
+.inp-wrap{position:relative;}
+.inp-ico{position:absolute;left:.88rem;top:50%;transform:translateY(-50%);font-size:.95rem;pointer-events:none;}
+.inp{width:100%;padding:.78rem .9rem .78rem 2.6rem;border:1.5px solid var(--border);border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;color:var(--dark);background:#FAFBFF;outline:none;transition:all .2s;}
+.inp:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(45,85,255,.09);background:#fff;}
+.inp.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,48,48,.07);}
+.inp.ok{border-color:var(--green);}
+.inp::placeholder{color:#C0C8DC;}
+.field-err{font-size:.68rem;color:var(--red);margin-top:.28rem;display:none;align-items:center;gap:.28rem;}
+.field-err.show{display:flex;}
+
+.info-box{background:rgba(27,63,228,.05);border:1px solid rgba(27,63,228,.12);border-radius:12px;padding:.9rem 1rem;margin-bottom:1.2rem;font-size:.78rem;color:var(--blue);line-height:1.7;display:flex;align-items:flex-start;gap:.5rem;}
+
+.success-box{background:rgba(0,194,113,.06);border:1px solid rgba(0,194,113,.2);border-radius:14px;padding:1.4rem;text-align:center;display:none;flex-direction:column;align-items:center;gap:.7rem;}
+.success-box.show{display:flex;}
+.success-box .s-ico{font-size:2.5rem;}
+.success-box .s-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;color:var(--green);}
+.success-box .s-txt{font-size:.78rem;color:var(--gray);line-height:1.65;}
+
+.btn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--orange),var(--orange-l));border:none;border-radius:14px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .25s;box-shadow:0 6px 20px rgba(255,107,26,.3);display:flex;align-items:center;justify-content:center;gap:.6rem;}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,107,26,.4);}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.btn-ghost{width:100%;padding:.9rem;background:transparent;border:1.5px solid var(--border);border-radius:14px;color:var(--gray);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;margin-top:.7rem;}
+.btn-ghost:hover{border-color:var(--blue2);color:var(--blue);}
+.spin{width:17px;height:17px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.back-link{text-align:center;margin-top:.9rem;font-size:.8rem;color:var(--gray);}
+.back-link a{color:var(--blue2);font-weight:700;text-decoration:none;}
+
+#toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(16px);background:var(--dark);color:#fff;padding:.75rem 1.3rem;border-radius:14px;font-size:.8rem;font-weight:600;opacity:0;transition:all .32s;pointer-events:none;z-index:999;border-left:3px solid var(--turq);box-shadow:0 8px 24px rgba(8,14,42,.25);max-width:88vw;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.success{border-color:var(--green);}
+#toast.error{border-color:var(--red);}
+@keyframes fadeU{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.card{animation:fadeU .45s ease both;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="silla-landing.html" style="text-decoration:none">
+    <div class="logo">SIL<span>LA</span></div>
+    <div class="logo-sub">Plateforme d'investissement</div>
+  </a>
+  <a href="silla-login.html" class="header-link">Se connecter</a>
+</div>
+
+<div class="hero-band">
+  <h2>🔑 Mot de passe oublié</h2>
+  <p>Nous vous enverrons un lien de réinitialisation par email</p>
+</div>
+
+<div class="page-wrap">
+
+  <!-- STEPS -->
+  <div class="steps-wrap">
+    <div class="steps">
+      <div class="st"><div class="st-dot active">1</div><div class="st-lbl">Email</div></div>
+      <div class="st-line"></div>
+      <div class="st"><div class="st-dot inactive">2</div><div class="st-lbl inactive">Lien reçu</div></div>
+      <div class="st-line"></div>
+      <div class="st"><div class="st-dot inactive">3</div><div class="st-lbl inactive">Nouveau mdp</div></div>
+    </div>
+  </div>
+
+  <div class="card" id="mainCard">
+    <div class="card-ico">📧</div>
+    <div class="card-title">Réinitialiser</div>
+    <div class="card-sub">Entrez votre adresse email pour recevoir les instructions de réinitialisation</div>
+
+    <div class="info-box">
+      ℹ️ Un lien valable <strong>1 heure</strong> sera envoyé à votre adresse email. Vérifiez aussi vos spams.
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-box" id="successBox">
+      <div class="s-ico">✅</div>
+      <div class="s-title">Email envoyé !</div>
+      <div class="s-txt">
+        Un lien de réinitialisation a été envoyé à<br>
+        <strong id="sentEmail" style="color:var(--dark)">—</strong><br><br>
+        Cliquez sur le lien dans l'email pour créer votre nouveau mot de passe.
+      </div>
+    </div>
+
+    <!-- FORM STATE -->
+    <div id="formState">
+      <div class="field">
+        <label>Adresse email *</label>
+        <div class="inp-wrap">
+          <span class="inp-ico">✉️</span>
+          <input id="f-email" class="inp" type="email" placeholder="votre@email.com" autocomplete="email"/>
+        </div>
+        <div class="field-err" id="err-email">⚠️ Adresse email invalide</div>
+      </div>
+
+      <button class="btn" id="btn" onclick="envoyer()">
+        <span id="btn-txt">📨 Envoyer le lien</span>
+      </button>
+
+      <button class="btn-ghost" onclick="window.location.href='silla-login.html'">
+        ← Retour à la connexion
+      </button>
+    </div>
+
+    <div class="back-link" id="backLink" style="display:none">
+      <a href="silla-login.html">← Retour à la connexion</a>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
+
+async function envoyer() {
+  const email = document.getElementById('f-email').value.trim().toLowerCase();
+  const err   = document.getElementById('err-email');
+  const inp   = document.getElementById('f-email');
+
+  if(!email || !email.includes('@') || !email.includes('.')) {
+    err.classList.add('show'); inp.classList.add('error'); return;
+  }
+  err.classList.remove('show'); inp.classList.remove('error');
+
+  const btn = document.getElementById('btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin"></div><span>Envoi en cours…</span>';
+
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/silla-reset-pwd.html'
+    });
+    if(error) throw error;
+
+    // Afficher succès
+    document.getElementById('formState').style.display = 'none';
+    document.getElementById('successBox').classList.add('show');
+    document.getElementById('sentEmail').textContent = email;
+    document.getElementById('backLink').style.display = 'block';
+    showToast('✅ Email envoyé !', 'success');
+
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '<span>📨 Envoyer le lien</span>';
+    // Même si email inexistant, on affiche succès (sécurité)
+    document.getElementById('formState').style.display = 'none';
+    document.getElementById('successBox').classList.add('show');
+    document.getElementById('sentEmail').textContent = email;
+    document.getElementById('backLink').style.display = 'block';
+    showToast('✅ Si ce compte existe, un email a été envoyé', 'success');
+  }
+}
+
+function showToast(msg, type='info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show '+(type||'');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>el.className='', 4000);
+}
+
+document.getElementById('f-email')?.addEventListener('keydown', e => {
+  if(e.key === 'Enter') envoyer();
+});
+</script>
+</body>
+</html>
