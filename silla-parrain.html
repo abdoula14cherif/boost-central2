@@ -199,20 +199,20 @@ function copyLien(){
 
 function copyMessage(){
   if(!code){toast('⚠️ Code non disponible','err');return;}
-  const msg=`🚀 Rejoins SILLA et commence à investir !\n\n💰 Plans à partir de 3 000F\n📈 Gains jusqu'à +50 000F/jour\n🎁 Bonus 1 000F à l'inscription\n\nUtilise mon code : ${code}\n👉 ${getLien()}`;
+  const msg='Rejoins SILLA et investis !\n\n- Plans a partir de 3 000F\n- Bonus 1 000F a l inscription\n\nMon code : '+code+'\nLien : '+getLien();
   navigator.clipboard?.writeText(msg);
   toast('✅ Message copié !','ok');
 }
 
 function shareWhatsApp(){
   if(!code)return;
-  const msg=encodeURIComponent(`🚀 Rejoins SILLA et commence à investir !\n\n💰 Plans à partir de 3 000F\n📈 Gains jusqu'à +50 000F/jour\n🎁 Bonus 1 000F à l'inscription\n\nMon code parrain : *${code}*\n👉 ${getLien()}`);
+  const msg=encodeURIComponent('Rejoins SILLA et investis !\n\n- Plans a partir de 3 000F\n- Gains jusqu a +50 000F/jour\n- Bonus 1 000F a l inscription\n\nMon code : '+code+'\nLien : '+getLien());
   window.open('https://wa.me/?text='+msg,'_blank');
 }
 
 function shareSMS(){
   if(!code)return;
-  const msg=encodeURIComponent(`Rejoins SILLA et gagne de l'argent ! Mon code : ${code}. Inscription : ${getLien()}`);
+  const msg=encodeURIComponent('Rejoins SILLA et gagne de l argent ! Mon code : '+code+'. Inscription : '+getLien());
   window.location.href='sms:?body='+msg;
 }
 
