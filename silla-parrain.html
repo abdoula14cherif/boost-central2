@@ -226,12 +226,15 @@ async function init(){
   code=p.code_parrainage||'';
   document.getElementById('code-val').textContent=code||'SLA-——';
 
-  // Charger les filleuls directement depuis utilisateurs.parrain_id
-  const{data:filleuls}=await sb.from('utilisateurs')
-    .select('id,nom,email,created_at')
+  // Chercher filleuls par parrain_id = mon ID
+  const{data:filleuls, error:fe}=await sb.from('utilisateurs')
+    .select('id,nom,email,telephone,created_at,parrain_id')
     .eq('parrain_id',U.id)
     .order('created_at',{ascending:false})
     .limit(50);
+
+  if(fe) console.error('Filleuls error:', fe.message);
+  console.log('Mon ID:', U.id, '| Code:', code, '| Filleuls trouvés:', filleuls?.length||0);
 
   const liste=filleuls||[];
   document.getElementById('st-filleuls').textContent=liste.length;
@@ -282,7 +285,11 @@ async function init(){
     }).join('');
   } else {
     document.getElementById('filleuls-list').innerHTML=
-      '<div style="text-align:center;padding:24px;color:var(--muted);font-size:.78rem">Aucun filleul pour linstant<br><span style="font-size:.68rem">Partagez votre lien pour commencer</span></div>';
+      '<div style="text-align:center;padding:24px;color:var(--muted);font-size:.78rem">'
+      +'Aucun filleul pour linstant<br>'
+      +'<span style="font-size:.65rem;opacity:.7">Partagez votre lien. Le filleul doit entrer votre code à linscription.</span>'
+      +'<br><span style="font-family:DM Mono,monospace;font-size:.62rem;color:var(--gold);margin-top:6px;display:block">Votre code : '+code+'</span>'
+      +'</div>';
   }
 
   document.getElementById('st-gains').textContent=fmt(totalCommissions)+' F';
