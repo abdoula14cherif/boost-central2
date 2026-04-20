@@ -519,6 +519,18 @@ async function init() {
   // Pré-charger recharges et retraits au démarrage
   loadRecharges();
   loadRetraits();
+
+  // Rafraichissement automatique toutes les 30 secondes
+  setInterval(()=>{
+    if(curSec === 'recharges') loadRecharges();
+    if(curSec === 'retraits')  loadRetraits();
+    if(curSec === 'dashboard') loadDash();
+    // Mettre à jour le badge en attente
+    sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente').then(({count})=>{
+      const el = document.getElementById('st-pending');
+      if(el) el.textContent = count||0;
+    });
+  }, 30000);
 }
 
 // ── NAVIGATION ──
