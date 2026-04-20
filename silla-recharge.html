@@ -15,20 +15,14 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);flex:1;}
 .tb-solde{font-family:'DM Mono',monospace;font-size:.65rem;background:var(--gold-dim);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--gold);}
 .scroll{padding:16px 16px calc(var(--nav)+36px);}
-
-/* TABS */
 .tabs{display:flex;gap:6px;background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:18px;}
 .tab{flex:1;padding:10px;border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;color:var(--muted);cursor:pointer;border-radius:7px;transition:all .2s;}
 .tab.on{background:var(--card);color:var(--gold);box-shadow:0 2px 8px var(--shadow);}
-
-/* CARD */
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);margin-bottom:14px;position:relative;}
 .card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--gold-l),transparent);}
 .cb{padding:22px 20px;}
 .lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:9px;}
 .lbl::after{content:'';flex:1;height:1px;background:rgba(184,134,11,.1);}
-
-/* COMPTE ITEM */
 .compte-item{display:flex;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid rgba(184,134,11,.08);cursor:pointer;transition:background .15s;}
 .compte-item:last-child{border-bottom:none;}
 .compte-item:hover{background:var(--gold-dim);}
@@ -38,8 +32,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .ci-number{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--brown);margin-top:2px;}
 .ci-copy{background:var(--gold-dim);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:.62rem;font-weight:700;color:var(--gold);cursor:pointer;white-space:nowrap;}
 .ci-copy.done{background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.3);color:var(--green);}
-
-/* CRYPTO ITEM */
 .crypto-item{padding:16px 18px;border-bottom:1px solid rgba(184,134,11,.08);}
 .crypto-item:last-child{border-bottom:none;}
 .cr-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
@@ -47,8 +39,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .cr-network{font-size:.6rem;background:rgba(29,78,216,.08);color:#1D4ED8;border:1px solid rgba(29,78,216,.15);border-radius:4px;padding:2px 7px;}
 .cr-address{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--brown);background:var(--warm);border:1px solid var(--border);border-radius:6px;padding:10px 12px;word-break:break-all;line-height:1.6;cursor:pointer;transition:background .2s;}
 .cr-address:hover{background:rgba(184,134,11,.06);}
-
-/* FORMULAIRE */
 .inp{width:100%;padding:13px 16px;background:var(--warm);border:1.5px solid var(--border);border-radius:3px;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);outline:none;transition:all .22s;margin-bottom:14px;-webkit-appearance:none;}
 .inp:focus{border-color:var(--gold-l);background:#fff;box-shadow:0 0 0 3px rgba(184,134,11,.08);}
 .inp::placeholder{color:rgba(45,31,0,.25);}
@@ -59,16 +49,10 @@ select.inp option{background:#fff;}
 .btn:disabled{opacity:.4;cursor:not-allowed;}
 .ld{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* INFO BOX */
 .info-box{background:rgba(184,134,11,.05);border:1px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:14px;font-size:.73rem;color:var(--brown);line-height:1.7;}
 .info-box strong{color:var(--gold);}
-
-/* ERREUR BOX */
 .err-box{background:rgba(224,90,43,.06);border:1px solid rgba(224,90,43,.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:.73rem;color:var(--ember);line-height:1.6;display:none;}
 .err-box.show{display:block;}
-
-/* HISTORIQUE */
 .hi{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid rgba(184,134,11,.08);}
 .hi:last-child{border-bottom:none;}
 .hi-ico{width:34px;height:34px;border-radius:9px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
@@ -81,16 +65,12 @@ select.inp option{background:#fff;}
 .bv{background:rgba(22,163,74,.1);color:#15803D;}
 .bw{background:rgba(184,134,11,.1);color:var(--gold);}
 .be{background:rgba(224,90,43,.1);color:var(--ember);}
-
-/* NAV */
 .botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;box-shadow:0 -4px 20px rgba(90,50,0,.08);}
 .bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
 .bn-ico{font-size:1.2rem;}
 .bn-lbl{font-size:.55rem;font-weight:700;color:var(--muted);}
 .bn.active .bn-lbl{color:var(--gold);}
 .bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;}
-
-/* TOAST */
 .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
@@ -108,13 +88,12 @@ select.inp option{background:#fff;}
 
 <div class="scroll">
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab on" id="tab-mm"     onclick="switchTab('mm')">📱 Mobile Money</button>
     <button class="tab"    id="tab-crypto" onclick="switchTab('crypto')">₿ Crypto</button>
   </div>
 
-  <!-- ══ MOBILE MONEY ══ -->
+  <!-- MOBILE MONEY -->
   <div id="sec-mm">
     <div class="info-box">
       Envoyez le montant exact sur l'un des numéros ci-dessous, puis <strong>soumettez votre confirmation</strong> avec la référence de la transaction.
@@ -122,6 +101,8 @@ select.inp option{background:#fff;}
 
     <div class="card">
       <div class="lbl" style="padding:16px 18px 0;margin-bottom:0">Comptes de réception</div>
+
+      <!-- Orange Money -->
       <div class="compte-item">
         <div class="ci-ico" style="background:rgba(255,165,0,.1)">🍊</div>
         <div class="ci-info">
@@ -131,6 +112,8 @@ select.inp option{background:#fff;}
         </div>
         <div class="ci-copy" id="copy-orange" onclick="copyNum('658033690','copy-orange')">📋 Copier</div>
       </div>
+
+      <!-- MTN MoMo -->
       <div class="compte-item">
         <div class="ci-ico" style="background:rgba(255,204,0,.1)">📱</div>
         <div class="ci-info">
@@ -140,17 +123,28 @@ select.inp option{background:#fff;}
         </div>
         <div class="ci-copy" id="copy-mtn" onclick="copyNum('651461777','copy-mtn')">📋 Copier</div>
       </div>
+
+      <!-- Wave — NOUVEAU -->
+      <div class="compte-item">
+        <div class="ci-ico" style="background:rgba(0,120,255,.1)">🌊</div>
+        <div class="ci-info">
+          <div class="ci-name">Wave</div>
+          <div class="ci-number">+237 658 033 690</div>
+          <div style="font-size:.62rem;color:var(--muted);margin-top:2px">Alirou Moun</div>
+        </div>
+        <div class="ci-copy" id="copy-wave" onclick="copyNum('658033690','copy-wave')">📋 Copier</div>
+      </div>
     </div>
 
     <div class="card">
       <div class="cb">
         <div class="lbl">Confirmer votre paiement</div>
-        <!-- Boîte d'erreur visible si insert échoue -->
         <div class="err-box" id="mm-err"></div>
         <select class="inp" id="f-operateur">
           <option value="">Opérateur utilisé...</option>
           <option value="Orange Money">🍊 Orange Money</option>
           <option value="MTN MoMo">📱 MTN Mobile Money</option>
+          <option value="Wave">🌊 Wave</option>
         </select>
         <input class="inp" id="f-montant"    type="number" placeholder="Montant envoyé (FCFA)" inputmode="numeric"/>
         <input class="inp" id="f-ref"        type="text"   placeholder="Référence de la transaction"/>
@@ -160,7 +154,7 @@ select.inp option{background:#fff;}
     </div>
   </div>
 
-  <!-- ══ CRYPTO ══ -->
+  <!-- CRYPTO -->
   <div id="sec-crypto" style="display:none">
     <div class="info-box">
       Envoyez sur l'une des adresses ci-dessous. Après confirmation du réseau, votre solde sera crédité sous 24h. <strong>Copiez l'adresse exacte</strong> avant d'envoyer.
@@ -217,7 +211,7 @@ select.inp option{background:#fff;}
     <div style="text-align:center;padding:24px;color:var(--muted);font-size:.78rem">Aucune recharge</div>
   </div>
 
-</div><!-- /scroll -->
+</div>
 
 <div class="botnav">
   <a class="bn" href="silla-dashboard.html"><span class="bn-ico">🏠</span><span class="bn-lbl">Accueil</span></a>
@@ -236,7 +230,6 @@ const sb = supabase.createClient(
 const fmt = n => Number(n||0).toLocaleString('fr-FR');
 let U = null, P = null;
 
-// ── TOAST ──
 let _tt;
 function toast(m, t='') {
   const el = document.getElementById('toast');
@@ -246,7 +239,6 @@ function toast(m, t='') {
   _tt = setTimeout(() => el.className = 'toast', 4500);
 }
 
-// ── TABS ──
 function switchTab(t) {
   ['mm','crypto'].forEach(k => {
     document.getElementById('tab-'+k).className = 'tab' + (k===t ? ' on' : '');
@@ -254,7 +246,6 @@ function switchTab(t) {
   });
 }
 
-// ── COPIER ──
 function copyNum(num, btnId) {
   navigator.clipboard?.writeText(num);
   const b = document.getElementById(btnId);
@@ -269,7 +260,6 @@ function copyAddr(addr, btnId) {
   toast('✅ Adresse copiée !', 'ok');
 }
 
-// ── AFFICHER ERREUR DANS LE FORMULAIRE ──
 function showErr(boxId, msg) {
   const box = document.getElementById(boxId);
   if (!box) return;
@@ -285,29 +275,28 @@ async function soumettreRecharge() {
   const ref     = document.getElementById('f-ref').value.trim();
   const exp     = document.getElementById('f-expediteur').value.trim();
 
-  if (!op)                                    { toast('⚠️ Choisissez un opérateur', 'err'); return; }
-  if (montant < 500)                          { toast('⚠️ Minimum 500 FCFA', 'err'); return; }
-  if (!ref)                                   { toast('⚠️ Entrez la référence', 'err'); return; }
-  if (exp.replace(/[^0-9]/g,'').length < 8)  { toast('⚠️ Numéro invalide', 'err'); return; }
+  if (!op)                                   { toast('⚠️ Choisissez un opérateur', 'err'); return; }
+  if (montant < 500)                         { toast('⚠️ Minimum 500 FCFA', 'err'); return; }
+  if (!ref)                                  { toast('⚠️ Entrez la référence', 'err'); return; }
+  if (exp.replace(/[^0-9]/g,'').length < 8) { toast('⚠️ Numéro invalide', 'err'); return; }
 
   const btn = document.getElementById('btn-mm');
   btn.disabled = true;
   btn.innerHTML = '<span class="ld"></span> Envoi en cours…';
 
   const { error } = await sb.from('recharges').insert({
-    user_id:        U.id,
-    operateur:      op,
-    montant:        montant,
-    ref_paiement:   ref,
-    num_expediteur: exp,
-    statut:         'en_attente',
-    type:           'mobile_money',
-    created_at:     new Date().toISOString()
+    user_id:      U.id,
+    operateur:    op,
+    montant:      montant,
+    ref_paiement: ref,
+    telephone:    exp,          // ✅ FIX : correspond au nom de colonne Supabase
+    statut:       'en_attente',
+    type:         'mobile_money',
+    created_at:   new Date().toISOString()
   });
 
   if (error) {
     console.error('Recharge insert error:', error);
-    // Afficher le message d'erreur précis dans le formulaire
     const msg = error.code === '42501'
       ? 'Permission refusée. Contactez le support (code RLS).'
       : error.message;
@@ -318,7 +307,6 @@ async function soumettreRecharge() {
     return;
   }
 
-  // Notification utilisateur (silencieuse si échec)
   await sb.from('notifications').insert({
     user_id: U.id,
     titre:   '⏳ Recharge soumise',
@@ -326,7 +314,6 @@ async function soumettreRecharge() {
     type:    'info'
   }).then(() => {}).catch(() => {});
 
-  // Notification admin
   sb.from('utilisateurs').select('id').eq('email','abdoula13cherif@gmail.com').maybeSingle()
     .then(({ data: adm }) => {
       if (adm) sb.from('notifications').insert({
@@ -348,15 +335,14 @@ async function soumettreRecharge() {
 }
 
 // ── CRYPTO ──
-// FIX : utilise {error} au lieu de try/catch — supabase ne throw jamais
 async function soumettreRechargeCrypto() {
   const type    = document.getElementById('f-crypto-type').value;
   const montant = parseFloat(document.getElementById('f-crypto-montant').value) || 0;
   const txid    = document.getElementById('f-crypto-txid').value.trim();
 
-  if (!type)         { toast('⚠️ Choisissez la cryptomonnaie', 'err'); return; }
-  if (montant < 1000){ toast('⚠️ Minimum 1 000 FCFA équivalent', 'err'); return; }
-  if (!txid)         { toast('⚠️ Entrez le hash de transaction', 'err'); return; }
+  if (!type)          { toast('⚠️ Choisissez la cryptomonnaie', 'err'); return; }
+  if (montant < 1000) { toast('⚠️ Minimum 1 000 FCFA équivalent', 'err'); return; }
+  if (!txid)          { toast('⚠️ Entrez le hash de transaction', 'err'); return; }
 
   const btn = document.getElementById('btn-crypto');
   btn.disabled = true;
@@ -384,7 +370,6 @@ async function soumettreRechargeCrypto() {
     return;
   }
 
-  // Notification utilisateur
   await sb.from('notifications').insert({
     user_id: U.id,
     titre:   '⏳ Crypto soumise',
@@ -392,7 +377,6 @@ async function soumettreRechargeCrypto() {
     type:    'info'
   }).then(() => {}).catch(() => {});
 
-  // Notification admin
   sb.from('utilisateurs').select('id').eq('email','abdoula13cherif@gmail.com').maybeSingle()
     .then(({ data: adm }) => {
       if (adm) sb.from('notifications').insert({
@@ -436,8 +420,8 @@ async function chargerHistorique() {
   const sm = { valide:'bv', en_attente:'bw', rejete:'be' };
   const sl = { valide:'✅ Validé', en_attente:'⏳ En attente', rejete:'❌ Rejeté' };
   const ic = {
-    'Orange Money':'🍊','MTN MoMo':'📱',
-    'Crypto BTC':'₿','Crypto USDT BSC':'💎','Crypto SOL':'◎'
+    'Orange Money':'🍊', 'MTN MoMo':'📱', 'Wave':'🌊',
+    'Crypto BTC':'₿', 'Crypto USDT BSC':'💎', 'Crypto SOL':'◎'
   };
 
   el.innerHTML = data.map(r => `
