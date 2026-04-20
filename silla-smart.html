@@ -337,9 +337,21 @@ async function confirmerRapide(id){
     await sb.from('utilisateurs').update({solde:P.solde-plan.mise,bonus_utilise:true}).eq('id',U.id);
     await sb.from('investissements').insert({user_id:U.id,plan_type:plan.id,montant:plan.mise,gain_attendu:plan.retour,duree_jours:plan.jours,statut:'actif',date_debut:now.toISOString(),date_fin:fin.toISOString()});
     await sb.from('transactions').insert({user_id:U.id,type:'investissement',montant:plan.mise,description:plan.nom});
+    const mise=plan.mise;
+    // ── COMMISSION PARRAIN 5% ──
+    const{data:pr}=await sb.from('utilisateurs').select('parrain_id,nom').eq('id',U.id).maybeSingle();
+    if(pr?.parrain_id){
+      const commission=Math.round(mise*0.05);
+      const{data:parrain}=await sb.from('utilisateurs').select('solde').eq('id',pr.parrain_id).maybeSingle();
+      if(parrain){
+        await sb.from('utilisateurs').update({solde:(parrain.solde||0)+commission}).eq('id',pr.parrain_id);
+        await sb.from('transactions').insert({user_id:pr.parrain_id,type:'parrainage_gain',montant:commission,description:'Commission Smart Invest — '+(pr.nom||'filleul')+' a investi '+fmtF(mise)});
+        await sb.from('notifications').insert({user_id:pr.parrain_id,titre:'👑 Commission +'+fmtF(commission),message:'Votre filleul '+(pr.nom||'un membre')+' vient d investir '+fmtF(mise)+' via Smart Invest.',type:'parrainage_gain'});
+      }
+    }
     P.solde-=plan.mise;slotsUsed++;
     document.getElementById('tb-solde').textContent=fmt(P.solde)+' F';
-    closeModal();toast('✅ '+plan.nom+' activé ! +'+fmtF(plan.retour-plan.mise)+' dans '+plan.jours+'j','ok');
+    closeModal();toast('✅ '+plan.nom+' active ! +'+fmtF(plan.retour-plan.mise)+' dans '+plan.jours+'j','ok');
     await loadActifs();
   }catch(e){if(btn){btn.disabled=false;btn.innerHTML='⚡ Confirmer et activer';}toast('❌ '+e.message,'err');}
 }
@@ -356,11 +368,23 @@ async function lancerProd(){
     await sb.from('utilisateurs').update({solde:P.solde-amt,bonus_utilise:true}).eq('id',U.id);
     await sb.from('investissements').insert({user_id:U.id,plan_type:'prod_'+selJours+'j',montant:amt,taux,gain_attendu:gain,duree_jours:selJours,statut:'actif',date_debut:now.toISOString(),date_fin:fin.toISOString()});
     await sb.from('transactions').insert({user_id:U.id,type:'investissement',montant:amt,description:'Plan Prod '+selJours+'j +'+taux+'%'});
+    const mise=amt;
+    // ── COMMISSION PARRAIN 5% ──
+    const{data:pr}=await sb.from('utilisateurs').select('parrain_id,nom').eq('id',U.id).maybeSingle();
+    if(pr?.parrain_id){
+      const commission=Math.round(mise*0.05);
+      const{data:parrain}=await sb.from('utilisateurs').select('solde').eq('id',pr.parrain_id).maybeSingle();
+      if(parrain){
+        await sb.from('utilisateurs').update({solde:(parrain.solde||0)+commission}).eq('id',pr.parrain_id);
+        await sb.from('transactions').insert({user_id:pr.parrain_id,type:'parrainage_gain',montant:commission,description:'Commission Smart Invest — '+(pr.nom||'filleul')+' a investi '+fmtF(mise)});
+        await sb.from('notifications').insert({user_id:pr.parrain_id,titre:'👑 Commission +'+fmtF(commission),message:'Votre filleul '+(pr.nom||'un membre')+' vient d investir '+fmtF(mise)+' via Smart Invest.',type:'parrainage_gain'});
+      }
+    }
     P.solde-=amt;
     document.getElementById('tb-solde').textContent=fmt(P.solde)+' F';
     document.getElementById('prod-amount').value='';
     document.getElementById('prod-simu').classList.remove('show');
-    toast('✅ Plan Prod '+selJours+'j lancé ! +'+fmtF(gain)+' attendu','ok');
+    toast('✅ Plan Prod '+selJours+'j lance ! +'+fmtF(gain)+' attendu','ok');
     await loadActifs();
   }catch(e){toast('❌ '+e.message,'err');}
   finally{btn.disabled=false;btn.innerHTML='🔬 Lancer le plan Prod';}
