@@ -183,14 +183,14 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
 <!-- MENU TABS -->
 <div class="menu-bar">
   <div class="menu-scroll">
-    <div class="menu-btn active" id="mb-dash" onclick="goSection('dash')"><div class="mb-ico">📊</div><div class="mb-lbl">Dashboard</div></div>
-    <div class="menu-btn" id="mb-users" onclick="goSection('users')"><div class="mb-ico">👥</div><div class="mb-lbl">Utilisateurs</div></div>
-    <div class="menu-btn" id="mb-invests" onclick="goSection('invests')"><div class="mb-ico">📈</div><div class="mb-lbl">Invest.</div></div>
-    <div class="menu-btn" id="mb-recharges" onclick="goSection('recharges')"><div class="mb-ico">💳</div><div class="mb-lbl">Recharges</div></div>
-    <div class="menu-btn" id="mb-retraits" onclick="goSection('retraits')"><div class="mb-ico">💸</div><div class="mb-lbl">Retraits</div></div>
-    <div class="menu-btn" id="mb-messages" onclick="goSection('messages')"><div class="mb-ico">📣</div><div class="mb-lbl">Messages</div></div>
-    <div class="menu-btn" id="mb-parrain" onclick="goSection('parrain')"><div class="mb-ico">👑</div><div class="mb-lbl">Parrainage</div></div>
-    <div class="menu-btn" id="mb-debug" onclick="goSection('debug')"><div class="mb-ico">🔧</div><div class="mb-lbl">Debug</div></div>
+    <div class="menu-btn active" id="mb-dash"      onclick="goSection('dash')">     <div class="mb-ico">📊</div><div class="mb-lbl">Dashboard</div></div>
+    <div class="menu-btn"        id="mb-users"     onclick="goSection('users')">    <div class="mb-ico">👥</div><div class="mb-lbl">Utilisateurs</div></div>
+    <div class="menu-btn"        id="mb-invests"   onclick="goSection('invests')">  <div class="mb-ico">📈</div><div class="mb-lbl">Invest.</div></div>
+    <div class="menu-btn"        id="mb-recharges" onclick="goSection('recharges')"><div class="mb-ico">💳</div><div class="mb-lbl">Recharges</div></div>
+    <div class="menu-btn"        id="mb-retraits"  onclick="goSection('retraits')"> <div class="mb-ico">💸</div><div class="mb-lbl">Retraits</div></div>
+    <div class="menu-btn"        id="mb-messages"  onclick="goSection('messages')"> <div class="mb-ico">📣</div><div class="mb-lbl">Messages</div></div>
+    <div class="menu-btn"        id="mb-parrain"   onclick="goSection('parrain')">  <div class="mb-ico">👑</div><div class="mb-lbl">Parrainage</div></div>
+    <div class="menu-btn"        id="mb-debug"     onclick="goSection('debug')">    <div class="mb-ico">🔧</div><div class="mb-lbl">Debug</div></div>
   </div>
 </div>
 
@@ -199,22 +199,22 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
   <!-- ══ DASHBOARD ══ -->
   <div class="section active" id="sec-dash">
     <div class="stats-grid">
-      <div class="stat-box blue"><div class="sb-ico">👥</div><div class="sb-val" id="st-users">—</div><div class="sb-lbl">Utilisateurs</div></div>
-      <div class="stat-box green"><div class="sb-ico">💰</div><div class="sb-val" id="st-soldes">—</div><div class="sb-lbl">Soldes total</div></div>
-      <div class="stat-box orange"><div class="sb-ico">📈</div><div class="sb-val" id="st-invests">—</div><div class="sb-lbl">Investissements</div></div>
-      <div class="stat-box gold"><div class="sb-ico">💳</div><div class="sb-val" id="st-recharges">—</div><div class="sb-lbl">Recharges</div></div>
+      <div class="stat-box blue">  <div class="sb-ico">👥</div><div class="sb-val" id="st-users">—</div>    <div class="sb-lbl">Utilisateurs</div></div>
+      <div class="stat-box green"> <div class="sb-ico">💰</div><div class="sb-val" id="st-soldes">—</div>   <div class="sb-lbl">Soldes total</div></div>
+      <div class="stat-box orange"><div class="sb-ico">📈</div><div class="sb-val" id="st-invests">—</div>  <div class="sb-lbl">Investissements</div></div>
+      <div class="stat-box gold">  <div class="sb-ico">💳</div><div class="sb-val" id="st-recharges">—</div><div class="sb-lbl">Recharges</div></div>
     </div>
     <div class="stats-grid">
-      <div class="stat-box green"><div class="sb-ico">⏳</div><div class="sb-val" id="st-pending">—</div><div class="sb-lbl">En attente</div></div>
-      <div class="stat-box orange"><div class="sb-ico">👑</div><div class="sb-val" id="st-parrain">—</div><div class="sb-lbl">Gains parrain</div></div>
+      <div class="stat-box green"> <div class="sb-ico">⏳</div><div class="sb-val" id="st-pending">—</div> <div class="sb-lbl">En attente</div></div>
+      <div class="stat-box orange"><div class="sb-ico">👑</div><div class="sb-val" id="st-parrain">—</div> <div class="sb-lbl">Gains parrain</div></div>
     </div>
     <div class="card">
       <div class="card-head"><div class="card-title">⚡ Actions rapides</div></div>
       <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
-        <button class="btn btn-primary" onclick="goSection('recharges')">✅ Valider recharges</button>
-        <button class="btn btn-orange" onclick="goSection('retraits')">💸 Traiter retraits</button>
-        <button class="btn btn-green" onclick="goSection('messages')">📣 Envoyer notif</button>
-        <button class="btn btn-ghost" onclick="goSection('users')" style="border:1px solid var(--border)">👥 Voir users</button>
+        <button class="btn btn-primary"  onclick="goSection('recharges')">✅ Valider recharges</button>
+        <button class="btn btn-orange"   onclick="goSection('retraits')">💸 Traiter retraits</button>
+        <button class="btn btn-green"    onclick="goSection('messages')">📣 Envoyer notif</button>
+        <button class="btn btn-ghost"    onclick="goSection('users')" style="border:1px solid var(--border)">👥 Voir users</button>
       </div>
     </div>
   </div>
@@ -247,12 +247,11 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
 
   <!-- ══ RECHARGES ══ -->
   <div class="section" id="sec-recharges">
-
     <div class="alert alert-warn">⚠️ Vérifiez les transactions Mobile Money / Crypto avant de valider.</div>
     <div class="card" style="margin-bottom:.8rem">
       <div class="card-head"><div class="card-title">🔍 Filtrer</div></div>
       <div class="card-body" style="display:flex;gap:.5rem">
-        <button onclick="runDiag()" style="background:rgba(255,165,0,.15);border:1px solid rgba(255,165,0,.3);color:orange;font-size:.65rem;padding:.5rem .8rem;border-radius:8px;cursor:pointer;white-space:nowrap">🔍 Debug</button>
+        <button onclick="runDiag();goSection('debug')" style="background:rgba(255,165,0,.15);border:1px solid rgba(255,165,0,.3);color:orange;font-size:.65rem;padding:.5rem .8rem;border-radius:8px;cursor:pointer;white-space:nowrap">🔍 Debug</button>
         <select class="inp" id="filter-rech-statut" onchange="loadRecharges()" style="flex:1;padding:.6rem .8rem">
           <option value="">Toutes les recharges</option>
           <option value="en_attente">En attente ⏳</option>
@@ -283,7 +282,6 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
 
   <!-- ══ MESSAGES ══ -->
   <div class="section" id="sec-messages">
-    <!-- DESTINATAIRES -->
     <div class="card">
       <div class="card-head"><div class="card-title">👥 Destinataires</div></div>
       <div class="card-body">
@@ -294,20 +292,16 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
         <div id="msg-recipients" style="max-height:140px;overflow-y:auto;margin-top:.3rem"></div>
       </div>
     </div>
-
-    <!-- MESSAGES PRÉ-REMPLIS -->
     <div class="sec-lbl">Messages prédéfinis</div>
     <div id="msg-templates">
-      <div class="msg-template" onclick="selTemplate(0)"><div class="mt-title">🎉 Bienvenue</div><div class="mt-prev">Bienvenue sur SILLA ! Votre compte est prêt. Investissez dès maintenant pour commencer à gagner.</div></div>
-      <div class="msg-template" onclick="selTemplate(1)"><div class="mt-title">💰 Rappel investissement</div><div class="mt-prev">Vous avez des gains disponibles ! Connectez-vous pour récupérer vos gains avant expiration.</div></div>
-      <div class="msg-template" onclick="selTemplate(2)"><div class="mt-title">✅ Recharge validée</div><div class="mt-prev">Votre recharge a été validée et créditée sur votre compte. Vous pouvez maintenant investir.</div></div>
-      <div class="msg-template" onclick="selTemplate(3)"><div class="mt-title">💸 Retrait traité</div><div class="mt-prev">Votre demande de retrait a été traitée. Les fonds ont été envoyés sur votre compte Mobile Money.</div></div>
+      <div class="msg-template" onclick="selTemplate(0)"><div class="mt-title">🎉 Bienvenue</div>              <div class="mt-prev">Bienvenue sur SILLA ! Votre compte est prêt. Investissez dès maintenant pour commencer à gagner.</div></div>
+      <div class="msg-template" onclick="selTemplate(1)"><div class="mt-title">💰 Rappel investissement</div>  <div class="mt-prev">Vous avez des gains disponibles ! Connectez-vous pour récupérer vos gains avant expiration.</div></div>
+      <div class="msg-template" onclick="selTemplate(2)"><div class="mt-title">✅ Recharge validée</div>       <div class="mt-prev">Votre recharge a été validée et créditée sur votre compte. Vous pouvez maintenant investir.</div></div>
+      <div class="msg-template" onclick="selTemplate(3)"><div class="mt-title">💸 Retrait traité</div>         <div class="mt-prev">Votre demande de retrait a été traitée. Les fonds ont été envoyés sur votre compte Mobile Money.</div></div>
       <div class="msg-template" onclick="selTemplate(4)"><div class="mt-title">🚀 Nouveau plan disponible</div><div class="mt-prev">Un nouveau plan d'investissement est disponible sur SILLA ! Connectez-vous pour le découvrir.</div></div>
-      <div class="msg-template" onclick="selTemplate(5)"><div class="mt-title">⚠️ Gains expirent bientôt</div><div class="mt-prev">Attention ! Vos gains expirent dans 24h. Connectez-vous et récupérez-les avant qu'il ne soit trop tard.</div></div>
-      <div class="msg-template" onclick="selTemplate(6)"><div class="mt-title">🎁 Bonus spécial</div><div class="mt-prev">Profitez d'un bonus exceptionnel réservé aux membres actifs ! Connectez-vous pour en savoir plus.</div></div>
+      <div class="msg-template" onclick="selTemplate(5)"><div class="mt-title">⚠️ Gains expirent bientôt</div> <div class="mt-prev">Attention ! Vos gains expirent dans 24h. Connectez-vous et récupérez-les avant qu'il ne soit trop tard.</div></div>
+      <div class="msg-template" onclick="selTemplate(6)"><div class="mt-title">🎁 Bonus spécial</div>          <div class="mt-prev">Profitez d'un bonus exceptionnel réservé aux membres actifs ! Connectez-vous pour en savoir plus.</div></div>
     </div>
-
-    <!-- COMPOSER -->
     <div class="sec-lbl" style="margin-top:.8rem">Composer le message</div>
     <div class="card">
       <div class="card-body">
@@ -325,26 +319,42 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
       <div class="card-body">
         <div class="stats-grid" style="margin:0">
           <div class="stat-box orange" style="margin:0"><div class="sb-ico">💰</div><div class="sb-val" id="pg-total">—</div><div class="sb-lbl">Total distribué</div></div>
-          <div class="stat-box green" style="margin:0"><div class="sb-ico">📊</div><div class="sb-val" id="pg-count">—</div><div class="sb-lbl">Transactions</div></div>
+          <div class="stat-box green"  style="margin:0"><div class="sb-ico">📊</div><div class="sb-val" id="pg-count">—</div><div class="sb-lbl">Transactions</div></div>
         </div>
       </div>
     </div>
     <div id="parrain-list"><div class="loader"><div class="spin"></div> Chargement…</div></div>
   </div>
 
-</div>
+  <!-- ══ DEBUG ══ -->
+  <div class="section" id="sec-debug">
+    <div class="card">
+      <div class="card-head"><div class="card-title">🔧 Diagnostic base de données</div></div>
+      <div class="card-body">
+        <button class="btn btn-primary" style="width:100%;margin-bottom:.8rem" onclick="runDiag()">Lancer le diagnostic</button>
+        <pre id="diag-out" style="background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:10px;padding:.8rem;font-size:.65rem;color:#4ADE80;white-space:pre-wrap;word-break:break-all;display:none;max-height:280px;overflow-y:auto"></pre>
+        <div style="margin-top:.8rem;padding:.8rem;background:rgba(245,183,49,.08);border:1px solid rgba(245,183,49,.2);border-radius:10px">
+          <div style="font-size:.7rem;color:var(--gold);font-weight:700;margin-bottom:.5rem">SQL Supabase si RLS bloque :</div>
+          <code id="sql-copy" style="display:block;background:rgba(0,0,0,.4);padding:8px;border-radius:6px;font-size:.58rem;color:#aaa;line-height:1.8;user-select:all;word-break:break-all">ALTER TABLE public.recharges DISABLE ROW LEVEL SECURITY; ALTER TABLE public.retraits DISABLE ROW LEVEL SECURITY; ALTER TABLE public.utilisateurs DISABLE ROW LEVEL SECURITY; ALTER TABLE public.investissements DISABLE ROW LEVEL SECURITY; ALTER TABLE public.transactions DISABLE ROW LEVEL SECURITY; ALTER TABLE public.notifications DISABLE ROW LEVEL SECURITY;</code>
+          <button onclick="copierSQL()" style="margin-top:8px;background:var(--gold);color:#000;border:none;padding:6px 14px;border-radius:6px;font-size:.68rem;font-weight:700;cursor:pointer">Copier le SQL</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- MODAL ÉDITER UTILISATEUR -->
+</div><!-- /content -->
+
+<!-- ══ MODAL ÉDITER UTILISATEUR ══ -->
 <div class="modal-bg" id="modal-editUser" onclick="if(event.target===this)closeModal('editUser')">
   <div class="modal-sheet">
     <div class="mh"></div>
     <div class="modal-title" id="editUser-title">Modifier l'utilisateur</div>
-    <div class="modal-sub" id="editUser-sub">—</div>
+    <div class="modal-sub"   id="editUser-sub">—</div>
     <input type="hidden" id="edit-uid"/>
-    <div class="field"><label>Nom complet</label><input class="inp" id="edit-nom" placeholder="Nom"/></div>
-    <div class="field"><label>Email</label><input class="inp" id="edit-email" type="email" placeholder="Email"/></div>
-    <div class="field"><label>Téléphone</label><input class="inp" id="edit-tel" placeholder="Téléphone"/></div>
-    <div class="field"><label>Solde (FCFA)</label><input class="inp" id="edit-solde" type="number" placeholder="Solde"/></div>
+    <div class="field"><label>Nom complet</label>  <input class="inp" id="edit-nom"    placeholder="Nom"/></div>
+    <div class="field"><label>Email</label>         <input class="inp" id="edit-email"  type="email" placeholder="Email"/></div>
+    <div class="field"><label>Téléphone</label>     <input class="inp" id="edit-tel"    placeholder="Téléphone"/></div>
+    <div class="field"><label>Solde (FCFA)</label>  <input class="inp" id="edit-solde"  type="number" placeholder="Solde"/></div>
     <div class="field"><label>Statut</label>
       <select class="inp" id="edit-statut">
         <option value="actif">✅ Actif</option>
@@ -358,29 +368,29 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
       </select>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.3rem">
-      <button class="btn btn-red btn-full" onclick="supprimerUser()">🗑 Supprimer</button>
+      <button class="btn btn-red btn-full"     onclick="supprimerUser()">🗑 Supprimer</button>
       <button class="btn btn-primary btn-full" onclick="sauvegarderUser()">💾 Sauvegarder</button>
     </div>
     <button class="btn btn-ghost btn-full" style="margin-top:.5rem;border:1px solid var(--border)" onclick="closeModal('editUser')">Annuler</button>
   </div>
 </div>
 
-<!-- MODAL AJOUTER UTILISATEUR -->
+<!-- ══ MODAL AJOUTER UTILISATEUR ══ -->
 <div class="modal-bg" id="modal-addUser" onclick="if(event.target===this)closeModal('addUser')">
   <div class="modal-sheet">
     <div class="mh"></div>
     <div class="modal-title">➕ Ajouter un utilisateur</div>
     <div class="modal-sub">Créer manuellement un compte</div>
-    <div class="field"><label>Nom complet *</label><input class="inp" id="add-nom" placeholder="Nom complet"/></div>
-    <div class="field"><label>Email *</label><input class="inp" id="add-email" type="email" placeholder="email@exemple.com"/></div>
-    <div class="field"><label>Mot de passe *</label><input class="inp" id="add-pwd" type="password" placeholder="Minimum 8 caractères"/></div>
-    <div class="field"><label>Solde initial (FCFA)</label><input class="inp" id="add-solde" type="number" placeholder="0" value="1000"/></div>
+    <div class="field"><label>Nom complet *</label>        <input class="inp" id="add-nom"   placeholder="Nom complet"/></div>
+    <div class="field"><label>Email *</label>              <input class="inp" id="add-email" type="email" placeholder="email@exemple.com"/></div>
+    <div class="field"><label>Mot de passe *</label>       <input class="inp" id="add-pwd"   type="password" placeholder="Minimum 8 caractères"/></div>
+    <div class="field"><label>Solde initial (FCFA)</label> <input class="inp" id="add-solde" type="number" placeholder="0" value="1000"/></div>
     <button class="btn btn-primary btn-full" onclick="ajouterUser()">✅ Créer le compte</button>
     <button class="btn btn-ghost btn-full" style="margin-top:.5rem;border:1px solid var(--border)" onclick="closeModal('addUser')">Annuler</button>
   </div>
 </div>
 
-<!-- MODAL RECHARGE -->
+<!-- ══ MODAL RECHARGE ══ -->
 <div class="modal-bg" id="modal-recharge" onclick="if(event.target===this)closeModal('recharge')">
   <div class="modal-sheet">
     <div class="mh"></div>
@@ -389,25 +399,9 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem" id="rech-modal-btns"></div>
     <button class="btn btn-ghost btn-full" style="margin-top:.5rem;border:1px solid var(--border)" onclick="closeModal('recharge')">Fermer</button>
   </div>
-
-  <!-- DEBUG -->
-  <div class="section" id="sec-debug">
-    <div class="card">
-      <div class="card-head"><div class="card-title">Diagnostic base de donnees</div></div>
-      <div class="card-body">
-        <button class="btn btn-primary" style="width:100%;margin-bottom:.8rem" onclick="runDiag()">Lancer le diagnostic</button>
-        <pre id="diag-out" style="background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:10px;padding:.8rem;font-size:.65rem;color:#4ADE80;white-space:pre-wrap;word-break:break-all;display:none;max-height:280px;overflow-y:auto"></pre>
-        <div style="margin-top:.8rem;padding:.8rem;background:rgba(245,183,49,.08);border:1px solid rgba(245,183,49,.2);border-radius:10px">
-          <div style="font-size:.7rem;color:var(--gold);font-weight:700;margin-bottom:.5rem">SQL Supabase si RLS bloque :</div>
-          <code id="sql-copy" style="display:block;background:rgba(0,0,0,.4);padding:8px;border-radius:6px;font-size:.58rem;color:#aaa;line-height:1.8;user-select:all;word-break:break-all">ALTER TABLE public.recharges DISABLE ROW LEVEL SECURITY; ALTER TABLE public.retraits DISABLE ROW LEVEL SECURITY; ALTER TABLE public.utilisateurs DISABLE ROW LEVEL SECURITY; ALTER TABLE public.investissements DISABLE ROW LEVEL SECURITY; ALTER TABLE public.transactions DISABLE ROW LEVEL SECURITY; ALTER TABLE public.notifications DISABLE ROW LEVEL SECURITY;</code>
-          <button onclick="copierSQL()" style="margin-top:8px;background:var(--gold);color:#000;border:none;padding:6px 14px;border-radius:6px;font-size:.68rem;font-weight:700;cursor:pointer">Copier le SQL</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<!-- MODAL RETRAIT -->
+<!-- ══ MODAL RETRAIT ══ -->
 <div class="modal-bg" id="modal-retrait" onclick="if(event.target===this)closeModal('retrait')">
   <div class="modal-sheet">
     <div class="mh"></div>
@@ -427,75 +421,90 @@ const sb = supabase.createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
 );
 
-const fmt = n => Number(n||0).toLocaleString('fr-FR');
-const fmtK = n => n>=1000?Math.round(n/100)/10+'k':fmt(n);
+const fmt  = n => Number(n||0).toLocaleString('fr-FR');
+const fmtK = n => n>=1000 ? Math.round(n/100)/10+'k' : fmt(n);
 const fdate = d => new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
 
-let U=null, allUsers=[], selUsersMsg=new Set(), msgSendAll=false;
+let U = null, allUsers = [], selUsersMsg = new Set(), msgSendAll = false;
 let curSec = 'dash';
 
 const TEMPLATES = [
-  {titre:'🎉 Bienvenue sur SILLA !',     body:'Bienvenue sur SILLA ! Votre compte est prêt. Investissez dès maintenant pour commencer à gagner de l\'argent.'},
-  {titre:'💰 Gains disponibles !',        body:'Vous avez des gains disponibles ! Connectez-vous pour les récupérer avant expiration (48h).'},
-  {titre:'✅ Recharge validée',           body:'Votre recharge a été validée et créditée sur votre compte. Vous pouvez maintenant investir.'},
-  {titre:'💸 Retrait traité',             body:'Votre demande de retrait a été traitée. Les fonds ont été envoyés sur votre compte Mobile Money.'},
-  {titre:'🚀 Nouveau plan disponible',    body:'Un nouveau plan d\'investissement est disponible sur SILLA ! Connectez-vous pour le découvrir.'},
-  {titre:'⚠️ Vos gains expirent bientôt !',body:'Attention ! Vos gains expirent dans 24h. Connectez-vous et récupérez-les avant qu\'il ne soit trop tard.'},
-  {titre:'🎁 Bonus spécial pour vous',   body:'Profitez d\'un bonus exceptionnel réservé aux membres actifs ! Connectez-vous pour en savoir plus.'},
+  {titre:'🎉 Bienvenue sur SILLA !',        body:'Bienvenue sur SILLA ! Votre compte est prêt. Investissez dès maintenant pour commencer à gagner de l\'argent.'},
+  {titre:'💰 Gains disponibles !',           body:'Vous avez des gains disponibles ! Connectez-vous pour les récupérer avant expiration (48h).'},
+  {titre:'✅ Recharge validée',              body:'Votre recharge a été validée et créditée sur votre compte. Vous pouvez maintenant investir.'},
+  {titre:'💸 Retrait traité',                body:'Votre demande de retrait a été traitée. Les fonds ont été envoyés sur votre compte Mobile Money.'},
+  {titre:'🚀 Nouveau plan disponible',       body:'Un nouveau plan d\'investissement est disponible sur SILLA ! Connectez-vous pour le découvrir.'},
+  {titre:'⚠️ Vos gains expirent bientôt !', body:'Attention ! Vos gains expirent dans 24h. Connectez-vous et récupérez-les avant qu\'il ne soit trop tard.'},
+  {titre:'🎁 Bonus spécial pour vous',       body:'Profitez d\'un bonus exceptionnel réservé aux membres actifs ! Connectez-vous pour en savoir plus.'},
 ];
 
-
-
-function copierSQL() {
-  const sql = document.getElementById('sql-copy').textContent;
-  navigator.clipboard.writeText(sql).then(()=>{
-    showToast('✅ SQL copié ! Colle-le dans Supabase SQL Editor','success');
-  }).catch(()=>showToast('Sélectionne et copie manuellement','warning'));
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// FIX 1 — MODALS (fonctions manquantes)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function openModal(id) {
+  const el = document.getElementById('modal-' + id);
+  if (el) { el.classList.add('open'); document.body.style.overflow = 'hidden'; }
+}
+function closeModal(id) {
+  const el = document.getElementById('modal-' + id);
+  if (el) { el.classList.remove('open'); document.body.style.overflow = ''; }
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// TOAST
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let _toastTimer;
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.className = '', 3200);
+}
 
-// ── DIAGNOSTIC ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// DIAGNOSTIC
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function runDiag() {
   const out = document.getElementById('diag-out');
   out.style.display = 'block';
   out.textContent = '';
-  const L = (msg) => { out.textContent += msg + String.fromCharCode(10); };
-  L('🔍 Diagnostic Supabase...');
-  L('');
+  const L = msg => { out.textContent += msg + '\n'; };
+  L('🔍 Diagnostic Supabase...\n');
   const {data:sd} = await sb.auth.getSession();
   L('1. Session: ' + (sd?.session ? '✅ ' + sd.session.user.email : '❌ PAS DE SESSION'));
-  if(!sd?.session){L('→ Connecte-toi dabord');return;}
-  const {data:p,error:pe} = await sb.from('utilisateurs').select('id,nom,is_admin').eq('id',sd.session.user.id).maybeSingle();
-  L('2. Profil: ' + (pe ? '❌ '+pe.message : (p?'✅ '+p.nom+' — admin='+p.is_admin:'❌ INTROUVABLE')));
-  const {data:r1,error:e1} = await sb.from('recharges').select('id,statut,montant').limit(10);
-  L('3. recharges: ' + (e1 ? '❌ RLS BLOQUE: '+e1.message : '✅ '+( r1?.length||0)+' lignes'));
-  if(r1?.length) L('   Ex: statut=' + r1[0].statut + ' montant=' + r1[0].montant);
-  const {data:r2,error:e2} = await sb.from('recharges').select('id').eq('statut','en_attente');
-  L('4. en_attente: ' + (e2 ? '❌ '+e2.message : '✅ '+( r2?.length||0)+' demandes'));
-  const {data:r3,error:e3} = await sb.from('retraits').select('id,statut').limit(5);
-  L('5. retraits: ' + (e3 ? '❌ RLS BLOQUE: '+e3.message : '✅ '+( r3?.length||0)+' lignes'));
-  const {data:r4,error:e4} = await sb.from('transactions').select('id').eq('type','parrainage_gain').limit(5);
-  L('6. parrainage: ' + (e4 ? '❌ '+e4.message : '✅ '+( r4?.length||0)+' commissions'));
+  if (!sd?.session) { L('→ Connecte-toi d\'abord'); return; }
+  const {data:p, error:pe} = await sb.from('utilisateurs').select('id,nom,is_admin').eq('id', sd.session.user.id).maybeSingle();
+  L('2. Profil: ' + (pe ? '❌ '+pe.message : (p ? '✅ '+p.nom+' — admin='+p.is_admin : '❌ INTROUVABLE')));
+  const {data:r1, error:e1} = await sb.from('recharges').select('id,statut,montant').limit(10);
+  L('3. recharges: ' + (e1 ? '❌ RLS BLOQUE: '+e1.message : '✅ '+(r1?.length||0)+' lignes'));
+  if (r1?.length) L('   Ex: statut='+r1[0].statut+' montant='+r1[0].montant);
+  const {data:r2, error:e2} = await sb.from('recharges').select('id').eq('statut','en_attente');
+  L('4. en_attente: ' + (e2 ? '❌ '+e2.message : '✅ '+(r2?.length||0)+' demandes'));
+  const {data:r3, error:e3} = await sb.from('retraits').select('id,statut').limit(5);
+  L('5. retraits: ' + (e3 ? '❌ RLS BLOQUE: '+e3.message : '✅ '+(r3?.length||0)+' lignes'));
+  const {data:r4, error:e4} = await sb.from('transactions').select('id').eq('type','parrainage_gain').limit(5);
+  L('6. parrainage: ' + (e4 ? '❌ '+e4.message : '✅ '+(r4?.length||0)+' commissions'));
   L('');
-  if(e1||e2||e3) {
+  if (e1||e2||e3) {
     L('⚠️  PROBLEME RLS DETECTE');
     L('→ Copie et execute le SQL dans Supabase SQL Editor');
   } else {
-    L('✅ TOUT OK — donnees accessibles');
-    if(!r1?.length) L('→ Aucune recharge soumise en base encore');
+    L('✅ TOUT OK — données accessibles');
+    if (!r1?.length) L('→ Aucune recharge soumise en base encore');
   }
 }
 
 function copierSQL() {
-  var sql = document.getElementById('sql-copy').textContent;
-  navigator.clipboard.writeText(sql).then(function(){
-    showToast('✅ SQL copie !','success');
-  }).catch(function(){
-    showToast('Selectionne et copie manuellement','warning');
-  });
+  const sql = document.getElementById('sql-copy').textContent;
+  navigator.clipboard.writeText(sql)
+    .then(()  => showToast('✅ SQL copié ! Colle-le dans Supabase SQL Editor', 'success'))
+    .catch(()  => showToast('Sélectionne et copie manuellement', 'warning'));
 }
 
-// ── INIT ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// INIT
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const ADMIN_EMAIL = 'abdoula13cherif@gmail.com';
 
 async function init() {
@@ -503,79 +512,72 @@ async function init() {
   if (!data?.session) { window.location.href = 'silla-login.html'; return; }
   U = data.session.user;
 
-  // Vérification double : email exact + is_admin en base
-  if (U.email !== ADMIN_EMAIL) {
-    window.location.replace('silla-dashboard.html');
-    return;
-  }
+  if (U.email !== ADMIN_EMAIL) { window.location.replace('silla-dashboard.html'); return; }
 
   const { data: p } = await sb.from('utilisateurs').select('is_admin').eq('id', U.id).maybeSingle();
   if (!p?.is_admin) {
-    // Promouvoir admin automatiquement si c'est le bon email
     await sb.from('utilisateurs').update({ is_admin: true }).eq('id', U.id);
   }
 
   await loadDash();
-  // Pré-charger recharges et retraits au démarrage
   loadRecharges();
   loadRetraits();
 
-  // Rafraichissement automatique toutes les 30 secondes
-  setInterval(()=>{
-    if(curSec === 'recharges') loadRecharges();
-    if(curSec === 'retraits')  loadRetraits();
-    if(curSec === 'dashboard') loadDash();
-    // Mettre à jour le badge en attente
-    sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente').then(({count})=>{
+  setInterval(() => {
+    if (curSec === 'recharges') loadRecharges();
+    if (curSec === 'retraits')  loadRetraits();
+    if (curSec === 'dash')      loadDash();
+    sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente').then(({count}) => {
       const el = document.getElementById('st-pending');
-      if(el) el.textContent = count||0;
+      if (el) el.textContent = count || 0;
     });
   }, 30000);
 }
 
-// ── NAVIGATION ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// NAVIGATION
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function goSection(id) {
   curSec = id;
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s  => s.classList.remove('active'));
+  document.querySelectorAll('.menu-btn').forEach(b  => b.classList.remove('active'));
   document.getElementById('sec-' + id)?.classList.add('active');
-  document.getElementById('mb-' + id)?.classList.add('active');
-  // Lazy load
+  document.getElementById('mb-'  + id)?.classList.add('active');
   if (id === 'users')     loadUsers();
   if (id === 'invests')   loadInvests();
-  if (id === 'recharges') { loadRecharges(); }
-  if (id === 'retraits')  { loadRetraits(); }
+  if (id === 'recharges') loadRecharges();
+  if (id === 'retraits')  loadRetraits();
   if (id === 'messages')  loadMsgRecipients();
   if (id === 'parrain')   loadParrain();
-  if (id === 'debug')     { /* rien à charger */ }
 }
 
-// ── DASHBOARD ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// DASHBOARD
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadDash() {
   try {
-    // Chaque requête separement pour eviter qu une erreur bloque tout
     const r1 = await sb.from('utilisateurs').select('*',{count:'exact',head:true});
     const r2 = await sb.from('utilisateurs').select('solde');
     const r3 = await sb.from('investissements').select('*',{count:'exact',head:true});
     const r4 = await sb.from('recharges').select('*',{count:'exact',head:true});
     const r5 = await sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente');
-    // Remplacer parrainage_gains par transactions type parrainage_gain
     const r6 = await sb.from('transactions').select('montant').eq('type','parrainage_gain');
 
-    const totalSoldes  = (r2.data||[]).reduce((s,u)=>s+(u.solde||0),0);
-    const totalParrain = (r6.data||[]).reduce((s,p)=>s+(p.montant||0),0);
-    document.getElementById('st-users').textContent     = r1.count||0;
+    const totalSoldes  = (r2.data||[]).reduce((s,u) => s+(u.solde||0), 0);
+    const totalParrain = (r6.data||[]).reduce((s,p) => s+(p.montant||0), 0);
+
+    document.getElementById('st-users').textContent     = r1.count || 0;
     document.getElementById('st-soldes').textContent    = fmtK(totalSoldes)+'F';
-    document.getElementById('st-invests').textContent   = r3.count||0;
-    document.getElementById('st-recharges').textContent = r4.count||0;
-    document.getElementById('st-pending').textContent   = r5.count||0;
+    document.getElementById('st-invests').textContent   = r3.count || 0;
+    document.getElementById('st-recharges').textContent = r4.count || 0;
+    document.getElementById('st-pending').textContent   = r5.count || 0;
     document.getElementById('st-parrain').textContent   = fmtK(totalParrain)+'F';
-  } catch(e) {
-    console.error('loadDash error:', e);
-  }
+  } catch(e) { console.error('loadDash error:', e); }
 }
 
-// ── USERS ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// UTILISATEURS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadUsers() {
   const el = document.getElementById('users-list');
   el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
@@ -605,26 +607,25 @@ function renderUsers(list) {
 
 function filterUsers() {
   const q = document.getElementById('search-user').value.toLowerCase();
-  const filtered = allUsers.filter(u =>
+  renderUsers(allUsers.filter(u =>
     (u.nom||'').toLowerCase().includes(q) ||
     (u.email||'').toLowerCase().includes(q) ||
     (u.telephone||'').includes(q)
-  );
-  renderUsers(filtered);
+  ));
 }
 
 function openEditUser(uid) {
   const u = allUsers.find(x => x.id === uid);
   if (!u) return;
-  document.getElementById('edit-uid').value     = uid;
-  document.getElementById('editUser-title').textContent = '✏️ ' + (u.nom||'Sans nom');
+  document.getElementById('edit-uid').value          = uid;
+  document.getElementById('editUser-title').textContent = '✏️ '+(u.nom||'Sans nom');
   document.getElementById('editUser-sub').textContent   = u.email||'—';
-  document.getElementById('edit-nom').value     = u.nom||'';
-  document.getElementById('edit-email').value   = u.email||'';
-  document.getElementById('edit-tel').value     = u.telephone||'';
-  document.getElementById('edit-solde').value   = u.solde||0;
-  document.getElementById('edit-statut').value  = u.statut||'actif';
-  document.getElementById('edit-role').value    = u.is_admin?'1':'0';
+  document.getElementById('edit-nom').value    = u.nom||'';
+  document.getElementById('edit-email').value  = u.email||'';
+  document.getElementById('edit-tel').value    = u.telephone||'';
+  document.getElementById('edit-solde').value  = u.solde||0;
+  document.getElementById('edit-statut').value = u.statut||'actif';
+  document.getElementById('edit-role').value   = u.is_admin?'1':'0';
   openModal('editUser');
 }
 
@@ -639,8 +640,8 @@ async function sauvegarderUser() {
     is_admin:  document.getElementById('edit-role').value === '1',
   };
   const { error } = await sb.from('utilisateurs').update(data).eq('id', uid);
-  if (error) { showToast('❌ '+error.message,'error'); return; }
-  showToast('✅ Utilisateur mis à jour !','success');
+  if (error) { showToast('❌ '+error.message, 'error'); return; }
+  showToast('✅ Utilisateur mis à jour !', 'success');
   closeModal('editUser');
   await loadUsers();
 }
@@ -648,13 +649,13 @@ async function sauvegarderUser() {
 async function supprimerUser() {
   const uid = document.getElementById('edit-uid').value;
   if (!confirm('Supprimer définitivement cet utilisateur ?')) return;
-  await sb.from('investissements').delete().eq('user_id',uid);
-  await sb.from('transactions').delete().eq('user_id',uid);
-  await sb.from('recharges').delete().eq('user_id',uid);
-  await sb.from('retraits').delete().eq('user_id',uid);
-  await sb.from('notifications').delete().eq('user_id',uid);
-  await sb.from('utilisateurs').delete().eq('id',uid);
-  showToast('✅ Utilisateur supprimé','success');
+  await sb.from('investissements').delete().eq('user_id', uid);
+  await sb.from('transactions').delete().eq('user_id', uid);
+  await sb.from('recharges').delete().eq('user_id', uid);
+  await sb.from('retraits').delete().eq('user_id', uid);
+  await sb.from('notifications').delete().eq('user_id', uid);
+  await sb.from('utilisateurs').delete().eq('id', uid);
+  showToast('✅ Utilisateur supprimé', 'success');
   closeModal('editUser');
   await loadUsers();
 }
@@ -664,31 +665,31 @@ async function ajouterUser() {
   const email = document.getElementById('add-email').value.trim();
   const pwd   = document.getElementById('add-pwd').value;
   const solde = parseFloat(document.getElementById('add-solde').value)||1000;
-  if(!nom||!email||pwd.length<8){ showToast('⚠️ Remplissez tous les champs (mdp min 8)','warning'); return; }
-  const { data, error } = await sb.auth.admin?.createUser?.({email,password:pwd,email_confirm:true}) || 
-    await sb.auth.signUp({email,password:pwd,options:{data:{full_name:nom}}});
-  if(error){ showToast('❌ '+error.message,'error'); return; }
+  if (!nom||!email||pwd.length<8) { showToast('⚠️ Remplissez tous les champs (mdp min 8)', 'warning'); return; }
+  const { data, error } = await sb.auth.signUp({email, password:pwd, options:{data:{full_name:nom}}});
+  if (error) { showToast('❌ '+error.message, 'error'); return; }
   const uid = data?.user?.id;
-  if(uid) await sb.from('utilisateurs').upsert({id:uid,nom,email,solde,statut:'actif',created_at:new Date().toISOString()},{onConflict:'id'});
-  showToast('✅ Utilisateur créé !','success');
+  if (uid) await sb.from('utilisateurs').upsert({id:uid, nom, email, solde, statut:'actif', created_at:new Date().toISOString()},{onConflict:'id'});
+  showToast('✅ Utilisateur créé !', 'success');
   closeModal('addUser');
   await loadUsers();
 }
 
-// ── INVESTISSEMENTS ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// INVESTISSEMENTS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadInvests() {
   const el = document.getElementById('invests-list');
   el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
   const statut = document.getElementById('filter-invest-statut').value;
   let q = sb.from('investissements').select('*,user:user_id(nom,email)').order('created_at',{ascending:false}).limit(50);
-  if(statut) q = q.eq('statut',statut);
+  if (statut) q = q.eq('statut', statut);
   const { data } = await q;
-  if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">📈</div>Aucun investissement</div>'; return; }
-  el.innerHTML = data.map(inv=>{
-    const sColors={actif:'#7BA4FF',gain_dispo:var_gold,termine:'var(--green)',expire:'#FF8080'};
-    const sBgs={actif:'rgba(27,63,228,.1)',gain_dispo:'rgba(245,183,49,.1)',termine:'rgba(0,194,113,.1)',expire:'rgba(232,48,48,.1)'};
+  if (!data?.length) { el.innerHTML='<div class="empty"><div class="empty-ico">📈</div>Aucun investissement</div>'; return; }
+  el.innerHTML = data.map(inv => {
+    const sClass = inv.statut==='termine'?'s-valide':inv.statut==='expire'?'s-rejete':'s-pending';
     return `<div class="tx-item">
-      <div class="tx-ico" style="background:${sBgs[inv.statut]||'rgba(255,255,255,.05)'}">📈</div>
+      <div class="tx-ico" style="background:rgba(27,63,228,.1)">📈</div>
       <div class="tx-info">
         <div class="tx-title">${inv.user?.nom||inv.user?.email||'—'}</div>
         <div class="tx-sub">${inv.plan_type} · ${fmt(inv.montant)} F · ${inv.duree_jours}j</div>
@@ -696,41 +697,34 @@ async function loadInvests() {
       <div class="tx-right">
         <div class="tx-amt" style="color:var(--green)">+${fmt(inv.gain_attendu)} F</div>
         <div class="tx-date">${fdate(inv.created_at)}</div>
-        <div class="tx-status s-${inv.statut==='termine'?'valide':inv.statut==='expire'?'rejete':'pending'}">${inv.statut}</div>
+        <div class="tx-status ${sClass}">${inv.statut}</div>
       </div>
     </div>`;
   }).join('');
 }
-const var_gold = 'rgba(245,183,49,.1)';
 
-// ── RECHARGES ──
-
-
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// RECHARGES
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadRecharges() {
   const el = document.getElementById('recharges-list');
-  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement...</div>';
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
   const statut = document.getElementById('filter-rech-statut').value;
   let q = sb.from('recharges').select('*').order('created_at',{ascending:false}).limit(100);
-  if(statut) q = q.eq('statut',statut);
+  if (statut) q = q.eq('statut', statut);
   const { data, error } = await q;
-  if(error) {
-    console.error('loadRecharges error:', error);
-    el.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div>Erreur: '+error.message+'</div>';
-    return;
-  }
-  if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💳</div>Aucune recharge</div>'; return; }
-  // Charger les utilisateurs en parallèle
-  const userIds=[...new Set(data.map(r=>r.user_id).filter(Boolean))];
-  const{data:users}=await sb.from('utilisateurs').select('id,nom,email').in('id',userIds);
-  const uMap=Object.fromEntries((users||[]).map(u=>[u.id,u]));
-  const ico={
-    'Orange Money':'🍊','MTN MoMo':'📱','Wave':'🌊','Moov Money':'💙',
-    'Crypto BTC':'₿','Crypto USDT BSC':'💎','Crypto SOL':'◎'
-  };
-  el.innerHTML = data.map(r=>{
-    const u=uMap[r.user_id]||{};
-    const icone=ico[r.operateur]||(r.type==='crypto'?'₿':'📱');
-    const bg=r.statut==='en_attente'?'rgba(245,183,49,.08)':r.statut==='valide'?'rgba(0,194,113,.06)':'rgba(232,48,48,.06)';
+  if (error) { el.innerHTML='<div class="empty"><div class="empty-ico">⚠️</div>Erreur: '+error.message+'</div>'; return; }
+  if (!data?.length) { el.innerHTML='<div class="empty"><div class="empty-ico">💳</div>Aucune recharge</div>'; return; }
+
+  const userIds = [...new Set(data.map(r=>r.user_id).filter(Boolean))];
+  const {data:users} = await sb.from('utilisateurs').select('id,nom,email').in('id', userIds);
+  const uMap = Object.fromEntries((users||[]).map(u=>[u.id,u]));
+
+  const ico = {'Orange Money':'🍊','MTN MoMo':'📱','Wave':'🌊','Moov Money':'💙','Crypto BTC':'₿','Crypto USDT BSC':'💎','Crypto SOL':'◎'};
+  el.innerHTML = data.map(r => {
+    const u = uMap[r.user_id]||{};
+    const icone = ico[r.operateur]||(r.type==='crypto'?'₿':'📱');
+    const bg = r.statut==='en_attente'?'rgba(245,183,49,.08)':r.statut==='valide'?'rgba(0,194,113,.06)':'rgba(232,48,48,.06)';
     return `<div class="tx-item" style="cursor:pointer;background:${bg}" onclick="openRechargeModal('${r.id}')">
       <div class="tx-ico" style="background:rgba(245,183,49,.12);font-size:1.2rem">${icone}</div>
       <div class="tx-info">
@@ -747,9 +741,12 @@ async function loadRecharges() {
 }
 
 async function openRechargeModal(id) {
-  const { data: r } = await sb.from('recharges').select('*').eq('id',id).maybeSingle();
-  if(r?.user_id){const{data:u}=await sb.from('utilisateurs').select('nom,email,solde').eq('id',r.user_id).maybeSingle();if(u)r.user=u;}
-  if(!r) return;
+  const { data: r } = await sb.from('recharges').select('*').eq('id', id).maybeSingle();
+  if (!r) return;
+  if (r.user_id) {
+    const {data:u} = await sb.from('utilisateurs').select('nom,email,solde').eq('id',r.user_id).maybeSingle();
+    if (u) r.user = u;
+  }
   document.getElementById('rech-modal-title').textContent = '💳 Recharge — '+fmt(r.montant)+' F';
   document.getElementById('rech-modal-body').innerHTML = `
     <div style="background:var(--card2);border-radius:12px;padding:.9rem;border:1px solid var(--border2);margin-bottom:.6rem">
@@ -761,46 +758,91 @@ async function openRechargeModal(id) {
     </div>
     ${r.statut==='en_attente'?'<div class="alert alert-warn">⚠️ Vérifiez que le paiement a bien été reçu avant de valider.</div>':''}`;
   document.getElementById('rech-modal-btns').innerHTML = r.statut === 'en_attente' ? `
-    <button class="btn btn-red btn-full" onclick="traiterRecharge('${id}','rejete','${r.user_id}',${r.montant})">❌ Rejeter</button>
+    <button class="btn btn-red btn-full"   onclick="traiterRecharge('${id}','rejete','${r.user_id}',${r.montant})">❌ Rejeter</button>
     <button class="btn btn-green btn-full" onclick="traiterRecharge('${id}','valide','${r.user_id}',${r.montant})">✅ Valider</button>
   ` : `<div style="font-size:.75rem;color:var(--muted);text-align:center;padding:.5rem">Déjà traité : ${r.statut}</div>`;
   openModal('recharge');
 }
 
+// FIX 3 — Commission parrainage dans traiterRecharge
 async function traiterRecharge(id, statut, userId, montant) {
-  await sb.from('recharges').update({statut,valide_le:new Date().toISOString()}).eq('id',id);
-  if(statut === 'valide') {
-    const { data:u } = await sb.from('utilisateurs').select('solde').eq('id',userId).maybeSingle();
-    const nvSolde = (u?.solde||0)+montant;
-    await sb.from('utilisateurs').update({solde:nvSolde}).eq('id',userId);
-    await sb.from('transactions').insert({user_id:userId,type:'recharge',montant,description:'Recharge validée par admin'});
-    await sb.from('notifications').insert({user_id:userId,titre:'✅ Recharge validée !',message:`Votre recharge de ${fmt(montant)} F a été validée et créditée.`,type:'info'});
+  await sb.from('recharges').update({ statut, valide_le: new Date().toISOString() }).eq('id', id);
+
+  if (statut === 'valide') {
+    // 1. Créditer le solde de l'utilisateur
+    const { data: u } = await sb.from('utilisateurs')
+      .select('solde, parrain_id')
+      .eq('id', userId).maybeSingle();
+
+    await sb.from('utilisateurs')
+      .update({ solde: (u?.solde||0) + montant })
+      .eq('id', userId);
+
+    await sb.from('transactions').insert({
+      user_id: userId, type: 'recharge', montant,
+      description: 'Recharge validée par admin'
+    });
+
+    await sb.from('notifications').insert({
+      user_id: userId,
+      titre:   '✅ Recharge validée !',
+      message: `Votre recharge de ${fmt(montant)} F a été validée et créditée sur votre compte.`,
+      type: 'info'
+    });
+
+    // 2. Commission parrainage 5% si filleul parrainé
+    if (u?.parrain_id) {
+      const commission = Math.round(montant * 0.05);
+      const { data: parrain } = await sb.from('utilisateurs')
+        .select('solde, nom')
+        .eq('id', u.parrain_id).maybeSingle();
+
+      if (parrain) {
+        await sb.from('utilisateurs')
+          .update({ solde: (parrain.solde||0) + commission })
+          .eq('id', u.parrain_id);
+
+        await sb.from('transactions').insert({
+          user_id:     u.parrain_id,
+          type:        'parrainage_gain',
+          montant:     commission,
+          description: `Commission parrainage — recharge filleul de ${fmt(montant)} F`
+        });
+
+        await sb.from('notifications').insert({
+          user_id: u.parrain_id,
+          titre:   '👑 Commission parrainage reçue !',
+          message: `Vous avez reçu ${fmt(commission)} F de commission grâce à la recharge de votre filleul.`,
+          type: 'info'
+        });
+      }
+    }
   }
-  showToast(statut==='valide'?'✅ Recharge validée et créditée !':'❌ Recharge rejetée','success');
+
+  showToast(statut === 'valide' ? '✅ Recharge validée et créditée !' : '❌ Recharge rejetée', 'success');
   closeModal('recharge');
   await loadRecharges();
 }
 
-// ── RETRAITS ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// RETRAITS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadRetraits() {
   const el = document.getElementById('retraits-list');
-  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement...</div>';
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
   const statut = document.getElementById('filter-ret-statut').value;
   let q = sb.from('retraits').select('*').order('created_at',{ascending:false}).limit(100);
-  if(statut) q = q.eq('statut',statut);
+  if (statut) q = q.eq('statut', statut);
   const { data, error } = await q;
-  if(error) {
-    console.error('loadRetraits error:', error);
-    el.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div>Erreur: '+error.message+'</div>';
-    return;
-  }
-  if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💸</div>Aucun retrait</div>'; return; }
-  // Enrichir avec infos utilisateurs
-  const uIds2=[...new Set(data.map(r=>r.user_id).filter(Boolean))];
-  const{data:users2}=await sb.from('utilisateurs').select('id,nom,email').in('id',uIds2);
-  const uMap2=Object.fromEntries((users2||[]).map(u=>[u.id,u]));
-  data.forEach(r=>{if(r.user_id&&uMap2[r.user_id])r.user=uMap2[r.user_id];});
-  el.innerHTML = data.map(r=>`
+  if (error) { el.innerHTML='<div class="empty"><div class="empty-ico">⚠️</div>Erreur: '+error.message+'</div>'; return; }
+  if (!data?.length) { el.innerHTML='<div class="empty"><div class="empty-ico">💸</div>Aucun retrait</div>'; return; }
+
+  const uIds = [...new Set(data.map(r=>r.user_id).filter(Boolean))];
+  const {data:users} = await sb.from('utilisateurs').select('id,nom,email').in('id', uIds);
+  const uMap = Object.fromEntries((users||[]).map(u=>[u.id,u]));
+  data.forEach(r => { if (r.user_id && uMap[r.user_id]) r.user = uMap[r.user_id]; });
+
+  el.innerHTML = data.map(r => `
     <div class="tx-item" style="cursor:pointer" onclick="openRetraitModal('${r.id}')">
       <div class="tx-ico" style="background:rgba(255,107,26,.1)">💸</div>
       <div class="tx-info">
@@ -817,9 +859,12 @@ async function loadRetraits() {
 }
 
 async function openRetraitModal(id) {
-  const { data: r } = await sb.from('retraits').select('*').eq('id',id).maybeSingle();
-  if(r?.user_id){const{data:u}=await sb.from('utilisateurs').select('nom,email,solde').eq('id',r.user_id).maybeSingle();if(u)r.user=u;}
-  if(!r) return;
+  const { data: r } = await sb.from('retraits').select('*').eq('id', id).maybeSingle();
+  if (!r) return;
+  if (r.user_id) {
+    const {data:u} = await sb.from('utilisateurs').select('nom,email,solde').eq('id',r.user_id).maybeSingle();
+    if (u) r.user = u;
+  }
   document.getElementById('ret-modal-title').textContent = '💸 Retrait — '+fmt(r.montant)+' F';
   document.getElementById('ret-modal-body').innerHTML = `
     <div style="background:var(--card2);border-radius:12px;padding:.9rem;border:1px solid var(--border2);margin-bottom:.6rem">
@@ -830,38 +875,41 @@ async function openRetraitModal(id) {
       <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Méthode</span><span style="font-weight:700">${r.methode||'—'}</span></div>
       <div style="display:flex;justify-content:space-between;font-size:.78rem"><span style="color:var(--muted)">Numéro</span><span style="font-weight:700">${r.numero_compte||'—'}</span></div>
     </div>
-    ${r.statut==='en_attente'?`<div class="alert alert-info">ℹ️ Envoyez <strong>${fmt(r.montant_net||Math.round(r.montant*.9))} F</strong> (net apres frais 10%) sur <strong>${r.methode}</strong> au <strong>${r.numero_compte}</strong> — ${r.nom_titulaire||''}. Puis cliquez Envoye.</div>`:''}`;
+    ${r.statut==='en_attente'?`<div class="alert alert-info">ℹ️ Envoyez <strong>${fmt(r.montant_net||Math.round(r.montant*.9))} F</strong> (net après frais 10%) sur <strong>${r.methode}</strong> au <strong>${r.numero_compte}</strong> — ${r.nom_titulaire||''}. Puis cliquez Envoyé.</div>`:''}`;
   document.getElementById('ret-modal-btns').innerHTML = r.statut === 'en_attente' ? `
-    <button class="btn btn-red btn-full" onclick="traiterRetrait('${id}','rejete','${r.user_id}',${r.montant})">❌ Annuler</button>
+    <button class="btn btn-red btn-full"   onclick="traiterRetrait('${id}','rejete','${r.user_id}',${r.montant})">❌ Annuler</button>
     <button class="btn btn-green btn-full" onclick="traiterRetrait('${id}','valide','${r.user_id}',${r.montant})">✅ Envoyé</button>
   ` : `<div style="font-size:.75rem;color:var(--muted);text-align:center;padding:.5rem">Déjà traité : ${r.statut}</div>`;
   openModal('retrait');
 }
 
 async function traiterRetrait(id, statut, userId, montant) {
-  await sb.from('retraits').update({statut,traite_le:new Date().toISOString()}).eq('id',id);
-  if(statut === 'rejete') {
-    // Rembourser si annulé
-    const { data:u } = await sb.from('utilisateurs').select('solde').eq('id',userId).maybeSingle();
-    await sb.from('utilisateurs').update({solde:(u?.solde||0)+montant}).eq('id',userId);
-    await sb.from('transactions').insert({user_id:userId,type:'remboursement',montant,description:'Retrait annulé — remboursement'});
+  await sb.from('retraits').update({ statut, traite_le: new Date().toISOString() }).eq('id', id);
+  if (statut === 'rejete') {
+    const { data: u } = await sb.from('utilisateurs').select('solde').eq('id', userId).maybeSingle();
+    await sb.from('utilisateurs').update({ solde: (u?.solde||0)+montant }).eq('id', userId);
+    await sb.from('transactions').insert({ user_id:userId, type:'remboursement', montant, description:'Retrait annulé — remboursement' });
   }
   await sb.from('notifications').insert({
-    user_id:userId,
-    titre: statut==='valide'?'✅ Retrait effectué !':'❌ Retrait annulé',
-    message: statut==='valide'?`Votre retrait de ${fmt(montant)} F a été envoyé sur votre compte.`:`Votre retrait de ${fmt(montant)} F a été annulé. Le montant a été recrédité.`,
-    type:'info'
+    user_id: userId,
+    titre:   statut==='valide' ? '✅ Retrait effectué !' : '❌ Retrait annulé',
+    message: statut==='valide'
+      ? `Votre retrait de ${fmt(montant)} F a été envoyé sur votre compte.`
+      : `Votre retrait de ${fmt(montant)} F a été annulé. Le montant a été recrédité.`,
+    type: 'info'
   });
-  showToast(statut==='valide'?'✅ Retrait confirmé !':'❌ Retrait annulé et remboursé','success');
+  showToast(statut==='valide' ? '✅ Retrait confirmé !' : '❌ Retrait annulé et remboursé', 'success');
   closeModal('retrait');
   await loadRetraits();
 }
 
-// ── MESSAGES ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// MESSAGES
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadMsgRecipients() {
   const { data } = await sb.from('utilisateurs').select('id,nom,email').order('nom');
   const el = document.getElementById('msg-recipients');
-  el.innerHTML = (data||[]).map(u=>`
+  el.innerHTML = (data||[]).map(u => `
     <div class="check-row" onclick="toggleUserMsg('${u.id}')">
       <input type="checkbox" id="chk-${u.id}" onchange="toggleUserMsg('${u.id}')"/>
       <div class="check-label">${u.nom||u.email||'?'} <span style="color:var(--muted);font-size:.68rem">${u.email||''}</span></div>
@@ -870,19 +918,19 @@ async function loadMsgRecipients() {
 
 function toggleAll() {
   msgSendAll = document.getElementById('chk-all').checked;
-  document.querySelectorAll('#msg-recipients input[type=checkbox]').forEach(c=>c.checked=msgSendAll);
+  document.querySelectorAll('#msg-recipients input[type=checkbox]').forEach(c => c.checked = msgSendAll);
 }
 
 function toggleUserMsg(uid) {
   const chk = document.getElementById('chk-'+uid);
-  if(chk.checked) selUsersMsg.add(uid);
+  if (chk.checked) selUsersMsg.add(uid);
   else selUsersMsg.delete(uid);
 }
 
 let selTplIdx = -1;
 function selTemplate(i) {
   selTplIdx = i;
-  document.querySelectorAll('.msg-template').forEach((el,j)=>el.classList.toggle('sel',j===i));
+  document.querySelectorAll('.msg-template').forEach((el, j) => el.classList.toggle('sel', j===i));
   document.getElementById('msg-titre').value = TEMPLATES[i].titre;
   document.getElementById('msg-body').value  = TEMPLATES[i].body;
 }
@@ -890,93 +938,89 @@ function selTemplate(i) {
 async function envoyerMessage() {
   const titre = document.getElementById('msg-titre').value.trim();
   const body  = document.getElementById('msg-body').value.trim();
-  if(!titre||!body){ showToast('⚠️ Titre et message requis','warning'); return; }
+  if (!titre||!body) { showToast('⚠️ Titre et message requis', 'warning'); return; }
 
   const btn = event.target;
-  btn.disabled=true; btn.innerHTML='<div class="spin"></div> Envoi…';
+  btn.disabled = true; btn.innerHTML = '<div class="spin"></div> Envoi…';
 
   try {
     let targets = [];
-    if(msgSendAll || document.getElementById('chk-all').checked) {
+    if (msgSendAll || document.getElementById('chk-all').checked) {
       const { data } = await sb.from('utilisateurs').select('id');
-      targets = (data||[]).map(u=>u.id);
+      targets = (data||[]).map(u => u.id);
     } else {
-      document.querySelectorAll('#msg-recipients input[type=checkbox]:checked').forEach(c=>{
+      document.querySelectorAll('#msg-recipients input[type=checkbox]:checked').forEach(c => {
         targets.push(c.id.replace('chk-',''));
       });
     }
-    if(!targets.length){ showToast('⚠️ Sélectionnez au moins un destinataire','warning'); btn.disabled=false;btn.innerHTML='📣 Envoyer maintenant'; return; }
+    if (!targets.length) { showToast('⚠️ Sélectionnez au moins un destinataire','warning'); btn.disabled=false; btn.innerHTML='📣 Envoyer maintenant'; return; }
 
-    const notifs = targets.map(uid=>({user_id:uid,titre,message:body,type:'admin'}));
+    const notifs = targets.map(uid => ({ user_id:uid, titre, message:body, type:'admin' }));
     const { error } = await sb.from('notifications').insert(notifs);
-    if(error) throw error;
+    if (error) throw error;
 
-    showToast(`✅ Message envoyé à ${targets.length} utilisateur(s) !`,'success');
-    document.getElementById('msg-titre').value='';
-    document.getElementById('msg-body').value='';
-    document.querySelectorAll('.msg-template').forEach(el=>el.classList.remove('sel'));
-  }catch(e){
-    showToast('❌ '+e.message,'error');
-  }finally{
-    btn.disabled=false; btn.innerHTML='📣 Envoyer maintenant';
+    showToast(`✅ Message envoyé à ${targets.length} utilisateur(s) !`, 'success');
+    document.getElementById('msg-titre').value = '';
+    document.getElementById('msg-body').value  = '';
+    document.querySelectorAll('.msg-template').forEach(el => el.classList.remove('sel'));
+  } catch(e) {
+    showToast('❌ '+e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '📣 Envoyer maintenant';
   }
 }
 
-// ── PARRAINAGE ──
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// PARRAINAGE
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadParrain() {
   const el = document.getElementById('parrain-list');
-  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement...</div>';
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
   try {
-    // Gains depuis transactions (type parrainage_gain)
     const { data: gains } = await sb.from('transactions')
-      .select('*')
-      .eq('type','parrainage_gain')
-      .order('created_at',{ascending:false})
-      .limit(50);
+      .select('*').eq('type','parrainage_gain')
+      .order('created_at',{ascending:false}).limit(50);
 
-    const totalGains = (gains||[]).reduce((s,g)=>s+(g.montant||0),0);
+    const totalGains = (gains||[]).reduce((s,g) => s+(g.montant||0), 0);
 
-    // Enrichir avec infos users
     const userIds = [...new Set((gains||[]).map(g=>g.user_id).filter(Boolean))];
     let uMap = {};
-    if(userIds.length > 0) {
-      const {data:users} = await sb.from('utilisateurs').select('id,nom,email').in('id',userIds);
+    if (userIds.length) {
+      const {data:users} = await sb.from('utilisateurs').select('id,nom,email').in('id', userIds);
       uMap = Object.fromEntries((users||[]).map(u=>[u.id,u]));
     }
 
-    // Stats parrainage
     const { data: filleuls } = await sb.from('utilisateurs')
       .select('id,nom,email,created_at,parrain_id')
       .not('parrain_id','is',null)
-      .order('created_at',{ascending:false})
-      .limit(100);
+      .order('created_at',{ascending:false}).limit(100);
 
-    const totalFilleuls = filleuls?.length || 0;
-
-    if(!gains?.length && !filleuls?.length) {
-      el.innerHTML = '<div class="empty"><div class="empty-ico">👑</div>Aucune activite de parrainage</div>';
+    if (!gains?.length && !filleuls?.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-ico">👑</div>Aucune activité de parrainage</div>';
       return;
     }
 
-    let html = '';
+    // Mise à jour des stats rapides
+    const pgTotal = document.getElementById('pg-total');
+    const pgCount = document.getElementById('pg-count');
+    if (pgTotal) pgTotal.textContent = fmtK(totalGains)+'F';
+    if (pgCount) pgCount.textContent = gains?.length||0;
 
-    // Stats rapides
-    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem">
+    let html = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem">
       <div style="background:var(--card2);border-radius:12px;padding:.8rem;text-align:center;border:1px solid var(--border)">
-        <div style="font-size:1.3rem;font-weight:700;color:var(--gold)">${totalFilleuls}</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--gold)">${filleuls?.length||0}</div>
         <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Filleuls total</div>
       </div>
       <div style="background:var(--card2);border-radius:12px;padding:.8rem;text-align:center;border:1px solid var(--border)">
         <div style="font-size:1.3rem;font-weight:700;color:var(--green)">${fmtK(totalGains)}F</div>
-        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Commissions versees</div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Commissions versées</div>
       </div>
     </div>`;
 
-    // Liste des gains
-    if(gains?.length) {
+    if (gains?.length) {
       html += '<div style="font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem">Historique commissions</div>';
       html += gains.map(g => {
-        const u = uMap[g.user_id] || {};
+        const u = uMap[g.user_id]||{};
         return `<div class="tx-item">
           <div class="tx-ico" style="background:rgba(245,183,49,.1)">👑</div>
           <div class="tx-info">
@@ -998,8 +1042,10 @@ async function loadParrain() {
   }
 }
 
-
-async function logout(){
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// LOGOUT
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+async function logout() {
   await sb.auth.signOut();
   window.location.replace('silla-login.html');
 }
