@@ -14,7 +14,15 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .tb-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--gold);}
 .tb-right{display:flex;align-items:center;gap:10px;}
 .tb-notif{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;position:relative;outline:none;}
-.notif-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--ember);border:2px solid var(--cream);display:none;}
+.notif-dot{
+  position:absolute;top:-3px;right:-3px;
+  min-width:17px;height:17px;padding:0 3px;
+  border-radius:9px;background:var(--ember);
+  color:#fff;font-size:.52rem;font-weight:900;
+  border:2px solid var(--cream);
+  display:none;align-items:center;justify-content:center;
+  font-family:'Outfit',sans-serif;line-height:1;
+}
 .tb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;cursor:pointer;}
 .scroll{padding:0 0 calc(var(--nav)+40px);}
 
@@ -87,6 +95,43 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .bn.active .bn-lbl{color:var(--gold);}
 .bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;outline:none;}
 
+/* ── PANNEAU NOTIFICATIONS ── */
+.notif-panel{
+  position:fixed;top:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;height:100vh;
+  z-index:200;pointer-events:none;
+}
+.notif-overlay{
+  position:absolute;inset:0;background:rgba(26,15,0,.45);
+  backdrop-filter:blur(2px);opacity:0;transition:opacity .25s;pointer-events:none;
+}
+.notif-drawer{
+  position:absolute;top:58px;right:12px;width:300px;
+  background:#fff;border:1px solid var(--border);border-radius:16px;
+  box-shadow:0 12px 40px rgba(90,50,0,.18);
+  transform:translateY(-14px) scale(.96);opacity:0;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;
+  overflow:hidden;pointer-events:none;max-height:70vh;
+}
+.notif-panel.open{pointer-events:all;}
+.notif-panel.open .notif-overlay{opacity:1;pointer-events:all;}
+.notif-panel.open .notif-drawer{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+.nd-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--border);}
+.nd-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);}
+.nd-clear{font-size:.65rem;font-weight:700;color:var(--gold);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;}
+.nd-list{overflow-y:auto;max-height:calc(70vh - 52px);}
+.nd-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(184,134,11,.07);transition:background .15s;}
+.nd-item:last-child{border-bottom:none;}
+.nd-item.unread{background:rgba(184,134,11,.04);}
+.nd-ico{width:32px;height:32px;border-radius:9px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;margin-top:1px;}
+.nd-info{flex:1;min-width:0;}
+.nd-name{font-size:.76rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:5px;}
+.nd-dot{width:6px;height:6px;border-radius:50%;background:var(--ember);flex-shrink:0;}
+.nd-msg{font-size:.65rem;color:var(--muted);margin-top:2px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.nd-time{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--muted);margin-top:3px;}
+.nd-empty{text-align:center;padding:28px 16px;color:var(--muted);font-size:.76rem;}
+.nd-empty-ico{font-size:1.8rem;opacity:.25;display:block;margin-bottom:8px;}
+
 .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
@@ -98,7 +143,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 <div class="topbar">
   <div class="tb-logo">SILLA</div>
   <div class="tb-right">
-    <button class="tb-notif" onclick="scrollToNotifs()">
+    <button class="tb-notif" id="notif-btn" onclick="toggleNotifPanel()">
       🔔
       <div class="notif-dot" id="notif-dot"></div>
     </button>
@@ -107,6 +152,20 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- PANNEAU NOTIFICATIONS -->
+<div class="notif-panel" id="notif-panel">
+  <div class="notif-overlay" onclick="closeNotifPanel()"></div>
+  <div class="notif-drawer" id="notif-drawer">
+    <div class="nd-head">
+      <div class="nd-title">🔔 Notifications</div>
+      <button class="nd-clear" onclick="marquerToutesLues()">Tout marquer lu</button>
+    </div>
+    <div class="nd-list" id="nd-list">
+      <div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>
+    </div>
+  </div>
+</div>
 
 <div class="scroll">
 
@@ -151,15 +210,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     <div class="empty"><span class="empty-ico">📈</span>Aucun investissement actif</div>
   </div>
 
-  <div class="sec" id="notif-sec">
-    <div class="sec-title">Notifications</div>
-    <div class="sec-line"></div>
-  </div>
-  <div style="background:var(--card);margin:0 16px 24px;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);">
-    <div id="notif-list">
-      <div class="empty"><span class="empty-ico">🔔</span>Aucune notification</div>
-    </div>
-  </div>
+
 
 </div>
 
@@ -182,7 +233,32 @@ const fmtK = n => n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed
 let U = null, P = null;
 
 function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4000);}
-function scrollToNotifs(){document.getElementById('notif-sec').scrollIntoView({behavior:'smooth'});}
+
+// ── PANNEAU NOTIFICATIONS ──
+let notifOpen=false;
+function toggleNotifPanel(){
+  notifOpen?closeNotifPanel():openNotifPanel();
+}
+function openNotifPanel(){
+  notifOpen=true;
+  document.getElementById('notif-panel').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeNotifPanel(){
+  notifOpen=false;
+  document.getElementById('notif-panel').classList.remove('open');
+  document.body.style.overflow='';
+  // Masquer le badge quand on ferme
+  document.getElementById('notif-dot').style.display='none';
+}
+async function marquerToutesLues(){
+  if(!U) return;
+  await sb.from('notifications').update({lu:true}).eq('user_id',U.id).eq('lu',false);
+  document.getElementById('notif-dot').style.display='none';
+  document.getElementById('notif-dot').textContent='';
+  // Rafraîchir le panneau
+  await loadNotifs();
+}
 
 async function init(){
   const{data:sd,error:se}=await sb.auth.getSession();
@@ -274,33 +350,47 @@ async function loadInvests(){
 
 async function loadNotifs(){
   try{
-    const{data}=await sb.from('notifications').select('*').eq('user_id',U.id).order('created_at',{ascending:false}).limit(6);
-    const el=document.getElementById('notif-list');
+    const{data}=await sb.from('notifications').select('*').eq('user_id',U.id).order('created_at',{ascending:false}).limit(20);
+    const ndList=document.getElementById('nd-list');
     if(!data?.length){
-      el.innerHTML='<div class="empty"><span class="empty-ico">🔔</span>Aucune notification</div>';
+      ndList.innerHTML='<div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>';
       return;
     }
+    // Badge numérique non lues
     const unread=data.filter(n=>!n.lu).length;
-    if(unread>0) document.getElementById('notif-dot').style.display='block';
-    const icons={gain:'💰',info:'📋',admin:'📣',bonus_inscription:'🎁',parrainage_gain:'👑'};
+    const dot=document.getElementById('notif-dot');
+    if(unread>0){
+      dot.style.display='block';
+      dot.textContent=unread>9?'9+':unread>1?String(unread):'';
+      // Style badge numérique si > 1
+      if(unread>1){
+        dot.style.cssText='display:flex;align-items:center;justify-content:center;position:absolute;top:-3px;right:-3px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--ember);color:#fff;font-size:.52rem;font-weight:900;border:2px solid var(--cream);font-family:Outfit,sans-serif;';
+      }
+    } else {
+      dot.style.display='none';
+    }
+    const icons={gain:'💰',info:'📋',admin:'📣',bonus_inscription:'🎁',parrainage_gain:'👑',retrait:'💸',recharge:'💳'};
     const dt=d=>{
       const dd=new Date(d);
-      return dd.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})+' '+dd.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      const now=new Date();
+      const diff=Math.floor((now-dd)/60000);
+      if(diff<1) return 'À l'instant';
+      if(diff<60) return diff+'min';
+      if(diff<1440) return Math.floor(diff/60)+'h';
+      return dd.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
     };
-    el.innerHTML=data.map(n=>`
-      <div class="notif-item" style="${!n.lu?'background:rgba(184,134,11,.03)':''}">
-        <div class="ni-ico">${icons[n.type]||'🔔'}</div>
-        <div class="ni-info">
-          <div class="ni-title">
+    ndList.innerHTML=data.map(n=>`
+      <div class="nd-item${n.lu?'':' unread'}">
+        <div class="nd-ico">${icons[n.type]||'🔔'}</div>
+        <div class="nd-info">
+          <div class="nd-name">
             ${n.titre||'Notification'}
-            ${!n.lu?'<span class="ni-dot"></span>':''}
+            ${!n.lu?'<span class="nd-dot"></span>':''}
           </div>
-          <div class="ni-sub">${n.message||''}</div>
-          <div class="ni-time">${dt(n.created_at)}</div>
+          <div class="nd-msg">${n.message||''}</div>
+          <div class="nd-time">${dt(n.created_at)}</div>
         </div>
       </div>`).join('');
-    // Marquer comme lues en arrière-plan
-    sb.from('notifications').update({lu:true}).eq('user_id',U.id).eq('lu',false);
   }catch(e){console.error('loadNotifs',e);}
 }
 
