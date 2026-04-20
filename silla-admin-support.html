@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>SILLA — Support Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#FEFCF7;--warm:#FDF6E9;--card:#fff;
+  --gold:#B8860B;--gold-l:#D4A017;--gold-ll:#E8C060;--gold-dim:rgba(184,134,11,.08);
+  --ember:#E05A2B;--green:#16A34A;--blue:#1D4ED8;
+  --ink:#2D1F00;--brown:#6B4C1E;--muted:#9A8060;
+  --border:rgba(184,134,11,.15);--shadow:rgba(90,50,0,.09);
+  --nav:0px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{background:var(--cream);}
+body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.back{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem;text-decoration:none;color:var(--ink);flex-shrink:0;}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--ink);flex:1;}
+.tb-count{font-family:'DM Mono',monospace;font-size:.6rem;background:rgba(224,90,43,.1);border:1px solid rgba(224,90,43,.25);border-radius:20px;padding:4px 10px;color:var(--ember);display:none;}
+.tb-count.show{display:block;}
+
+/* SCROLL */
+.scroll{padding:14px 14px 40px;}
+
+/* FILTRES */
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.flt{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--card);font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s;}
+.flt.on{background:var(--gold);border-color:var(--gold);color:#fff;}
+
+/* LABEL SECTION */
+.lbl{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.lbl::after{content:'';flex:1;height:1px;background:rgba(184,134,11,.1);}
+
+/* TICKET CARD */
+.ticket{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 10px var(--shadow);transition:box-shadow .2s;position:relative;}
+.ticket::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
+.ticket.nouveau::before{background:var(--ember);}
+.ticket.en_cours::before{background:var(--gold-l);}
+.ticket.resolu::before{background:var(--green);}
+.ticket:hover{box-shadow:0 4px 18px rgba(90,50,0,.13);}
+
+.t-head{display:flex;align-items:flex-start;gap:10px;padding:13px 14px 13px 17px;cursor:pointer;}
+.t-avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--gold-dim),rgba(184,134,11,.15));border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--gold);}
+.t-meta{flex:1;min-width:0;}
+.t-user{font-size:.82rem;font-weight:700;color:var(--ink);}
+.t-sujet{font-size:.73rem;color:var(--brown);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.t-date{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted);margin-top:4px;}
+.t-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+.badge{font-size:.55rem;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
+.badge.nouveau{background:rgba(224,90,43,.1);color:var(--ember);border:1px solid rgba(224,90,43,.2);}
+.badge.en_cours{background:rgba(184,134,11,.1);color:var(--gold);border:1px solid rgba(184,134,11,.2);}
+.badge.resolu{background:rgba(22,163,74,.1);color:#15803D;border:1px solid rgba(22,163,74,.2);}
+.t-chevron{font-size:.7rem;color:var(--muted);transition:transform .25s;margin-top:2px;}
+.ticket.open .t-chevron{transform:rotate(180deg);}
+
+/* BODY EXPAND */
+.t-body{display:none;border-top:1px solid rgba(184,134,11,.08);}
+.ticket.open .t-body{display:block;}
+.t-msg{padding:13px 17px;font-size:.78rem;color:var(--ink);line-height:1.75;background:var(--warm);border-bottom:1px solid rgba(184,134,11,.08);}
+.t-msg-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+
+/* RÉPONSE EXISTANTE */
+.t-reponse{padding:12px 17px;background:rgba(22,163,74,.03);border-bottom:1px solid rgba(22,163,74,.1);}
+.t-rep-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:#15803D;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.t-rep-label::before{content:'✅';}
+.t-rep-text{font-size:.78rem;color:var(--ink);line-height:1.75;}
+.t-rep-date{font-family:'DM Mono',monospace;font-size:.55rem;color:var(--muted);margin-top:5px;}
+
+/* FORM RÉPONSE */
+.t-form{padding:13px 17px;}
+.rep-inp{width:100%;padding:11px 13px;background:var(--warm);border:1.5px solid var(--border);border-radius:8px;font-family:'Outfit',sans-serif;font-size:.8rem;color:var(--ink);outline:none;resize:none;min-height:80px;transition:all .22s;line-height:1.6;}
+.rep-inp:focus{border-color:var(--gold-l);background:#fff;box-shadow:0 0 0 3px rgba(184,134,11,.08);}
+.rep-inp::placeholder{color:rgba(45,31,0,.25);}
+.t-actions{display:flex;gap:8px;margin-top:10px;}
+.btn-rep{flex:1;padding:11px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:7px;transition:all .3s;box-shadow:0 3px 10px rgba(184,134,11,.22);}
+.btn-rep:hover{box-shadow:0 5px 16px rgba(184,134,11,.35);}
+.btn-rep:disabled{opacity:.4;cursor:not-allowed;}
+.btn-resolu{padding:11px 14px;border:1.5px solid rgba(22,163,74,.3);cursor:pointer;background:rgba(22,163,74,.06);color:#15803D;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:700;border-radius:7px;transition:all .2s;white-space:nowrap;}
+.btn-resolu:hover{background:rgba(22,163,74,.12);}
+.btn-resolu:disabled{opacity:.4;cursor:not-allowed;}
+
+/* USER INFO EXTRA */
+.t-user-info{display:flex;gap:8px;padding:10px 17px 0;flex-wrap:wrap;}
+.ui-chip{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:.6rem;color:var(--brown);background:var(--gold-dim);border:1px solid var(--border);border-radius:20px;padding:3px 10px;}
+
+/* LOADER / EMPTY */
+.loader{text-align:center;padding:40px 20px;color:var(--muted);font-size:.8rem;}
+.loader .spin{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{text-align:center;padding:40px 20px;}
+.empty-ico{font-size:2.5rem;margin-bottom:10px;}
+.empty-t{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);}
+.empty-s{font-size:.73rem;color:var(--muted);margin-top:5px;}
+
+/* TOAST */
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
+.toast.err{border-color:rgba(224,90,43,.4);color:var(--ember);}
+
+/* LOADING BTN */
+.ld{display:inline-block;width:11px;height:11px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="silla-admin.html">←</a>
+  <div class="tb-title">🎧 Support</div>
+  <div class="tb-count" id="badge-new"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<div class="scroll">
+
+  <!-- FILTRES -->
+  <div class="filters">
+    <button class="flt on" onclick="setFilter('tous',this)">📋 Tous</button>
+    <button class="flt"    onclick="setFilter('nouveau',this)">🔴 Nouveau</button>
+    <button class="flt"    onclick="setFilter('en_cours',this)">🟡 En cours</button>
+    <button class="flt"    onclick="setFilter('resolu',this)">✅ Résolu</button>
+  </div>
+
+  <div class="lbl" id="section-lbl">Messages reçus</div>
+
+  <!-- LISTE TICKETS -->
+  <div id="ticket-list">
+    <div class="loader">
+      <div class="spin"></div><br>Chargement des messages…
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
+
+let allTickets = [];
+let currentFilter = 'tous';
+let adminId = null;
+
+/* ── TOAST ── */
+let _tt;
+function toast(m, t='') {
+  const el = document.getElementById('toast');
+  el.textContent = m;
+  el.className = 'toast show' + (t ? ' '+t : '');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => el.className = 'toast', 4000);
+}
+
+/* ── FILTRE ── */
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.flt').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+/* ── DATE FORMAT ── */
+const dt = d => {
+  if (!d) return '—';
+  const date = new Date(d);
+  const now = new Date();
+  const diff = now - date;
+  if (diff < 60000) return 'à l\'instant';
+  if (diff < 3600000) return Math.floor(diff/60000) + ' min';
+  if (diff < 86400000) return Math.floor(diff/3600000) + 'h';
+  return date.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+};
+
+/* ── INITIALES ── */
+const initiales = nom => {
+  if (!nom) return '?';
+  const p = nom.trim().split(' ');
+  return p.length >= 2 ? (p[0][0]+p[1][0]).toUpperCase() : nom.slice(0,2).toUpperCase();
+};
+
+/* ── LABEL STATUT ── */
+const statutLabel = { nouveau:'Nouveau', en_cours:'En cours', resolu:'Résolu' };
+
+/* ── TOGGLE TICKET ── */
+function toggleTicket(id) {
+  const el = document.getElementById('ticket-'+id);
+  const wasOpen = el.classList.contains('open');
+  // Fermer tous
+  document.querySelectorAll('.ticket.open').forEach(t => t.classList.remove('open'));
+  if (!wasOpen) {
+    el.classList.add('open');
+    // Marquer en_cours si nouveau
+    const ticket = allTickets.find(t => t.id === id);
+    if (ticket && ticket.statut === 'nouveau') {
+      marquerEnCours(id);
+    }
+  }
+}
+
+/* ── MARQUER EN COURS ── */
+async function marquerEnCours(id) {
+  await sb.from('messages_support').update({ statut: 'en_cours' }).eq('id', id);
+  const t = allTickets.find(x => x.id === id);
+  if (t) { t.statut = 'en_cours'; updateBadgeEl(id); }
+  updateNewCount();
+}
+
+/* ── ENVOYER RÉPONSE ── */
+async function envoyerReponse(id) {
+  const inp = document.getElementById('rep-'+id);
+  const rep = inp?.value.trim();
+  if (!rep) { toast('⚠️ Écrivez votre réponse', 'err'); return; }
+
+  const btnRep = document.getElementById('btn-rep-'+id);
+  const btnRes = document.getElementById('btn-res-'+id);
+  btnRep.disabled = true;
+  btnRes.disabled = true;
+  btnRep.innerHTML = '<span class="ld"></span> Envoi…';
+
+  const { error } = await sb.from('messages_support').update({
+    reponse:       rep,
+    reponse_at:    new Date().toISOString(),
+    statut:        'resolu'
+  }).eq('id', id);
+
+  if (error) {
+    toast('❌ Erreur : ' + error.message, 'err');
+    btnRep.disabled = false;
+    btnRes.disabled = false;
+    btnRep.innerHTML = '📨 Répondre';
+    return;
+  }
+
+  // Notifier l'utilisateur
+  const ticket = allTickets.find(t => t.id === id);
+  if (ticket?.user_id) {
+    await sb.from('notifications').insert({
+      user_id: ticket.user_id,
+      titre:   '💬 Réponse du support',
+      message: `Votre ticket "${ticket.sujet}" a reçu une réponse. Consultez l'espace support.`,
+      type:    'info'
+    }).then(()=>{}).catch(()=>{});
+  }
+
+  toast('✅ Réponse envoyée et ticket résolu !', 'ok');
+  await charger();
+}
+
+/* ── MARQUER RÉSOLU SANS RÉPONSE ── */
+async function marquerResolu(id) {
+  const btnRep = document.getElementById('btn-rep-'+id);
+  const btnRes = document.getElementById('btn-res-'+id);
+  btnRes.disabled = true;
+  btnRes.textContent = '…';
+
+  const { error } = await sb.from('messages_support').update({
+    statut: 'resolu',
+    reponse_at: new Date().toISOString()
+  }).eq('id', id);
+
+  if (error) {
+    toast('❌ Erreur', 'err');
+    btnRes.disabled = false;
+    btnRes.textContent = '✅ Résolu';
+    return;
+  }
+  toast('✅ Ticket marqué résolu', 'ok');
+  await charger();
+}
+
+/* ── MISE À JOUR BADGE DANS DOM ── */
+function updateBadgeEl(id) {
+  const t = allTickets.find(x => x.id === id);
+  if (!t) return;
+  const el = document.getElementById('badge-'+id);
+  if (el) {
+    el.className = 'badge ' + (t.statut||'nouveau');
+    el.textContent = statutLabel[t.statut]||t.statut;
+  }
+}
+
+/* ── COMPTER NOUVEAUX ── */
+function updateNewCount() {
+  const n = allTickets.filter(t => t.statut === 'nouveau').length;
+  const el = document.getElementById('badge-new');
+  if (n > 0) {
+    el.textContent = n + ' nouveau' + (n>1?'x':'');
+    el.className = 'tb-count show';
+  } else {
+    el.className = 'tb-count';
+  }
+}
+
+/* ── RENDER ── */
+function render() {
+  const list = document.getElementById('ticket-list');
+  let data = allTickets;
+
+  if (currentFilter !== 'tous') {
+    data = data.filter(t => t.statut === currentFilter);
+  }
+
+  // Mettre à jour label section
+  const lbl = document.getElementById('section-lbl');
+  const counts = { tous: allTickets.length, nouveau: allTickets.filter(t=>t.statut==='nouveau').length, en_cours: allTickets.filter(t=>t.statut==='en_cours').length, resolu: allTickets.filter(t=>t.statut==='resolu').length };
+  lbl.textContent = `${data.length} message${data.length!==1?'s':''} ${currentFilter==='tous'?'au total':currentFilter==='nouveau'?'nouveau'+(data.length!==1?'x':''):''}`;
+
+  if (!data.length) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-ico">${currentFilter==='resolu'?'🎉':'📭'}</div>
+        <div class="empty-t">${currentFilter==='resolu'?'Tous traités !':'Aucun message'}</div>
+        <div class="empty-s">${currentFilter==='nouveau'?'Pas de nouveaux messages.':'Aucun message dans cette catégorie.'}</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = data.map(t => {
+    const nom = t.utilisateurs?.nom || t.utilisateurs?.email?.split('@')[0] || 'Utilisateur';
+    const email = t.utilisateurs?.email || '';
+    const tel = t.utilisateurs?.telephone || '';
+    const hasReponse = t.reponse && t.reponse.trim();
+
+    return `
+    <div class="ticket ${t.statut||'nouveau'}" id="ticket-${t.id}">
+      <div class="t-head" onclick="toggleTicket('${t.id}')">
+        <div class="t-avatar">${initiales(nom)}</div>
+        <div class="t-meta">
+          <div class="t-user">${nom}</div>
+          <div class="t-sujet">${t.sujet||'Sans sujet'}</div>
+          <div class="t-date">${dt(t.created_at)}</div>
+        </div>
+        <div class="t-right">
+          <span class="badge ${t.statut||'nouveau'}" id="badge-${t.id}">${statutLabel[t.statut]||'Nouveau'}</span>
+          <span class="t-chevron">▾</span>
+        </div>
+      </div>
+
+      <div class="t-body">
+        <!-- Infos utilisateur -->
+        <div class="t-user-info">
+          ${email ? `<div class="ui-chip">✉️ ${email}</div>` : ''}
+          ${tel   ? `<div class="ui-chip">📞 ${tel}</div>` : ''}
+        </div>
+
+        <!-- Message utilisateur -->
+        <div class="t-msg" style="${email||tel?'margin-top:10px':''}">
+          <div class="t-msg-label">Message</div>
+          ${t.message||'—'}
+        </div>
+
+        ${hasReponse ? `
+        <!-- Réponse existante -->
+        <div class="t-reponse">
+          <div class="t-rep-label">Réponse envoyée</div>
+          <div class="t-rep-text">${t.reponse}</div>
+          <div class="t-rep-date">${dt(t.reponse_at)}</div>
+        </div>` : ''}
+
+        <!-- Formulaire réponse -->
+        <div class="t-form">
+          ${!hasReponse ? `
+          <textarea class="rep-inp" id="rep-${t.id}" placeholder="Votre réponse au client…"></textarea>
+          ` : `
+          <textarea class="rep-inp" id="rep-${t.id}" placeholder="Modifier la réponse…"></textarea>
+          `}
+          <div class="t-actions">
+            <button class="btn-rep" id="btn-rep-${t.id}" onclick="envoyerReponse('${t.id}')">
+              📨 ${hasReponse ? 'Modifier' : 'Répondre'}
+            </button>
+            ${t.statut !== 'resolu' ? `
+            <button class="btn-resolu" id="btn-res-${t.id}" onclick="marquerResolu('${t.id}')">
+              ✅ Résolu
+            </button>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── CHARGER ── */
+async function charger() {
+  const { data, error } = await sb
+    .from('messages_support')
+    .select('*, utilisateurs(nom, email, telephone)')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    document.getElementById('ticket-list').innerHTML = `
+      <div class="empty">
+        <div class="empty-ico">⚠️</div>
+        <div class="empty-t">Erreur de chargement</div>
+        <div class="empty-s">${error.message}</div>
+      </div>`;
+    return;
+  }
+
+  allTickets = data || [];
+  updateNewCount();
+  render();
+}
+
+/* ── INIT ── */
+async function init() {
+  const { data } = await sb.auth.getSession();
+  if (!data?.session) { window.location.href = 'silla-login.html'; return; }
+  adminId = data.session.user.id;
+  await charger();
+
+  // Realtime : nouveaux messages en live
+  sb.channel('support-live')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'messages_support' }, () => {
+      charger();
+    })
+    .subscribe();
+}
+
+init();
+</script>
+</body>
+</html>
