@@ -247,8 +247,7 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
 
   <!-- ══ RECHARGES ══ -->
   <div class="section" id="sec-recharges">
-    <!-- DEBUG PANEL -->
-    <div id="debug-panel" style="display:none;background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:12px;margin-bottom:10px;font-family:monospace;font-size:.68rem;color:#0f0;max-height:150px;overflow-y:auto;white-space:pre-wrap" id="debug-out"></div>
+
     <div class="alert alert-warn">⚠️ Vérifiez les transactions Mobile Money / Crypto avant de valider.</div>
     <div class="card" style="margin-bottom:.8rem">
       <div class="card-head"><div class="card-title">🔍 Filtrer</div></div>
@@ -517,6 +516,9 @@ async function init() {
   }
 
   await loadDash();
+  // Pré-charger recharges et retraits au démarrage
+  loadRecharges();
+  loadRetraits();
 }
 
 // ── NAVIGATION ──
@@ -529,8 +531,8 @@ function goSection(id) {
   // Lazy load
   if (id === 'users')     loadUsers();
   if (id === 'invests')   loadInvests();
-  if (id === 'recharges') loadRecharges();
-  if (id === 'retraits')  loadRetraits();
+  if (id === 'recharges') { loadRecharges(); }
+  if (id === 'retraits')  { loadRetraits(); }
   if (id === 'messages')  loadMsgRecipients();
   if (id === 'parrain')   loadParrain();
   if (id === 'debug')     { /* rien à charger */ }
