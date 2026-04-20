@@ -617,27 +617,42 @@ async function loadRecharges() {
   const el = document.getElementById('recharges-list');
   el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
   const statut = document.getElementById('filter-rech-statut').value;
-  let q = sb.from('recharges').select('*,user:user_id(nom,email)').order('created_at',{ascending:false}).limit(50);
+  // Ne pas utiliser le join FK — charger séparément
+  let q = sb.from('recharges').select('*').order('created_at',{ascending:false}).limit(80);
   if(statut) q = q.eq('statut',statut);
-  const { data } = await q;
+  const { data, error } = await q;
+  if(error) console.error('loadRecharges error:', error);
   if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💳</div>Aucune recharge</div>'; return; }
-  el.innerHTML = data.map(r=>`
-    <div class="tx-item" style="cursor:pointer" onclick="openRechargeModal('${r.id}')">
-      <div class="tx-ico" style="background:rgba(0,194,113,.1)">${r.operateur?.includes('crypto')?'₿':'📱'}</div>
+  // Charger les utilisateurs en parallèle
+  const userIds=[...new Set(data.map(r=>r.user_id).filter(Boolean))];
+  const{data:users}=await sb.from('utilisateurs').select('id,nom,email').in('id',userIds);
+  const uMap=Object.fromEntries((users||[]).map(u=>[u.id,u]));
+  const ico={
+    'Orange Money':'🍊','MTN MoMo':'📱','Wave':'🌊','Moov Money':'💙',
+    'Crypto BTC':'₿','Crypto USDT BSC':'💎','Crypto SOL':'◎'
+  };
+  el.innerHTML = data.map(r=>{
+    const u=uMap[r.user_id]||{};
+    const icone=ico[r.operateur]||(r.type==='crypto'?'₿':'📱');
+    const bg=r.statut==='en_attente'?'rgba(245,183,49,.08)':r.statut==='valide'?'rgba(0,194,113,.06)':'rgba(232,48,48,.06)';
+    return `<div class="tx-item" style="cursor:pointer;background:${bg}" onclick="openRechargeModal('${r.id}')">
+      <div class="tx-ico" style="background:rgba(245,183,49,.12);font-size:1.2rem">${icone}</div>
       <div class="tx-info">
-        <div class="tx-title">${r.user?.nom||r.user?.email||'—'}</div>
-        <div class="tx-sub">${r.operateur||'—'} · Réf: ${r.ref_paiement||'—'}</div>
+        <div class="tx-title">${u.nom||u.email||r.user_id?.slice(0,8)||'—'}</div>
+        <div class="tx-sub">${r.operateur||'—'} · Réf: ${r.ref_paiement||r.num_expediteur||'—'}</div>
       </div>
       <div class="tx-right">
         <div class="tx-amt" style="color:var(--gold)">${fmt(r.montant)} F</div>
         <div class="tx-date">${fdate(r.created_at)}</div>
         <div class="tx-status ${r.statut==='valide'?'s-valide':r.statut==='rejete'?'s-rejete':'s-pending'}">${r.statut}</div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 async function openRechargeModal(id) {
-  const { data: r } = await sb.from('recharges').select('*,user:user_id(nom,email,solde)').eq('id',id).single();
+  const { data: r } = await sb.from('recharges').select('*').eq('id',id).maybeSingle();
+  if(r?.user_id){const{data:u}=await sb.from('utilisateurs').select('nom,email,solde').eq('id',r.user_id).maybeSingle();if(u)r.user=u;}
   if(!r) return;
   document.getElementById('rech-modal-title').textContent = '💳 Recharge — '+fmt(r.montant)+' F';
   document.getElementById('rech-modal-body').innerHTML = `
@@ -675,10 +690,15 @@ async function loadRetraits() {
   const el = document.getElementById('retraits-list');
   el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
   const statut = document.getElementById('filter-ret-statut').value;
-  let q = sb.from('retraits').select('*,user:user_id(nom,email)').order('created_at',{ascending:false}).limit(50);
+  let q = sb.from('retraits').select('*').order('created_at',{ascending:false}).limit(80);
   if(statut) q = q.eq('statut',statut);
   const { data } = await q;
   if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💸</div>Aucun retrait</div>'; return; }
+  // Enrichir avec infos utilisateurs
+  const uIds2=[...new Set(data.map(r=>r.user_id).filter(Boolean))];
+  const{data:users2}=await sb.from('utilisateurs').select('id,nom,email').in('id',uIds2);
+  const uMap2=Object.fromEntries((users2||[]).map(u=>[u.id,u]));
+  data.forEach(r=>{if(r.user_id&&uMap2[r.user_id])r.user=uMap2[r.user_id];});
   el.innerHTML = data.map(r=>`
     <div class="tx-item" style="cursor:pointer" onclick="openRetraitModal('${r.id}')">
       <div class="tx-ico" style="background:rgba(255,107,26,.1)">💸</div>
@@ -695,7 +715,8 @@ async function loadRetraits() {
 }
 
 async function openRetraitModal(id) {
-  const { data: r } = await sb.from('retraits').select('*,user:user_id(nom,email,solde)').eq('id',id).single();
+  const { data: r } = await sb.from('retraits').select('*').eq('id',id).maybeSingle();
+  if(r?.user_id){const{data:u}=await sb.from('utilisateurs').select('nom,email,solde').eq('id',r.user_id).maybeSingle();if(u)r.user=u;}
   if(!r) return;
   document.getElementById('ret-modal-title').textContent = '💸 Retrait — '+fmt(r.montant)+' F';
   document.getElementById('ret-modal-body').innerHTML = `
