@@ -708,6 +708,7 @@ async function loadRetraits() {
       </div>
       <div class="tx-right">
         <div class="tx-amt" style="color:var(--orange)">-${fmt(r.montant)} F</div>
+        <div style="font-size:.58rem;color:var(--green);margin-top:1px">Net: ${fmt(r.montant_net||Math.round(r.montant*.9))} F</div>
         <div class="tx-date">${fdate(r.created_at)}</div>
         <div class="tx-status ${r.statut==='valide'?'s-valide':r.statut==='rejete'?'s-rejete':'s-pending'}">${r.statut}</div>
       </div>
@@ -722,11 +723,13 @@ async function openRetraitModal(id) {
   document.getElementById('ret-modal-body').innerHTML = `
     <div style="background:var(--card2);border-radius:12px;padding:.9rem;border:1px solid var(--border2);margin-bottom:.6rem">
       <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Utilisateur</span><span style="font-weight:700">${r.user?.nom||'—'}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Montant</span><span style="font-weight:700;color:var(--orange)">${fmt(r.montant)} F</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Montant brut</span><span style="font-weight:700;color:var(--orange)">${fmt(r.montant)} F</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Frais 10%</span><span style="font-weight:700;color:var(--red)">-${fmt(r.frais||Math.round((r.montant||0)*.1))} F</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Montant NET à envoyer</span><span style="font-weight:900;color:var(--green)">${fmt(r.montant_net||Math.round((r.montant||0)*.9))} F</span></div>
       <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.4rem"><span style="color:var(--muted)">Méthode</span><span style="font-weight:700">${r.methode||'—'}</span></div>
       <div style="display:flex;justify-content:space-between;font-size:.78rem"><span style="color:var(--muted)">Numéro</span><span style="font-weight:700">${r.numero_compte||'—'}</span></div>
     </div>
-    ${r.statut==='en_attente'?`<div class="alert alert-info">ℹ️ Envoyez <strong>${fmt(r.montant)} F</strong> sur le <strong>${r.methode}</strong> <strong>${r.numero_compte}</strong> puis confirmez.</div>`:''}`;
+    ${r.statut==='en_attente'?`<div class="alert alert-info">ℹ️ Envoyez <strong>${fmt(r.montant_net||Math.round(r.montant*.9))} F</strong> (net apres frais 10%) sur <strong>${r.methode}</strong> au <strong>${r.numero_compte}</strong> — ${r.nom_titulaire||''}. Puis cliquez Envoye.</div>`:''}`;
   document.getElementById('ret-modal-btns').innerHTML = r.statut === 'en_attente' ? `
     <button class="btn btn-red btn-full" onclick="traiterRetrait('${id}','rejete','${r.user_id}',${r.montant})">❌ Annuler</button>
     <button class="btn btn-green btn-full" onclick="traiterRetrait('${id}','valide','${r.user_id}',${r.montant})">✅ Envoyé</button>
