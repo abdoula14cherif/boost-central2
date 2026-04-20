@@ -466,22 +466,27 @@ function goSection(id) {
 
 // ── DASHBOARD ──
 async function loadDash() {
-  const [r1,r2,r3,r4,r5,r6] = await Promise.all([
-    sb.from('utilisateurs').select('*',{count:'exact',head:true}),
-    sb.from('utilisateurs').select('solde'),
-    sb.from('investissements').select('*',{count:'exact',head:true}),
-    sb.from('recharges').select('*',{count:'exact',head:true}),
-    sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente'),
-    sb.from('parrainage_gains').select('montant'),
-  ]);
-  const totalSoldes = (r2.data||[]).reduce((s,u)=>s+(u.solde||0),0);
-  const totalParrain = (r6.data||[]).reduce((s,p)=>s+(p.montant||0),0);
-  document.getElementById('st-users').textContent    = r1.count||0;
-  document.getElementById('st-soldes').textContent   = fmtK(totalSoldes)+'F';
-  document.getElementById('st-invests').textContent  = r3.count||0;
-  document.getElementById('st-recharges').textContent= r4.count||0;
-  document.getElementById('st-pending').textContent  = r5.count||0;
-  document.getElementById('st-parrain').textContent  = fmtK(totalParrain)+'F';
+  try {
+    // Chaque requête separement pour eviter qu une erreur bloque tout
+    const r1 = await sb.from('utilisateurs').select('*',{count:'exact',head:true});
+    const r2 = await sb.from('utilisateurs').select('solde');
+    const r3 = await sb.from('investissements').select('*',{count:'exact',head:true});
+    const r4 = await sb.from('recharges').select('*',{count:'exact',head:true});
+    const r5 = await sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente');
+    // Remplacer parrainage_gains par transactions type parrainage_gain
+    const r6 = await sb.from('transactions').select('montant').eq('type','parrainage_gain');
+
+    const totalSoldes  = (r2.data||[]).reduce((s,u)=>s+(u.solde||0),0);
+    const totalParrain = (r6.data||[]).reduce((s,p)=>s+(p.montant||0),0);
+    document.getElementById('st-users').textContent     = r1.count||0;
+    document.getElementById('st-soldes').textContent    = fmtK(totalSoldes)+'F';
+    document.getElementById('st-invests').textContent   = r3.count||0;
+    document.getElementById('st-recharges').textContent = r4.count||0;
+    document.getElementById('st-pending').textContent   = r5.count||0;
+    document.getElementById('st-parrain').textContent   = fmtK(totalParrain)+'F';
+  } catch(e) {
+    console.error('loadDash error:', e);
+  }
 }
 
 // ── USERS ──
@@ -615,13 +620,16 @@ const var_gold = 'rgba(245,183,49,.1)';
 // ── RECHARGES ──
 async function loadRecharges() {
   const el = document.getElementById('recharges-list');
-  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement...</div>';
   const statut = document.getElementById('filter-rech-statut').value;
-  // Ne pas utiliser le join FK — charger séparément
-  let q = sb.from('recharges').select('*').order('created_at',{ascending:false}).limit(80);
+  let q = sb.from('recharges').select('*').order('created_at',{ascending:false}).limit(100);
   if(statut) q = q.eq('statut',statut);
   const { data, error } = await q;
-  if(error) console.error('loadRecharges error:', error);
+  if(error) {
+    console.error('loadRecharges error:', error);
+    el.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div>Erreur: '+error.message+'</div>';
+    return;
+  }
   if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💳</div>Aucune recharge</div>'; return; }
   // Charger les utilisateurs en parallèle
   const userIds=[...new Set(data.map(r=>r.user_id).filter(Boolean))];
@@ -688,11 +696,16 @@ async function traiterRecharge(id, statut, userId, montant) {
 // ── RETRAITS ──
 async function loadRetraits() {
   const el = document.getElementById('retraits-list');
-  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement...</div>';
   const statut = document.getElementById('filter-ret-statut').value;
-  let q = sb.from('retraits').select('*').order('created_at',{ascending:false}).limit(80);
+  let q = sb.from('retraits').select('*').order('created_at',{ascending:false}).limit(100);
   if(statut) q = q.eq('statut',statut);
-  const { data } = await q;
+  const { data, error } = await q;
+  if(error) {
+    console.error('loadRetraits error:', error);
+    el.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div>Erreur: '+error.message+'</div>';
+    return;
+  }
   if(!data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">💸</div>Aucun retrait</div>'; return; }
   // Enrichir avec infos utilisateurs
   const uIds2=[...new Set(data.map(r=>r.user_id).filter(Boolean))];
@@ -824,38 +837,79 @@ async function envoyerMessage() {
 // ── PARRAINAGE ──
 async function loadParrain() {
   const el = document.getElementById('parrain-list');
-  el.innerHTML='<div class="loader"><div class="spin"></div> Chargement…</div>';
-  const [r1,r2] = await Promise.all([
-    sb.from('parrainage_gains').select('montant'),
-    sb.from('parrainage_gains').select('*,benef:beneficiaire_id(nom),src:source_id(nom)').order('created_at',{ascending:false}).limit(30)
-  ]);
-  const total = (r1.data||[]).reduce((s,p)=>s+(p.montant||0),0);
-  document.getElementById('pg-total').textContent = fmtK(total)+'F';
-  document.getElementById('pg-count').textContent = r1.data?.length||0;
+  el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement...</div>';
+  try {
+    // Gains depuis transactions (type parrainage_gain)
+    const { data: gains } = await sb.from('transactions')
+      .select('*')
+      .eq('type','parrainage_gain')
+      .order('created_at',{ascending:false})
+      .limit(50);
 
-  if(!r2.data?.length){ el.innerHTML='<div class="empty"><div class="empty-ico">👑</div>Aucune commission parrainage</div>'; return; }
-  el.innerHTML = r2.data.map(p=>`
-    <div class="tx-item">
-      <div class="tx-ico" style="background:rgba(245,183,49,.1)">💰</div>
-      <div class="tx-info">
-        <div class="tx-title">${p.benef?.nom||'—'} ← ${p.src?.nom||'—'}</div>
-        <div class="tx-sub">${fdate(p.created_at)}</div>
+    const totalGains = (gains||[]).reduce((s,g)=>s+(g.montant||0),0);
+
+    // Enrichir avec infos users
+    const userIds = [...new Set((gains||[]).map(g=>g.user_id).filter(Boolean))];
+    let uMap = {};
+    if(userIds.length > 0) {
+      const {data:users} = await sb.from('utilisateurs').select('id,nom,email').in('id',userIds);
+      uMap = Object.fromEntries((users||[]).map(u=>[u.id,u]));
+    }
+
+    // Stats parrainage
+    const { data: filleuls } = await sb.from('utilisateurs')
+      .select('id,nom,email,created_at,parrain_id')
+      .not('parrain_id','is',null)
+      .order('created_at',{ascending:false})
+      .limit(100);
+
+    const totalFilleuls = filleuls?.length || 0;
+
+    if(!gains?.length && !filleuls?.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-ico">👑</div>Aucune activite de parrainage</div>';
+      return;
+    }
+
+    let html = '';
+
+    // Stats rapides
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem">
+      <div style="background:var(--card2);border-radius:12px;padding:.8rem;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:1.3rem;font-weight:700;color:var(--gold)">${totalFilleuls}</div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Filleuls total</div>
       </div>
-      <div class="tx-right"><div class="tx-amt" style="color:var(--gold)">+${fmt(p.montant)} F</div></div>
-    </div>`).join('');
+      <div style="background:var(--card2);border-radius:12px;padding:.8rem;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:1.3rem;font-weight:700;color:var(--green)">${fmtK(totalGains)}F</div>
+        <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Commissions versees</div>
+      </div>
+    </div>`;
+
+    // Liste des gains
+    if(gains?.length) {
+      html += '<div style="font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem">Historique commissions</div>';
+      html += gains.map(g => {
+        const u = uMap[g.user_id] || {};
+        return `<div class="tx-item">
+          <div class="tx-ico" style="background:rgba(245,183,49,.1)">👑</div>
+          <div class="tx-info">
+            <div class="tx-title">${u.nom||u.email||g.user_id?.slice(0,8)||'—'}</div>
+            <div class="tx-sub">${g.description||'Commission parrainage'}</div>
+          </div>
+          <div class="tx-right">
+            <div class="tx-amt" style="color:var(--green)">+${fmt(g.montant)} F</div>
+            <div class="tx-date">${fdate(g.created_at)}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    el.innerHTML = html;
+  } catch(e) {
+    console.error('loadParrain error:', e);
+    el.innerHTML = '<div class="empty"><div class="empty-ico">⚠️</div>Erreur chargement</div>';
+  }
 }
 
-// ── MODALS ──
-function openModal(id){ document.getElementById('modal-'+id)?.classList.add('open'); }
-function closeModal(id){ document.getElementById('modal-'+id)?.classList.remove('open'); }
-
-// ── TOAST ──
-function showToast(msg,type='info'){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.className='show '+(type||'');
-  clearTimeout(showToast._t);
-  showToast._t=setTimeout(()=>el.className='',4500);
-}
 
 async function logout(){
   await sb.auth.signOut();
