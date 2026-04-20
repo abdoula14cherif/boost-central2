@@ -190,6 +190,7 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
     <div class="menu-btn" id="mb-retraits" onclick="goSection('retraits')"><div class="mb-ico">💸</div><div class="mb-lbl">Retraits</div></div>
     <div class="menu-btn" id="mb-messages" onclick="goSection('messages')"><div class="mb-ico">📣</div><div class="mb-lbl">Messages</div></div>
     <div class="menu-btn" id="mb-parrain" onclick="goSection('parrain')"><div class="mb-ico">👑</div><div class="mb-lbl">Parrainage</div></div>
+    <div class="menu-btn" id="mb-debug" onclick="goSection('debug')"><div class="mb-ico">🔧</div><div class="mb-lbl">Debug</div></div>
   </div>
 </div>
 
@@ -246,10 +247,13 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
 
   <!-- ══ RECHARGES ══ -->
   <div class="section" id="sec-recharges">
+    <!-- DEBUG PANEL -->
+    <div id="debug-panel" style="display:none;background:#0a0a0a;border:1px solid #333;border-radius:10px;padding:12px;margin-bottom:10px;font-family:monospace;font-size:.68rem;color:#0f0;max-height:150px;overflow-y:auto;white-space:pre-wrap" id="debug-out"></div>
     <div class="alert alert-warn">⚠️ Vérifiez les transactions Mobile Money / Crypto avant de valider.</div>
     <div class="card" style="margin-bottom:.8rem">
       <div class="card-head"><div class="card-title">🔍 Filtrer</div></div>
       <div class="card-body" style="display:flex;gap:.5rem">
+        <button onclick="debugRecharges()" style="background:rgba(255,165,0,.15);border:1px solid rgba(255,165,0,.3);color:orange;font-size:.65rem;padding:.5rem .8rem;border-radius:8px;cursor:pointer;white-space:nowrap">🔍 Debug</button>
         <select class="inp" id="filter-rech-statut" onchange="loadRecharges()" style="flex:1;padding:.6rem .8rem">
           <option value="en_attente">En attente ⏳</option>
           <option value="valide">Validées ✅</option>
@@ -425,6 +429,57 @@ const TEMPLATES = [
   {titre:'🎁 Bonus spécial pour vous',   body:'Profitez d\'un bonus exceptionnel réservé aux membres actifs ! Connectez-vous pour en savoir plus.'},
 ];
 
+
+
+function copierSQL() {
+  const sql = document.getElementById('sql-copy').textContent;
+  navigator.clipboard.writeText(sql).then(()=>{
+    showToast('✅ SQL copié ! Colle-le dans Supabase SQL Editor','success');
+  }).catch(()=>showToast('Sélectionne et copie manuellement','warning'));
+}
+
+
+// ── DIAGNOSTIC ──
+async function runDiag() {
+  const out = document.getElementById('diag-out');
+  out.style.display = 'block';
+  out.textContent = '';
+  const L = (msg) => { out.textContent += msg + String.fromCharCode(10); };
+  L('🔍 Diagnostic Supabase...');
+  L('');
+  const {data:sd} = await sb.auth.getSession();
+  L('1. Session: ' + (sd?.session ? '✅ ' + sd.session.user.email : '❌ PAS DE SESSION'));
+  if(!sd?.session){L('→ Connecte-toi dabord');return;}
+  const {data:p,error:pe} = await sb.from('utilisateurs').select('id,nom,is_admin').eq('id',sd.session.user.id).maybeSingle();
+  L('2. Profil: ' + (pe ? '❌ '+pe.message : (p?'✅ '+p.nom+' — admin='+p.is_admin:'❌ INTROUVABLE')));
+  const {data:r1,error:e1} = await sb.from('recharges').select('id,statut,montant').limit(10);
+  L('3. recharges: ' + (e1 ? '❌ RLS BLOQUE: '+e1.message : '✅ '+( r1?.length||0)+' lignes'));
+  if(r1?.length) L('   Ex: statut=' + r1[0].statut + ' montant=' + r1[0].montant);
+  const {data:r2,error:e2} = await sb.from('recharges').select('id').eq('statut','en_attente');
+  L('4. en_attente: ' + (e2 ? '❌ '+e2.message : '✅ '+( r2?.length||0)+' demandes'));
+  const {data:r3,error:e3} = await sb.from('retraits').select('id,statut').limit(5);
+  L('5. retraits: ' + (e3 ? '❌ RLS BLOQUE: '+e3.message : '✅ '+( r3?.length||0)+' lignes'));
+  const {data:r4,error:e4} = await sb.from('transactions').select('id').eq('type','parrainage_gain').limit(5);
+  L('6. parrainage: ' + (e4 ? '❌ '+e4.message : '✅ '+( r4?.length||0)+' commissions'));
+  L('');
+  if(e1||e2||e3) {
+    L('⚠️  PROBLEME RLS DETECTE');
+    L('→ Copie et execute le SQL dans Supabase SQL Editor');
+  } else {
+    L('✅ TOUT OK — donnees accessibles');
+    if(!r1?.length) L('→ Aucune recharge soumise en base encore');
+  }
+}
+
+function copierSQL() {
+  var sql = document.getElementById('sql-copy').textContent;
+  navigator.clipboard.writeText(sql).then(function(){
+    showToast('✅ SQL copie !','success');
+  }).catch(function(){
+    showToast('Selectionne et copie manuellement','warning');
+  });
+}
+
 // ── INIT ──
 const ADMIN_EMAIL = 'abdoula13cherif@gmail.com';
 
@@ -462,6 +517,7 @@ function goSection(id) {
   if (id === 'retraits')  loadRetraits();
   if (id === 'messages')  loadMsgRecipients();
   if (id === 'parrain')   loadParrain();
+  if (id === 'debug')     { /* rien à charger */ }
 }
 
 // ── DASHBOARD ──
@@ -618,6 +674,8 @@ async function loadInvests() {
 const var_gold = 'rgba(245,183,49,.1)';
 
 // ── RECHARGES ──
+
+
 async function loadRecharges() {
   const el = document.getElementById('recharges-list');
   el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement...</div>';
