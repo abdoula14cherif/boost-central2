@@ -191,13 +191,14 @@ function renderPage(){
         <div class="sh-cur">FRANCS CFA</div>
         <div class="sh-grid">
           <div class="shg"><div class="shg-val">1 000 F</div><div class="shg-lbl">Minimum</div></div>
-          <div class="shg"><div class="shg-val">1/jour</div><div class="shg-lbl">Limite</div></div>
+          <div class="shg"><div class="shg-val">10%</div><div class="shg-lbl">Frais retrait</div></div>
           <div class="shg"><div class="shg-val">8h-18h</div><div class="shg-lbl">Horaires</div></div>
         </div>
       </div>
 
       <div class="rules">
         <div class="rule"><div class="rd"></div>Minimum de retrait : <strong>1 000 FCFA</strong></div>
+        <div class="rule"><div class="rd"></div>Frais de traitement : <strong>10% du montant retiré</strong></div>
         <div class="rule"><div class="rd"></div>Un seul retrait autorisé par jour</div>
         <div class="rule"><div class="rd"></div>Retraits actifs uniquement de <strong>8h00 à 18h00</strong></div>
         <div class="rule"><div class="rd"></div>Solde bonus de bienvenue non retirable sans investissement préalable</div>
@@ -205,8 +206,13 @@ function renderPage(){
 
       <div class="card" id="form-card">
         <div class="cb">
-          <div class="lbl">Montant (FCFA)</div>
-          <input class="inp" id="f-montant" type="number" placeholder="Minimum 1 000 FCFA" inputmode="numeric"/>
+          <div class="lbl">Montant à retirer (FCFA)</div>
+          <input class="inp" id="f-montant" type="number" placeholder="Minimum 1 000 FCFA" inputmode="numeric" oninput="calcFrais()"/>
+          <div id="frais-simu" style="display:none;background:rgba(184,134,11,.06);border:1px solid var(--border);border-radius:8px;padding:10px 13px;margin-bottom:14px;font-size:.75rem;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:var(--muted)">Montant demande</span><span style="font-weight:700" id="simu-brut">—</span></div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:var(--ember)">Frais 10%</span><span style="font-weight:700;color:var(--ember)" id="simu-frais">—</span></div>
+            <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:6px;margin-top:2px"><span style="color:var(--ink);font-weight:700">Vous recevez</span><span style="font-weight:900;color:var(--green);font-family:'Cormorant Garamond',serif;font-size:.95rem" id="simu-net">—</span></div>
+          </div>
 
           <div class="lbl">Méthode de paiement</div>
           <select class="inp" id="f-methode">
@@ -243,62 +249,88 @@ function historiqueHTML(){
   </div>`;
 }
 
+function calcFrais(){
+  const v = parseFloat(document.getElementById('f-montant')?.value)||0;
+  const simu = document.getElementById('frais-simu');
+  if(v < 100){ if(simu) simu.style.display='none'; return; }
+  const frais = Math.round(v * 0.10);
+  const net   = v - frais;
+  document.getElementById('frais-brut').textContent    = fmt(v)  + ' F';
+  document.getElementById('frais-montant').textContent = '-' + fmt(frais) + ' F';
+  document.getElementById('frais-net').textContent     = fmt(net) + ' F';
+  if(simu) simu.style.display = 'block';
+}
+
 async function demanderRetrait(){
-  if(!aInvesti){ toast('⚠️ Investissez d\'abord pour activer les retraits','err'); return; }
-  if(!isRetraitOuvert()){ toast('🔒 Retraits fermés — disponibles 8h00 à 18h00','err'); return; }
+  if(!aInvesti){ toast('Investissez dabord pour les retraits','err'); return; }
+  if(!isRetraitOuvert()){ toast('Retraits fermes - 8h00 a 18h00','err'); return; }
 
-  const montant  = parseFloat(document.getElementById('f-montant')?.value)||0;
-  const methode  = document.getElementById('f-methode')?.value;
-  const numero   = document.getElementById('f-numero')?.value.trim();
-  const titulaire= document.getElementById('f-titulaire')?.value.trim();
+  const montant   = parseFloat(document.getElementById('f-montant')?.value)||0;
+  const methode   = document.getElementById('f-methode')?.value;
+  const numero    = document.getElementById('f-numero')?.value.trim();
+  const titulaire = document.getElementById('f-titulaire')?.value.trim();
 
-  if(montant < 1000){ toast('⚠️ Minimum 1 000 FCFA','err'); return; }
-  if(!methode){ toast('⚠️ Choisissez une méthode','err'); return; }
-  if(!numero || numero.replace(/\D/g,'').length < 8){ toast('⚠️ Numéro invalide','err'); return; }
-  if(!titulaire){ toast('⚠️ Entrez le nom du titulaire','err'); return; }
-  if(montant > (P?.solde||0)){ toast('⚠️ Solde insuffisant','err'); return; }
+  if(montant < 1000){ toast('Minimum 1 000 FCFA','err'); return; }
+  if(!methode){ toast('Choisissez une methode','err'); return; }
+  if(!numero || numero.replace(/[^0-9]/g,'').length < 8){ toast('Numero invalide','err'); return; }
+  if(!titulaire){ toast('Entrez le nom du titulaire','err'); return; }
+  if(montant > (P?.solde||0)){ toast('Solde insuffisant','err'); return; }
 
-  // Vérifier 1 retrait/jour
+  // Frais 10%
+  const frais   = Math.round(montant * 0.10);
+  const netRecu = montant - frais;
+
+  // 1 retrait/jour
   const today = new Date(); today.setHours(0,0,0,0);
   const{data:existing} = await sb.from('retraits').select('id').eq('user_id',U.id)
     .gte('created_at', today.toISOString()).neq('statut','rejete');
-  if(existing?.length > 0){ toast('⚠️ Un seul retrait autorisé par jour','err'); return; }
+  if(existing?.length > 0){ toast('Un seul retrait par jour autorise','err'); return; }
 
   const btn = document.getElementById('btn-ret');
   if(btn){ btn.disabled=true; btn.innerHTML='<div class="ld"></div> Traitement...'; }
 
   try{
     const nvSolde = P.solde - montant;
-    await sb.from('utilisateurs').update({ solde: nvSolde }).eq('id', U.id);
+    await sb.from('utilisateurs').update({solde: nvSolde}).eq('id', U.id);
     await sb.from('retraits').insert({
-      user_id: U.id, montant, methode,
-      numero_compte: numero, nom_titulaire: titulaire,
-      statut: 'en_attente', created_at: new Date().toISOString()
+      user_id:       U.id,
+      montant:       montant,
+      montant_net:   netRecu,
+      frais:         frais,
+      methode:       methode,
+      numero_compte: numero,
+      nom_titulaire: titulaire,
+      statut:        'en_attente',
+      created_at:    new Date().toISOString()
     });
     await sb.from('transactions').insert({
-      user_id: U.id, type: 'retrait', montant,
-      description: `Retrait ${methode} → ${numero}`
+      user_id:     U.id,
+      type:        'retrait',
+      montant:     montant,
+      description: 'Retrait ' + methode + ' - Frais 10%: ' + fmt(frais) + ' F - Net: ' + fmt(netRecu) + ' F'
     });
     await sb.from('notifications').insert({
-      user_id: U.id, titre: '💸 Demande de retrait envoyée',
-      message: `Votre retrait de ${fmt(montant)} F via ${methode} est en traitement.`, type: 'info'
+      user_id: U.id,
+      titre:   'Demande de retrait envoyee',
+      message: 'Retrait ' + fmt(montant) + ' F. Frais 10% = ' + fmt(frais) + ' F. Vous recevrez ' + fmt(netRecu) + ' F via ' + methode + '.',
+      type:    'info'
     });
-
     P.solde = nvSolde;
     document.getElementById('tb-solde').textContent = fmt(nvSolde)+' F';
-    toast('✅ Demande envoyée ! Traitement sous 24h','ok');
+    toast('Vous recevrez ' + fmt(netRecu) + ' F - En cours de traitement','ok');
+    document.getElementById('frais-simu').style.display = 'none';
+    document.getElementById('f-montant').value  = '';
+    document.getElementById('f-numero').value   = '';
+    document.getElementById('f-titulaire').value = '';
+    document.getElementById('f-methode').value   = '';
+    if(btn){ btn.disabled=false; btn.innerHTML='Demander le retrait'; }
     await chargerHistorique();
-    if(btn){ btn.disabled=false; btn.innerHTML='Demander le retrait →'; }
-    document.getElementById('f-montant').value='';
-    document.getElementById('f-numero').value='';
-    document.getElementById('f-titulaire').value='';
-    document.getElementById('f-methode').value='';
-
   }catch(e){
-    if(btn){ btn.disabled=false; btn.innerHTML='Demander le retrait →'; }
-    toast('❌ '+e.message,'err');
+    if(btn){ btn.disabled=false; btn.innerHTML='Demander le retrait'; }
+    toast('Erreur: ' + e.message,'err');
   }
 }
+
 
 async function chargerHistorique(){
   const{data} = await sb.from('retraits').select('*').eq('user_id',U.id).order('created_at',{ascending:false}).limit(8);
@@ -309,11 +341,22 @@ async function chargerHistorique(){
   const sm = {valide:'bv',en_attente:'bw',rejete:'be'};
   const sl = {valide:'✅ Validé',en_attente:'⏳ En attente',rejete:'❌ Rejeté'};
   const ic = {'MTN MoMo':'📱','Orange Money':'🍊','Wave':'🌊','Moov Money':'💙'};
-  el.innerHTML = data.map(r=>`<div class="hi">
-    <div class="hi-ico">${ic[r.methode]||'💸'}</div>
-    <div class="hi-info"><div class="hi-t">${r.methode||'Retrait'}</div><div class="hi-s">${r.numero_compte||''} · ${dt(r.created_at)}</div></div>
-    <div class="hi-right"><div class="hi-a">-${fmt(r.montant)} F</div><span class="hi-b ${sm[r.statut]||'bw'}">${sl[r.statut]||r.statut}</span></div>
-  </div>`).join('');
+  el.innerHTML = data.map(r=>{
+    const net = r.montant_net || Math.round((r.montant||0)*0.9);
+    return `<div class="hi">
+      <div class="hi-ico">${ic[r.methode]||'💸'}</div>
+      <div class="hi-info">
+        <div class="hi-t">${r.methode||'Retrait'}</div>
+        <div class="hi-s">${r.numero_compte||''} · ${dt(r.created_at)}</div>
+        ${r.frais?'<div style="font-size:.58rem;color:var(--ember);margin-top:2px">Frais: -'+fmt(r.frais)+' F</div>':''}
+      </div>
+      <div class="hi-right">
+        <div class="hi-a">-${fmt(r.montant)} F</div>
+        <div style="font-size:.6rem;color:var(--green);font-weight:700">Recu: ${fmt(net)} F</div>
+        <span class="hi-b ${sm[r.statut]||'bw'}">${sl[r.statut]||r.statut}</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 async function init(){
