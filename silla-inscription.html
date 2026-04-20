@@ -460,7 +460,30 @@ function showE(fid,hid,msg){
   document.getElementById(fid).focus();
 }
 
-// Pas de redirection automatique
+// Détecter code parrain depuis URL au chargement de la page
+window.addEventListener('DOMContentLoaded', function(){
+  const params = new URLSearchParams(window.location.search);
+  const ref = (params.get('ref') || params.get('code') || '').trim().toUpperCase();
+  if(ref){
+    // Remplir le champ
+    const inp = document.getElementById('f-parrain');
+    if(inp) inp.value = ref;
+    // Ouvrir automatiquement le bloc parrain
+    parrainOpen = true;
+    const wrap = document.getElementById('parrain-wrap');
+    const arrow = document.getElementById('pt-arrow');
+    const toggle = document.getElementById('pt');
+    if(wrap)  wrap.style.display = 'block';
+    if(arrow) arrow.className = 'pt-arrow open';
+    // Afficher confirmation visuelle
+    if(toggle){
+      toggle.style.borderColor = 'var(--gold-l)';
+      toggle.style.background  = 'rgba(184,134,11,.06)';
+      const sub = toggle.querySelector('.pt-sub');
+      if(sub) sub.textContent = '✅ Code parrain détecté : ' + ref;
+    }
+  }
+});
 </script>
 </body>
 </html>
