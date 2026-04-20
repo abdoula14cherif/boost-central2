@@ -10,20 +10,16 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{background:var(--cream);}
 body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* TOPBAR */
 .topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
 .tb-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--gold);}
 .tb-right{display:flex;align-items:center;gap:10px;}
-.tb-notif{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;position:relative;outline:none;}
-.notif-dot{
-  position:absolute;top:-3px;right:-3px;
-  min-width:17px;height:17px;padding:0 3px;
-  border-radius:9px;background:var(--ember);
-  color:#fff;font-size:.52rem;font-weight:900;
-  border:2px solid var(--cream);
-  display:none;align-items:center;justify-content:center;
-  font-family:'Outfit',sans-serif;line-height:1;
-}
+.tb-notif{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;position:relative;outline:none;-webkit-tap-highlight-color:transparent;}
+.notif-dot{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--ember);color:#fff;font-size:.5rem;font-weight:900;border:2px solid var(--cream);display:none;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;line-height:1;}
 .tb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;cursor:pointer;}
+
+/* SCROLL */
 .scroll{padding:0 0 calc(var(--nav)+40px);}
 
 /* HERO */
@@ -31,7 +27,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.25em;color:rgba(232,192,96,.6);text-transform:uppercase;margin-bottom:8px;}
 .hero-solde{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:#E8C060;line-height:1;margin-bottom:4px;}
 .hero-currency{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:rgba(232,192,96,.5);margin-bottom:20px;}
-/* BOUTONS HERO — boutons vrais pas des <a> */
 .hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .ha{padding:13px 12px;border-radius:10px;text-align:center;cursor:pointer;transition:transform .15s;display:flex;flex-direction:column;align-items:center;gap:6px;border:none;font-family:'Outfit',sans-serif;outline:none;-webkit-tap-highlight-color:transparent;width:100%;}
 .ha.recharge{background:rgba(232,192,96,.18);border:1px solid rgba(232,192,96,.3);}
@@ -47,7 +42,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .qs-val{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--gold);line-height:1;}
 .qs-lbl{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 
-/* SEC TITLE */
+/* SEC */
 .sec{display:flex;align-items:center;gap:10px;padding:18px 16px 10px;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);}
 .sec-line{flex:1;height:1px;background:var(--border);}
@@ -74,20 +69,34 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .pc-status{font-size:.58rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-top:3px;display:inline-block;}
 .s-actif{background:rgba(22,163,74,.1);color:#15803D;}
 .s-dispo{background:rgba(224,90,43,.1);color:var(--ember);}
-
-/* NOTIF */
-.notif-item{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;border-bottom:1px solid rgba(184,134,11,.07);}
-.notif-item:last-child{border-bottom:none;}
-.ni-ico{width:34px;height:34px;border-radius:10px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;margin-top:1px;}
-.ni-info{flex:1;}
-.ni-title{font-size:.78rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px;}
-.ni-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;}
-.ni-sub{font-size:.68rem;color:var(--muted);margin-top:3px;line-height:1.5;}
-.ni-time{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--muted);margin-top:4px;}
 .empty{text-align:center;padding:24px;color:var(--muted);font-size:.78rem;}
 .empty-ico{font-size:1.8rem;opacity:.3;display:block;margin-bottom:8px;}
 
-/* NAV */
+/* PANNEAU NOTIFICATIONS */
+.notif-panel{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:100vh;z-index:200;pointer-events:none;}
+.notif-overlay{position:absolute;inset:0;background:rgba(26,15,0,.4);backdrop-filter:blur(2px);opacity:0;transition:opacity .22s;pointer-events:none;}
+.notif-drawer{position:absolute;top:62px;right:10px;width:290px;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 12px 40px rgba(90,50,0,.2);transform:translateY(-12px) scale(.95);opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;overflow:hidden;pointer-events:none;max-height:68vh;display:flex;flex-direction:column;}
+.notif-panel.open{pointer-events:all;}
+.notif-panel.open .notif-overlay{opacity:1;pointer-events:all;}
+.notif-panel.open .notif-drawer{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+.nd-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 11px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.nd-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);}
+.nd-clear{font-size:.63rem;font-weight:700;color:var(--gold);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;padding:4px 8px;border-radius:6px;}
+.nd-clear:active{background:var(--gold-dim);}
+.nd-list{overflow-y:auto;flex:1;}
+.nd-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(184,134,11,.07);}
+.nd-item:last-child{border-bottom:none;}
+.nd-item.unread{background:rgba(184,134,11,.04);}
+.nd-ico{width:30px;height:30px;border-radius:8px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0;margin-top:1px;}
+.nd-info{flex:1;min-width:0;}
+.nd-name{font-size:.74rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.nd-dot{width:6px;height:6px;border-radius:50%;background:var(--ember);flex-shrink:0;}
+.nd-msg{font-size:.63rem;color:var(--muted);margin-top:2px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.nd-time{font-family:'DM Mono',monospace;font-size:.5rem;color:var(--muted);margin-top:3px;}
+.nd-empty{text-align:center;padding:28px 16px;color:var(--muted);font-size:.74rem;}
+.nd-empty-ico{font-size:1.8rem;opacity:.25;display:block;margin-bottom:8px;}
+
+/* BOTNAV */
 .botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;box-shadow:0 -4px 20px rgba(90,50,0,.07);}
 .bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
 .bn-ico{font-size:1.2rem;line-height:1;}
@@ -95,43 +104,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .bn.active .bn-lbl{color:var(--gold);}
 .bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;outline:none;}
 
-/* ── PANNEAU NOTIFICATIONS ── */
-.notif-panel{
-  position:fixed;top:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:430px;height:100vh;
-  z-index:200;pointer-events:none;
-}
-.notif-overlay{
-  position:absolute;inset:0;background:rgba(26,15,0,.45);
-  backdrop-filter:blur(2px);opacity:0;transition:opacity .25s;pointer-events:none;
-}
-.notif-drawer{
-  position:absolute;top:58px;right:12px;width:300px;
-  background:#fff;border:1px solid var(--border);border-radius:16px;
-  box-shadow:0 12px 40px rgba(90,50,0,.18);
-  transform:translateY(-14px) scale(.96);opacity:0;
-  transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;
-  overflow:hidden;pointer-events:none;max-height:70vh;
-}
-.notif-panel.open{pointer-events:all;}
-.notif-panel.open .notif-overlay{opacity:1;pointer-events:all;}
-.notif-panel.open .notif-drawer{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
-.nd-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--border);}
-.nd-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);}
-.nd-clear{font-size:.65rem;font-weight:700;color:var(--gold);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;}
-.nd-list{overflow-y:auto;max-height:calc(70vh - 52px);}
-.nd-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(184,134,11,.07);transition:background .15s;}
-.nd-item:last-child{border-bottom:none;}
-.nd-item.unread{background:rgba(184,134,11,.04);}
-.nd-ico{width:32px;height:32px;border-radius:9px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;margin-top:1px;}
-.nd-info{flex:1;min-width:0;}
-.nd-name{font-size:.76rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:5px;}
-.nd-dot{width:6px;height:6px;border-radius:50%;background:var(--ember);flex-shrink:0;}
-.nd-msg{font-size:.65rem;color:var(--muted);margin-top:2px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
-.nd-time{font-family:'DM Mono',monospace;font-size:.52rem;color:var(--muted);margin-top:3px;}
-.nd-empty{text-align:center;padding:28px 16px;color:var(--muted);font-size:.76rem;}
-.nd-empty-ico{font-size:1.8rem;opacity:.25;display:block;margin-bottom:8px;}
-
+/* TOAST */
 .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
@@ -156,10 +129,10 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 <!-- PANNEAU NOTIFICATIONS -->
 <div class="notif-panel" id="notif-panel">
   <div class="notif-overlay" onclick="closeNotifPanel()"></div>
-  <div class="notif-drawer" id="notif-drawer">
+  <div class="notif-drawer">
     <div class="nd-head">
       <div class="nd-title">🔔 Notifications</div>
-      <button class="nd-clear" onclick="marquerToutesLues()">Tout marquer lu</button>
+      <button class="nd-clear" onclick="marquerLues()">Tout lu</button>
     </div>
     <div class="nd-list" id="nd-list">
       <div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>
@@ -174,7 +147,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     <div class="hero-eyebrow">Solde disponible</div>
     <div class="hero-solde" id="hero-solde">— F</div>
     <div class="hero-currency">FRANCS CFA · XAF</div>
-    <!-- BOUTONS : vrais <button> avec onclick direct -->
     <div class="hero-actions">
       <button class="ha recharge" onclick="window.location.href='silla-recharge.html'">
         <div class="ha-ico">💳</div>
@@ -210,8 +182,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     <div class="empty"><span class="empty-ico">📈</span>Aucun investissement actif</div>
   </div>
 
-
-
 </div>
 
 <div class="botnav">
@@ -228,115 +198,109 @@ const sb = supabase.createClient(
   'https://pnybmieunidegpxwkodn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
 );
-const fmt = n => Number(n||0).toLocaleString('fr-FR');
+const fmt  = n => Number(n||0).toLocaleString('fr-FR');
 const fmtK = n => n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed(0)+'k':fmt(n);
-let U = null, P = null;
+let U = null, P = null, notifOpen = false;
 
-function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4000);}
+function toast(m,t=''){
+  const el=document.getElementById('toast');
+  el.textContent=m; el.className='toast show'+(t?' '+t:'');
+  clearTimeout(toast._t); toast._t=setTimeout(()=>el.className='toast',4000);
+}
 
 // ── PANNEAU NOTIFICATIONS ──
-let notifOpen=false;
 function toggleNotifPanel(){
-  notifOpen?closeNotifPanel():openNotifPanel();
+  notifOpen ? closeNotifPanel() : openNotifPanel();
 }
 function openNotifPanel(){
-  notifOpen=true;
+  notifOpen = true;
   document.getElementById('notif-panel').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
 function closeNotifPanel(){
-  notifOpen=false;
+  notifOpen = false;
   document.getElementById('notif-panel').classList.remove('open');
-  document.body.style.overflow='';
-  // Masquer le badge quand on ferme
-  document.getElementById('notif-dot').style.display='none';
+  document.body.style.overflow = '';
 }
-async function marquerToutesLues(){
+async function marquerLues(){
   if(!U) return;
   await sb.from('notifications').update({lu:true}).eq('user_id',U.id).eq('lu',false);
-  document.getElementById('notif-dot').style.display='none';
-  document.getElementById('notif-dot').textContent='';
-  // Rafraîchir le panneau
-  await loadNotifs();
+  const dot = document.getElementById('notif-dot');
+  dot.style.display = 'none';
+  dot.textContent = '';
+  // Rafraichir la liste sans le badge
+  const items = document.querySelectorAll('.nd-item.unread');
+  items.forEach(el => { el.classList.remove('unread'); el.querySelector('.nd-dot')?.remove(); });
 }
 
+// ── INIT ──
 async function init(){
-  const{data:sd,error:se}=await sb.auth.getSession();
-  if(!sd?.session){window.location.href='silla-login.html';return;}
-  U=sd.session.user;
+  const{data:sd} = await sb.auth.getSession();
+  if(!sd?.session){ window.location.href='silla-login.html'; return; }
+  U = sd.session.user;
 
-  // Charger profil
-  const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+  const{data:p} = await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
   if(p){
-    P=p;
+    P = p;
   } else {
-    // Créer le profil s'il n'existe pas encore
-    const code='SLA-'+U.id.slice(0,6).toUpperCase();
+    const code = 'SLA-'+U.id.slice(0,6).toUpperCase();
     await sb.from('utilisateurs').upsert({
-      id:U.id,
-      nom:U.user_metadata?.full_name||'Membre',
-      email:U.email,
-      solde:1000,
-      code_parrainage:code,
-      statut:'actif',
-      is_admin:false,
-      created_at:new Date().toISOString()
+      id:U.id, nom:U.user_metadata?.full_name||'Membre',
+      email:U.email, solde:1000, code_parrainage:code,
+      statut:'actif', is_admin:false, created_at:new Date().toISOString()
     },{onConflict:'id'});
-    const{data:pp}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
-    P=pp||{solde:1000,nom:'Membre'};
+    const{data:pp} = await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+    P = pp || {solde:1000, nom:'Membre'};
   }
 
-  // Afficher
-  const prenom=(P?.nom||'Membre').split(' ')[0];
-  document.getElementById('tb-avatar').textContent=prenom[0]?.toUpperCase()||'M';
-  document.getElementById('hero-solde').textContent=fmt(P?.solde||0)+' F';
-  if((P?.solde||0)===1000&&!P?.bonus_utilise){
-    document.getElementById('hero-bonus').style.display='block';
+  const prenom = (P?.nom||'Membre').split(' ')[0];
+  document.getElementById('tb-avatar').textContent = prenom[0]?.toUpperCase()||'M';
+  document.getElementById('hero-solde').textContent = fmt(P?.solde||0)+' F';
+  if((P?.solde||0)===1000 && !P?.bonus_utilise){
+    document.getElementById('hero-bonus').style.display = 'block';
   }
 
-  // Charger tout en parallèle
   await Promise.all([loadStats(), loadInvests(), loadNotifs()]);
 }
 
 async function loadStats(){
   try{
-    const[r1,r2,r3]=await Promise.all([
+    const[r1,r2,r3] = await Promise.all([
       sb.from('investissements').select('id',{count:'exact',head:true}).eq('user_id',U.id).in('statut',['actif','gain_dispo']),
       sb.from('transactions').select('montant').eq('user_id',U.id).eq('type','gain'),
       sb.from('utilisateurs').select('id',{count:'exact',head:true}).eq('parrain_id',U.id),
     ]);
-    document.getElementById('qs-invests').textContent=r1.count||0;
-    const g=(r2.data||[]).reduce((s,t)=>s+(t.montant||0),0);
-    document.getElementById('qs-gains').textContent=fmtK(g)+'F';
-    document.getElementById('qs-filleuls').textContent=r3.count||0;
+    document.getElementById('qs-invests').textContent = r1.count||0;
+    const g = (r2.data||[]).reduce((s,t)=>s+(t.montant||0),0);
+    document.getElementById('qs-gains').textContent = fmtK(g)+'F';
+    document.getElementById('qs-filleuls').textContent = r3.count||0;
   }catch(e){
-    document.getElementById('qs-invests').textContent='0';
-    document.getElementById('qs-gains').textContent='0F';
-    document.getElementById('qs-filleuls').textContent='0';
+    ['qs-invests','qs-gains','qs-filleuls'].forEach(id=>document.getElementById(id).textContent='0');
   }
 }
 
 async function loadInvests(){
   try{
-    const{data}=await sb.from('investissements').select('*').eq('user_id',U.id).in('statut',['actif','gain_dispo']).order('created_at',{ascending:false}).limit(3);
-    const el=document.getElementById('plans-list');
+    const{data} = await sb.from('investissements').select('*').eq('user_id',U.id)
+      .in('statut',['actif','gain_dispo']).order('created_at',{ascending:false}).limit(3);
+    const el = document.getElementById('plans-list');
     if(!data?.length){
-      el.innerHTML='<div class="empty"><span class="empty-ico">📈</span>Aucun plan actif — <a href="silla-plans.html" style="color:var(--gold);font-weight:700">Investir maintenant</a></div>';
+      el.innerHTML = '<div class="empty"><span class="empty-ico">📈</span>Aucun plan actif — <a href="silla-plans.html" style="color:var(--gold);font-weight:700">Investir maintenant</a></div>';
       return;
     }
-    const now=Date.now();
-    el.innerHTML=data.map(inv=>{
-      const fin=new Date(inv.date_fin).getTime();
-      const deb=new Date(inv.created_at).getTime();
-      const pct=fin>deb?Math.min(100,Math.round((now-deb)/(fin-deb)*100)):100;
-      const dispo=inv.statut==='gain_dispo';
-      const ico=inv.plan_type?.startsWith('r')?'⚡':inv.plan_type?.startsWith('prod')?'🔬':'💎';
-      const nom=inv.plan_type?.toUpperCase()?.replace(/_/g,' ')||'Plan';
+    const now = Date.now();
+    el.innerHTML = data.map(inv=>{
+      const fin = new Date(inv.date_fin||inv.created_at).getTime();
+      const deb = new Date(inv.created_at).getTime();
+      const pct = fin>deb ? Math.min(100,Math.round((now-deb)/(fin-deb)*100)) : 100;
+      const dispo = inv.statut==='gain_dispo';
+      const ico = inv.plan_type?.startsWith('r')?'⚡':inv.plan_type?.startsWith('prod')?'🔬':'💎';
+      const nom = (inv.plan_type||'Plan').toUpperCase().replace(/_/g,' ');
       return `<div class="plan-card">
         <div class="pc-ico">${ico}</div>
         <div class="pc-info">
           <div class="pc-name">${nom}</div>
-          <div class="pc-sub">${fmt(inv.montant)} F · ${inv.duree_jours||'—'}j</div>
+          <div class="pc-sub">${fmt(inv.montant)} F &middot; ${inv.duree_jours||'?'}j</div>
           <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
         </div>
         <div class="pc-right">
@@ -345,53 +309,60 @@ async function loadInvests(){
         </div>
       </div>`;
     }).join('');
-  }catch(e){console.error('loadInvests',e);}
+  }catch(e){ console.error('loadInvests',e); }
 }
 
 async function loadNotifs(){
   try{
-    const{data}=await sb.from('notifications').select('*').eq('user_id',U.id).order('created_at',{ascending:false}).limit(20);
-    const ndList=document.getElementById('nd-list');
+    const{data} = await sb.from('notifications').select('*').eq('user_id',U.id)
+      .order('created_at',{ascending:false}).limit(20);
+    const ndList = document.getElementById('nd-list');
+
     if(!data?.length){
-      ndList.innerHTML='<div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>';
+      ndList.innerHTML = '<div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>';
       return;
     }
-    // Badge numérique non lues
-    const unread=data.filter(n=>!n.lu).length;
-    const dot=document.getElementById('notif-dot');
-    if(unread>0){
-      dot.style.display='block';
-      dot.textContent=unread>9?'9+':unread>1?String(unread):'';
-      // Style badge numérique si > 1
-      if(unread>1){
-        dot.style.cssText='display:flex;align-items:center;justify-content:center;position:absolute;top:-3px;right:-3px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--ember);color:#fff;font-size:.52rem;font-weight:900;border:2px solid var(--cream);font-family:Outfit,sans-serif;';
-      }
+
+    // Badge numérique
+    const unread = data.filter(n=>!n.lu).length;
+    const dot = document.getElementById('notif-dot');
+    if(unread > 0){
+      dot.style.display = 'flex';
+      dot.textContent = unread > 9 ? '9+' : unread > 1 ? String(unread) : '';
     } else {
-      dot.style.display='none';
+      dot.style.display = 'none';
     }
-    const icons={gain:'💰',info:'📋',admin:'📣',bonus_inscription:'🎁',parrainage_gain:'👑',retrait:'💸',recharge:'💳'};
-    const dt=d=>{
-      const dd=new Date(d);
-      const now=new Date();
-      const diff=Math.floor((now-dd)/60000);
-      if(diff<1) return 'À l'instant';
-      if(diff<60) return diff+'min';
-      if(diff<1440) return Math.floor(diff/60)+'h';
-      return dd.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+
+    const ICONS = {
+      gain:'💰', info:'📋', admin:'📣',
+      bonus_inscription:'🎁', parrainage_gain:'👑',
+      retrait:'💸', recharge:'💳'
     };
-    ndList.innerHTML=data.map(n=>`
-      <div class="nd-item${n.lu?'':' unread'}">
-        <div class="nd-ico">${icons[n.type]||'🔔'}</div>
+
+    // Temps relatif — PAS d'apostrophe dans les strings JS
+    function tempsRelatif(d){
+      const diff = Math.floor((Date.now() - new Date(d).getTime()) / 60000);
+      if(diff < 1)    return 'Maintenant';
+      if(diff < 60)   return diff + 'min';
+      if(diff < 1440) return Math.floor(diff/60) + 'h';
+      return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+    }
+
+    ndList.innerHTML = data.map(n => {
+      const ico = ICONS[n.type] || '🔔';
+      const unreadDot = !n.lu ? '<span class="nd-dot"></span>' : '';
+      const cls = n.lu ? 'nd-item' : 'nd-item unread';
+      return `<div class="${cls}">
+        <div class="nd-ico">${ico}</div>
         <div class="nd-info">
-          <div class="nd-name">
-            ${n.titre||'Notification'}
-            ${!n.lu?'<span class="nd-dot"></span>':''}
-          </div>
+          <div class="nd-name">${n.titre||'Notification'} ${unreadDot}</div>
           <div class="nd-msg">${n.message||''}</div>
-          <div class="nd-time">${dt(n.created_at)}</div>
+          <div class="nd-time">${tempsRelatif(n.created_at)}</div>
         </div>
-      </div>`).join('');
-  }catch(e){console.error('loadNotifs',e);}
+      </div>`;
+    }).join('');
+
+  }catch(e){ console.error('loadNotifs',e); }
 }
 
 init();
