@@ -409,45 +409,87 @@ async function inscrire(){
   btn.disabled=true; btn.innerHTML='<div class="ld"></div> Création du compte...';
 
   try{
-    // Vérifier code parrain
-    let parrainId=null;
+    // Vérifier code parrain AVANT de créer le compte
+    let parrainId = null;
+    let parrainNom = '';
     if(code){
-      const{data:pp}=await sb.from('utilisateurs').select('id').eq('code_parrainage',code).maybeSingle();
-      if(pp) parrainId=pp.id;
-      else toast('⚠️ Code parrain inconnu — inscription sans parrain','err');
+      const{data:pp, error:pe} = await sb.from('utilisateurs')
+        .select('id,nom').eq('code_parrainage', code).maybeSingle();
+      if(pp){
+        parrainId = pp.id;
+        parrainNom = pp.nom || '';
+      } else {
+        toast('⚠️ Code parrain inconnu — inscription continue sans parrain','err');
+      }
     }
 
-    // Créer compte
-    const{data,error}=await sb.auth.signUp({
+    // Créer le compte Supabase Auth
+    const{data, error} = await sb.auth.signUp({
       email, password:pwd,
-      options:{data:{full_name:nom}}
+      options:{ data:{ full_name:nom } }
     });
     if(error) throw error;
-    const uid=data?.user?.id;
-    if(!uid) throw new Error('Erreur création compte');
 
-    const codeParrain='SLA-'+uid.slice(0,6).toUpperCase();
+    // Récupérer l'uid — peut être dans data.user ou data.session.user
+    const uid = data?.user?.id || data?.session?.user?.id;
+    if(!uid) throw new Error('Compte créé mais ID introuvable — connectez-vous');
 
-    await sb.from('utilisateurs').upsert({
-      id:uid, nom, email, telephone:tel, pays,
-      solde:1000, code_parrainage:codeParrain,
-      parrain_id:parrainId, statut:'actif', is_admin:false,
-      created_at:new Date().toISOString()
-    },{onConflict:'id'});
+    const codeParrain = 'SLA-' + uid.slice(0,6).toUpperCase();
 
+    // Sauvegarder le profil avec parrain_id
+    const { error: profileError } = await sb.from('utilisateurs').upsert({
+      id:        uid,
+      nom:       nom,
+      email:     email,
+      telephone: tel,
+      pays:      pays,
+      solde:     1000,
+      code_parrainage: codeParrain,
+      parrain_id: parrainId,   // null si pas de parrain, sinon l'ID du parrain
+      statut:    'actif',
+      is_admin:  false,
+      bonus_utilise: false,
+      created_at: new Date().toISOString()
+    }, { onConflict:'id' });
+
+    if(profileError) console.error('Profile save error:', profileError);
+
+    // Transaction bonus inscription
     await sb.from('transactions').insert({
-      user_id:uid, type:'bonus_inscription',
-      montant:1000, description:'🎁 Bonus de bienvenue SILLA'
+      user_id:     uid,
+      type:        'bonus_inscription',
+      montant:     1000,
+      description: 'Bonus de bienvenue SILLA'
     });
 
-    toast('✅ Compte créé ! Bonus 1 000 F crédité 🎉','ok');
-    setTimeout(()=>window.location.href='silla-login.html',2000);
+    // Notifier le parrain si présent
+    if(parrainId){
+      await sb.from('notifications').insert({
+        user_id: parrainId,
+        titre:   'Nouveau filleul inscrit !',
+        message: nom + ' vient de rejoindre SILLA avec votre code. Il investira bientot !',
+        type:    'parrainage_gain'
+      });
+    }
+
+    // Message selon si email confirmation requise ou non
+    const confirmed = data?.user?.email_confirmed_at || data?.session;
+    if(confirmed){
+      toast('Compte créé ! Bonus 1 000 F crédité','ok');
+      setTimeout(()=>{ window.location.href='silla-dashboard.html'; }, 1800);
+    } else {
+      toast('Compte créé ! Vérifiez votre email puis connectez-vous','ok');
+      setTimeout(()=>{ window.location.href='silla-login.html'; }, 2500);
+    }
 
   }catch(e){
-    btn.disabled=false; btn.innerHTML='Rejoindre SILLA →';
-    const m = e.message?.includes('already registered')||e.message?.includes('already been registered')
+    btn.disabled=false;
+    btn.innerHTML='Rejoindre SILLA →';
+    console.error('Inscription error:', e);
+    const m = (e.message||'').includes('already registered') || (e.message||'').includes('already been registered')
       ? 'Email déjà utilisé — connectez-vous'
-      : e.message?.includes('weak') ? 'Mot de passe trop faible'
+      : (e.message||'').includes('weak')
+      ? 'Mot de passe trop faible'
       : e.message || 'Erreur. Réessayez.';
     toast('❌ '+m,'err');
   }
