@@ -322,12 +322,39 @@ async function activerPlan(planId){
       duree_jours:plan.jours,statut:'actif',
       date_debut:now.toISOString(),date_fin:fin.toISOString()
     });
-    await sb.from('transactions').insert({user_id:U.id,type:'investissement',montant:plan.depot,description:plan.nom+' activé'});
+    await sb.from('transactions').insert({
+      user_id:U.id,type:'investissement',
+      montant:plan.depot,description:plan.nom+' active'
+    });
+
+    // ── COMMISSION PARRAIN 5% ──
+    const{data:profil}=await sb.from('utilisateurs').select('parrain_id').eq('id',U.id).maybeSingle();
+    if(profil?.parrain_id){
+      const commission=Math.round(plan.depot*0.05);
+      // Crediter le parrain
+      const{data:parrain}=await sb.from('utilisateurs').select('solde,nom').eq('id',profil.parrain_id).maybeSingle();
+      if(parrain){
+        await sb.from('utilisateurs').update({solde:(parrain.solde||0)+commission}).eq('id',profil.parrain_id);
+        await sb.from('transactions').insert({
+          user_id:profil.parrain_id,
+          type:'parrainage_gain',
+          montant:commission,
+          description:'Commission parrainage — '+P?.nom+' a investi '+fmt(plan.depot)+' F dans '+plan.nom
+        });
+        await sb.from('notifications').insert({
+          user_id:profil.parrain_id,
+          titre:'👑 Commission parrainage +'+fmt(commission)+' F',
+          message:'Votre filleul '+(P?.nom||'un membre')+' vient d investir '+fmt(plan.depot)+' F. Vous recevez '+fmt(commission)+' F (5%).',
+          type:'parrainage_gain'
+        });
+      }
+    }
+
     P.solde=nvSolde;
     document.getElementById('tb-solde').textContent=fmt(nvSolde)+' F';
     document.getElementById('hero-solde').textContent=fmt(nvSolde)+' F';
     closeModal();
-    toast('✅ '+plan.nom+' activé ! Gains débloqués','ok');
+    toast('✅ '+plan.nom+' active ! Gains debloqués','ok');
   }catch(e){
     if(btn){btn.disabled=false;btn.innerHTML='⚡ Confirmer l\'investissement';}
     toast('❌ '+e.message,'err');
