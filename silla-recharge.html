@@ -249,35 +249,63 @@ function copyAddr(addr,btnId){
 }
 
 async function soumettreRecharge(){
-  const op=document.getElementById('f-operateur').value;
-  const montant=parseFloat(document.getElementById('f-montant').value)||0;
-  const ref=document.getElementById('f-ref').value.trim();
-  const exp=document.getElementById('f-expediteur').value.trim();
-  if(!op){toast('⚠️ Choisissez l\'opérateur','err');return;}
-  if(montant<500){toast('⚠️ Minimum 500 FCFA','err');return;}
-  if(!ref){toast('⚠️ Entrez la référence de transaction','err');return;}
-  if(!exp||exp.length<8){toast('⚠️ Entrez votre numéro expéditeur','err');return;}
-  const btn=document.querySelector('#sec-mm .btn');
-  btn.disabled=true;btn.innerHTML='<div class="ld"></div> Envoi...';
-  try{
-    await sb.from('recharges').insert({
-      user_id:U.id,operateur:op,montant,ref_paiement:ref,
-      num_expediteur:exp,statut:'en_attente',type:'mobile_money',
-      created_at:new Date().toISOString()
+  const op      = document.getElementById('f-operateur').value;
+  const montant = parseFloat(document.getElementById('f-montant').value)||0;
+  const ref     = document.getElementById('f-ref').value.trim();
+  const exp     = document.getElementById('f-expediteur').value.trim();
+
+  if(!op)           { toast('Choisissez un operateur','err'); return; }
+  if(montant < 500) { toast('Minimum 500 FCFA','err'); return; }
+  if(!ref)          { toast('Entrez la reference','err'); return; }
+  if(exp.replace(/[^0-9]/g,'').length < 8){ toast('Numero invalide','err'); return; }
+
+  const btn = document.querySelector('#sec-mm .btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="ld"></div> Envoi...';
+
+  const { error: insErr } = await sb.from('recharges').insert({
+    user_id:        U.id,
+    operateur:      op,
+    montant:        montant,
+    ref_paiement:   ref,
+    num_expediteur: exp,
+    statut:         'en_attente',
+    type:           'mobile_money',
+    created_at:     new Date().toISOString()
+  });
+
+  if(insErr){
+    console.error('Recharge insert error:', insErr.message, insErr.code);
+    toast('Erreur sauvegarde: ' + insErr.message, 'err');
+    btn.disabled = false;
+    btn.innerHTML = 'Confirmer la recharge';
+    return;
+  }
+
+  // Notifications (silencieux si echec)
+  sb.from('notifications').insert({
+    user_id: U.id,
+    titre:   'Recharge soumise',
+    message: 'Recharge de ' + fmt(montant) + ' F via ' + op + ' en attente de validation.',
+    type:    'info'
+  });
+  sb.from('utilisateurs').select('id').eq('email','abdoula13cherif@gmail.com').maybeSingle().then(({data:adm})=>{
+    if(adm) sb.from('notifications').insert({
+      user_id: adm.id,
+      titre:   'Nouvelle recharge a valider',
+      message: fmt(montant)+' F via '+op+' - Ref: '+ref+' - Tel: '+exp+' - '+( P?.nom||''),
+      type:    'admin'
     });
-    // Notifier l'utilisateur
-    await sb.from('notifications').insert({user_id:U.id,titre:'💳 Recharge soumise',message:'Votre recharge de '+fmt(montant)+' F via '+op+' est en cours de validation.',type:'info'});
-    // Notifier l'admin
-    const{data:adm}=await sb.from('utilisateurs').select('id').eq('email','abdoula13cherif@gmail.com').maybeSingle();
-    if(adm){await sb.from('notifications').insert({user_id:adm.id,titre:'📥 Nouvelle recharge à valider',message:'Montant: '+fmt(montant)+' F via '+op+' - Ref: '+ref+' - Expediteur: '+exp,type:'admin'});}
-    toast('Recharge soumise - En attente de validation','ok');
-    document.getElementById('f-montant').value='';
-    document.getElementById('f-ref').value='';
-    document.getElementById('f-expediteur').value='';
-    document.getElementById('f-operateur').value='';
-    await chargerHistorique();
-  }catch(e){toast('❌ '+e.message,'err');}
-  finally{btn.disabled=false;btn.innerHTML='✅ Confirmer la recharge';}
+  });
+
+  toast('Recharge soumise avec succes !', 'ok');
+  document.getElementById('f-montant').value    = '';
+  document.getElementById('f-ref').value        = '';
+  document.getElementById('f-expediteur').value = '';
+  document.getElementById('f-operateur').value  = '';
+  btn.disabled = false;
+  btn.innerHTML = 'Confirmer la recharge';
+  await chargerHistorique();
 }
 
 async function soumettreRechargeCrypto(){
