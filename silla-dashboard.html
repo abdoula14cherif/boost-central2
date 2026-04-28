@@ -10,30 +10,20 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{background:var(--cream);}
 body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FDF6E9);font-family:'Outfit',sans-serif;color:var(--ink);min-height:100vh;overflow-x:hidden;}
-
-/* TOPBAR */
 .topbar{position:sticky;top:0;z-index:90;background:rgba(254,252,247,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
 .tb-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;letter-spacing:.3em;color:var(--gold);}
 .tb-right{display:flex;align-items:center;gap:10px;}
 .tb-notif{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;position:relative;outline:none;}
-.notif-dot{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--ember);color:#fff;font-size:.5rem;font-weight:900;border:2px solid var(--cream);display:none;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;line-height:1;}
+.notif-dot{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--ember);color:#fff;font-size:.5rem;font-weight:900;border:2px solid var(--cream);display:none;align-items:center;justify-content:center;line-height:1;}
 .tb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;cursor:pointer;}
-
-/* SCROLL */
 .scroll{padding:0 0 calc(var(--nav)+40px);}
-
-/* BANNIÈRE TELEGRAM */
-.tg-banner{margin:12px 16px 0;background:linear-gradient(135deg,rgba(0,136,204,.07),rgba(0,136,204,.03));border:1px solid rgba(0,136,204,.2);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:11px;position:relative;overflow:hidden;animation:tgSlide .4s cubic-bezier(.34,1.36,.64,1) both;}
-@keyframes tgSlide{from{opacity:0;transform:translateY(-8px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
-.tg-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(0,136,204,.4),transparent);}
+.tg-banner{margin:12px 16px 0;background:linear-gradient(135deg,rgba(0,136,204,.07),rgba(0,136,204,.03));border:1px solid rgba(0,136,204,.2);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:11px;position:relative;overflow:hidden;}
 .tg-ico{width:36px;height:36px;border-radius:10px;background:rgba(0,136,204,.12);border:1px solid rgba(0,136,204,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
 .tg-info{flex:1;min-width:0;}
 .tg-title{font-size:.78rem;font-weight:700;color:#0069A3;}
 .tg-sub{font-size:.63rem;color:var(--muted);margin-top:2px;line-height:1.45;}
 .tg-btn{padding:7px 13px;border:none;cursor:pointer;background:rgba(0,136,204,.13);border:1px solid rgba(0,136,204,.25);border-radius:20px;font-family:'Outfit',sans-serif;font-size:.65rem;font-weight:700;color:#0069A3;white-space:nowrap;flex-shrink:0;}
-.tg-close{position:absolute;top:7px;right:8px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--muted);line-height:1;padding:0;}
-
-/* HERO */
+.tg-close{position:absolute;top:7px;right:8px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--muted);padding:0;}
 .hero{margin:12px 16px 0;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1A0F00,#3D2200,#1A0F00);padding:28px 24px;box-shadow:0 8px 32px rgba(90,50,0,.25);}
 .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.25em;color:rgba(232,192,96,.6);text-transform:uppercase;margin-bottom:8px;}
 .hero-solde{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:#E8C060;line-height:1;margin-bottom:4px;}
@@ -43,83 +33,28 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .ha.recharge{background:rgba(232,192,96,.18);border:1px solid rgba(232,192,96,.3);}
 .ha.retrait{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);}
 .ha:active{transform:scale(.94);}
-.ha-ico{font-size:1.4rem;line-height:1;}
-.ha-lbl{font-size:.68rem;font-weight:700;letter-spacing:.04em;color:rgba(232,192,96,.85);}
-.hero-bonus{position:absolute;top:14px;right:14px;background:rgba(224,90,43,.2);border:1px solid rgba(224,90,43,.35);border-radius:20px;padding:4px 10px;font-size:.58rem;font-weight:700;color:#F5A882;display:none;}
-
-/* STATS */
+.ha-ico{font-size:1.4rem;}.ha-lbl{font-size:.68rem;font-weight:700;letter-spacing:.04em;color:rgba(232,192,96,.85);}
 .qstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 16px 0;}
 .qs{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;box-shadow:0 2px 8px var(--shadow);}
 .qs-val{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--gold);line-height:1;}
 .qs-lbl{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
-
-/* ══ ZONE GAINS À RÉCLAMER ══ */
-#gains-zone{margin:12px 16px 0;}
-
-.gain-alert{
-  background:linear-gradient(135deg,#1A0F00,#2D1800);
-  border:1px solid rgba(232,192,96,.35);
-  border-radius:16px;
-  padding:18px;
-  position:relative;
-  overflow:hidden;
-  animation:pulseGold 2.5s ease-in-out infinite;
-}
-@keyframes pulseGold{
-  0%,100%{box-shadow:0 4px 20px rgba(184,134,11,.15);}
-  50%{box-shadow:0 4px 32px rgba(184,134,11,.35);}
-}
-.gain-alert::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold-ll),transparent);
-}
-.ga-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.ga-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:#E8C060;}
-.ga-timer{font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(232,192,96,.6);background:rgba(232,192,96,.1);padding:4px 10px;border-radius:20px;border:1px solid rgba(232,192,96,.2);}
-.ga-timer.urgent{color:#F5A882;background:rgba(224,90,43,.12);border-color:rgba(224,90,43,.25);animation:timerPulse .8s ease-in-out infinite;}
-@keyframes timerPulse{0%,100%{opacity:1;}50%{opacity:.6;}}
-.ga-plans{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
-.ga-plan-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(232,192,96,.12);border-radius:10px;padding:10px 14px;}
-.gpr-left{display:flex;flex-direction:column;gap:2px;}
-.gpr-name{font-size:.75rem;font-weight:700;color:rgba(232,192,96,.85);}
-.gpr-sub{font-size:.58rem;color:rgba(232,192,96,.45);font-family:'DM Mono',monospace;}
-.gpr-amt{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#4ADE80;}
-.btn-reclamer{
-  width:100%;padding:15px;border:none;border-radius:10px;cursor:pointer;
-  background:linear-gradient(135deg,var(--gold),var(--gold-ll));
-  font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:700;
-  color:#1A0F00;letter-spacing:.04em;
-  display:flex;align-items:center;justify-content:center;gap:.5rem;
-  box-shadow:0 4px 16px rgba(184,134,11,.3);
-  transition:transform .15s,box-shadow .15s;
-}
+.gains-card{margin:12px 16px 0;background:linear-gradient(135deg,#1A0F00,#2D1800);border:1px solid rgba(232,192,96,.3);border-radius:16px;padding:20px;position:relative;overflow:hidden;display:none;}
+.gains-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-ll),transparent);}
+.gc-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:rgba(232,192,96,.5);text-transform:uppercase;margin-bottom:6px;}
+.gc-amount{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#4ADE80;line-height:1;margin-bottom:4px;}
+.gc-sub{font-size:.68rem;color:rgba(232,192,96,.45);margin-bottom:18px;}
+.btn-reclamer{width:100%;padding:15px;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-ll));font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:#1A0F00;display:flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 4px 16px rgba(184,134,11,.3);transition:transform .15s;}
 .btn-reclamer:active{transform:scale(.97);}
 .btn-reclamer:disabled{opacity:.45;cursor:not-allowed;transform:none;}
-
-/* GAIN EXPIRÉ */
-.gain-expired{
-  background:rgba(232,48,48,.04);
-  border:1px solid rgba(232,48,48,.15);
-  border-radius:12px;
-  padding:12px 14px;
-  display:flex;align-items:center;gap:10px;
-  font-size:.74rem;color:#E05A2B;
-}
-
-/* SEC */
 .sec{display:flex;align-items:center;gap:10px;padding:18px 16px 10px;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);}
 .sec-line{flex:1;height:1px;background:var(--border);}
 .sec-more{font-size:.7rem;color:var(--gold);text-decoration:none;font-weight:600;}
-
-/* QUICK MENU */
 .qmenu{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 16px;}
 .qm{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 6px;text-align:center;cursor:pointer;text-decoration:none;transition:all .18s;box-shadow:0 2px 8px var(--shadow);}
 .qm:active{transform:scale(.93);}
 .qm-ico{font-size:1.3rem;margin-bottom:5px;}
 .qm-lbl{font-size:.58rem;font-weight:700;color:var(--brown);}
-
-/* PLAN CARD */
 .plan-card{margin:0 16px 10px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:0 2px 10px var(--shadow);display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;}
 .plan-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--gold-ll));}
 .pc-ico{width:40px;height:40px;border-radius:10px;background:var(--gold-dim);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
@@ -130,13 +65,9 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold-ll));}
 .pc-right{text-align:right;flex-shrink:0;}
 .pc-gain{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--green);}
-.pc-status{font-size:.58rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-top:3px;display:inline-block;}
-.s-actif{background:rgba(22,163,74,.1);color:#15803D;}
-.s-attente{background:rgba(184,134,11,.1);color:var(--gold);}
+.pc-status{font-size:.58rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-top:3px;display:inline-block;background:rgba(22,163,74,.1);color:#15803D;}
 .empty{text-align:center;padding:24px;color:var(--muted);font-size:.78rem;}
 .empty-ico{font-size:1.8rem;opacity:.3;display:block;margin-bottom:8px;}
-
-/* NOTIF PANEL */
 .notif-panel{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:100vh;z-index:200;pointer-events:none;}
 .notif-overlay{position:absolute;inset:0;background:rgba(26,15,0,.4);backdrop-filter:blur(2px);opacity:0;transition:opacity .22s;pointer-events:none;}
 .notif-drawer{position:absolute;top:62px;right:10px;width:290px;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 12px 40px rgba(90,50,0,.2);transform:translateY(-12px) scale(.95);opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;overflow:hidden;pointer-events:none;max-height:68vh;display:flex;flex-direction:column;}
@@ -145,7 +76,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .notif-panel.open .notif-drawer{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
 .nd-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 11px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .nd-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--ink);}
-.nd-clear{font-size:.63rem;font-weight:700;color:var(--gold);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;padding:4px 8px;border-radius:6px;}
+.nd-clear{font-size:.63rem;font-weight:700;color:var(--gold);cursor:pointer;border:none;background:none;font-family:'Outfit',sans-serif;padding:4px 8px;}
 .nd-list{overflow-y:auto;flex:1;}
 .nd-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(184,134,11,.07);}
 .nd-item.unread{background:rgba(184,134,11,.04);}
@@ -157,20 +88,14 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .nd-time{font-family:'DM Mono',monospace;font-size:.5rem;color:var(--muted);margin-top:3px;}
 .nd-empty{text-align:center;padding:28px 16px;color:var(--muted);font-size:.74rem;}
 .nd-empty-ico{font-size:1.8rem;opacity:.25;display:block;margin-bottom:8px;}
-
-/* LOADER */
-.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(26,15,0,.2);border-top-color:#1A0F00;border-radius:50%;animation:spinAnim .6s linear infinite;}
-@keyframes spinAnim{to{transform:rotate(360deg);}}
-
-/* BOTNAV */
-.botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;box-shadow:0 -4px 20px rgba(90,50,0,.07);}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(26,15,0,.25);border-top-color:#1A0F00;border-radius:50%;animation:sp .6s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.botnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--nav);background:rgba(254,252,247,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;z-index:90;}
 .bn{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;text-decoration:none;cursor:pointer;border:none;background:none;}
 .bn-ico{font-size:1.2rem;line-height:1;}
 .bn-lbl{font-size:.55rem;font-weight:700;color:var(--muted);}
 .bn.active .bn-lbl{color:var(--gold);}
 .bn-center{width:52px;height:52px;border-radius:50%;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),var(--gold-ll));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 4px 16px rgba(184,134,11,.35);border:none;cursor:pointer;outline:none;}
-
-/* TOAST */
 .toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-80px);background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:10px 20px;font-size:.78rem;font-weight:600;color:var(--ink);z-index:999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 32px var(--shadow);pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .toast.ok{border-color:rgba(22,163,74,.4);color:#15803D;}
@@ -182,9 +107,8 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 <div class="topbar">
   <div class="tb-logo">SILLA</div>
   <div class="tb-right">
-    <button class="tb-notif" id="notif-btn" onclick="toggleNotifPanel()">
-      🔔
-      <div class="notif-dot" id="notif-dot"></div>
+    <button class="tb-notif" onclick="toggleNotifPanel()">
+      🔔<div class="notif-dot" id="notif-dot"></div>
     </button>
     <div class="tb-avatar" id="tb-avatar" onclick="window.location.href='silla-profil.html'">?</div>
   </div>
@@ -192,7 +116,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 
 <div class="toast" id="toast"></div>
 
-<!-- NOTIF PANEL -->
 <div class="notif-panel" id="notif-panel">
   <div class="notif-overlay" onclick="closeNotifPanel()"></div>
   <div class="notif-drawer">
@@ -208,7 +131,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 
 <div class="scroll">
 
-  <!-- BANNIÈRE TELEGRAM -->
   <div class="tg-banner" id="tg-banner">
     <div class="tg-ico">✈️</div>
     <div class="tg-info">
@@ -216,13 +138,12 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
       <div class="tg-sub">Actualités, gains et alertes en temps réel</div>
     </div>
     <a class="tg-btn" href="https://t.me/+nlqZqv-TCJtjMDlk" target="_blank" rel="noopener" onclick="event.stopPropagation()">Rejoindre</a>
-    <button class="tg-close" onclick="fermerBanniereTg()">✕</button>
+    <button class="tg-close" onclick="fermerTg()">✕</button>
   </div>
 
   <div class="hero">
-    <div class="hero-bonus" id="hero-bonus">🎁 Bonus bienvenue</div>
     <div class="hero-eyebrow">Solde disponible</div>
-    <div class="hero-solde" id="hero-solde">— F</div>
+    <div class="hero-solde" id="hero-solde">0 F</div>
     <div class="hero-currency">FRANCS CFA · XAF</div>
     <div class="hero-actions">
       <button class="ha recharge" onclick="window.location.href='silla-recharge.html'">
@@ -235,13 +156,20 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
   </div>
 
   <div class="qstats">
-    <div class="qs"><div class="qs-val" id="qs-invests">—</div><div class="qs-lbl">Plans actifs</div></div>
-    <div class="qs"><div class="qs-val" id="qs-gains">—</div><div class="qs-lbl">Gains totaux</div></div>
-    <div class="qs"><div class="qs-val" id="qs-filleuls">—</div><div class="qs-lbl">Filleuls</div></div>
+    <div class="qs"><div class="qs-val" id="qs-invests">0</div><div class="qs-lbl">Plans actifs</div></div>
+    <div class="qs"><div class="qs-val" id="qs-gains">0F</div><div class="qs-lbl">Gains totaux</div></div>
+    <div class="qs"><div class="qs-val" id="qs-filleuls">0</div><div class="qs-lbl">Filleuls</div></div>
   </div>
 
-  <!-- ══ ZONE GAINS DU JOUR ══ -->
-  <div id="gains-zone"></div>
+  <!-- CARTE GAINS : apparaît uniquement si plans actifs depuis >= 1 jour -->
+  <div class="gains-card" id="gains-card">
+    <div class="gc-label">Gains disponibles</div>
+    <div class="gc-amount" id="gc-amount">0 F</div>
+    <div class="gc-sub" id="gc-sub">Gains journaliers de vos plans actifs</div>
+    <button class="btn-reclamer" id="btn-reclamer" onclick="reclamerGains()">
+      💰 Réclamer mes gains
+    </button>
+  </div>
 
   <div class="sec"><div class="sec-title">Actions rapides</div><div class="sec-line"></div></div>
   <div class="qmenu">
@@ -257,7 +185,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     <a class="sec-more" href="silla-plans.html">Tout voir</a>
   </div>
   <div id="plans-list">
-    <div class="empty"><span class="empty-ico">📈</span>Aucun investissement actif</div>
+    <div class="empty"><span class="empty-ico">📈</span>Aucun plan actif — <a href="silla-plans.html" style="color:var(--gold);font-weight:700">Investir maintenant</a></div>
   </div>
 
 </div>
@@ -279,327 +207,127 @@ const sb = supabase.createClient(
 const fmt  = n => Number(n||0).toLocaleString('fr-FR');
 const fmtK = n => n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?(n/1000).toFixed(0)+'k':fmt(n);
 let U = null, P = null, notifOpen = false;
-let _timerInterval = null;
 
-/* ── TOAST ── */
 function toast(m, t='') {
   const el = document.getElementById('toast');
-  el.textContent = m; el.className = 'toast show' + (t ? ' '+t : '');
-  clearTimeout(toast._t); toast._t = setTimeout(() => el.className = 'toast', 4000);
+  el.textContent = m;
+  el.className = 'toast show' + (t ? ' '+t : '');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.className = 'toast', 4000);
 }
-
-/* ── TELEGRAM ── */
-function initBanniereTg() {
-  if (localStorage.getItem('tg_banner_closed') === '1')
-    document.getElementById('tg-banner').style.display = 'none';
+function fermerTg() {
+  document.getElementById('tg-banner').style.display = 'none';
+  localStorage.setItem('tg_closed', '1');
 }
-function fermerBanniereTg() {
-  const b = document.getElementById('tg-banner');
-  b.style.transition = 'opacity .3s,transform .3s,max-height .35s,margin .35s,padding .35s';
-  b.style.opacity = '0'; b.style.transform = 'translateY(-6px) scale(.97)';
-  b.style.maxHeight = '0'; b.style.margin = '0 16px';
-  b.style.padding = '0'; b.style.border = 'none';
-  setTimeout(() => b.style.display = 'none', 350);
-  localStorage.setItem('tg_banner_closed', '1');
-}
-
-/* ── NOTIF ── */
 function toggleNotifPanel() { notifOpen ? closeNotifPanel() : openNotifPanel(); }
-function openNotifPanel() {
-  notifOpen = true;
-  document.getElementById('notif-panel').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeNotifPanel() {
-  notifOpen = false;
-  document.getElementById('notif-panel').classList.remove('open');
-  document.body.style.overflow = '';
-}
+function openNotifPanel()  { notifOpen = true;  document.getElementById('notif-panel').classList.add('open');    document.body.style.overflow = 'hidden'; }
+function closeNotifPanel() { notifOpen = false; document.getElementById('notif-panel').classList.remove('open'); document.body.style.overflow = ''; }
 async function marquerLues() {
   if (!U) return;
   await sb.from('notifications').update({lu:true}).eq('user_id',U.id).eq('lu',false);
   document.getElementById('notif-dot').style.display = 'none';
-  document.querySelectorAll('.nd-item.unread').forEach(el => {
-    el.classList.remove('unread');
-    el.querySelector('.nd-dot')?.remove();
-  });
+  document.querySelectorAll('.nd-item.unread').forEach(el => { el.classList.remove('unread'); el.querySelector('.nd-dot')?.remove(); });
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// ══ LOGIQUE GAINS QUOTIDIENS ══
-//
+// ════════════════════════════════════════
+// RÉCLAMER LES GAINS — VERSION SIMPLE
 // Règles :
-//  • Le jour de l'investissement (J0) → pas de gain
-//  • À partir de J+1 → un gain par jour disponible
-//  • Fenêtre de réclamation : 24h exactement (J+1 minuit → J+2 minuit)
-//  • Si non réclamé → perdu, l'invest continue
-//  • derniere_reclamation stocke la date de la dernière réclamation (YYYY-MM-DD)
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-function dateStr(d) {
-  // Retourne "YYYY-MM-DD" en heure locale
-  const dt = d ? new Date(d) : new Date();
-  const y = dt.getFullYear();
-  const m = String(dt.getMonth()+1).padStart(2,'0');
-  const day = String(dt.getDate()).padStart(2,'0');
-  return `${y}-${m}-${day}`;
-}
-
-function getGainInfo(inv) {
-  // Retourne l'état du gain quotidien pour cet investissement
-  const now = new Date();
-  const today = dateStr(now);
-  const debutDate = dateStr(inv.created_at);
-  const finDate = dateStr(inv.date_fin);
-
-  // Invest pas encore actif depuis 1 jour complet
-  if (today <= debutDate) {
-    return { etat: 'attente_debut', message: 'Disponible demain' };
-  }
-
-  // Invest terminé
-  if (today > finDate) {
-    return { etat: 'termine' };
-  }
-
-  const derniere = inv.derniere_reclamation; // "YYYY-MM-DD" ou null
-
-  // Calcul du jour "réclamable" = hier
-  const hier = new Date(now);
-  hier.setDate(hier.getDate() - 1);
-  const hierStr = dateStr(hier);
-
-  // Si déjà réclamé aujourd'hui ou hier = déjà pris
-  if (derniere === today) {
-    return { etat: 'deja_reclame', message: 'Déjà réclamé aujourd\'hui' };
-  }
-
-  // Calcul du nb de jours depuis le debut (sans compter J0)
-  const debut = new Date(inv.created_at);
-  debut.setHours(0,0,0,0);
-  const nowMid = new Date(now); nowMid.setHours(0,0,0,0);
-  const joursEcoules = Math.floor((nowMid - debut) / 86400000); // ex: 1 = J+1
-
-  if (joursEcoules < 1) {
-    return { etat: 'attente_debut', message: 'Disponible demain' };
-  }
-
-  // Fenêtre : le gain du jour J est réclamable uniquement le jour J (jusqu'à minuit)
-  // Si derniere_reclamation = hier → aujourd'hui est le nouveau gain
-  // Sinon on est le jour "J courant" → gain dispo si pas encore réclamé ce jour
-
-  // La fenêtre commence à minuit du jour courant et expire à minuit+1j
-  const debutFenetre = new Date(now); debutFenetre.setHours(0,0,0,0);
-  const finFenetre   = new Date(debutFenetre); finFenetre.setDate(finFenetre.getDate()+1);
-  const msRestants   = finFenetre - now;
-
-  // Vérifier si le gain d'aujourd'hui est disponible
-  // = l'utilisateur n'a pas encore réclamé aujourd'hui
-  if (derniere !== today) {
-    const h = Math.floor(msRestants / 3600000);
-    const m = Math.floor((msRestants % 3600000) / 60000);
-    const s = Math.floor((msRestants % 60000) / 1000);
-    return {
-      etat: 'disponible',
-      gain: inv.gain_attendu || 0,
-      timer: { h, m, s, ms: msRestants },
-      urgent: msRestants < 3600000 // < 1h
-    };
-  }
-
-  return { etat: 'deja_reclame', message: 'Déjà réclamé aujourd\'hui' };
-}
-
-async function checkAndExpireGains() {
-  try {
-    const today = dateStr(new Date());
-    const { data: actifs } = await sb.from('investissements')
-      .select('id,date_fin')
-      .eq('user_id', U.id)
-      .eq('statut', 'actif');
-    for (const inv of actifs || []) {
-      if (inv.date_fin && dateStr(inv.date_fin) < today) {
-        await sb.from('investissements').update({ statut: 'termine' }).eq('id', inv.id);
-      }
-    }
-  } catch(e) { console.warn('checkAndExpireGains:', e.message); }
-}
-
-async function loadGainsZone() {
-  const zone = document.getElementById('gains-zone');
-  if (_timerInterval) { clearInterval(_timerInterval); _timerInterval = null; }
-
-  try {
-    const { data: invests, error } = await sb.from('investissements')
-      .select('*')
-      .eq('user_id', U.id)
-      .eq('statut', 'actif');
-
-    // Si erreur (ex: colonne derniere_reclamation manquante), on abandonne silencieusement
-    if (error) { console.warn('loadGainsZone:', error.message); zone.innerHTML = ''; return; }
-    if (!invests?.length) { zone.innerHTML = ''; return; }
-
-    // Filtrer ceux qui ont un gain disponible aujourd'hui
-    const disponibles = invests.filter(inv => { try { return getGainInfo(inv).etat === 'disponible'; } catch(e){ return false; } });
-
-  if (!disponibles.length) { zone.innerHTML = ''; return; }
-
-  const gainTotal = disponibles.reduce((s, inv) => s + (inv.gain_attendu || 0), 0);
-
-  function renderZone() {
-    const infos = disponibles.map(inv => ({ inv, info: getGainInfo(inv) }));
-    const timer = infos[0]?.info?.timer;
-    if (!timer) return;
-
-    const h = String(timer.h).padStart(2,'0');
-    const m = String(timer.m).padStart(2,'0');
-    const s = String(timer.s).padStart(2,'0');
-    const urgent = infos[0]?.info?.urgent;
-
-    zone.innerHTML = `
-      <div style="margin:12px 16px 0">
-        <div class="gain-alert">
-          <div class="ga-header">
-            <div class="ga-title">🔥 Gains du jour disponibles !</div>
-            <div class="ga-timer ${urgent?'urgent':'}" id="gain-timer">⏰ ${h}:${m}:${s}</div>
-          </div>
-          <div class="ga-plans">
-            ${disponibles.map(inv => `
-              <div class="ga-plan-row">
-                <div class="gpr-left">
-                  <div class="gpr-name">${(inv.plan_type||'Plan').toUpperCase().replace(/_/g,' ')}</div>
-                  <div class="gpr-sub">Jour actif · ${fmt(inv.montant)} F investi</div>
-                </div>
-                <div class="gpr-amt">+${fmt(inv.gain_attendu)} F</div>
-              </div>`).join('')}
-          </div>
-          <div style="background:rgba(255,255,255,.05);border:1px solid rgba(232,192,96,.15);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:.72rem;color:rgba(232,192,96,.6);line-height:1.7;text-align:center;">
-            ⚠️ Ces gains <strong style="color:rgba(232,192,96,.9)">expirent à minuit</strong>. Non réclamés, ils sont définitivement perdus.
-          </div>
-          <button class="btn-reclamer" id="btn-reclamer" onclick="reclamerGains()">
-            💰 Réclamer ${fmt(gainTotal)} F maintenant
-          </button>
-        </div>
-      </div>`;
-  }
-
-  renderZone();
-
-  // Compte à rebours live
-  _timerInterval = setInterval(() => {
-    const el = document.getElementById('gain-timer');
-    const btn = document.getElementById('btn-reclamer');
-    if (!el) { clearInterval(_timerInterval); return; }
-
-    const now = new Date();
-    const minuit = new Date(now); minuit.setHours(24,0,0,0);
-    const ms = minuit - now;
-
-    if (ms <= 0) {
-      clearInterval(_timerInterval);
-      zone.innerHTML = '';
-      loadGainsZone();
-      return;
-    }
-
-    const h = String(Math.floor(ms/3600000)).padStart(2,'0');
-    const m = String(Math.floor((ms%3600000)/60000)).padStart(2,'0');
-    const s = String(Math.floor((ms%60000)/1000)).padStart(2,'0');
-    const urgent = ms < 3600000;
-
-    el.textContent = `⏰ ${h}:${m}:${s}`;
-    el.className = `ga-timer ${urgent?'urgent':''}`;
-  }, 1000);
-
-  } catch(e) { console.warn('loadGainsZone error:', e.message); zone.innerHTML = ''; }
-}
-
+//  - Gain dispo = gain_attendu × jours depuis création (max 2j)
+//  - Après réclamation, on met à jour derniere_reclamation
+//  - Si la colonne n'existe pas → on met juste à jour created_at
+// ════════════════════════════════════════
 async function reclamerGains() {
   const btn = document.getElementById('btn-reclamer');
-  if (!btn || btn.disabled) return;
   btn.disabled = true;
-  btn.innerHTML = '<div class="spin"></div> Réclamation en cours…';
+  btn.innerHTML = '<div class="spin"></div> En cours…';
 
   try {
-    const today = dateStr(new Date());
-
     const { data: invests } = await sb.from('investissements')
-      .select('*')
+      .select('id, gain_attendu, created_at, derniere_reclamation')
       .eq('user_id', U.id)
       .eq('statut', 'actif');
 
-    // Filtrer ceux qui sont disponibles aujourd'hui
-    const aReclamer = (invests || []).filter(inv => getGainInfo(inv).etat === 'disponible');
-
-    if (!aReclamer.length) {
-      toast('Aucun gain disponible', 'err');
-      btn.disabled = false;
-      btn.innerHTML = '💰 Réclamer maintenant';
-      return;
+    if (!invests || invests.length === 0) {
+      toast('Aucun plan actif', 'err');
+      btn.disabled = false; btn.innerHTML = '💰 Réclamer mes gains'; return;
     }
 
+    const now = new Date();
     let totalGain = 0;
 
-    for (const inv of aReclamer) {
-      const gain = inv.gain_attendu || 0;
+    for (const inv of invests) {
+      const refDate = new Date(inv.derniere_reclamation || inv.created_at);
+      const joursEcoules = Math.floor((now - refDate) / 86400000);
+      if (joursEcoules < 1) continue;
+      const joursPayes = Math.min(joursEcoules, 2); // max 2 jours d'un coup
+      const gain = (inv.gain_attendu || 0) * joursPayes;
       totalGain += gain;
 
-      // Marquer la réclamation
-      await sb.from('investissements')
-        .update({ derniere_reclamation: today })
-        .eq('id', inv.id);
+      // Mise à jour de la date de dernière réclamation
+      try {
+        await sb.from('investissements')
+          .update({ derniere_reclamation: now.toISOString() })
+          .eq('id', inv.id);
+      } catch(e) {
+        // Si colonne absente, pas grave — les gains sont quand même crédités
+        console.warn('update derniere_reclamation:', e.message);
+      }
     }
 
-    // Créditer le solde
-    const { data: u } = await sb.from('utilisateurs').select('solde').eq('id', U.id).maybeSingle();
-    const nvSolde = (u?.solde || 0) + totalGain;
+    if (totalGain === 0) {
+      toast('⏳ Revenez demain pour réclamer', 'err');
+      btn.disabled = false; btn.innerHTML = '💰 Réclamer mes gains'; return;
+    }
+
+    // Créditer solde
+    const nvSolde = (P.solde || 0) + totalGain;
     await sb.from('utilisateurs').update({ solde: nvSolde }).eq('id', U.id);
 
-    // Enregistrer la transaction
+    // Transaction
     await sb.from('transactions').insert({
-      user_id: U.id,
-      type: 'gain',
-      montant: totalGain,
-      description: `Gains journaliers réclamés — ${aReclamer.length} plan(s)`
+      user_id: U.id, type: 'gain',
+      montant: totalGain, description: 'Gains journaliers réclamés'
     });
 
     // Notif
     await sb.from('notifications').insert({
       user_id: U.id,
-      titre: `💰 +${fmt(totalGain)} F réclamés !`,
-      message: `Vous avez réclamé vos gains du jour : +${fmt(totalGain)} FCFA crédités sur votre compte.`,
+      titre: '💰 +' + fmt(totalGain) + ' F réclamés !',
+      message: 'Vos gains ont été crédités sur votre compte.',
       type: 'gain'
     });
 
-    // Mettre à jour l'UI
     P.solde = nvSolde;
     document.getElementById('hero-solde').textContent = fmt(nvSolde) + ' F';
-
-    toast(`✅ +${fmt(totalGain)} F crédités !`, 'ok');
-
-    // Vider la zone gains
-    if (_timerInterval) { clearInterval(_timerInterval); _timerInterval = null; }
-    document.getElementById('gains-zone').innerHTML = '';
-
-    // Rafraîchir stats
-    await loadStats();
+    document.getElementById('gains-card').style.display = 'none';
+    toast('✅ +' + fmt(totalGain) + ' F crédités !', 'ok');
+    loadStats();
 
   } catch(e) {
     toast('❌ ' + e.message, 'err');
     btn.disabled = false;
-    btn.innerHTML = '💰 Réclamer maintenant';
+    btn.innerHTML = '💰 Réclamer mes gains';
   }
 }
 
-/* ── INIT ── */
+// ════════════════════════════════════════
+// INIT — robuste, chaque bloc est isolé
+// ════════════════════════════════════════
 async function init() {
-  initBanniereTg();
+  if (localStorage.getItem('tg_closed') === '1')
+    document.getElementById('tg-banner').style.display = 'none';
 
+  // 1. Session
+  let session = null;
   try {
     const { data: sd } = await sb.auth.getSession();
     if (!sd?.session) { window.location.href = 'silla-login.html'; return; }
-    U = sd.session.user;
+    session = sd.session;
+    U = session.user;
+  } catch(e) { window.location.href = 'silla-login.html'; return; }
 
+  // 2. Profil utilisateur
+  try {
     const { data: p } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
     if (p) {
       P = p;
@@ -609,26 +337,21 @@ async function init() {
         id: U.id, nom: U.user_metadata?.full_name || 'Membre',
         email: U.email, solde: 1000, code_parrainage: code,
         statut: 'actif', is_admin: false, created_at: new Date().toISOString()
-      }, {onConflict:'id'});
+      }, { onConflict: 'id' });
       const { data: pp } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
       P = pp || { solde: 1000, nom: 'Membre' };
     }
-
-    const prenom = (P?.nom || 'Membre').split(' ')[0];
+    const prenom = (P.nom || 'Membre').split(' ')[0];
     document.getElementById('tb-avatar').textContent = prenom[0]?.toUpperCase() || 'M';
-    document.getElementById('hero-solde').textContent = fmt(P?.solde || 0) + ' F';
-    if ((P?.solde || 0) === 1000 && !P?.bonus_utilise)
-      document.getElementById('hero-bonus').style.display = 'block';
-
+    document.getElementById('hero-solde').textContent = fmt(P.solde || 0) + ' F';
   } catch(e) {
-    console.error('init profil:', e);
+    console.error('profil error:', e.message);
     document.getElementById('hero-solde').textContent = '0 F';
   }
 
-  // Ces fonctions ont chacune leur propre try/catch — elles ne cassent pas le reste
-  checkAndExpireGains();
+  // 3. Tout le reste en parallèle — chacun a son propre try/catch interne
   loadStats();
-  loadGainsZone();
+  loadGainsCard();
   loadInvests();
   loadNotifs();
 }
@@ -636,25 +359,52 @@ async function init() {
 async function loadStats() {
   try {
     const [r1, r2, r3] = await Promise.all([
-      sb.from('investissements').select('id',{count:'exact',head:true}).eq('user_id',U.id).in('statut',['actif','gain_dispo']),
+      sb.from('investissements').select('id',{count:'exact',head:true}).eq('user_id',U.id).eq('statut','actif'),
       sb.from('transactions').select('montant').eq('user_id',U.id).eq('type','gain'),
       sb.from('utilisateurs').select('id',{count:'exact',head:true}).eq('parrain_id',U.id),
     ]);
     document.getElementById('qs-invests').textContent = r1.count || 0;
-    const g = (r2.data || []).reduce((s,t) => s+(t.montant||0), 0);
+    const g = (r2.data||[]).reduce((s,t) => s+(t.montant||0), 0);
     document.getElementById('qs-gains').textContent = fmtK(g) + 'F';
     document.getElementById('qs-filleuls').textContent = r3.count || 0;
+  } catch(e) { console.warn('loadStats:', e.message); }
+}
+
+async function loadGainsCard() {
+  try {
+    const { data: invests } = await sb.from('investissements')
+      .select('id, gain_attendu, created_at, derniere_reclamation')
+      .eq('user_id', U.id)
+      .eq('statut', 'actif');
+
+    if (!invests || invests.length === 0) return;
+
+    const now = new Date();
+    let total = 0;
+    for (const inv of invests) {
+      const ref = new Date(inv.derniere_reclamation || inv.created_at);
+      const jours = Math.floor((now - ref) / 86400000);
+      if (jours >= 1) total += (inv.gain_attendu || 0) * Math.min(jours, 2);
+    }
+
+    if (total > 0) {
+      document.getElementById('gc-amount').textContent = fmt(total) + ' F';
+      document.getElementById('gc-sub').textContent = invests.length + ' plan(s) actif(s)';
+      document.getElementById('gains-card').style.display = 'block';
+    }
   } catch(e) {
-    ['qs-invests','qs-gains','qs-filleuls'].forEach(id => document.getElementById(id).textContent = '0');
+    // Colonne absente ou autre erreur → on cache la carte, pas de crash
+    console.warn('loadGainsCard:', e.message);
   }
 }
 
 async function loadInvests() {
   try {
-    const { data } = await sb.from('investissements').select('*').eq('user_id', U.id)
-      .in('statut', ['actif','gain_dispo']).order('created_at', {ascending:false}).limit(3);
+    const { data } = await sb.from('investissements')
+      .select('*').eq('user_id', U.id).eq('statut', 'actif')
+      .order('created_at', {ascending:false}).limit(3);
     const el = document.getElementById('plans-list');
-    if (!data?.length) {
+    if (!data || !data.length) {
       el.innerHTML = '<div class="empty"><span class="empty-ico">📈</span>Aucun plan actif — <a href="silla-plans.html" style="color:var(--gold);font-weight:700">Investir maintenant</a></div>';
       return;
     }
@@ -662,70 +412,54 @@ async function loadInvests() {
     el.innerHTML = data.map(inv => {
       const fin = new Date(inv.date_fin || inv.created_at).getTime();
       const deb = new Date(inv.created_at).getTime();
-      const pct = fin > deb ? Math.min(100, Math.round((now-deb)/(fin-deb)*100)) : 100;
-      const info = getGainInfo(inv);
-      const ico = '💎';
+      const pct = fin > deb ? Math.min(100, Math.round((now-deb)/(fin-deb)*100)) : 0;
       const nom = (inv.plan_type || 'Plan').toUpperCase().replace(/_/g,' ');
-      const statusLabel = info.etat === 'disponible'
-        ? '🔥 Gains dispo !'
-        : info.etat === 'deja_reclame'
-        ? '✅ Réclamé'
-        : '⏳ Demain';
-      const statusCls = info.etat === 'disponible' ? 's-dispo' : info.etat === 'deja_reclame' ? 's-actif' : 's-attente';
       return `<div class="plan-card">
-        <div class="pc-ico">${ico}</div>
+        <div class="pc-ico">💎</div>
         <div class="pc-info">
           <div class="pc-name">${nom}</div>
           <div class="pc-sub">${fmt(inv.montant)} F · ${inv.duree_jours||'?'}j · +${fmt(inv.gain_attendu)} F/j</div>
           <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
         </div>
         <div class="pc-right">
-          <div class="pc-gain">+${fmt(inv.gain_attendu||0)} F</div>
-          <span class="pc-status ${statusCls}">${statusLabel}</span>
+          <div class="pc-gain">+${fmt(inv.gain_attendu||0)} F/j</div>
+          <span class="pc-status">En cours</span>
         </div>
       </div>`;
     }).join('');
-  } catch(e) { console.error('loadInvests', e); }
+  } catch(e) { console.warn('loadInvests:', e.message); }
 }
 
 async function loadNotifs() {
   try {
-    const { data } = await sb.from('notifications').select('*').eq('user_id', U.id)
-      .order('created_at', {ascending:false}).limit(20);
+    const { data } = await sb.from('notifications').select('*')
+      .eq('user_id', U.id).order('created_at',{ascending:false}).limit(20);
     const ndList = document.getElementById('nd-list');
-    if (!data?.length) {
+    if (!data || !data.length) {
       ndList.innerHTML = '<div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>';
       return;
     }
     const unread = data.filter(n => !n.lu).length;
     const dot = document.getElementById('notif-dot');
-    if (unread > 0) {
-      dot.style.display = 'flex';
-      dot.textContent = unread > 9 ? '9+' : unread > 1 ? String(unread) : '';
-    } else {
-      dot.style.display = 'none';
+    dot.style.display = unread > 0 ? 'flex' : 'none';
+    if (unread > 0) dot.textContent = unread > 9 ? '9+' : unread > 1 ? String(unread) : '';
+    const ICONS = {gain:'💰',info:'📋',admin:'📣',parrainage_gain:'👑',retrait:'💸',recharge:'💳'};
+    function tr(d) {
+      const diff = Math.floor((Date.now()-new Date(d))/60000);
+      if(diff<1) return 'Maintenant'; if(diff<60) return diff+'min';
+      if(diff<1440) return Math.floor(diff/60)+'h';
+      return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
     }
-    const ICONS = {gain:'💰',info:'📋',admin:'📣',bonus_inscription:'🎁',parrainage_gain:'👑',retrait:'💸',recharge:'💳'};
-    function tempsRelatif(d) {
-      const diff = Math.floor((Date.now() - new Date(d).getTime()) / 60000);
-      if (diff < 1)    return 'Maintenant';
-      if (diff < 60)   return diff + 'min';
-      if (diff < 1440) return Math.floor(diff/60) + 'h';
-      return new Date(d).toLocaleDateString('fr-FR', {day:'2-digit', month:'short'});
-    }
-    ndList.innerHTML = data.map(n => {
-      const ico = ICONS[n.type] || '🔔';
-      const unreadDot = !n.lu ? '<span class="nd-dot"></span>' : '';
-      return `<div class="${n.lu ? 'nd-item' : 'nd-item unread'}">
-        <div class="nd-ico">${ico}</div>
+    ndList.innerHTML = data.map(n => `
+      <div class="${n.lu?'nd-item':'nd-item unread'}">
+        <div class="nd-ico">${ICONS[n.type]||'🔔'}</div>
         <div class="nd-info">
-          <div class="nd-name">${n.titre||'Notification'} ${unreadDot}</div>
+          <div class="nd-name">${n.titre||'Notification'} ${!n.lu?'<span class="nd-dot"></span>':''}</div>
           <div class="nd-msg">${n.message||''}</div>
-          <div class="nd-time">${tempsRelatif(n.created_at)}</div>
+          <div class="nd-time">${tr(n.created_at)}</div>
         </div>
-      </div>`;
-    }).join('');
-  } catch(e) { console.error('loadNotifs', e); }
+      </div>`).join('');
+  } catch(e) { console.warn('loadNotifs:', e.message); }
 }
 
 init();
