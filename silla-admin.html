@@ -233,6 +233,8 @@ select.inp{cursor:pointer;-webkit-appearance:none;}
     <div class="card" style="margin-bottom:.8rem">
       <div class="card-head"><div class="card-title">🔍 Filtrer</div></div>
       <div class="card-body" style="display:flex;gap:.5rem">
+        <!-- ✅ FIX : bouton Refresh ajouté -->
+        <button onclick="loadInvests()" style="background:rgba(0,194,113,.15);border:1px solid rgba(0,194,113,.3);color:var(--green);font-size:.65rem;padding:.5rem .8rem;border-radius:8px;cursor:pointer;white-space:nowrap;font-weight:700">🔄 Refresh</button>
         <select class="inp" id="filter-invest-statut" onchange="loadInvests()" style="flex:1;padding:.6rem .8rem">
           <option value="">Tous les statuts</option>
           <option value="actif">Actif</option>
@@ -439,7 +441,7 @@ const TEMPLATES = [
 ];
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// FIX 1 — MODALS (fonctions manquantes)
+// MODALS
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function openModal(id) {
   const el = document.getElementById('modal-' + id);
@@ -485,8 +487,12 @@ async function runDiag() {
   L('5. retraits: ' + (e3 ? '❌ RLS BLOQUE: '+e3.message : '✅ '+(r3?.length||0)+' lignes'));
   const {data:r4, error:e4} = await sb.from('transactions').select('id').eq('type','parrainage_gain').limit(5);
   L('6. parrainage: ' + (e4 ? '❌ '+e4.message : '✅ '+(r4?.length||0)+' commissions'));
+  // ✅ FIX : test investissements dans le diagnostic
+  const {data:r5, error:e5} = await sb.from('investissements').select('id,statut,montant').limit(10);
+  L('7. investissements: ' + (e5 ? '❌ RLS BLOQUE: '+e5.message : '✅ '+(r5?.length||0)+' lignes'));
+  if (r5?.length) L('   Ex: statut='+r5[0].statut+' montant='+r5[0].montant);
   L('');
-  if (e1||e2||e3) {
+  if (e1||e2||e3||e5) {
     L('⚠️  PROBLEME RLS DETECTE');
     L('→ Copie et execute le SQL dans Supabase SQL Editor');
   } else {
@@ -526,6 +532,7 @@ async function init() {
   setInterval(() => {
     if (curSec === 'recharges') loadRecharges();
     if (curSec === 'retraits')  loadRetraits();
+    if (curSec === 'invests')   loadInvests(); // ✅ FIX : auto-refresh invests
     if (curSec === 'dash')      loadDash();
     sb.from('recharges').select('*',{count:'exact',head:true}).eq('statut','en_attente').then(({count}) => {
       const el = document.getElementById('st-pending');
@@ -676,23 +683,54 @@ async function ajouterUser() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// INVESTISSEMENTS
+// ✅ INVESTISSEMENTS — FONCTION CORRIGÉE
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 async function loadInvests() {
   const el = document.getElementById('invests-list');
   el.innerHTML = '<div class="loader"><div class="spin"></div> Chargement…</div>';
+
   const statut = document.getElementById('filter-invest-statut').value;
-  let q = sb.from('investissements').select('*,user:user_id(nom,email)').order('created_at',{ascending:false}).limit(50);
+
+  // ✅ FIX 1 : requête sans join (évite les blocages RLS sur la table utilisateurs)
+  let q = sb.from('investissements')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(200); // ✅ FIX 2 : limite augmentée de 50 → 200
+
   if (statut) q = q.eq('statut', statut);
-  const { data } = await q;
-  if (!data?.length) { el.innerHTML='<div class="empty"><div class="empty-ico">📈</div>Aucun investissement</div>'; return; }
+
+  const { data, error } = await q;
+
+  if (error) {
+    el.innerHTML = `<div class="empty"><div class="empty-ico">⚠️</div>Erreur: ${error.message}</div>`;
+    return;
+  }
+  if (!data?.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-ico">📈</div>Aucun investissement</div>';
+    return;
+  }
+
+  // ✅ FIX 3 : chargement des users séparément pour éviter le join bloquant
+  const userIds = [...new Set(data.map(i => i.user_id).filter(Boolean))];
+  let uMap = {};
+  if (userIds.length) {
+    const { data: users } = await sb.from('utilisateurs')
+      .select('id,nom,email')
+      .in('id', userIds);
+    uMap = Object.fromEntries((users || []).map(u => [u.id, u]));
+  }
+
   el.innerHTML = data.map(inv => {
-    const sClass = inv.statut==='termine'?'s-valide':inv.statut==='expire'?'s-rejete':'s-pending';
+    const u = uMap[inv.user_id] || {};
+    const sClass = inv.statut === 'termine'   ? 's-valide'
+                 : inv.statut === 'expire'    ? 's-rejete'
+                 : inv.statut === 'gain_dispo'? 's-valide'
+                 : 's-pending'; // actif ou autre
     return `<div class="tx-item">
       <div class="tx-ico" style="background:rgba(27,63,228,.1)">📈</div>
       <div class="tx-info">
-        <div class="tx-title">${inv.user?.nom||inv.user?.email||'—'}</div>
-        <div class="tx-sub">${inv.plan_type} · ${fmt(inv.montant)} F · ${inv.duree_jours}j</div>
+        <div class="tx-title">${u.nom || u.email || inv.user_id?.slice(0,8) || '—'}</div>
+        <div class="tx-sub">${inv.plan_type || '—'} · ${fmt(inv.montant)} F · ${inv.duree_jours}j</div>
       </div>
       <div class="tx-right">
         <div class="tx-amt" style="color:var(--green)">+${fmt(inv.gain_attendu)} F</div>
@@ -764,12 +802,10 @@ async function openRechargeModal(id) {
   openModal('recharge');
 }
 
-// FIX 3 — Commission parrainage dans traiterRecharge
 async function traiterRecharge(id, statut, userId, montant) {
   await sb.from('recharges').update({ statut, valide_le: new Date().toISOString() }).eq('id', id);
 
   if (statut === 'valide') {
-    // 1. Créditer le solde de l'utilisateur
     const { data: u } = await sb.from('utilisateurs')
       .select('solde, parrain_id')
       .eq('id', userId).maybeSingle();
@@ -790,7 +826,6 @@ async function traiterRecharge(id, statut, userId, montant) {
       type: 'info'
     });
 
-    // 2. Commission parrainage 5% si filleul parrainé
     if (u?.parrain_id) {
       const commission = Math.round(montant * 0.05);
       const { data: parrain } = await sb.from('utilisateurs')
@@ -1000,7 +1035,6 @@ async function loadParrain() {
       return;
     }
 
-    // Mise à jour des stats rapides
     const pgTotal = document.getElementById('pg-total');
     const pgCount = document.getElementById('pg-count');
     if (pgTotal) pgTotal.textContent = fmtK(totalGains)+'F';
