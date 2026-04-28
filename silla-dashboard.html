@@ -411,33 +411,36 @@ function getGainInfo(inv) {
 }
 
 async function checkAndExpireGains() {
-  // Marque les investissements dont la date_fin est passée
-  const today = dateStr(new Date());
-  const { data: actifs } = await sb.from('investissements')
-    .select('id,date_fin')
-    .eq('user_id', U.id)
-    .eq('statut', 'actif');
-
-  for (const inv of actifs || []) {
-    if (dateStr(inv.date_fin) < today) {
-      await sb.from('investissements').update({ statut: 'termine' }).eq('id', inv.id);
+  try {
+    const today = dateStr(new Date());
+    const { data: actifs } = await sb.from('investissements')
+      .select('id,date_fin')
+      .eq('user_id', U.id)
+      .eq('statut', 'actif');
+    for (const inv of actifs || []) {
+      if (inv.date_fin && dateStr(inv.date_fin) < today) {
+        await sb.from('investissements').update({ statut: 'termine' }).eq('id', inv.id);
+      }
     }
-  }
+  } catch(e) { console.warn('checkAndExpireGains:', e.message); }
 }
 
 async function loadGainsZone() {
   const zone = document.getElementById('gains-zone');
   if (_timerInterval) { clearInterval(_timerInterval); _timerInterval = null; }
 
-  const { data: invests } = await sb.from('investissements')
-    .select('*')
-    .eq('user_id', U.id)
-    .eq('statut', 'actif');
+  try {
+    const { data: invests, error } = await sb.from('investissements')
+      .select('*')
+      .eq('user_id', U.id)
+      .eq('statut', 'actif');
 
-  if (!invests?.length) { zone.innerHTML = ''; return; }
+    // Si erreur (ex: colonne derniere_reclamation manquante), on abandonne silencieusement
+    if (error) { console.warn('loadGainsZone:', error.message); zone.innerHTML = ''; return; }
+    if (!invests?.length) { zone.innerHTML = ''; return; }
 
-  // Filtrer ceux qui ont un gain disponible aujourd'hui
-  const disponibles = invests.filter(inv => getGainInfo(inv).etat === 'disponible');
+    // Filtrer ceux qui ont un gain disponible aujourd'hui
+    const disponibles = invests.filter(inv => { try { return getGainInfo(inv).etat === 'disponible'; } catch(e){ return false; } });
 
   if (!disponibles.length) { zone.innerHTML = ''; return; }
 
@@ -507,6 +510,8 @@ async function loadGainsZone() {
     el.textContent = `⏰ ${h}:${m}:${s}`;
     el.className = `ga-timer ${urgent?'urgent':''}`;
   }, 1000);
+
+  } catch(e) { console.warn('loadGainsZone error:', e.message); zone.innerHTML = ''; }
 }
 
 async function reclamerGains() {
@@ -590,34 +595,42 @@ async function reclamerGains() {
 async function init() {
   initBanniereTg();
 
-  const { data: sd } = await sb.auth.getSession();
-  if (!sd?.session) { window.location.href = 'silla-login.html'; return; }
-  U = sd.session.user;
+  try {
+    const { data: sd } = await sb.auth.getSession();
+    if (!sd?.session) { window.location.href = 'silla-login.html'; return; }
+    U = sd.session.user;
 
-  const { data: p } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
-  if (p) {
-    P = p;
-  } else {
-    const code = 'SLA-' + U.id.slice(0,6).toUpperCase();
-    await sb.from('utilisateurs').upsert({
-      id: U.id, nom: U.user_metadata?.full_name || 'Membre',
-      email: U.email, solde: 1000, code_parrainage: code,
-      statut: 'actif', is_admin: false, created_at: new Date().toISOString()
-    }, {onConflict:'id'});
-    const { data: pp } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
-    P = pp || { solde: 1000, nom: 'Membre' };
+    const { data: p } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
+    if (p) {
+      P = p;
+    } else {
+      const code = 'SLA-' + U.id.slice(0,6).toUpperCase();
+      await sb.from('utilisateurs').upsert({
+        id: U.id, nom: U.user_metadata?.full_name || 'Membre',
+        email: U.email, solde: 1000, code_parrainage: code,
+        statut: 'actif', is_admin: false, created_at: new Date().toISOString()
+      }, {onConflict:'id'});
+      const { data: pp } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
+      P = pp || { solde: 1000, nom: 'Membre' };
+    }
+
+    const prenom = (P?.nom || 'Membre').split(' ')[0];
+    document.getElementById('tb-avatar').textContent = prenom[0]?.toUpperCase() || 'M';
+    document.getElementById('hero-solde').textContent = fmt(P?.solde || 0) + ' F';
+    if ((P?.solde || 0) === 1000 && !P?.bonus_utilise)
+      document.getElementById('hero-bonus').style.display = 'block';
+
+  } catch(e) {
+    console.error('init profil:', e);
+    document.getElementById('hero-solde').textContent = '0 F';
   }
 
-  const prenom = (P?.nom || 'Membre').split(' ')[0];
-  document.getElementById('tb-avatar').textContent = prenom[0]?.toUpperCase() || 'M';
-  document.getElementById('hero-solde').textContent = fmt(P?.solde || 0) + ' F';
-  if ((P?.solde || 0) === 1000 && !P?.bonus_utilise)
-    document.getElementById('hero-bonus').style.display = 'block';
-
-  // Expirer les investissements terminés
-  await checkAndExpireGains();
-
-  await Promise.all([loadStats(), loadGainsZone(), loadInvests(), loadNotifs()]);
+  // Ces fonctions ont chacune leur propre try/catch — elles ne cassent pas le reste
+  checkAndExpireGains();
+  loadStats();
+  loadGainsZone();
+  loadInvests();
+  loadNotifs();
 }
 
 async function loadStats() {
