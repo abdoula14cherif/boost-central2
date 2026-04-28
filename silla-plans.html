@@ -22,6 +22,12 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .hero-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#E8C060;}
 .hero-sub{font-size:.68rem;color:rgba(232,192,96,.45);margin-top:4px;}
 
+/* INFO GAINS BOX */
+.info-gains{background:rgba(22,163,74,.05);border:1px solid rgba(22,163,74,.2);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;}
+.ig-ico{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.ig-text{font-size:.73rem;color:#15803D;line-height:1.7;}
+.ig-text strong{font-weight:700;}
+
 /* SECTION */
 .sec{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);}
@@ -32,21 +38,17 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .plan-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);cursor:pointer;transition:all .2s;position:relative;}
 .plan-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--shadow);}
 .plan-card:active{transform:scale(.98);}
-.plan-card.promo{border-color:rgba(224,90,43,.25);}
 .plan-card.elite{border-color:rgba(184,134,11,.3);}
 .plan-bar{height:3px;width:100%;}
 .pb-green{background:linear-gradient(90deg,var(--green),#22C55E);}
-.pb-orange{background:linear-gradient(90deg,var(--ember),#F97316);}
 .pb-gold{background:linear-gradient(90deg,var(--gold),var(--gold-ll));}
 .pb-elite{background:linear-gradient(90deg,#1D4ED8,#7C3AED);}
 .plan-body{padding:16px 18px;}
 .plan-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .plan-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--ink);}
 .plan-tag{font-size:.55rem;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.06em;}
-.tag-promo{background:rgba(224,90,43,.1);color:var(--ember);}
 .tag-pop{background:rgba(22,163,74,.1);color:var(--green);}
 .tag-elite{background:rgba(29,78,216,.1);color:var(--blue);}
-.tag-locked{background:rgba(107,76,30,.1);color:var(--brown);}
 .plan-amounts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
 .pa{background:var(--warm);border-radius:8px;padding:10px 8px;text-align:center;}
 .pa-val{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;line-height:1;}
@@ -57,13 +59,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .plan-btn{width:100%;padding:13px;border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;}
 .pb-activer{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;box-shadow:0 4px 12px rgba(184,134,11,.25);}
 .pb-activer:hover{box-shadow:0 6px 18px rgba(184,134,11,.35);}
-.pb-locked{background:var(--warm);color:var(--muted);border:1px solid var(--border);cursor:not-allowed;}
-
-/* LOCK OVERLAY */
-.lock-overlay{position:absolute;inset:0;background:rgba(254,252,247,.88);backdrop-filter:blur(2px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border-radius:16px;}
-.lo-ico{font-size:1.8rem;}
-.lo-txt{font-size:.78rem;font-weight:700;color:var(--brown);}
-.lo-sub{font-size:.62rem;color:var(--muted);text-align:center;padding:0 20px;}
 
 /* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(26,15,0,.5);z-index:300;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
@@ -80,6 +75,11 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .mr-lbl{color:var(--muted);}
 .mr-val{font-weight:600;color:var(--ink);}
 .mr-val.green{color:var(--green);}
+
+/* NOTE GAINS MODAL */
+.note-gains{background:rgba(22,163,74,.05);border:1px solid rgba(22,163,74,.18);border-radius:8px;padding:11px 14px;margin-bottom:14px;font-size:.73rem;color:#15803D;line-height:1.75;}
+.note-gains strong{font-weight:700;}
+
 .btn-modal{width:100%;padding:15px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:#fff;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:8px;box-shadow:0 4px 14px rgba(184,134,11,.25);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:.4rem;}
 .btn-modal:disabled{opacity:.4;cursor:not-allowed;}
 .btn-cancel{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:8px;background:transparent;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;}
@@ -111,6 +111,17 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     <div class="hero-lbl">Votre solde</div>
     <div class="hero-val" id="hero-solde">— F</div>
     <div class="hero-sub">Disponible pour investir</div>
+  </div>
+
+  <!-- INFO GAINS -->
+  <div class="info-gains">
+    <div class="ig-ico">ℹ️</div>
+    <div class="ig-text">
+      <strong>Comment fonctionnent les gains ?</strong><br>
+      Après avoir investi, vos gains sont disponibles <strong>à partir du lendemain</strong> (J+1).
+      Chaque jour, un bouton "Réclamer" apparaît sur votre tableau de bord.
+      <strong>pour plus d'informationssuiveznoussur télégramme</strong>  votre investissement continue normalement.
+    </div>
   </div>
 
   <!-- STARTER -->
@@ -254,119 +265,148 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const sb=supabase.createClient('https://pnybmieunidegpxwkodn.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY');
-const fmt=n=>Number(n||0).toLocaleString('fr-FR');
-let U=null,P=null;
+const sb = supabase.createClient(
+  'https://pnybmieunidegpxwkodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBueWJtaWV1bmlkZWdweHdrb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NzQxNjcsImV4cCI6MjA5MjE1MDE2N30.nB7sZDP5_ObxvW112LlrhS788_xdUoAVFnsFmPrXUsY'
+);
+const fmt = n => Number(n||0).toLocaleString('fr-FR');
+let U = null, P = null;
 
-// ── VRAIS PLANS SILLA ──
-const PLANS={
-  // Starter
-  s1:{id:'s1',nom:'Starter S1',depot:3000,   gain:400,  jours:60, gainTotal:24000,  type:'starter'},
-  s2:{id:'s2',nom:'Starter S2',depot:6000,   gain:800,  jours:60, gainTotal:48000,  type:'starter'},
-  // Premium
-  p1:{id:'p1',nom:'Premium P1',depot:15000,  gain:1500, jours:60, gainTotal:90000,  type:'premium'},
-  p2:{id:'p2',nom:'Premium P2',depot:25000,  gain:2500, jours:60, gainTotal:150000, type:'premium'},
-  p3:{id:'p3',nom:'Premium P3',depot:50000,  gain:8000, jours:45, gainTotal:360000, type:'premium'},
-  // Elite
-  e1:{id:'e1',nom:'Élite E1',  depot:200000, gain:15000,jours:45, gainTotal:675000, type:'elite'},
-  e2:{id:'e2',nom:'Élite E2',  depot:500000, gain:30000,jours:45, gainTotal:1350000,type:'elite'},
-  e3:{id:'e3',nom:'Élite E3',  depot:2000000,gain:50000,jours:45, gainTotal:2250000,type:'elite'},
+const PLANS = {
+  s1:{id:'s1',nom:'Starter S1', depot:3000,   gain:400,   jours:60, gainTotal:24000,   type:'starter'},
+  s2:{id:'s2',nom:'Starter S2', depot:6000,   gain:800,   jours:60, gainTotal:48000,   type:'starter'},
+  p1:{id:'p1',nom:'Premium P1', depot:15000,  gain:1500,  jours:60, gainTotal:90000,   type:'premium'},
+  p2:{id:'p2',nom:'Premium P2', depot:25000,  gain:2500,  jours:60, gainTotal:150000,  type:'premium'},
+  p3:{id:'p3',nom:'Premium P3', depot:50000,  gain:8000,  jours:45, gainTotal:360000,  type:'premium'},
+  e1:{id:'e1',nom:'Élite E1',   depot:200000, gain:15000, jours:45, gainTotal:675000,  type:'elite'},
+  e2:{id:'e2',nom:'Élite E2',   depot:500000, gain:30000, jours:45, gainTotal:1350000, type:'elite'},
+  e3:{id:'e3',nom:'Élite E3',   depot:2000000,gain:50000, jours:45, gainTotal:2250000, type:'elite'},
 };
 
-function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(toast._t);toast._t=setTimeout(()=>el.className='toast',4500);}
-function closeModal(){document.getElementById('modal').classList.remove('open');}
+function toast(m, t='') {
+  const el = document.getElementById('toast');
+  el.textContent = m; el.className = 'toast show' + (t?' '+t:'');
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.className = 'toast', 4500);
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-function openModal(planId){
-  const plan=PLANS[planId];if(!plan)return;
-  const solde=P?.solde||0;
-  const manque=plan.depot-solde;
-  const ok=solde>=plan.depot;
-  const gainTotal=plan.gainTotal||(plan.gain*plan.jours);
+function openModal(planId) {
+  const plan = PLANS[planId]; if (!plan) return;
+  const solde = P?.solde || 0;
+  const manque = plan.depot - solde;
+  const ok = solde >= plan.depot;
 
-  document.getElementById('modal-inner').innerHTML=`
+  document.getElementById('modal-inner').innerHTML = `
     <div class="modal-title">${plan.nom}</div>
     <div class="modal-sub">Confirmer votre investissement</div>
     <div class="modal-recap">
       <div class="mr"><span class="mr-lbl">Mise de départ</span><span class="mr-val">${fmt(plan.depot)} F</span></div>
       <div class="mr"><span class="mr-lbl">Gain quotidien</span><span class="mr-val green">+${fmt(plan.gain)} F/jour</span></div>
-      <div class="mr"><span class="mr-lbl">Durée</span><span class="mr-val">${plan.jours} jours · ${plan.taches} tâches/j</span></div>
-      <div class="mr"><span class="mr-lbl">💰 Gain total estimé</span><span class="mr-val green">+${fmt(gainTotal)} F</span></div>
+      <div class="mr"><span class="mr-lbl">Durée</span><span class="mr-val">${plan.jours} jours</span></div>
+      <div class="mr"><span class="mr-lbl">💰 Gain total estimé</span><span class="mr-val green">+${fmt(plan.gainTotal)} F</span></div>
     </div>
-    ${!ok?`<div style="background:rgba(224,90,43,.06);border:1px solid rgba(224,90,43,.2);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:.74px;color:var(--ember);line-height:1.7">
-      ⚠️ Solde insuffisant — il vous manque <strong>${fmt(manque)} FCFA</strong>.
+    <div class="note-gains">
+      📅 <strong>Premier gain disponible demain (J+1).</strong><br>
+      Chaque jour, un bouton "Réclamer" apparaîtra sur votre tableau de bord.<br>
+      ⚠️ Vous avez <strong>jusqu'à minuit</strong> pour réclamer — passé ce délai le gain du jour est perdu, mais l'investissement continue.
     </div>
-    <button class="btn-modal" onclick="closeModal();window.location.href='silla-recharge.html'">💳 Recharger mon compte</button>`
-    :`<div style="background:rgba(22,163,74,.05);border:1px solid rgba(22,163,74,.15);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:.74rem;color:var(--green);line-height:1.7">
-      ✅ Solde disponible : <strong>${fmt(solde)} F</strong> · Investissement possible
-    </div>
-    <button class="btn-modal" id="btn-confirm-${planId}" onclick="activerPlan('${planId}')">⚡ Confirmer l'investissement</button>`}
+    ${!ok
+      ? `<div style="background:rgba(224,90,43,.06);border:1px solid rgba(224,90,43,.2);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:.74rem;color:var(--ember);line-height:1.7">
+           ⚠️ Solde insuffisant — il vous manque <strong>${fmt(manque)} F</strong>.
+         </div>
+         <button class="btn-modal" onclick="closeModal();window.location.href='silla-recharge.html'">💳 Recharger mon compte</button>`
+      : `<div style="background:rgba(22,163,74,.05);border:1px solid rgba(22,163,74,.15);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:.74rem;color:var(--green);line-height:1.7">
+           ✅ Solde disponible : <strong>${fmt(solde)} F</strong> · Investissement possible
+         </div>
+         <button class="btn-modal" id="btn-confirm-${planId}" onclick="activerPlan('${planId}')">⚡ Confirmer l'investissement</button>`
+    }
     <button class="btn-cancel" onclick="closeModal()">Annuler</button>`;
   document.getElementById('modal').classList.add('open');
 }
 
-async function activerPlan(planId){
-  const plan=PLANS[planId];
-  if(!plan||!P)return;
-  if(P.solde<plan.depot){toast('⚠️ Solde insuffisant','err');return;}
-  const btn=document.getElementById('btn-confirm-'+planId);
-  if(btn){btn.disabled=true;btn.innerHTML='<div class="ld"></div> Activation...';}
-  try{
-    const now=new Date();
-    const fin=new Date(now.getTime()+plan.jours*24*3600000);
-    const nvSolde=P.solde-plan.depot;
-    await sb.from('utilisateurs').update({solde:nvSolde,bonus_utilise:true}).eq('id',U.id);
+async function activerPlan(planId) {
+  const plan = PLANS[planId];
+  if (!plan || !P) return;
+  if (P.solde < plan.depot) { toast('⚠️ Solde insuffisant', 'err'); return; }
+  const btn = document.getElementById('btn-confirm-'+planId);
+  if (btn) { btn.disabled = true; btn.innerHTML = '<div class="ld"></div> Activation...'; }
+
+  try {
+    const now = new Date();
+    const fin = new Date(now.getTime() + plan.jours * 24 * 3600000);
+    const nvSolde = P.solde - plan.depot;
+
+    await sb.from('utilisateurs').update({ solde: nvSolde }).eq('id', U.id);
+
+    // ✅ derniere_reclamation initialisé à null → premier gain dispo demain
     await sb.from('investissements').insert({
-      user_id:U.id,plan_type:plan.id,montant:plan.depot,
-      taux:Math.round(plan.gain/plan.depot*100),
-      gain_attendu:plan.gain,gain_total:plan.gain*plan.jours,
-      duree_jours:plan.jours,statut:'actif',
-      date_debut:now.toISOString(),date_fin:fin.toISOString()
-    });
-    await sb.from('transactions').insert({
-      user_id:U.id,type:'investissement',
-      montant:plan.depot,description:plan.nom+' active'
+      user_id:             U.id,
+      plan_type:           plan.id,
+      montant:             plan.depot,
+      taux:                Math.round(plan.gain / plan.depot * 100),
+      gain_attendu:        plan.gain,
+      gain_total:          plan.gainTotal,
+      duree_jours:         plan.jours,
+      statut:              'actif',
+      date_debut:          now.toISOString(),
+      date_fin:            fin.toISOString(),
+      derniere_reclamation: null   // ← clé pour le système de réclamation
     });
 
-    // ── COMMISSION PARRAIN 5% ──
-    const{data:profil}=await sb.from('utilisateurs').select('parrain_id').eq('id',U.id).maybeSingle();
-    if(profil?.parrain_id){
-      const commission=Math.round(plan.depot*0.05);
-      // Crediter le parrain
-      const{data:parrain}=await sb.from('utilisateurs').select('solde,nom').eq('id',profil.parrain_id).maybeSingle();
-      if(parrain){
-        await sb.from('utilisateurs').update({solde:(parrain.solde||0)+commission}).eq('id',profil.parrain_id);
+    await sb.from('transactions').insert({
+      user_id: U.id, type: 'investissement',
+      montant: plan.depot, description: plan.nom + ' activé'
+    });
+
+    await sb.from('notifications').insert({
+      user_id: U.id,
+      titre:   '📈 ' + plan.nom + ' activé !',
+      message: `Votre investissement de ${fmt(plan.depot)} F est actif. Vos premiers gains (+${fmt(plan.gain)} F) seront disponibles demain sur votre tableau de bord.`,
+      type: 'info'
+    });
+
+    // Commission parrain 5%
+    const { data: profil } = await sb.from('utilisateurs').select('parrain_id,nom').eq('id', U.id).maybeSingle();
+    if (profil?.parrain_id) {
+      const commission = Math.round(plan.depot * 0.05);
+      const { data: parrain } = await sb.from('utilisateurs').select('solde').eq('id', profil.parrain_id).maybeSingle();
+      if (parrain) {
+        await sb.from('utilisateurs').update({ solde: (parrain.solde||0) + commission }).eq('id', profil.parrain_id);
         await sb.from('transactions').insert({
-          user_id:profil.parrain_id,
-          type:'parrainage_gain',
-          montant:commission,
-          description:'Commission parrainage — '+P?.nom+' a investi '+fmt(plan.depot)+' F dans '+plan.nom
+          user_id: profil.parrain_id, type: 'parrainage_gain', montant: commission,
+          description: 'Commission parrainage — ' + (profil.nom||'') + ' a investi ' + fmt(plan.depot) + ' F dans ' + plan.nom
         });
         await sb.from('notifications').insert({
-          user_id:profil.parrain_id,
-          titre:'👑 Commission parrainage +'+fmt(commission)+' F',
-          message:'Votre filleul '+(P?.nom||'un membre')+' vient d investir '+fmt(plan.depot)+' F. Vous recevez '+fmt(commission)+' F (5%).',
-          type:'parrainage_gain'
+          user_id: profil.parrain_id,
+          titre:   '👑 Commission parrainage +' + fmt(commission) + ' F',
+          message: 'Votre filleul ' + (profil.nom||'un membre') + ' vient d\'investir ' + fmt(plan.depot) + ' F. Vous recevez ' + fmt(commission) + ' F (5%).',
+          type: 'parrainage_gain'
         });
       }
     }
 
-    P.solde=nvSolde;
-    document.getElementById('tb-solde').textContent=fmt(nvSolde)+' F';
-    document.getElementById('hero-solde').textContent=fmt(nvSolde)+' F';
+    P.solde = nvSolde;
+    document.getElementById('tb-solde').textContent = fmt(nvSolde) + ' F';
+    document.getElementById('hero-solde').textContent = fmt(nvSolde) + ' F';
     closeModal();
-    toast('✅ '+plan.nom+' active ! Gains debloqués','ok');
-  }catch(e){
-    if(btn){btn.disabled=false;btn.innerHTML='⚡ Confirmer l\'investissement';}
-    toast('❌ '+e.message,'err');
+    toast('✅ ' + plan.nom + ' activé ! Premier gain dispo demain.', 'ok');
+
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.innerHTML = '⚡ Confirmer l\'investissement'; }
+    toast('❌ ' + e.message, 'err');
   }
 }
 
-async function init(){
-  const{data}=await sb.auth.getSession();
-  if(!data?.session){window.location.href='silla-login.html';return;}
-  U=data.session.user;
-  const{data:p}=await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
-  if(p){P=p;document.getElementById('tb-solde').textContent=fmt(p.solde||0)+' F';document.getElementById('hero-solde').textContent=fmt(p.solde||0)+' F';}
+async function init() {
+  const { data } = await sb.auth.getSession();
+  if (!data?.session) { window.location.href = 'silla-login.html'; return; }
+  U = data.session.user;
+  const { data: p } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
+  if (p) {
+    P = p;
+    document.getElementById('tb-solde').textContent = fmt(p.solde||0) + ' F';
+    document.getElementById('hero-solde').textContent = fmt(p.solde||0) + ' F';
+  }
 }
 init();
 </script>
