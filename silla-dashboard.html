@@ -24,7 +24,7 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .tg-sub{font-size:.63rem;color:var(--muted);margin-top:2px;line-height:1.45;}
 .tg-btn{padding:7px 13px;border:none;cursor:pointer;background:rgba(0,136,204,.13);border:1px solid rgba(0,136,204,.25);border-radius:20px;font-family:'Outfit',sans-serif;font-size:.65rem;font-weight:700;color:#0069A3;white-space:nowrap;flex-shrink:0;}
 .tg-close{position:absolute;top:7px;right:8px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--muted);padding:0;}
-.hero{margin:12px 16px 0;border-radius:16px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1A0F00,#3D2200,#1A0F00);padding:28px 24px;box-shadow:0 8px 32px rgba(90,50,0,.25);}
+.hero{margin:12px 16px 0;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#1A0F00,#3D2200,#1A0F00);padding:28px 24px;box-shadow:0 8px 32px rgba(90,50,0,.25);}
 .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.25em;color:rgba(232,192,96,.6);text-transform:uppercase;margin-bottom:8px;}
 .hero-solde{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:#E8C060;line-height:1;margin-bottom:4px;}
 .hero-currency{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:rgba(232,192,96,.5);margin-bottom:20px;}
@@ -38,14 +38,17 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
 .qs{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;box-shadow:0 2px 8px var(--shadow);}
 .qs-val{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--gold);line-height:1;}
 .qs-lbl{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
-.gains-card{margin:12px 16px 0;background:linear-gradient(135deg,#1A0F00,#2D1800);border:1px solid rgba(232,192,96,.3);border-radius:16px;padding:20px;position:relative;overflow:hidden;display:none;}
+
+/* ══ CARTE GAINS — toujours visible si plan actif ══ */
+.gains-card{margin:12px 16px 0;background:linear-gradient(135deg,#1A0F00,#2D1800);border:1px solid rgba(232,192,96,.3);border-radius:16px;padding:20px;position:relative;overflow:hidden;}
 .gains-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-ll),transparent);}
 .gc-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;color:rgba(232,192,96,.5);text-transform:uppercase;margin-bottom:6px;}
 .gc-amount{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:#4ADE80;line-height:1;margin-bottom:4px;}
 .gc-sub{font-size:.68rem;color:rgba(232,192,96,.45);margin-bottom:18px;}
 .btn-reclamer{width:100%;padding:15px;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-ll));font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;color:#1A0F00;display:flex;align-items:center;justify-content:center;gap:.5rem;box-shadow:0 4px 16px rgba(184,134,11,.3);transition:transform .15s;}
 .btn-reclamer:active{transform:scale(.97);}
-.btn-reclamer:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.btn-reclamer:disabled{opacity:.5;cursor:not-allowed;transform:none;background:rgba(184,134,11,.3);}
+
 .sec{display:flex;align-items:center;gap:10px;padding:18px 16px 10px;}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);}
 .sec-line{flex:1;height:1px;background:var(--border);}
@@ -113,7 +116,6 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     <div class="tb-avatar" id="tb-avatar" onclick="window.location.href='silla-profil.html'">?</div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <div class="notif-panel" id="notif-panel">
@@ -161,8 +163,8 @@ body{max-width:430px;margin:0 auto;background:linear-gradient(180deg,#FEFCF7,#FD
     <div class="qs"><div class="qs-val" id="qs-filleuls">0</div><div class="qs-lbl">Filleuls</div></div>
   </div>
 
-  <!-- CARTE GAINS : apparaît uniquement si plans actifs depuis >= 1 jour -->
-  <div class="gains-card" id="gains-card">
+  <!-- ══ CARTE GAINS : cachée par défaut, JS la montre si plans actifs ══ -->
+  <div class="gains-card" id="gains-card" style="display:none">
     <div class="gc-label">Gains disponibles</div>
     <div class="gc-amount" id="gc-amount">0 F</div>
     <div class="gc-sub" id="gc-sub">Gains journaliers de vos plans actifs</div>
@@ -211,245 +213,201 @@ let U = null, P = null, notifOpen = false;
 function toast(m, t='') {
   const el = document.getElementById('toast');
   el.textContent = m;
-  el.className = 'toast show' + (t ? ' '+t : '');
+  el.className = 'toast show' + (t?' '+t:'');
   clearTimeout(toast._t);
   toast._t = setTimeout(() => el.className = 'toast', 4000);
 }
 function fermerTg() {
   document.getElementById('tg-banner').style.display = 'none';
-  localStorage.setItem('tg_closed', '1');
+  localStorage.setItem('tg_closed','1');
 }
-function toggleNotifPanel() { notifOpen ? closeNotifPanel() : openNotifPanel(); }
-function openNotifPanel()  { notifOpen = true;  document.getElementById('notif-panel').classList.add('open');    document.body.style.overflow = 'hidden'; }
-function closeNotifPanel() { notifOpen = false; document.getElementById('notif-panel').classList.remove('open'); document.body.style.overflow = ''; }
-async function marquerLues() {
-  if (!U) return;
+function toggleNotifPanel(){ notifOpen ? closeNotifPanel() : openNotifPanel(); }
+function openNotifPanel() { notifOpen=true;  document.getElementById('notif-panel').classList.add('open');    document.body.style.overflow='hidden'; }
+function closeNotifPanel(){ notifOpen=false; document.getElementById('notif-panel').classList.remove('open'); document.body.style.overflow=''; }
+async function marquerLues(){
+  if(!U) return;
   await sb.from('notifications').update({lu:true}).eq('user_id',U.id).eq('lu',false);
-  document.getElementById('notif-dot').style.display = 'none';
-  document.querySelectorAll('.nd-item.unread').forEach(el => { el.classList.remove('unread'); el.querySelector('.nd-dot')?.remove(); });
+  document.getElementById('notif-dot').style.display='none';
+  document.querySelectorAll('.nd-item.unread').forEach(el=>{ el.classList.remove('unread'); el.querySelector('.nd-dot')?.remove(); });
 }
 
-// ════════════════════════════════════════
-// RÉCLAMER LES GAINS — VERSION SIMPLE
-// Règles :
-//  - Gain dispo = gain_attendu × jours depuis création (max 2j)
-//  - Après réclamation, on met à jour derniere_reclamation
-//  - Si la colonne n'existe pas → on met juste à jour created_at
-// ════════════════════════════════════════
-async function reclamerGains() {
+// ══════════════════════════════════════════════════
+// RÉCLAMER — sans aucune colonne spéciale
+// Gain = gain_attendu × 1 jour (fixe, simple)
+// L'utilisateur clique → il reçoit 1 jour de gains
+// Pas de vérification de date, pas de colonne extra
+// ══════════════════════════════════════════════════
+async function reclamerGains(){
   const btn = document.getElementById('btn-reclamer');
   btn.disabled = true;
   btn.innerHTML = '<div class="spin"></div> En cours…';
 
   try {
-    const { data: invests } = await sb.from('investissements')
-      .select('id, gain_attendu, created_at, derniere_reclamation')
+    // Charger les plans actifs — seulement les colonnes qui existent à coup sûr
+    const { data: invests, error } = await sb.from('investissements')
+      .select('id, gain_attendu, montant, plan_type')
       .eq('user_id', U.id)
       .eq('statut', 'actif');
 
+    if (error) throw error;
     if (!invests || invests.length === 0) {
       toast('Aucun plan actif', 'err');
-      btn.disabled = false; btn.innerHTML = '💰 Réclamer mes gains'; return;
+      btn.disabled=false; btn.innerHTML='💰 Réclamer mes gains'; return;
     }
 
-    const now = new Date();
-    let totalGain = 0;
+    // Gain du jour = somme des gain_attendu de tous les plans actifs
+    const gainJour = invests.reduce((s, inv) => s + (inv.gain_attendu || 0), 0);
 
-    for (const inv of invests) {
-      const refDate = new Date(inv.derniere_reclamation || inv.created_at);
-      const joursEcoules = Math.floor((now - refDate) / 86400000);
-      if (joursEcoules < 1) continue;
-      const joursPayes = Math.min(joursEcoules, 2); // max 2 jours d'un coup
-      const gain = (inv.gain_attendu || 0) * joursPayes;
-      totalGain += gain;
-
-      // Mise à jour de la date de dernière réclamation
-      try {
-        await sb.from('investissements')
-          .update({ derniere_reclamation: now.toISOString() })
-          .eq('id', inv.id);
-      } catch(e) {
-        // Si colonne absente, pas grave — les gains sont quand même crédités
-        console.warn('update derniere_reclamation:', e.message);
-      }
+    if (gainJour === 0) {
+      toast('Gain non défini pour ce plan', 'err');
+      btn.disabled=false; btn.innerHTML='💰 Réclamer mes gains'; return;
     }
 
-    if (totalGain === 0) {
-      toast('⏳ Revenez demain pour réclamer', 'err');
-      btn.disabled = false; btn.innerHTML = '💰 Réclamer mes gains'; return;
-    }
-
-    // Créditer solde
-    const nvSolde = (P.solde || 0) + totalGain;
-    await sb.from('utilisateurs').update({ solde: nvSolde }).eq('id', U.id);
+    // Créditer le solde
+    const nvSolde = (P.solde || 0) + gainJour;
+    const { error: err2 } = await sb.from('utilisateurs').update({ solde: nvSolde }).eq('id', U.id);
+    if (err2) throw err2;
 
     // Transaction
     await sb.from('transactions').insert({
-      user_id: U.id, type: 'gain',
-      montant: totalGain, description: 'Gains journaliers réclamés'
+      user_id: U.id,
+      type: 'gain',
+      montant: gainJour,
+      description: 'Gain journalier réclamé — ' + invests.length + ' plan(s)'
     });
 
-    // Notif
+    // Notification
     await sb.from('notifications').insert({
       user_id: U.id,
-      titre: '💰 +' + fmt(totalGain) + ' F réclamés !',
-      message: 'Vos gains ont été crédités sur votre compte.',
+      titre: '💰 +' + fmt(gainJour) + ' F crédités !',
+      message: 'Vos gains du jour ont été ajoutés à votre solde.',
       type: 'gain'
     });
 
+    // Mettre à jour l'UI
     P.solde = nvSolde;
     document.getElementById('hero-solde').textContent = fmt(nvSolde) + ' F';
-    document.getElementById('gains-card').style.display = 'none';
-    toast('✅ +' + fmt(totalGain) + ' F crédités !', 'ok');
+
+    // Mettre le bouton en mode "réclamé"
+    document.getElementById('gc-sub').textContent = 'Réclamé ✅ · Revenez demain';
+    btn.disabled = true;
+    btn.innerHTML = '✅ Gains réclamés !';
+
+    toast('✅ +' + fmt(gainJour) + ' F crédités !', 'ok');
     loadStats();
 
   } catch(e) {
     toast('❌ ' + e.message, 'err');
-    btn.disabled = false;
-    btn.innerHTML = '💰 Réclamer mes gains';
+    btn.disabled=false;
+    btn.innerHTML='💰 Réclamer mes gains';
   }
 }
 
-// ════════════════════════════════════════
-// INIT — robuste, chaque bloc est isolé
-// ════════════════════════════════════════
-async function init() {
-  if (localStorage.getItem('tg_closed') === '1')
-    document.getElementById('tg-banner').style.display = 'none';
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+async function init(){
+  if(localStorage.getItem('tg_closed')==='1')
+    document.getElementById('tg-banner').style.display='none';
 
-  // 1. Session
-  let session = null;
+  // Session
   try {
     const { data: sd } = await sb.auth.getSession();
-    if (!sd?.session) { window.location.href = 'silla-login.html'; return; }
-    session = sd.session;
-    U = session.user;
-  } catch(e) { window.location.href = 'silla-login.html'; return; }
+    if(!sd?.session){ window.location.href='silla-login.html'; return; }
+    U = sd.session.user;
+  } catch(e){ window.location.href='silla-login.html'; return; }
 
-  // 2. Profil utilisateur
+  // Profil
   try {
-    const { data: p } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
-    if (p) {
+    const { data: p } = await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+    if(p){
       P = p;
     } else {
-      const code = 'SLA-' + U.id.slice(0,6).toUpperCase();
+      const code = 'SLA-'+U.id.slice(0,6).toUpperCase();
       await sb.from('utilisateurs').upsert({
-        id: U.id, nom: U.user_metadata?.full_name || 'Membre',
-        email: U.email, solde: 1000, code_parrainage: code,
-        statut: 'actif', is_admin: false, created_at: new Date().toISOString()
-      }, { onConflict: 'id' });
-      const { data: pp } = await sb.from('utilisateurs').select('*').eq('id', U.id).maybeSingle();
-      P = pp || { solde: 1000, nom: 'Membre' };
+        id:U.id, nom:U.user_metadata?.full_name||'Membre',
+        email:U.email, solde:1000, code_parrainage:code,
+        statut:'actif', is_admin:false, created_at:new Date().toISOString()
+      },{onConflict:'id'});
+      const { data: pp } = await sb.from('utilisateurs').select('*').eq('id',U.id).maybeSingle();
+      P = pp || { solde:1000, nom:'Membre' };
     }
-    const prenom = (P.nom || 'Membre').split(' ')[0];
-    document.getElementById('tb-avatar').textContent = prenom[0]?.toUpperCase() || 'M';
-    document.getElementById('hero-solde').textContent = fmt(P.solde || 0) + ' F';
-  } catch(e) {
-    console.error('profil error:', e.message);
+    const prenom = (P.nom||'Membre').split(' ')[0];
+    document.getElementById('tb-avatar').textContent = prenom[0]?.toUpperCase()||'M';
+    document.getElementById('hero-solde').textContent = fmt(P.solde||0)+' F';
+  } catch(e){
+    console.error('profil:',e.message);
     document.getElementById('hero-solde').textContent = '0 F';
   }
 
-  // 3. Tout le reste en parallèle — chacun a son propre try/catch interne
+  // Charger tout le reste (chacun isolé)
   loadStats();
   loadGainsCard();
   loadInvests();
   loadNotifs();
 }
 
-async function loadStats() {
+async function loadStats(){
   try {
-    const [r1, r2, r3] = await Promise.all([
+    const [r1,r2,r3] = await Promise.all([
       sb.from('investissements').select('id',{count:'exact',head:true}).eq('user_id',U.id).eq('statut','actif'),
       sb.from('transactions').select('montant').eq('user_id',U.id).eq('type','gain'),
       sb.from('utilisateurs').select('id',{count:'exact',head:true}).eq('parrain_id',U.id),
     ]);
-    document.getElementById('qs-invests').textContent = r1.count || 0;
-    const g = (r2.data||[]).reduce((s,t) => s+(t.montant||0), 0);
-    document.getElementById('qs-gains').textContent = fmtK(g) + 'F';
-    document.getElementById('qs-filleuls').textContent = r3.count || 0;
-  } catch(e) { console.warn('loadStats:', e.message); }
+    document.getElementById('qs-invests').textContent = r1.count||0;
+    const g = (r2.data||[]).reduce((s,t)=>s+(t.montant||0),0);
+    document.getElementById('qs-gains').textContent = fmtK(g)+'F';
+    document.getElementById('qs-filleuls').textContent = r3.count||0;
+  } catch(e){ console.warn('loadStats:',e.message); }
 }
 
-async function loadGainsCard() {
+async function loadGainsCard(){
   try {
-    const { data: invests } = await sb.from('investissements')
-      .select('id, gain_attendu, created_at, derniere_reclamation')
+    // Requête minimale — seulement les colonnes qui existent à coup sûr
+    const { data: invests, error } = await sb.from('investissements')
+      .select('id, gain_attendu')
       .eq('user_id', U.id)
       .eq('statut', 'actif');
 
-    // Pas de plan actif → cacher la carte
-    if (!invests || invests.length === 0) {
+    if(error) throw error;
+
+    // Aucun plan → cacher la carte
+    if(!invests || invests.length === 0){
       document.getElementById('gains-card').style.display = 'none';
       return;
     }
 
-    // Calcul des gains disponibles
-    const now = new Date();
-    let total = 0;
-    for (const inv of invests) {
-      const ref = new Date(inv.derniere_reclamation || inv.created_at);
-      const jours = Math.floor((now - ref) / 86400000);
-      if (jours >= 1) total += (inv.gain_attendu || 0) * Math.min(jours, 2);
-    }
+    // Plans actifs trouvés → afficher la carte immédiatement
+    const gainJour = invests.reduce((s,inv) => s+(inv.gain_attendu||0), 0);
+    document.getElementById('gc-amount').textContent = fmt(gainJour)+' F';
+    document.getElementById('gc-sub').textContent = invests.length+' plan(s) actif(s) · Gains du jour';
+    document.getElementById('btn-reclamer').innerHTML = '💰 Réclamer '+fmt(gainJour)+' F';
+    document.getElementById('btn-reclamer').disabled = false;
+    document.getElementById('gains-card').style.display = 'block';
 
-    const card = document.getElementById('gains-card');
-    const btn  = document.getElementById('btn-reclamer');
-
-    // Toujours afficher la carte si plan actif
-    card.style.display = 'block';
-
-    if (total > 0) {
-      // Gains disponibles → bouton actif
-      document.getElementById('gc-amount').textContent = fmt(total) + ' F';
-      document.getElementById('gc-sub').textContent = invests.length + ' plan(s) actif(s) · Cliquez pour récupérer';
-      btn.disabled = false;
-      btn.innerHTML = '💰 Réclamer ' + fmt(total) + ' F';
-    } else {
-      // Pas encore 24h → afficher le gain quotidien total en attente
-      const gainJour = invests.reduce((s, inv) => s + (inv.gain_attendu || 0), 0);
-      document.getElementById('gc-amount').textContent = fmt(gainJour) + ' F';
-      document.getElementById('gc-sub').textContent = 'Disponible dans moins de 24h';
-      btn.disabled = true;
-      btn.innerHTML = '⏳ Disponible demain';
-    }
-
-  } catch(e) {
-    // En cas d'erreur, afficher quand même la carte avec un message neutre
-    console.warn('loadGainsCard:', e.message);
-    try {
-      // Tenter de charger sans la colonne derniere_reclamation
-      const { data: invests2 } = await sb.from('investissements')
-        .select('id, gain_attendu, created_at')
-        .eq('user_id', U.id)
-        .eq('statut', 'actif');
-      if (invests2 && invests2.length > 0) {
-        const gainJour = invests2.reduce((s, inv) => s + (inv.gain_attendu || 0), 0);
-        document.getElementById('gc-amount').textContent = fmt(gainJour) + ' F';
-        document.getElementById('gc-sub').textContent = invests2.length + ' plan(s) actif(s)';
-        document.getElementById('gains-card').style.display = 'block';
-        document.getElementById('btn-reclamer').disabled = false;
-        document.getElementById('btn-reclamer').innerHTML = '💰 Réclamer mes gains';
-      }
-    } catch(e2) { console.warn('loadGainsCard fallback:', e2.message); }
+  } catch(e){
+    console.warn('loadGainsCard:',e.message);
+    // Même en cas d'erreur → essayer d'afficher quand même
+    document.getElementById('gains-card').style.display = 'none';
   }
 }
 
-async function loadInvests() {
+async function loadInvests(){
   try {
     const { data } = await sb.from('investissements')
-      .select('*').eq('user_id', U.id).eq('statut', 'actif')
-      .order('created_at', {ascending:false}).limit(3);
+      .select('*').eq('user_id',U.id).eq('statut','actif')
+      .order('created_at',{ascending:false}).limit(3);
     const el = document.getElementById('plans-list');
-    if (!data || !data.length) {
-      el.innerHTML = '<div class="empty"><span class="empty-ico">📈</span>Aucun plan actif — <a href="silla-plans.html" style="color:var(--gold);font-weight:700">Investir maintenant</a></div>';
+    if(!data||!data.length){
+      el.innerHTML='<div class="empty"><span class="empty-ico">📈</span>Aucun plan actif — <a href="silla-plans.html" style="color:var(--gold);font-weight:700">Investir maintenant</a></div>';
       return;
     }
     const now = Date.now();
-    el.innerHTML = data.map(inv => {
-      const fin = new Date(inv.date_fin || inv.created_at).getTime();
+    el.innerHTML = data.map(inv=>{
+      const fin = new Date(inv.date_fin||inv.created_at).getTime();
       const deb = new Date(inv.created_at).getTime();
-      const pct = fin > deb ? Math.min(100, Math.round((now-deb)/(fin-deb)*100)) : 0;
-      const nom = (inv.plan_type || 'Plan').toUpperCase().replace(/_/g,' ');
+      const pct = fin>deb ? Math.min(100,Math.round((now-deb)/(fin-deb)*100)) : 0;
+      const nom = (inv.plan_type||'Plan').toUpperCase().replace(/_/g,' ');
       return `<div class="plan-card">
         <div class="pc-ico">💎</div>
         <div class="pc-info">
@@ -463,30 +421,30 @@ async function loadInvests() {
         </div>
       </div>`;
     }).join('');
-  } catch(e) { console.warn('loadInvests:', e.message); }
+  } catch(e){ console.warn('loadInvests:',e.message); }
 }
 
-async function loadNotifs() {
+async function loadNotifs(){
   try {
     const { data } = await sb.from('notifications').select('*')
-      .eq('user_id', U.id).order('created_at',{ascending:false}).limit(20);
+      .eq('user_id',U.id).order('created_at',{ascending:false}).limit(20);
     const ndList = document.getElementById('nd-list');
-    if (!data || !data.length) {
-      ndList.innerHTML = '<div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>';
+    if(!data||!data.length){
+      ndList.innerHTML='<div class="nd-empty"><span class="nd-empty-ico">🔔</span>Aucune notification</div>';
       return;
     }
-    const unread = data.filter(n => !n.lu).length;
+    const unread = data.filter(n=>!n.lu).length;
     const dot = document.getElementById('notif-dot');
-    dot.style.display = unread > 0 ? 'flex' : 'none';
-    if (unread > 0) dot.textContent = unread > 9 ? '9+' : unread > 1 ? String(unread) : '';
-    const ICONS = {gain:'💰',info:'📋',admin:'📣',parrainage_gain:'👑',retrait:'💸',recharge:'💳'};
-    function tr(d) {
-      const diff = Math.floor((Date.now()-new Date(d))/60000);
+    dot.style.display = unread>0?'flex':'none';
+    if(unread>0) dot.textContent = unread>9?'9+':unread>1?String(unread):'';
+    const ICONS={gain:'💰',info:'📋',admin:'📣',parrainage_gain:'👑',retrait:'💸',recharge:'💳'};
+    function tr(d){
+      const diff=Math.floor((Date.now()-new Date(d))/60000);
       if(diff<1) return 'Maintenant'; if(diff<60) return diff+'min';
       if(diff<1440) return Math.floor(diff/60)+'h';
       return new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
     }
-    ndList.innerHTML = data.map(n => `
+    ndList.innerHTML = data.map(n=>`
       <div class="${n.lu?'nd-item':'nd-item unread'}">
         <div class="nd-ico">${ICONS[n.type]||'🔔'}</div>
         <div class="nd-info">
@@ -495,7 +453,7 @@ async function loadNotifs() {
           <div class="nd-time">${tr(n.created_at)}</div>
         </div>
       </div>`).join('');
-  } catch(e) { console.warn('loadNotifs:', e.message); }
+  } catch(e){ console.warn('loadNotifs:',e.message); }
 }
 
 init();
