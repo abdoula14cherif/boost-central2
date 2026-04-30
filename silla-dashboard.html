@@ -377,8 +377,13 @@ async function loadGainsCard() {
       .eq('user_id', U.id)
       .eq('statut', 'actif');
 
-    if (!invests || invests.length === 0) return;
+    // Pas de plan actif → cacher la carte
+    if (!invests || invests.length === 0) {
+      document.getElementById('gains-card').style.display = 'none';
+      return;
+    }
 
+    // Calcul des gains disponibles
     const now = new Date();
     let total = 0;
     for (const inv of invests) {
@@ -387,14 +392,45 @@ async function loadGainsCard() {
       if (jours >= 1) total += (inv.gain_attendu || 0) * Math.min(jours, 2);
     }
 
+    const card = document.getElementById('gains-card');
+    const btn  = document.getElementById('btn-reclamer');
+
+    // Toujours afficher la carte si plan actif
+    card.style.display = 'block';
+
     if (total > 0) {
+      // Gains disponibles → bouton actif
       document.getElementById('gc-amount').textContent = fmt(total) + ' F';
-      document.getElementById('gc-sub').textContent = invests.length + ' plan(s) actif(s)';
-      document.getElementById('gains-card').style.display = 'block';
+      document.getElementById('gc-sub').textContent = invests.length + ' plan(s) actif(s) · Cliquez pour récupérer';
+      btn.disabled = false;
+      btn.innerHTML = '💰 Réclamer ' + fmt(total) + ' F';
+    } else {
+      // Pas encore 24h → afficher le gain quotidien total en attente
+      const gainJour = invests.reduce((s, inv) => s + (inv.gain_attendu || 0), 0);
+      document.getElementById('gc-amount').textContent = fmt(gainJour) + ' F';
+      document.getElementById('gc-sub').textContent = 'Disponible dans moins de 24h';
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Disponible demain';
     }
+
   } catch(e) {
-    // Colonne absente ou autre erreur → on cache la carte, pas de crash
+    // En cas d'erreur, afficher quand même la carte avec un message neutre
     console.warn('loadGainsCard:', e.message);
+    try {
+      // Tenter de charger sans la colonne derniere_reclamation
+      const { data: invests2 } = await sb.from('investissements')
+        .select('id, gain_attendu, created_at')
+        .eq('user_id', U.id)
+        .eq('statut', 'actif');
+      if (invests2 && invests2.length > 0) {
+        const gainJour = invests2.reduce((s, inv) => s + (inv.gain_attendu || 0), 0);
+        document.getElementById('gc-amount').textContent = fmt(gainJour) + ' F';
+        document.getElementById('gc-sub').textContent = invests2.length + ' plan(s) actif(s)';
+        document.getElementById('gains-card').style.display = 'block';
+        document.getElementById('btn-reclamer').disabled = false;
+        document.getElementById('btn-reclamer').innerHTML = '💰 Réclamer mes gains';
+      }
+    } catch(e2) { console.warn('loadGainsCard fallback:', e2.message); }
   }
 }
 
